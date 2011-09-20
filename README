@@ -1,0 +1,6 @@
+metahive
+========
+
+A meta-index for aggregating and identifying key values from a distributed collection of 
+research datasources. It was developed to meet the data analysis requirements of the
+BEES project, which was a research initiative by BRANZ, CRESA and VUW in New Zealand.

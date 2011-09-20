@@ -1,0 +1,14 @@
+<aspectj>
+<aspects>
+<aspect name="com.sfs.metahive.model.Definition_Roo_Finder"/>
+<aspect name="com.sfs.metahive.model.Category_Roo_Entity"/>
+<aspect name="com.sfs.metahive.model.Definition_Roo_Configurable"/>
+<aspect name="com.sfs.metahive.model.Definition_Roo_Entity"/>
+<aspect name="com.sfs.metahive.model.Category_Roo_ToString"/>
+<aspect name="com.sfs.metahive.model.Category_Roo_Configurable"/>
+<aspect name="com.sfs.metahive.model.Definition_Roo_ToString"/>
+<aspect name="com.sfs.metahive.model.Category_Roo_JavaBean"/>
+<aspect name="com.sfs.metahive.model.Definition_Roo_JavaBean"/>
+</aspects>
+</aspectj>
+

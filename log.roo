@@ -1,0 +1,20 @@
+// Spring Roo 1.1.3.RELEASE [rev 4404ffb] log opened at 2011-09-20 21:59:09
+project --topLevelPackage com.sfs.metahive --projectName metahive --java 6
+// Spring Roo 1.1.3.RELEASE [rev 4404ffb] log closed at 2011-09-20 21:59:37
+// Spring Roo 1.1.3.RELEASE [rev 4404ffb] log opened at 2011-09-20 21:59:57
+logging setup --level ERROR
+persistence setup --database MYSQL --provider HIBERNATE
+entity --class ~.model.Definition --testAutomatically
+field string --class com.sfs.metahive.model.Definition --fieldName name --sizeMin 1 --sizeMax 100 --notNull
+field string --class com.sfs.metahive.model.Definition --fieldName description
+field string --class com.sfs.metahive.model.Definition --fieldName exampleValues
+finder add --finderName findDefinitionsByNameLike
+entity --class com.sfs.metahive.model.Category --testAutomatically
+field string --fieldName name --notNull --sizeMin 1 --sizeMax 100
+field set --fieldName definitions --type com.sfs.metahive.model.Definition --cardinality MANY_TO_MANY
+focus --class com.sfs.metahive.model.Definition
+field set --fieldName categories --type com.sfs.metahive.model.Category --cardinality MANY_TO_MANY --mappedBy definitions
+perform tests
+perform tests
+perform tests
+perform tests
