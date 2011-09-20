@@ -10,6 +10,7 @@ privileged aspect Definition_Roo_ToString {
     public String Definition.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Categories: ").append(getCategories() == null ? "null" : getCategories().size()).append(", ");
+        sb.append("DataType: ").append(getDataType()).append(", ");
         sb.append("Description: ").append(getDescription()).append(", ");
         sb.append("ExampleValues: ").append(getExampleValues()).append(", ");
         sb.append("Name: ").append(getName());

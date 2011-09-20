@@ -3,9 +3,11 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.DataTypeDataOnDemand;
 import com.sfs.metahive.model.Definition;
 import java.util.List;
 import java.util.Random;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
@@ -16,11 +18,15 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     
     private List<Definition> DefinitionDataOnDemand.data;
     
+    @Autowired
+    private DataTypeDataOnDemand DefinitionDataOnDemand.dataTypeDataOnDemand;
+    
     public Definition DefinitionDataOnDemand.getNewTransientDefinition(int index) {
         com.sfs.metahive.model.Definition obj = new com.sfs.metahive.model.Definition();
         setName(obj, index);
         setDescription(obj, index);
         setExampleValues(obj, index);
+        setDataType(obj, index);
         return obj;
     }
     
@@ -40,6 +46,11 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     private void DefinitionDataOnDemand.setExampleValues(Definition obj, int index) {
         java.lang.String exampleValues = "exampleValues_" + index;
         obj.setExampleValues(exampleValues);
+    }
+    
+    private void DefinitionDataOnDemand.setDataType(Definition obj, int index) {
+        com.sfs.metahive.model.DataType dataType = dataTypeDataOnDemand.getRandomDataType();
+        obj.setDataType(dataType);
     }
     
     public Definition DefinitionDataOnDemand.getSpecificDefinition(int index) {

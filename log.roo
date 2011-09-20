@@ -18,3 +18,20 @@ perform tests
 perform tests
 perform tests
 perform tests
+// Spring Roo 1.1.3.RELEASE [rev 4404ffb] log closed at 2011-09-20 23:37:41
+// Spring Roo 1.1.3.RELEASE [rev 4404ffb] log opened at 2011-09-21 05:29:42
+entity --class com.sfs.metahive.model.DataType
+field string --fieldName name --notNull --unique true --sizeMin 1 --sizeMax 100
+field set --fieldName definitions --type com.sfs.metahive.model.Definition --cardinality ONE_TO_MANY --mappedBy dataType
+focus --class ~.model.Definition
+field reference --fieldName dataType --type com.sfs.metahive.model.DataType --cardinality MANY_TO_ONE 
+perform tests
+perform tests
+perform tests
+perform tests
+entity --class com.sfs.metahive.model.DataType --testAutomatically 
+field string --fieldName name --notNull --unique true --sizeMin 1 --sizeMax 100
+field set --fieldName definitions --type com.sfs.metahive.model.Definition --cardinality ONE_TO_MANY --mappedBy dataType
+focus --class ~.model.Definition
+// [failed] field reference --fieldName dataType --type com.sfs.metahive.model.DataType --cardinality MANY_TO_ONE 
+perform tests

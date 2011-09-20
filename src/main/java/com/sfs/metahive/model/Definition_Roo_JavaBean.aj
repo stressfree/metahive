@@ -4,6 +4,7 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Category;
+import com.sfs.metahive.model.DataType;
 import java.lang.String;
 import java.util.Set;
 
@@ -39,6 +40,14 @@ privileged aspect Definition_Roo_JavaBean {
     
     public void Definition.setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+    
+    public DataType Definition.getDataType() {
+        return this.dataType;
+    }
+    
+    public void Definition.setDataType(DataType dataType) {
+        this.dataType = dataType;
     }
     
 }

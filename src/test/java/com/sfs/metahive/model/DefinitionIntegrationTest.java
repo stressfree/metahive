@@ -16,89 +16,127 @@ import org.springframework.transaction.annotation.Transactional;
 @RooIntegrationTest(entity = Definition.class)
 public class DefinitionIntegrationTest {
 
-    /**
-     * Test marker method.
-     */
-    @Test
-    public void testMarkerMethod() {
-    }
-    
-    /**
-     * The add and fetch definition test.
-     */
-    @Test
-    @Transactional
-    public void addAndFetchDefinition() {
-        Definition def = new Definition();
-        def.setName("Test definition");
-        def.setDescription("Test description");
-        def.setExampleValues("One, two, three, four");
+	/**
+	 * Test marker method.
+	 */
+	@Test
+	public void testMarkerMethod() {
+	}
 
-        def.persist();
+	/**
+	 * The add and fetch definition test.
+	 */
+	@Test
+	@Transactional
+	public void addAndFetchDefinition() {
+		DataTypeDataOnDemand dataTypeDod = new DataTypeDataOnDemand();
+		DataType dataType = dataTypeDod.getRandomDataType();
+		dataType.persist();
 
-        def.flush();
-        def.clear();
+		Definition def = new Definition();
+		def.setDataType(dataType);
+		def.setName("Test definition");
+		def.setDescription("Test description");
+		def.setExampleValues("One, two, three, four");
 
-        Assert.assertNotNull(def.getId());
+		def.persist();
 
-        Definition def2 = Definition.findDefinition(def.getId());
-        Assert.assertNotNull(def2);
-        Assert.assertEquals(def.getName(), def2.getName());
-        Assert.assertEquals(def.getDescription(), def2.getDescription());
-        Assert.assertEquals(def.getExampleValues(), def2.getExampleValues());
+		def.flush();
+		def.clear();
 
-    }
-    
-    /**
-     * Test invalid definition.
-     */
-    @Test(expected = ConstraintViolationException.class )
-    public void testInvalidDefinition() {
-        Definition def = new Definition();
-        
-        def.persist();
-    }
-    
-    /**
-     * Test find by name finder.
-     */
-    @Test
-    public void testFindByNameFinder() {
-       Definition def = new Definition();
-       def.setName("Test definition");
+		Assert.assertNotNull(def.getId());
 
-       def.persist();
-       def.flush();
-       Definition.entityManager().clear();
+		Definition def2 = Definition.findDefinition(def.getId());
+		Assert.assertNotNull(def2);
+		Assert.assertEquals(def.getName(), def2.getName());
+		Assert.assertEquals(def.getDescription(), def2.getDescription());
+		Assert.assertEquals(def.getExampleValues(), def2.getExampleValues());
 
-       List<Definition> definitions = Definition.findDefinitionsByNameLike("Test")
-       		.getResultList();
-       Assert.assertEquals(1, definitions.size());
-    }
-    
-    /**
-     * Test persist categories in definitions.
-     */
-    @Test
-    public void testPersistCategoriesInDefinitions() {
-       DefinitionDataOnDemand definitionDod = new DefinitionDataOnDemand();
-       Definition def = definitionDod.getRandomDefinition();
+	}
 
-       CategoryDataOnDemand categoryDod = new CategoryDataOnDemand();
-       Category c1 = categoryDod.getNewTransientCategory(0);
-       Category c2 = categoryDod.getNewTransientCategory(1);
+	/**
+	 * Test invalid definition.
+	 */
+	@Test(expected = ConstraintViolationException.class)
+	public void testInvalidDefinition() {
+		Definition def = new Definition();
 
-       def.getCategories().add(c1);
-       def.getCategories().add(c2);
+		def.persist();
+	}
 
-       c1.getDefinitions().add(def);
-       c2.getDefinitions().add(def);
+	/**
+	 * Test find by name finder.
+	 */
+	@Test
+	public void testFindByNameFinder() {
 
-       def.flush();
-       def.clear();
+		DataTypeDataOnDemand dataTypeDod = new DataTypeDataOnDemand();
+		DataType dataType = dataTypeDod.getRandomDataType();
+		dataType.persist();
 
-       Assert.assertEquals(2, Definition.findDefinition(
-                   def.getId()).getCategories().size());
+		Definition def = new Definition();
+		def.setName("Test definition");
+		def.setDataType(dataType);
 
-    }
+		def.persist();
+		def.flush();
+		Definition.entityManager().clear();
+
+		List<Definition> definitions = Definition.findDefinitionsByNameLike(
+				"Test").getResultList();
+		Assert.assertEquals(1, definitions.size());
+	}
+
+	/**
+	 * Test persist data type in definitions.
+	 */
+	@Test
+	public void testPersistDataTypeInDefinitions() {
+		DefinitionDataOnDemand definitionDod = new DefinitionDataOnDemand();
+		Definition def = definitionDod.getRandomDefinition();
+
+		DataType dataType = new DataType();
+		dataType.setName("Test data type");
+		dataType.persist();
+
+		def.setDataType(dataType);
+
+		def.flush();
+		def.clear();
+
+		Assert.assertEquals(Definition.findDefinition(def.getId())
+				.getDataType().getName(), dataType.getName());
+
+	}
+
+	/**
+	 * Test persist categories in definitions.
+	 */
+	@Test
+	public void testPersistCategoriesInDefinitions() {
+		DataTypeDataOnDemand dataTypeDod = new DataTypeDataOnDemand();
+		DataType dataType = dataTypeDod.getRandomDataType();
+		dataType.persist();
+
+		DefinitionDataOnDemand definitionDod = new DefinitionDataOnDemand();
+		Definition def = definitionDod.getRandomDefinition();
+		def.setDataType(dataType);
+
+		CategoryDataOnDemand categoryDod = new CategoryDataOnDemand();
+		Category c1 = categoryDod.getNewTransientCategory(0);
+		Category c2 = categoryDod.getNewTransientCategory(1);
+
+		def.getCategories().add(c1);
+		def.getCategories().add(c2);
+
+		c1.getDefinitions().add(def);
+		c2.getDefinitions().add(def);
+
+		def.flush();
+		def.clear();
+
+		Assert.assertEquals(2, Definition.findDefinition(def.getId())
+				.getCategories().size());
+
+	}
 }

@@ -5,7 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -14,12 +14,12 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 
 /**
- * The Class Category.
+ * The Class DataType.
  */
 @RooJavaBean
 @RooToString
 @RooEntity
-public class Category {
+public class DataType {
 
 	/** The name. */
 	@NotNull
@@ -28,11 +28,6 @@ public class Category {
 	private String name;
 
 	/** The definitions. */
-	@ManyToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "dataType")
 	private Set<Definition> definitions = new HashSet<Definition>();
-
-	public void addDefinition(Definition definition) {
-		getDefinitions().add(definition);
-		definition.getCategories().add(this);
-	}
 }
