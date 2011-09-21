@@ -5,6 +5,7 @@ package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.DataType;
+import com.sfs.metahive.model.Description;
 import java.lang.String;
 import java.util.Set;
 
@@ -18,27 +19,19 @@ privileged aspect Definition_Roo_JavaBean {
         this.name = name;
     }
     
-    public String Definition.getDescription() {
-        return this.description;
+    public Set<Description> Definition.getDescriptions() {
+        return this.descriptions;
     }
     
-    public void Definition.setDescription(String description) {
-        this.description = description;
+    public void Definition.setDescriptions(Set<Description> descriptions) {
+        this.descriptions = descriptions;
     }
     
-    public String Definition.getExampleValues() {
-        return this.exampleValues;
-    }
-    
-    public void Definition.setExampleValues(String exampleValues) {
-        this.exampleValues = exampleValues;
-    }
-    
-    public Set<Category> Definition.getCategories() {
+    public java.util.Set<Category> Definition.getCategories() {
         return this.categories;
     }
     
-    public void Definition.setCategories(Set<Category> categories) {
+    public void Definition.setCategories(java.util.Set<Category> categories) {
         this.categories = categories;
     }
     

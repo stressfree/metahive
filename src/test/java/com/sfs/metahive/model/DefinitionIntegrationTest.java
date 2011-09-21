@@ -36,8 +36,6 @@ public class DefinitionIntegrationTest {
 		Definition def = new Definition();
 		def.setDataType(dataType);
 		def.setName("Test definition");
-		def.setDescription("Test description");
-		def.setExampleValues("One, two, three, four");
 
 		def.persist();
 
@@ -49,8 +47,6 @@ public class DefinitionIntegrationTest {
 		Definition def2 = Definition.findDefinition(def.getId());
 		Assert.assertNotNull(def2);
 		Assert.assertEquals(def.getName(), def2.getName());
-		Assert.assertEquals(def.getDescription(), def2.getDescription());
-		Assert.assertEquals(def.getExampleValues(), def2.getExampleValues());
 
 	}
 

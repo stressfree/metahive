@@ -24,8 +24,6 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     public Definition DefinitionDataOnDemand.getNewTransientDefinition(int index) {
         com.sfs.metahive.model.Definition obj = new com.sfs.metahive.model.Definition();
         setName(obj, index);
-        setDescription(obj, index);
-        setExampleValues(obj, index);
         setDataType(obj, index);
         return obj;
     }
@@ -36,16 +34,6 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
             name = name.substring(0, 100);
         }
         obj.setName(name);
-    }
-    
-    private void DefinitionDataOnDemand.setDescription(Definition obj, int index) {
-        java.lang.String description = "description_" + index;
-        obj.setDescription(description);
-    }
-    
-    private void DefinitionDataOnDemand.setExampleValues(Definition obj, int index) {
-        java.lang.String exampleValues = "exampleValues_" + index;
-        obj.setExampleValues(exampleValues);
     }
     
     private void DefinitionDataOnDemand.setDataType(Definition obj, int index) {

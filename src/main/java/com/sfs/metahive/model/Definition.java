@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -26,13 +27,10 @@ public class Definition {
 	@NotNull
 	@Size(min = 1, max = 100)
 	private String name;
-
-	/** The description. */
-	@Lob
-	private String description;
-
-	/** The example values. */
-	private String exampleValues;
+	
+	/** The definition descriptions. */
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
+	private Set<Description> descriptions = new HashSet<Description>();
 
 	/** The categories. */
 	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "definitions")
@@ -46,8 +44,7 @@ public class Definition {
 	/**
 	 * Adds the category.
 	 * 
-	 * @param category
-	 *            the category
+	 * @param category the category
 	 */
 	public void addCategory(Category category) {
 		category.addDefinition(this);

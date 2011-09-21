@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <spring:url value="/categories" var="categories_url" />
+    <spring:url value="/categories/listdata" var="datasource"/>
+    <spring:url value="/categories?form" var="add_category_url" />
+    
+    <script type="text/javascript">
+   	dojo.require("dojo.parser");
+   	dojo.require("dojox.grid.EnhancedGrid");
+   	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+   	dojo.require("dijit.form.Button");
+    dojo.require("dojo.data.ItemFileReadStore");
+    dojo.addOnLoad(function() {
+        dojo.parser.parse();
+        
+     	// define events
+        var addButton = dijit.byId("addButton");
+        dojo.connect(addButton, "onClick", function() {
+            window.location.href="${add_category_url}";
+        });
+
+        var editButton = dijit.byId("editButton");
+        dojo.connect(editButton, "onClick", function() {        	
+        	if (dataGrid.getItem(dataGrid.selection.selectedIndex)) {
+        		var id = dataGrid.getItem(dataGrid.selection.selectedIndex).id;
+            	window.location.href="${categories_url}/" + id + "?form";        		
+            } else {
+            	alert('<spring:message arguments="category" code="metahive_edit_select" />');            	
+            }
+        });
+        
+        var deleteButton = dijit.byId("deleteButton");
+        dojo.connect(deleteButton, "onClick", function() {
+        	if (confirm("Delete selected category?")) {
+          		var id = dataGrid.getItem(dataGrid.selection.selectedIndex).id;
+          		dojo.xhrDelete({
+              		url: "${categories_url}/" + id,
+              		load: function() {
+                        loadGrid(dataGrid);
+                    }
+                });
+        	}
+        });
+        
+        dojo.connect(dataGrid, "onRowDblClick", function(event) {
+        	 var id = dataGrid.getItem(event.rowIndex).id;
+        	 window.location.href="${categories_url}/" + id + "?form";
+        });
+        
+        loadGrid(dataGrid);
+    });
+
+    function loadGrid(dataGrid) {
+        dojo.xhrGet({
+            url: "${datasource}",
+            handleAs: "json", 
+            load: function(data, ioArgs) {
+                dataGrid.setStore(
+                        new dojo.data.ItemFileReadStore(
+                            {data: {items : data}})
+                );
+            },
+            error: function(error) {
+                console.log("loading of grid data failed. Exception...", error);
+            }
+        });
+    }
+    </script>
+    
+    <util:panel id="titlePane" title="Category List">
+       <div id="addButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_add" /></div>
+       <div id="editButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_edit" /></div>
+       <div id="deleteButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_delete" /></div>
+       <div id="grid" jsId="dataGrid"
+         dojoType="dojox.grid.EnhancedGrid"
+          structure ="[
+             { field: 'name', name: 'Name', width: '230px' }
+          ]"
+          autoWidth="true"
+          autoHeight="true"
+          rowHeight="25"
+          plugins="{indirectSelection: true}"
+          selectionMode="single">
+    	</div>
+    </util:panel>
+</div>

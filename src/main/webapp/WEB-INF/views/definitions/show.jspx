@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_sfs_metahive_model_Definition" object="${definition}" path="/definitions" z="xu8Qg+Qud/ipEnCDCOQ5dqick/s=">
+        <field:display field="name" id="s_com_sfs_metahive_model_Definition_name" object="${definition}" z="JWUkidzoWtkXYjIZmehfLMmLn1w="/>
+        <field:display field="descriptions" id="s_com_sfs_metahive_model_Definition_descriptions" object="${definition}" z="IxLBpZeqlJsJKSWHgzRU8hI1b8I="/>
+        <field:display field="categories" id="s_com_sfs_metahive_model_Definition_categories" object="${definition}" z="5le1eVyb2/sLP3EJFhhelc2VsUE="/>
+        <field:display field="dataType" id="s_com_sfs_metahive_model_Definition_dataType" object="${definition}" z="B62wjPWDSkPgaxDRCBjkdV4/2DY="/>
+    </page:show>
+</div>
