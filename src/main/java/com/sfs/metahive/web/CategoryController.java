@@ -1,24 +1,18 @@
 package com.sfs.metahive.web;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.UriUtils;
-import org.springframework.web.util.WebUtils;
 
 import com.sfs.metahive.model.Category;
-import com.sfs.metahive.model.Definition;
 
 @RequestMapping("/categories")
 @Controller
@@ -33,8 +27,7 @@ public class CategoryController {
         }
         uiModel.asMap().clear();
         category.persist();
-        return "redirect:/categories/" 
-        		+ encodeUrlPathSegment(category.getId().toString(), httpServletRequest);
+        return "redirect:/lists";
     }
 
 	@RequestMapping(params = "form", method = RequestMethod.GET)
@@ -42,12 +35,7 @@ public class CategoryController {
         uiModel.addAttribute("category", new Category());
         return "categories/create";
     }
-
-	@RequestMapping(method = RequestMethod.GET)
-    public String list() {
-        return "categories/list";
-    }
-
+	
 	@RequestMapping(method = RequestMethod.PUT)
     public String update(@Valid Category category, BindingResult bindingResult, 
     		Model uiModel, HttpServletRequest httpServletRequest) {
@@ -57,8 +45,7 @@ public class CategoryController {
         }
         uiModel.asMap().clear();
         category.merge();
-        return "redirect:/categories/" + encodeUrlPathSegment(
-        		category.getId().toString(), httpServletRequest);
+        return "redirect:/lists";
     }
 
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
@@ -74,29 +61,11 @@ public class CategoryController {
         Category.findCategory(id).remove();
         uiModel.asMap().clear();
 
-        return "redirect:/categories";
+        return "redirect:/lists";
     }
 	
-	@RequestMapping(value = "/listdata", method = RequestMethod.GET)
-	public @ResponseBody String listData() {
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public @ResponseBody String list() {
 		return Category.toJsonArray(Category.findAllCategorys());
 	}
-
-	@ModelAttribute("definitions")
-    public java.util.Collection<Definition> populateDefinitions() {
-        return Definition.findAllDefinitions();
-    }
-
-	String encodeUrlPathSegment(String pathSegment, 
-			HttpServletRequest httpServletRequest) {
-        String enc = httpServletRequest.getCharacterEncoding();
-        if (enc == null) {
-            enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
-        }
-        try {
-            pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
-        }
-        catch (UnsupportedEncodingException uee) {}
-        return pathSegment;
-    }
 }

@@ -8,9 +8,8 @@
             <menu:item id="i_datatype_new" messageCode="global_menu_new" url="/datatypes?form" z="q6jTjExNAw3FEDCo54hC1hx1td0="/>
         <menu:item id="i_datatype_list" messageCode="global_menu_list" url="/datatypes?page=1&amp;size=${empty param.size ? 10 : param.size}" z="RySTcdX9aQ+t1eHV4gOZMopsFpM="/>
     </menu:category>
-    <menu:category id="c_category" z="kY676wLbZKc59UbcUGM8ogjOGOc=">
-        <menu:item id="i_category_new" messageCode="global_menu_new" url="/categories?form" z="user-managed"/>
-        <menu:item id="i_category_list" messageCode="global_menu_list" url="/categories?page=1&amp;size=${empty param.size ? 10 : param.size}" z="user-managed"/>
+    <menu:category id="c_administration" z="user-managed">
+        <menu:item id="i_administration_list" url="/lists" z="user-managed"/>
     </menu:category>
     <menu:category id="c_definition" z="lCrpXPrTMs+GW71qPHX9fWk6WYE=">
             <menu:item id="i_definition_new" messageCode="global_menu_new" url="/definitions?form" z="ho6R/44i3btT8gs55onn0jqTzLw="/>

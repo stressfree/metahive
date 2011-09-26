@@ -3,7 +3,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     
     <spring:url value="/categories" var="categories_url" />
-    <spring:url value="/categories/listdata" var="datasource"/>
+    <spring:url value="/categories/list" var="datasource"/>
     <spring:url value="/categories?form" var="add_category_url" />
     
     <script type="text/javascript">
@@ -69,7 +69,8 @@
     }
     </script>
     
-    <util:panel id="titlePane" title="Category List">
+    <spring:message var="list_heading" code="metahive_lists" />
+    <util:panel id="titlePane" title="${list_heading}">
        <div id="addButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_add" /></div>
        <div id="editButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_edit" /></div>
        <div id="deleteButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_delete" /></div>
@@ -80,7 +81,7 @@
           ]"
           autoWidth="true"
           autoHeight="true"
-          rowHeight="25"
+          rowHeight="30"
           plugins="{indirectSelection: true}"
           selectionMode="single">
     	</div>

@@ -8,7 +8,8 @@ import org.springframework.roo.addon.web.mvc.controller.RooConversionService;
  * A central place to register application Converters and Formatters. 
  */
 @RooConversionService
-public class ApplicationConversionServiceFactoryBean extends FormattingConversionServiceFactoryBean {
+public class ApplicationConversionServiceFactoryBean 
+		extends FormattingConversionServiceFactoryBean {
 
 	@Override
 	protected void installFormatters(FormatterRegistry registry) {
