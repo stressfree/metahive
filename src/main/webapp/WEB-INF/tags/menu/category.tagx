@@ -13,9 +13,7 @@
 		</c:if>
 		
 		<li id="${fn:escapeXml(id)}">
-			<h2>
-				<c:out value="${label}" />
-			</h2>
+			<h4><c:out value="${label}" /></h4>
 			<ul>
 				<jsp:doBody />
 			</ul>

@@ -10,6 +10,7 @@
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if the title pane is opened or closed by default (default: true)"/>
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)"/>
+  <jsp:directive.attribute name="cancelAction" type="java.lang.String" required="false" description="The URL for the cancel action if provided"/>
 	
   <c:if test="${empty render or render}">
     <c:if test="${empty label}">
@@ -22,13 +23,13 @@
     <spring:message arguments="${label}" code="entity_create" var="title_msg" htmlEscape="false" />
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <spring:url value="${path}" var="form_url"/>
-      <form:form action="${fn:escapeXml(form_url)}" method="POST" modelAttribute="${modelAttribute}" enctype="${enctype}" onsubmit="encodePk()">
+      <form:form action="${fn:escapeXml(form_url)}" method="POST" modelAttribute="${modelAttribute}" enctype="${enctype}" onsubmit="encodePk()" dojoType="dijit.form.Form">
         <form:errors cssClass="errors" delimiter="&lt;p/&gt;"/>
         <c:if test="${not empty compositePkField}">
           <form:hidden id="_${fn:escapeXml(compositePkField)}_id" path="${fn:escapeXml(compositePkField)}" />
           <script type="text/javascript">
           <![CDATA[
-            dojo.require("dojox.encoding.base64");
+            dojo.require("dojox.encoding.base64");            
             function encodePk() {
               var obj = new Object();
               dojo.query("input[name^=\"${compositePkField}.\"]").forEach(function(node, index, nodelist){
@@ -49,9 +50,30 @@
         <div class="submit" id="${fn:escapeXml(id)}_submit">
           <spring:message code="button_save" var="save_button" htmlEscape="false" />
           <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
-          <input id="proceed" type="submit" value="${fn:escapeXml(save_button)}"/>
-        </div>
+          <button dojoType="dijit.form.Button" id="proceed" type="submit"><c:out value="${fn:escapeXml(save_button)}" /></button>
+          <c:if test="${not empty cancelAction}">
+        	<div id="cancelButton" dojoType="dijit.form.Button" jsId="cancelButton"><spring:message code="metahive_button_cancel" /></div>
+          </c:if>
+        </div>      
       </form:form>
     </util:panel>
+    <script type="text/javascript">
+      <![CDATA[
+        dojo.require("dijit.form.Form");
+        dojo.require("dijit.form.Button");
+        dojo.require("dijit.form.TextBox");
+
+        dojo.parser.parse();
+        ]]>
+    </script>
+    <c:if test="${not empty cancelAction}">
+    <script type="text/javascript">
+      <![CDATA[
+        dojo.connect(cancelButton, "onClick", function() {
+            window.location.href="${cancelAction}";
+        });
+      ]]>
+    </script>
+    </c:if>
   </c:if>
 </jsp:root>

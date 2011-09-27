@@ -11,6 +11,7 @@
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if the title pane is opened or closed by default (default: true)" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
+  <jsp:directive.attribute name="cancelAction" type="java.lang.String" required="false" description="The URL for the cancel action if provided"/>
 
   <c:if test="${empty render or render}">
     <c:if test="${empty label}">
@@ -29,13 +30,16 @@
     <spring:message arguments="${label}" code="entity_update" var="title_msg" htmlEscape="false" />
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <spring:url value="${path}" var="form_url" />
-      <form:form action="${fn:escapeXml(form_url)}" method="PUT" modelAttribute="${modelAttribute}" enctype="${enctype}">
+      <form:form action="${fn:escapeXml(form_url)}" method="PUT" modelAttribute="${modelAttribute}" enctype="${enctype}" dojoType="dijit.form.Form">
         <form:errors cssClass="errors" delimiter="&lt;p/&gt;" />
         <jsp:doBody />
         <div class="submit" id="${fn:escapeXml(id)}_submit">
           <spring:message code="button_save" var="save_button" htmlEscape="false" />
           <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
-          <input id="proceed" type="submit" value="${fn:escapeXml(save_button)}" />
+          <button id="proceed" type="submit" dojoType="dijit.form.Button"><c:out value="${fn:escapeXml(save_button)}" /></button>
+          <c:if test="${not empty cancelAction}">
+        	<div id="cancelButton" dojoType="dijit.form.Button" jsId="cancelButton"><spring:message code="metahive_button_cancel" /></div>
+          </c:if>
         </div>
         <form:hidden id="_${fn:escapeXml(idField)}_id" path="${fn:escapeXml(idField)}" />
         <c:if test="${versionField ne 'none'}">
@@ -43,5 +47,22 @@
         </c:if>
       </form:form>
     </util:panel>
+    <script type="text/javascript">
+      <![CDATA[
+        dojo.require("dijit.form.Form");
+        dojo.require("dijit.form.Button");
+
+        dojo.parser.parse();
+        ]]>
+    </script>
+    <c:if test="${not empty cancelAction}">
+    <script type="text/javascript">
+      <![CDATA[
+        dojo.connect(cancelButton, "onClick", function() {
+            window.location.href="${cancelAction}";
+        });
+      ]]>
+    </script>
+    </c:if>
   </c:if>
 </jsp:root>

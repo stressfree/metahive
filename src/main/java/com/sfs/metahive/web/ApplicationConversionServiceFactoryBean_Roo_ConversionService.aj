@@ -3,7 +3,6 @@
 
 package com.sfs.metahive.web;
 
-import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import java.lang.String;
 import org.springframework.core.convert.converter.Converter;
@@ -12,7 +11,6 @@ import org.springframework.format.FormatterRegistry;
 privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService {
     
     public void ApplicationConversionServiceFactoryBean.installLabelConverters(FormatterRegistry registry) {
-        registry.addConverter(new DataTypeConverter());
         registry.addConverter(new DefinitionConverter());
     }
     
@@ -21,14 +19,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
         installLabelConverters(getObject());
     }
     
-    static class com.sfs.metahive.web.ApplicationConversionServiceFactoryBean.DataTypeConverter implements Converter<DataType, String>  {
-        public String convert(DataType dataType) {
-        return new StringBuilder().append(dataType.getName()).toString();
-        }
-        
-    }
-    
-    static class com.sfs.metahive.web.ApplicationConversionServiceFactoryBean.DefinitionConverter implements org.springframework.core.convert.converter.Converter<com.sfs.metahive.model.Definition, java.lang.String>  {
+    static class com.sfs.metahive.web.ApplicationConversionServiceFactoryBean.DefinitionConverter implements Converter<Definition, String>  {
         public String convert(Definition definition) {
         return new StringBuilder().append(definition.getName()).toString();
         }

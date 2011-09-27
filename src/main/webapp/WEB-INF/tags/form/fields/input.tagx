@@ -56,13 +56,10 @@
     </c:set>
     
     <div id="_${fn:escapeXml(id)}_id">
-      <label for="_${sec_field}_id">
-        <c:out value="${fn:escapeXml(label)}" />
-        :
-      </label>
+      <label for="_${sec_field}_id"><c:out value="${fn:escapeXml(label)}" />: </label>
       <c:choose>
         <c:when test="${disableFormBinding}">
-          <input id="_${sec_field}_id" name="${sec_field}" type="${fn:escapeXml(type)}" />
+          <input id="_${sec_field}_id" name="${sec_field}" type="${fn:escapeXml(type)}" dojoType="dijit.form.TextBox" />
         </c:when>
         <c:otherwise>
           <c:choose>

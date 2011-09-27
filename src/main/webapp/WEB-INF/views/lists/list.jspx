@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     
+    <div class="twoColumn">  
+	    <div class="leftColumn">
+	    	<spring:message var="category_heading" code="metahive_categories" />
+			<h3><c:out value="${category_heading}" /></h3>
+	       <div id="categoryAddButton" dojoType="dijit.form.Button" jsId="categoryAddButton"><spring:message code="metahive_button_add" /></div>
+	       <div id="categoryEditButton" dojoType="dijit.form.Button" jsId="categoryEditButton"><spring:message code="metahive_button_edit" /></div>
+	       <div id="categoryDeleteButton" dojoType="dijit.form.Button" jsId="categoryDeleteButton"><spring:message code="metahive_button_delete" /></div>
+	       <div id="categoryDataGrid" jsId="categoryDataGrid"
+	          dojoType="dojox.grid.EnhancedGrid"
+	          structure ="[{ field: 'name', name: 'Name', width: '260px' }]"
+	          autoWidth="true"
+	          autoHeight="true"
+	          plugins="{indirectSelection: true}"
+	          selectionMode="single"><!-- --></div>	    
+	    </div>
+	    
+	    <div class="rightColumn">       
+            
+		   <spring:message var="datatype_heading" code="metahive_datatypes" />
+		   <h3><c:out value="${datatype_heading}" /></h3>
+	       <div id="dataTypeAddButton" dojoType="dijit.form.Button" jsId="dataTypeAddButton"><spring:message code="metahive_button_add" /></div>
+	       <div id="dataTypeEditButton" dojoType="dijit.form.Button" jsId="dataTypeEditButton"><spring:message code="metahive_button_edit" /></div>
+	       <div id="dataTypeDeleteButton" dojoType="dijit.form.Button" jsId="dataTypeDeleteButton"><spring:message code="metahive_button_delete" /></div>
+	       <div id="dataTypeDataGrid" jsId="dataTypeDataGrid"
+	          dojoType="dojox.grid.EnhancedGrid"
+	          structure ="[{ field: 'name', name: 'Name', width: '260px' }]"
+	          autoWidth="true"
+	          autoHeight="true"
+	          plugins="{indirectSelection: true}"
+	          selectionMode="single"><!-- --></div>   
+	    </div>
+	    
+	    <div class="clear"><!-- --></div>
+    </div>
+    
     <spring:url value="/categories" var="categories_url" />
-    <spring:url value="/categories/list" var="datasource"/>
+    <spring:url value="/categories/list" var="categories_datasource"/>
     <spring:url value="/categories?form" var="add_category_url" />
+        
+    <spring:url value="/datatypes" var="datatypes_url" />
+    <spring:url value="/datatypes/list" var="datatypes_datasource"/>
+    <spring:url value="/datatypes?form" var="add_datatype_url" />
     
     <script type="text/javascript">
    	dojo.require("dojo.parser");
@@ -12,52 +51,81 @@
    	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
    	dojo.require("dijit.form.Button");
     dojo.require("dojo.data.ItemFileReadStore");
+    
     dojo.addOnLoad(function() {
         dojo.parser.parse();
         
      	// define events
-        var addButton = dijit.byId("addButton");
-        dojo.connect(addButton, "onClick", function() {
+        dojo.connect(categoryAddButton, "onClick", function() {
             window.location.href="${add_category_url}";
         });
+     	
+        dojo.connect(dataTypeAddButton, "onClick", function() {
+            window.location.href="${add_datatype_url}";
+        });
 
-        var editButton = dijit.byId("editButton");
-        dojo.connect(editButton, "onClick", function() {        	
-        	if (dataGrid.getItem(dataGrid.selection.selectedIndex)) {
-        		var id = dataGrid.getItem(dataGrid.selection.selectedIndex).id;
+        dojo.connect(categoryEditButton, "onClick", function() {        	
+        	if (categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex)) {
+        		var id = categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex).id;
             	window.location.href="${categories_url}/" + id + "?form";        		
             } else {
             	alert('<spring:message arguments="category" code="metahive_edit_select" />');            	
             }
         });
         
-        var deleteButton = dijit.byId("deleteButton");
-        dojo.connect(deleteButton, "onClick", function() {
-        	if (confirm("Delete selected category?")) {
-          		var id = dataGrid.getItem(dataGrid.selection.selectedIndex).id;
+        dojo.connect(dataTypeEditButton, "onClick", function() {        	
+        	if (dataTypeDataGrid.getItem(dataTypeDataGrid.selection.selectedIndex)) {
+        		var id = dataTypeDataGrid.getItem(dataTypeDataGrid.selection.selectedIndex).id;
+            	window.location.href="${datatypes_url}/" + id + "?form";        		
+            } else {
+            	alert('<spring:message arguments="data type" code="metahive_edit_select" />');            	
+            }
+        });
+        
+        dojo.connect(categoryDeleteButton, "onClick", function() {
+        	if (confirm('<spring:message arguments="category" code="metahive_delete_confirm" />')) {
+          		var id = categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex).id;
           		dojo.xhrDelete({
               		url: "${categories_url}/" + id,
               		load: function() {
-                        loadGrid(dataGrid);
+                        loadGrid(categoryDataGrid, "${categories_datasource}");
                     }
                 });
         	}
         });
         
-        dojo.connect(dataGrid, "onRowDblClick", function(event) {
-        	 var id = dataGrid.getItem(event.rowIndex).id;
+        dojo.connect(dataTypeDeleteButton, "onClick", function() {
+        	if (confirm('<spring:message arguments="data type" code="metahive_delete_confirm" />')) {
+          		var id = dataTypeDataGrid.getItem(dataTypeDataGrid.selection.selectedIndex).id;
+          		dojo.xhrDelete({
+              		url: "${datatypes_url}/" + id,
+              		load: function() {
+                        loadGrid(dataTypeDataGrid, "${datatypes_datasource}");
+                    }
+                });
+        	}
+        });
+        
+        dojo.connect(categoryDataGrid, "onRowDblClick", function(event) {
+        	 var id = categoryDataGrid.getItem(event.rowIndex).id;
         	 window.location.href="${categories_url}/" + id + "?form";
         });
         
-        loadGrid(dataGrid);
+        dojo.connect(dataTypeDataGrid, "onRowDblClick", function(event) {
+       	 var id = dataTypeDataGrid.getItem(event.rowIndex).id;
+       	 window.location.href="${datatypes_url}/" + id + "?form";
+       });
+        
+        loadGrid(categoryDataGrid, "${categories_datasource}");
+        loadGrid(dataTypeDataGrid, "${datatypes_datasource}");
     });
 
-    function loadGrid(dataGrid) {
+    function loadGrid(dataGrid, datasource) {
         dojo.xhrGet({
-            url: "${datasource}",
+            url: datasource,
             handleAs: "json", 
             load: function(data, ioArgs) {
-                dataGrid.setStore(
+            	dataGrid.setStore(
                         new dojo.data.ItemFileReadStore(
                             {data: {items : data}})
                 );
@@ -69,21 +137,4 @@
     }
     </script>
     
-    <spring:message var="list_heading" code="metahive_lists" />
-    <util:panel id="titlePane" title="${list_heading}">
-       <div id="addButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_add" /></div>
-       <div id="editButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_edit" /></div>
-       <div id="deleteButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_delete" /></div>
-       <div id="grid" jsId="dataGrid"
-         dojoType="dojox.grid.EnhancedGrid"
-          structure ="[
-             { field: 'name', name: 'Name', width: '230px' }
-          ]"
-          autoWidth="true"
-          autoHeight="true"
-          rowHeight="30"
-          plugins="{indirectSelection: true}"
-          selectionMode="single">
-    	</div>
-    </util:panel>
 </div>

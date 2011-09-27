@@ -4,10 +4,6 @@
 	<jsp:output omit-xml-declaration="yes"/>
 
 <menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
-        <menu:category id="c_datatype" z="6DPzlfJ9wYrziv+bfHlr3JEq3Pk=">
-            <menu:item id="i_datatype_new" messageCode="global_menu_new" url="/datatypes?form" z="q6jTjExNAw3FEDCo54hC1hx1td0="/>
-        <menu:item id="i_datatype_list" messageCode="global_menu_list" url="/datatypes?page=1&amp;size=${empty param.size ? 10 : param.size}" z="RySTcdX9aQ+t1eHV4gOZMopsFpM="/>
-    </menu:category>
     <menu:category id="c_administration" z="user-managed">
         <menu:item id="i_administration_list" url="/lists" z="user-managed"/>
     </menu:category>

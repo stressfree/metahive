@@ -45,3 +45,4 @@ controller scaffold --class com.sfs.metahive.web.DataTypeController --entity com
 controller scaffold --class com.sfs.metahive.web.CategoryController --entity com.sfs.metahive.model.Category
 controller scaffold --class com.sfs.metahive.web.DefinitionController --entity com.sfs.metahive.model.Definition
 // Spring Roo 1.1.3.RELEASE [rev 4404ffb] log closed at 2011-09-21 16:29:01
+// Spring Roo 1.1.3.RELEASE [rev 4404ffb] log opened at 2011-09-27 11:56:21
