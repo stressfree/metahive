@@ -46,3 +46,24 @@ controller scaffold --class com.sfs.metahive.web.CategoryController --entity com
 controller scaffold --class com.sfs.metahive.web.DefinitionController --entity com.sfs.metahive.model.Definition
 // Spring Roo 1.1.3.RELEASE [rev 4404ffb] log closed at 2011-09-21 16:29:01
 // Spring Roo 1.1.3.RELEASE [rev 4404ffb] log opened at 2011-09-27 11:56:21
+// Spring Roo 1.1.3.RELEASE [rev 4404ffb] log closed at 2011-09-27 14:24:51
+// Spring Roo 1.1.3.RELEASE [rev 4404ffb] log opened at 2011-09-30 15:01:04
+security setup
+enum type --class com.sfs.metahive.model.UserRole
+enum constant --name ROLE_ADMIN
+enum constant --name ROLE_USER
+// [failed] entity --class com.sfs.metahive.model.User --testAutomatically --table user --identifierColumn id
+// [failed] entity --class com.sfs.metahive.model.User --testAutomatically --table metahive_user --identifierColumn id
+entity --class com.sfs.metahive.model.Principal --testAutomatically --table principal --identifierColumn id
+field string --fieldName username --column username --notNull
+field string --fieldName password --column password --notNull
+field enum --type com.sfs.metahive.model.UserRole --fieldName userRole --notNull --enumType STRING
+field string --fieldName openIdIdentifier --column openid_identifier
+field string --fieldName firstName --column first_name
+field string --fieldName lastName --column last_name
+field string --fieldName emailAddress --column email_address
+finder add --finderName findPrincipalByOpenIdIdentifier --class com.sfs.metahive.model.Principal
+finder list --class com.sfs.metahive.model.Principal
+finder add --class com.sfs.metahive.model.Principal --finderName findPrincipalsByOpenIdIdentifier
+class --class com.sfs.metahive.service.OpenIdUserDetailsService
+class --class com.sfs.metahive.service.CustomAuthenticationEntryPoint
