@@ -27,7 +27,7 @@ public class OpenIdUserDetailsService implements UserDetailsService {
         	principal = new Principal();
         	principal.setOpenIdIdentifier(openIdIdentifier);
         	
-        	principal.setUserRole(UserRole.ROLE_USER);
+        	principal.setUserRole(UserRole.ROLE_NEWUSER);
         	
         	principal.persist();
         	
