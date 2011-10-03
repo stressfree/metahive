@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    
+   	<spring:message var="user_heading" code="metahive_users" />
+	<h3><c:out value="${user_heading}" /></h3>
+      <div id="userEditButton" dojoType="dijit.form.Button" jsId="userEditButton"><spring:message code="metahive_button_edit" /></div>
+      <div id="userDataGrid" jsId="userDataGrid"
+         dojoType="dojox.grid.EnhancedGrid"
+         structure ="[
+         	{ field: 'firstName', name: 'First name', width: '200px' },
+         	{ field: 'lastName', name: 'Last name', width: '220px' },
+         	{ field: 'emailAddress', name: 'Email address', width: '380px' }
+         ]"
+         autoWidth="true"
+         autoHeight="true"
+         plugins="{indirectSelection: true}"
+         selectionMode="single"><!-- --></div>	    
+	   
+    
+    <spring:url value="/users" var="users_url" />
+    <spring:url value="/users/list" var="users_datasource"/>
+            
+    <script type="text/javascript">
+   	dojo.require("dojo.parser");
+   	dojo.require("dojox.grid.EnhancedGrid");
+   	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+   	dojo.require("dijit.form.Button");
+    dojo.require("dojo.data.ItemFileReadStore");
+    
+    dojo.addOnLoad(function() {
+        dojo.parser.parse();
+        
+     	// define events
+        dojo.connect(userEditButton, "onClick", function() {        	
+        	if (userDataGrid.getItem(userDataGrid.selection.selectedIndex)) {
+        		var id = userDataGrid.getItem(userDataGrid.selection.selectedIndex).id;
+            	window.location.href="${users_url}/" + id + "?form";        		
+            } else {
+            	alert('<spring:message arguments="user" code="metahive_edit_select" />');            	
+            }
+        });
+        
+        dojo.connect(userDataGrid, "onRowDblClick", function(event) {
+        	 var id = userDataGrid.getItem(event.rowIndex).id;
+        	 window.location.href="${users_url}/" + id + "?form";
+        });
+        
+        loadGrid(userDataGrid, "${users_datasource}");
+    });
+
+    function loadGrid(dataGrid, datasource) {
+        dojo.xhrGet({
+            url: datasource,
+            handleAs: "json", 
+            load: function(data, ioArgs) {
+            	dataGrid.setStore(
+                        new dojo.data.ItemFileReadStore(
+                            {data: {items : data}})
+                );
+            },
+            error: function(error) {
+                console.log("loading of grid data failed. Exception...", error);
+            }
+        });
+    }
+    </script>
+    
+</div>

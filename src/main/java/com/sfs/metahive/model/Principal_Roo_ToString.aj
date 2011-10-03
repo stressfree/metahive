@@ -16,6 +16,7 @@ privileged aspect Principal_Roo_ToString {
         sb.append("OpenIdIdentifier: ").append(getOpenIdIdentifier()).append(", ");
         sb.append("Password: ").append(getPassword()).append(", ");
         sb.append("UserRole: ").append(getUserRole()).append(", ");
+        sb.append("UserStatus: ").append(getUserStatus()).append(", ");
         sb.append("Username: ").append(getUsername()).append(", ");
         sb.append("AccountNonExpired: ").append(isAccountNonExpired()).append(", ");
         sb.append("AccountNonLocked: ").append(isAccountNonLocked()).append(", ");

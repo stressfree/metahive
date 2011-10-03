@@ -20,6 +20,7 @@ privileged aspect PrincipalDataOnDemand_Roo_DataOnDemand {
         com.sfs.metahive.model.Principal obj = new com.sfs.metahive.model.Principal();
         setOpenIdIdentifier(obj, index);
         setUserRole(obj, index);
+        setUserStatus(obj, index);
         setFirstName(obj, index);
         setLastName(obj, index);
         setEmailAddress(obj, index);
@@ -34,6 +35,11 @@ privileged aspect PrincipalDataOnDemand_Roo_DataOnDemand {
     private void PrincipalDataOnDemand.setUserRole(Principal obj, int index) {
         com.sfs.metahive.model.UserRole userRole = com.sfs.metahive.model.UserRole.class.getEnumConstants()[0];
         obj.setUserRole(userRole);
+    }
+    
+    private void PrincipalDataOnDemand.setUserStatus(Principal obj, int index) {
+        com.sfs.metahive.model.UserStatus userStatus = com.sfs.metahive.model.UserStatus.class.getEnumConstants()[0];
+        obj.setUserStatus(userStatus);
     }
     
     private void PrincipalDataOnDemand.setFirstName(Principal obj, int index) {

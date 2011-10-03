@@ -39,6 +39,7 @@
 	
 	<beans:bean id="accessDeniedHandler" class="com.sfs.metahive.RedirectAccessDeniedHandler">
     	<beans:property name="accessDeniedUrl" value="accessdenied" />
+    	<beans:property name="newUserUrl" value="users/newuser" />
 	</beans:bean>
 	
 </beans:beans>
