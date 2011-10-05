@@ -38,8 +38,8 @@
 	<beans:bean id="openIdUserService" class="com.sfs.metahive.service.OpenIdUserDetailsService" />
 	
 	<beans:bean id="accessDeniedHandler" class="com.sfs.metahive.RedirectAccessDeniedHandler">
-    	<beans:property name="accessDeniedUrl" value="accessdenied" />
-    	<beans:property name="newUserUrl" value="users/newuser" />
+    	<beans:property name="accessDeniedUrl" value="accessDenied" />
+    	<beans:property name="newUserUrl" value="newuser" />
 	</beans:bean>
 	
 </beans:beans>

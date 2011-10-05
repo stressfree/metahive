@@ -48,15 +48,18 @@ public class Principal implements UserDetails {
     private UserStatus userStatus;
     
     /** The first name. */
+    @NotNull
     @Column(name = "first_name")
     private String firstName;
 
     /** The last name. */
+    @NotNull
     @Column(name = "last_name")
     private String lastName;
 
     /** The email address. */
-    @Column(name = "email_address")
+    @NotNull
+    @Column(name = "email_address", unique = true)
     private String emailAddress;
         
     

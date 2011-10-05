@@ -9,6 +9,7 @@ import org.springframework.format.support.FormattingConversionServiceFactoryBean
 import org.springframework.roo.addon.web.mvc.controller.RooConversionService;
 
 import com.sfs.metahive.model.UserRole;
+import com.sfs.metahive.model.UserStatus;
         
 /**
  * A central place to register application Converters and Formatters. 
@@ -23,9 +24,9 @@ public class ApplicationConversionServiceFactoryBean
 	@Override
 	protected void installFormatters(FormatterRegistry registry) {
 		super.installFormatters(registry);
-		// Register application converters and formatters
-		
+		// Register application converters and formatters		
 		registry.addConverter(getUserRoleConverter());
+		registry.addConverter(getUserStatusConverter());
 	}
 	
 
@@ -37,8 +38,21 @@ public class ApplicationConversionServiceFactoryBean
 	Converter<UserRole, String> getUserRoleConverter() { 
         return new Converter<UserRole, String>() { 
             public String convert(UserRole userRole) { 
-            	System.out.println("Got here");
                 return context.getMessage(userRole.getMessageKey(), null, 
+                		LocaleContextHolder.getLocale()); 
+            } 
+        }; 
+    }
+
+	/**
+	 * Gets the user status converter.
+	 *
+	 * @return the user status converter
+	 */
+	Converter<UserStatus, String> getUserStatusConverter() { 
+        return new Converter<UserStatus, String>() { 
+            public String convert(UserStatus userStatus) { 
+                return context.getMessage(userStatus.getMessageKey(), null, 
                 		LocaleContextHolder.getLocale()); 
             } 
         }; 

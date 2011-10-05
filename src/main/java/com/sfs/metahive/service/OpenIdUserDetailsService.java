@@ -1,6 +1,8 @@
 package com.sfs.metahive.service;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +31,13 @@ public class OpenIdUserDetailsService implements UserDetailsService {
         	principal = new Principal();
         	principal.setOpenIdIdentifier(openIdIdentifier);
         	
+        	Random generator = new Random();
+        	String emailAddress = String.valueOf(generator.nextInt()) + "@"
+        			+ String.valueOf(Calendar.getInstance().getTimeInMillis());
+        	        	
+        	principal.setFirstName("New");
+        	principal.setLastName("User");
+        	principal.setEmailAddress(emailAddress);
         	principal.setUserRole(UserRole.ROLE_NEWUSER);
         	principal.setUserStatus(UserStatus.ACTIVE);
         	

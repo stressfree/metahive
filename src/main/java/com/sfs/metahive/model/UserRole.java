@@ -17,5 +17,5 @@ public enum UserRole {
 
     public String getMessageKey() { 
         return messageKey; 
-    } 
+    }
 }

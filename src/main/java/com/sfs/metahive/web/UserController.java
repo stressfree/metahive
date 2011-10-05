@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sfs.metahive.model.Principal;
 import com.sfs.metahive.model.UserRole;
+import com.sfs.metahive.model.UserStatus;
 
 
 @RequestMapping("/users")
@@ -28,8 +29,6 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.PUT)
     public String update(@Valid Principal principal, BindingResult bindingResult, 
     		Model uiModel, HttpServletRequest httpServletRequest) {
-
-		System.out.println("Testing");
 		
         if (bindingResult.hasErrors()) {
             uiModel.addAttribute("principal", principal);
@@ -75,5 +74,14 @@ public class UserController {
     		userRoles.add(userRole);
     	}        
         return userRoles;
+    }
+    
+    @ModelAttribute("userstatuses")
+    public Collection<UserStatus> populateUserStatuses() {
+    	Collection<UserStatus> userStatuses = new ArrayList<UserStatus>();
+    	for (UserStatus userStatus : UserStatus.values()) {
+    		userStatuses.add(userStatus);
+    	}        
+        return userStatuses;
     }
 }

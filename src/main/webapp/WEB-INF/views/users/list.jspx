@@ -8,9 +8,11 @@
       <div id="userDataGrid" jsId="userDataGrid"
          dojoType="dojox.grid.EnhancedGrid"
          structure ="[
-         	{ field: 'firstName', name: 'First name', width: '200px' },
-         	{ field: 'lastName', name: 'Last name', width: '220px' },
-         	{ field: 'emailAddress', name: 'Email address', width: '380px' }
+         	{ field: 'firstName', name: 'First name', width: '160px' },
+         	{ field: 'lastName', name: 'Last name', width: '200px' },
+         	{ field: 'emailAddress', name: 'Email address', width: '380px' },         	
+         	{ field: 'userRole', name: 'Role', width: '170px' },         	
+         	{ field: 'userStatus', name: 'Status', width: '100px' }
          ]"
          autoWidth="true"
          autoHeight="true"
@@ -23,6 +25,7 @@
             
     <script type="text/javascript">
    	dojo.require("dojo.parser");
+    dojo.require("dojox.string.Builder");
    	dojo.require("dojox.grid.EnhancedGrid");
    	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
    	dojo.require("dijit.form.Button");
@@ -53,10 +56,16 @@
         dojo.xhrGet({
             url: datasource,
             handleAs: "json", 
-            load: function(data, ioArgs) {
+            load: function(inputJson, ioArgs) {
+            	var data = new dojox.string.Builder(dojo.toJson(inputJson));
+            	data.replace('ACTIVE', '<spring:message code="label_com_sfs_metahive_model_userstatus_active" />');
+            	data.replace('DISABLED', '<spring:message code="label_com_sfs_metahive_model_userstatus_disabled" />');
+            	data.replace('ROLE_NEWUSER', '<spring:message code="label_com_sfs_metahive_model_userrole_newuser" />');
+            	data.replace('ROLE_USER', '<spring:message code="label_com_sfs_metahive_model_userrole_user" />');
+            	data.replace('ROLE_ADMIN', '<spring:message code="label_com_sfs_metahive_model_userrole_admin" />');
             	dataGrid.setStore(
                         new dojo.data.ItemFileReadStore(
-                            {data: {items : data}})
+                            {data: {items : dojo.fromJson(data)}})
                 );
             },
             error: function(error) {
