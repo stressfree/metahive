@@ -73,3 +73,5 @@ class --class com.sfs.metahive.RedirectAccessDeniedHandler
 // Spring Roo 1.1.3.RELEASE [rev 4404ffb] log opened at 2011-10-03 11:25:56
 dependency add --artifactId commons-lang --groupId commons-lang --version 2.6
 // Spring Roo 1.1.3.RELEASE [rev 4404ffb] log closed at 2011-10-03 16:49:42
+// Spring Roo 1.1.3.RELEASE [rev 4404ffb] log opened at 2011-10-10 09:53:52
+finder list --class com.sfs.metahive.model.Person

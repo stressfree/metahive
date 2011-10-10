@@ -24,12 +24,11 @@ public class ApplicationConversionServiceFactoryBean
 	@Override
 	protected void installFormatters(FormatterRegistry registry) {
 		super.installFormatters(registry);
-		// Register application converters and formatters		
+		// Register application converters and formatters
 		registry.addConverter(getUserRoleConverter());
 		registry.addConverter(getUserStatusConverter());
 	}
 	
-
 	/**
 	 * Gets the user role converter.
 	 *

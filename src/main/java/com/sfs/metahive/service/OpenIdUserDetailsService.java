@@ -8,7 +8,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.sfs.metahive.model.Principal;
+import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.model.UserStatus;
 
@@ -18,37 +18,37 @@ import com.sfs.metahive.model.UserStatus;
 public class OpenIdUserDetailsService implements UserDetailsService {
 	
     /**
-     * Load the principal based on the supplied openId identifier
+     * Load the person based on the supplied openId identifier
      */
     public UserDetails loadUserByUsername(String openIdIdentifier) {
     	
-        List<Principal> principals = Principal
-        		.findPrincipalsByOpenIdIdentifier(openIdIdentifier).getResultList();
+        List<Person> people = Person.findPeopleByOpenIdIdentifier(
+        		openIdIdentifier).getResultList();
         
-        Principal principal = principals.size() == 0 ? null : principals.get(0);
-        if (principal == null) {
+        Person person = people.size() == 0 ? null : people.get(0);
+        if (person == null) {
         	
-        	principal = new Principal();
-        	principal.setOpenIdIdentifier(openIdIdentifier);
+        	person = new Person();
+        	person.setOpenIdIdentifier(openIdIdentifier);
         	
         	Random generator = new Random();
         	String emailAddress = String.valueOf(generator.nextInt()) + "@"
         			+ String.valueOf(Calendar.getInstance().getTimeInMillis());
         	        	
-        	principal.setFirstName("New");
-        	principal.setLastName("User");
-        	principal.setEmailAddress(emailAddress);
-        	principal.setUserRole(UserRole.ROLE_NEWUSER);
-        	principal.setUserStatus(UserStatus.ACTIVE);
+        	person.setFirstName("New");
+        	person.setLastName("User");
+        	person.setEmailAddress(emailAddress);
+        	person.setUserRole(UserRole.ROLE_NEWUSER);
+        	person.setUserStatus(UserStatus.ACTIVE);
         	
-        	principal.persist();
+        	person.persist();
         	
-            return principal;
+            return person;
         } else {
-        	 if (!principal.isEnabled()) {
+        	 if (!person.isEnabled()) {
                  throw new DisabledException("This user is disabled");
              }
-            return principal;
+            return person;
         }
     }
 }

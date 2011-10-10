@@ -3,17 +3,17 @@
 
 package com.sfs.metahive.model;
 
-import com.sfs.metahive.model.Principal;
+import com.sfs.metahive.model.Person;
 import java.lang.String;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-privileged aspect Principal_Roo_Finder {
+privileged aspect Person_Roo_Finder {
     
-    public static TypedQuery<Principal> Principal.findPrincipalsByOpenIdIdentifier(String openIdIdentifier) {
+    public static TypedQuery<Person> Person.findPeopleByOpenIdIdentifier(String openIdIdentifier) {
         if (openIdIdentifier == null || openIdIdentifier.length() == 0) throw new IllegalArgumentException("The openIdIdentifier argument is required");
-        EntityManager em = Principal.entityManager();
-        TypedQuery<Principal> q = em.createQuery("SELECT o FROM Principal AS o WHERE o.openIdIdentifier = :openIdIdentifier", Principal.class);
+        EntityManager em = Person.entityManager();
+        TypedQuery<Person> q = em.createQuery("SELECT o FROM Person AS o WHERE o.openIdIdentifier = :openIdIdentifier", Person.class);
         q.setParameter("openIdIdentifier", openIdIdentifier);
         return q;
     }

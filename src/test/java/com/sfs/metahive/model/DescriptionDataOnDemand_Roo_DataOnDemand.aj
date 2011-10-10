@@ -5,6 +5,7 @@ package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.DefinitionDataOnDemand;
 import com.sfs.metahive.model.Description;
+import com.sfs.metahive.model.PersonDataOnDemand;
 import java.util.List;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,15 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
     @Autowired
     private DefinitionDataOnDemand DescriptionDataOnDemand.definitionDataOnDemand;
     
+    @Autowired
+    private PersonDataOnDemand DescriptionDataOnDemand.personDataOnDemand;
+    
     public Description DescriptionDataOnDemand.getNewTransientDescription(int index) {
         com.sfs.metahive.model.Description obj = new com.sfs.metahive.model.Description();
         setDefinition(obj, index);
         setDescription(obj, index);
         setExampleValues(obj, index);
+        setPerson(obj, index);
         setCreated(obj, index);
         return obj;
     }
@@ -43,6 +48,11 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
     private void DescriptionDataOnDemand.setExampleValues(Description obj, int index) {
         java.lang.String exampleValues = "exampleValues_" + index;
         obj.setExampleValues(exampleValues);
+    }
+    
+    private void DescriptionDataOnDemand.setPerson(Description obj, int index) {
+        com.sfs.metahive.model.Person person = personDataOnDemand.getRandomPerson();
+        obj.setPerson(person);
     }
     
     private void DescriptionDataOnDemand.setCreated(Description obj, int index) {

@@ -7,7 +7,8 @@
   <spring:url value="/resources/dojo/dojo.js" var="dojo_url" />
   <spring:url value="/resources/dojox/grid/enhanced/resources/EnhancedGrid.css" var="grid_url" />
   <spring:url value="/resources/dojox/grid/enhanced/resources/claroEnhancedGrid.css" var="grid_claro_url" />
-  
+  <spring:url value="/resources/dojox/form/resources/CheckedMultiSelect.css" var="multiselect_url" />
+
   <spring:url value="/styles/reset-min.css" var="reset_url" />
   <spring:url value="/styles/base-min.css" var="base_url" />
   <spring:url value="/resources/dijit/themes/nihilo/nihilo.css" var="nihilo_url" />
@@ -20,6 +21,7 @@
   <link rel="stylesheet" type="text/css" href="${nihilo_url}"><!-- required for FF3 and Opera --></link>
   <link rel="stylesheet" type="text/css" href="${grid_url}"><!-- required for FF3 and Opera --></link>
   <link rel="stylesheet" type="text/css" href="${grid_claro_url}"><!-- required for FF3 and Opera --></link>
+  <link rel="stylesheet" type="text/css" href="${multiselect_url}"><!-- required for FF3 and Opera --></link>
   <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}"><!-- required for FF3 and Opera --></link>
   <link rel="SHORTCUT ICON" href="${favicon}" />
 

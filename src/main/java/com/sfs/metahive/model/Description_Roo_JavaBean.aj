@@ -4,6 +4,7 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.Person;
 import java.lang.String;
 import java.util.Date;
 
@@ -31,6 +32,14 @@ privileged aspect Description_Roo_JavaBean {
     
     public void Description.setExampleValues(String exampleValues) {
         this.exampleValues = exampleValues;
+    }
+    
+    public Person Description.getPerson() {
+        return this.person;
+    }
+    
+    public void Description.setPerson(Person person) {
+        this.person = person;
     }
     
     public Date Description.getCreated() {

@@ -5,15 +5,18 @@ package com.sfs.metahive.model;
 
 import java.lang.String;
 
-privileged aspect Principal_Roo_ToString {
+privileged aspect Person_Roo_ToString {
     
-    public String Principal.toString() {
+    public String Person.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Authorities: ").append(getAuthorities() == null ? "null" : getAuthorities().size()).append(", ");
+        sb.append("Descriptions: ").append(getDescriptions() == null ? "null" : getDescriptions().size()).append(", ");
         sb.append("EmailAddress: ").append(getEmailAddress()).append(", ");
         sb.append("FirstName: ").append(getFirstName()).append(", ");
+        sb.append("FormattedName: ").append(getFormattedName()).append(", ");
         sb.append("LastName: ").append(getLastName()).append(", ");
         sb.append("OpenIdIdentifier: ").append(getOpenIdIdentifier()).append(", ");
+        sb.append("Organisations: ").append(getOrganisations() == null ? "null" : getOrganisations().size()).append(", ");
         sb.append("Password: ").append(getPassword()).append(", ");
         sb.append("UserRole: ").append(getUserRole()).append(", ");
         sb.append("UserStatus: ").append(getUserStatus()).append(", ");

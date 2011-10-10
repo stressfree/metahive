@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.sfs.metahive.model.Principal;
+import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.UserRole;
 
 
@@ -22,15 +22,15 @@ public class NewUserController {
 
     
 	@RequestMapping(method = RequestMethod.PUT)
-    public String update(@Valid Principal principal, BindingResult bindingResult, 
+    public String update(@Valid Person person, BindingResult bindingResult, 
     		Model uiModel, HttpServletRequest httpServletRequest) {
 		
         if (bindingResult.hasErrors()) {
-            uiModel.addAttribute("principal", principal);
+            uiModel.addAttribute("person", person);
             return "users/update";            
         }
         uiModel.asMap().clear();
-        principal.merge();
+        person.merge();
         
 		return "redirect:/";
     }
@@ -43,17 +43,17 @@ public class NewUserController {
 		if (request.getUserPrincipal() != null
 				&& StringUtils.isNotBlank(request.getUserPrincipal().getName())) {
 			
-			List<Principal> principals = Principal.findPrincipalsByOpenIdIdentifier(
+			List<Person> people = Person.findPeopleByOpenIdIdentifier(
 					request.getUserPrincipal().getName()).getResultList();
 			
-			Principal principal = principals.size() == 0 ? null : principals.get(0);
+			Person person = people.size() == 0 ? null : people.get(0);
 
-			if (principal != null && principal.getUserRole() == UserRole.ROLE_NEWUSER) {
+			if (person != null && person.getUserRole() == UserRole.ROLE_NEWUSER) {
 				// Reset the first, last and email address values
-				principal.setFirstName("");
-				principal.setLastName("");
-				principal.setEmailAddress("");
-				uiModel.addAttribute("principal", principal);
+				person.setFirstName("");
+				person.setLastName("");
+				person.setEmailAddress("");
+				uiModel.addAttribute("person", person);
 				
 				page = "newuser/update";
 			}

@@ -33,6 +33,11 @@ public class Description {
     /** The example values. */
     private String exampleValues;
 
+	/** The person who created the description. */
+	@NotNull
+	@ManyToOne
+	private Person person;
+	
     /** The created timestamp. */
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "S-")

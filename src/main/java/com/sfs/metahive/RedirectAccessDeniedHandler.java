@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import com.sfs.metahive.model.Principal;
+import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.UserRole;
 
 
@@ -61,12 +61,12 @@ public class RedirectAccessDeniedHandler implements AccessDeniedHandler {
     	
     	if (StringUtils.isNotBlank(this.newUserUrl) 
     			&& request.getUserPrincipal() != null) {
-    		List<Principal> principals = Principal.findPrincipalsByOpenIdIdentifier(
+    		List<Person> people = Person.findPeopleByOpenIdIdentifier(
     			request.getUserPrincipal().getName()).getResultList();
     
-    		Principal principal = principals.size() == 0 ? null : principals.get(0);
+    		Person person = people.size() == 0 ? null : people.get(0);
     		
-    		if (principal != null && principal.getUserRole() == UserRole.ROLE_NEWUSER) {
+    		if (person != null && person.getUserRole() == UserRole.ROLE_NEWUSER) {
     			redirect = this.newUserUrl;
     		}
     	}

@@ -5,8 +5,8 @@ package com.sfs.metahive.model;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect PrincipalDataOnDemand_Roo_Configurable {
+privileged aspect Organisation_Roo_Configurable {
     
-    declare @type: PrincipalDataOnDemand: @Configurable;
+    declare @type: Organisation: @Configurable;
     
 }

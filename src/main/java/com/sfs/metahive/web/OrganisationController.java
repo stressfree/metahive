@@ -1,6 +1,5 @@
 package com.sfs.metahive.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,72 +15,75 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sfs.metahive.model.Principal;
-import com.sfs.metahive.model.UserRole;
-import com.sfs.metahive.model.UserStatus;
+import com.sfs.metahive.model.Organisation;
+import com.sfs.metahive.model.Person;
 
 
-@RequestMapping("/users")
+@RequestMapping("/organisations")
 @Controller
-public class UserController {
+public class OrganisationController {
 
+	@RequestMapping(method = RequestMethod.POST)
+    public String create(@Valid Organisation organisation, BindingResult bindingResult, 
+    		Model uiModel, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors()) {
+            uiModel.addAttribute("organisation", organisation);
+            return "organisations/create";
+        }
+        uiModel.asMap().clear();
+        organisation.persist();
+        return "redirect:/organisations";
+    }
+
+	@RequestMapping(params = "form", method = RequestMethod.GET)
+    public String createForm(Model uiModel) {
+        uiModel.addAttribute("organisation", new Organisation());
+        return "organisations/create";
+    }
     
 	@RequestMapping(method = RequestMethod.PUT)
-    public String update(@Valid Principal principal, BindingResult bindingResult, 
+    public String update(@Valid Organisation organisation, BindingResult bindingResult, 
     		Model uiModel, HttpServletRequest httpServletRequest) {
 		
         if (bindingResult.hasErrors()) {
-            uiModel.addAttribute("principal", principal);
-            return "users/update";            
+            uiModel.addAttribute("organisation", organisation);
+            return "organisations/update";            
         }
         uiModel.asMap().clear();
-        principal.merge();
+        organisation.merge();
         
-		return "redirect:/users";
+		return "redirect:/organisations";
     }
 
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("principal", Principal.findPrincipal(id));
+        uiModel.addAttribute("organisation", Organisation.findOrganisation(id));
                 
-        return "users/update";
+        return "organisations/update";
     }
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String delete(@PathVariable("id") Long id, @RequestParam(
     		value = "page", required = false) Integer page, 
     		@RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        Principal.findPrincipal(id).remove();
+		Organisation.findOrganisation(id).remove();
         uiModel.asMap().clear();
 
-        return "redirect:/users";
+        return "redirect:/organisations";
     }
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public @ResponseBody String list() {
-		return Principal.toJsonArray(Principal.findAllPrincipals());
+		return Organisation.toJsonArray(Organisation.findAllOrganisations());
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
     public String index() {
-        return "users/list";
+        return "organisations/list";
     }
 
-    @ModelAttribute("userroles")
-    public Collection<UserRole> populateUserRoles() {
-    	Collection<UserRole> userRoles = new ArrayList<UserRole>();
-    	for (UserRole userRole : UserRole.values()) {
-    		userRoles.add(userRole);
-    	}        
-        return userRoles;
-    }
-    
-    @ModelAttribute("userstatuses")
-    public Collection<UserStatus> populateUserStatuses() {
-    	Collection<UserStatus> userStatuses = new ArrayList<UserStatus>();
-    	for (UserStatus userStatus : UserStatus.values()) {
-    		userStatuses.add(userStatus);
-    	}        
-        return userStatuses;
+    @ModelAttribute("people")
+    public Collection<Person> populatePeople() {    	
+    	return Person.findAllPeople();
     }
 }

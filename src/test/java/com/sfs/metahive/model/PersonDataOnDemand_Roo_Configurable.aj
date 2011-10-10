@@ -5,8 +5,8 @@ package com.sfs.metahive.model;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect PrincipalIntegrationTest_Roo_Configurable {
+privileged aspect PersonDataOnDemand_Roo_Configurable {
     
-    declare @type: PrincipalIntegrationTest: @Configurable;
+    declare @type: PersonDataOnDemand: @Configurable;
     
 }
