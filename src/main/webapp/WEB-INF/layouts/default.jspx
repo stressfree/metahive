@@ -16,13 +16,19 @@
 	</head>
 	
   	<body class="nihilo claro spring">
-   		<div id="wrapper">
-		    <tiles:insertAttribute name="header" ignore="true" />
-		    <tiles:insertAttribute name="menu" ignore="true" />   
-		    <div id="main">
-	    		<tiles:insertAttribute name="body"/> 
-		    	<tiles:insertAttribute name="footer" ignore="true"/>
+  	
+  		<div id="doc4" class="yui-t7"> 
+			<div id="hd" role="banner">
+			    <tiles:insertAttribute name="header" ignore="true" />
+			    <tiles:insertAttribute name="menu" ignore="true" />   
+			</div>
+			<div id="bd" role="main">
+		    	<tiles:insertAttribute name="body"/>
+		    </div>
+		    <div id="ft" role="contentinfo">
+				<tiles:insertAttribute name="footer" ignore="true"/>
 		    </div>
 		</div>
+		
 	</body>
 </html>

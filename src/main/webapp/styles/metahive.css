@@ -2,21 +2,15 @@ body {
    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
    font-weight: 300;
 }
-
-
-.twoColumn .leftColumn {
-	width: 49%;
-	float: left;
-}
-.twoColumn .rightColumn {
-	width: 49%;
-	float: right;
-}
-
-.clear {
-	clear: both;	
+b, strong {
+	font-weight: 700;
 }
 
 .dojoxGrid table {
 	margin-bottom: 0;
+}
+.dijitEditor {
+	width: 650px;
+	border: 1px solid #ccc;
+	margin: 5px 0 0 10px;	
 }

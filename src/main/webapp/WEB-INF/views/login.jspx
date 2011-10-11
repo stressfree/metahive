@@ -1,4 +1,4 @@
-<div xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div class="yui-g" xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
   <spring:message code="security_login_title" var="title" htmlEscape="false" />
@@ -6,19 +6,26 @@
   <spring:url value="/j_spring_openid_security_check" var="form_url_openid" />
   <spring:url var="google" value="/resources/images/google-account-logo.png" />
   
-  <util:panel id="title_google" title="Google Login" >
-    <img src="${google}" style="float:right" />
-    <p style="height:0.25em"/>
+  <spring:message var="login_title" code="security_login_title" />
+  <spring:message var="login_button" code="google_login_button" />
+  <util:panel id="google_login" title="${login_title}" >
     <form action="${fn:escapeXml(form_url_openid)}" method="post">
         <input name="openid_identifier" size="50"
                maxlength="100" type="hidden"
                value="http://www.google.com/accounts/o8/id"/>
         <div class="submit">
-           <input id="proceed_google" type="submit" value="Sign in with Google" />
+           <button dojoType="dijit.form.Button" id="proceed" type="submit"><c:out value="${fn:escapeXml(login_button)}" /></button>
         </div>
     </form>
-    <br/>
-    <p/>
   </util:panel>
+  
+  <script type="text/javascript">
+      <![CDATA[
+        dojo.require("dijit.form.Form");
+        dojo.require("dijit.form.Button");
+
+        dojo.parser.parse();
+        ]]>
+    </script>
 </div>
 

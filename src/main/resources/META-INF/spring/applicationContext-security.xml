@@ -24,22 +24,13 @@
     </http>
 
 	<!-- Configure Authentication mechanism -->
-    <authentication-manager alias="authenticationManager">
-    	<!-- SHA-256 values can be produced using 'echo -n your_desired_password | sha256sum' (using normal *nix environments) -->
-    	<authentication-provider>
-	    	<password-encoder hash="sha"/>
-	        <user-service>
-	            <user name="admin" password="a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" authorities="ROLE_ADMIN"/>
-		        <user name="user" password="a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" authorities="ROLE_USER"/>
-		    </user-service>
-    	</authentication-provider>
-	</authentication-manager>
+    <authentication-manager alias="authenticationManager" />
 	
 	<beans:bean id="openIdUserService" class="com.sfs.metahive.service.OpenIdUserDetailsService" />
 	
 	<beans:bean id="accessDeniedHandler" class="com.sfs.metahive.RedirectAccessDeniedHandler">
     	<beans:property name="accessDeniedUrl" value="accessDenied" />
-    	<beans:property name="newUserUrl" value="newuser" />
+    	<beans:property name="newUserUrl" value="user" />
 	</beans:bean>
 	
 </beans:beans>

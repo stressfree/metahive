@@ -7,5 +7,6 @@
         <field:simple field="descriptions" id="c_com_sfs_metahive_model_Definition_descriptions" messageCode="entity_reference_not_managed" messageCodeAttribute="Description" z="mB4S0HwCrto+FSTfRh8dc3dVl2A="/>
         <field:select field="categories" id="c_com_sfs_metahive_model_Definition_categories" itemValue="id" items="${categorys}" multiple="true" path="/categorys" z="xwMlCg3Z5ElC0prQf6RgYkbIe5Y="/>
         <field:select field="dataType" id="c_com_sfs_metahive_model_Definition_dataType" itemValue="id" items="${datatypes}" path="/datatypes" required="true" z="E6T96KDKdRCOrlGXTpxCGan0XhQ="/>
+    <field:simple field="dataSources" id="c_com_sfs_metahive_model_Definition_dataSources" messageCode="entity_reference_not_managed" messageCodeAttribute="Data Source" z="HoHAx9yp0xlPbnZusQZUx61Dg2o="/>
     </form:update>
 </div>

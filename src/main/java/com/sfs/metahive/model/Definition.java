@@ -27,19 +27,24 @@ public class Definition {
 	@NotNull
 	@Size(min = 1, max = 100)
 	private String name;
-	
-	/** The definition descriptions. */
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
-	private Set<Description> descriptions = new HashSet<Description>();
-
-	/** The categories. */
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "definitions")
-	private Set<Category> categories = new HashSet<Category>();
 
 	/** The data type. */
 	@NotNull
 	@ManyToOne
 	private DataType dataType;
+	
+	/** The definition descriptions. */
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
+	private Set<Description> descriptions = new HashSet<Description>();
+
+	/** The data sources. */
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
+	private Set<DataSource> dataSources = new HashSet<DataSource>();
+	
+	/** The categories. */
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "definitions")
+	private Set<Category> categories = new HashSet<Category>();
+
 
 	/**
 	 * Adds the category.

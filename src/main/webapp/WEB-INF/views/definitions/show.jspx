@@ -7,5 +7,6 @@
         <field:display field="descriptions" id="s_com_sfs_metahive_model_Definition_descriptions" object="${definition}" z="IxLBpZeqlJsJKSWHgzRU8hI1b8I="/>
         <field:display field="categories" id="s_com_sfs_metahive_model_Definition_categories" object="${definition}" z="5le1eVyb2/sLP3EJFhhelc2VsUE="/>
         <field:display field="dataType" id="s_com_sfs_metahive_model_Definition_dataType" object="${definition}" z="B62wjPWDSkPgaxDRCBjkdV4/2DY="/>
+    <field:display field="dataSources" id="s_com_sfs_metahive_model_Definition_dataSources" object="${definition}" z="8Gwhkoi/DMaxweaAxMwFH3iCogU="/>
     </page:show>
 </div>

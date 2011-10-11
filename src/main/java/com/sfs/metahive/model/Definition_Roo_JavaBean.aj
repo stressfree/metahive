@@ -4,6 +4,7 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Category;
+import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Description;
 import java.lang.String;
@@ -19,6 +20,14 @@ privileged aspect Definition_Roo_JavaBean {
         this.name = name;
     }
     
+    public DataType Definition.getDataType() {
+        return this.dataType;
+    }
+    
+    public void Definition.setDataType(DataType dataType) {
+        this.dataType = dataType;
+    }
+    
     public Set<Description> Definition.getDescriptions() {
         return this.descriptions;
     }
@@ -27,20 +36,20 @@ privileged aspect Definition_Roo_JavaBean {
         this.descriptions = descriptions;
     }
     
+    public java.util.Set<DataSource> Definition.getDataSources() {
+        return this.dataSources;
+    }
+    
+    public void Definition.setDataSources(java.util.Set<DataSource> dataSources) {
+        this.dataSources = dataSources;
+    }
+    
     public java.util.Set<Category> Definition.getCategories() {
         return this.categories;
     }
     
     public void Definition.setCategories(java.util.Set<Category> categories) {
         this.categories = categories;
-    }
-    
-    public DataType Definition.getDataType() {
-        return this.dataType;
-    }
-    
-    public void Definition.setDataType(DataType dataType) {
-        this.dataType = dataType;
     }
     
 }

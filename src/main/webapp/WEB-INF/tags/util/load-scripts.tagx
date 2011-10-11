@@ -9,7 +9,7 @@
   <spring:url value="/resources/dojox/grid/enhanced/resources/claroEnhancedGrid.css" var="grid_claro_url" />
   <spring:url value="/resources/dojox/form/resources/CheckedMultiSelect.css" var="multiselect_url" />
 
-  <spring:url value="/styles/reset-min.css" var="reset_url" />
+  <spring:url value="/styles/reset-fonts-grid.css" var="reset_url" />
   <spring:url value="/styles/base-min.css" var="base_url" />
   <spring:url value="/resources/dijit/themes/nihilo/nihilo.css" var="nihilo_url" />
   <spring:url value="/resources/spring/Spring.js" var="spring_url" />

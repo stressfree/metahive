@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<div class="yui-g" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_com_sfs_metahive_model_Definition" modelAttribute="definition" path="/definitions" render="${empty dependencies}" z="NfVkxhWNZdV0lBEUWe97giBg3AE=">
@@ -7,6 +7,7 @@
         <field:simple field="descriptions" id="c_com_sfs_metahive_model_Definition_descriptions" messageCode="entity_reference_not_managed" messageCodeAttribute="Description" z="mB4S0HwCrto+FSTfRh8dc3dVl2A="/>
         <field:select field="categories" id="c_com_sfs_metahive_model_Definition_categories" itemValue="id" items="${categorys}" multiple="true" path="/categorys" z="xwMlCg3Z5ElC0prQf6RgYkbIe5Y="/>
         <field:select field="dataType" id="c_com_sfs_metahive_model_Definition_dataType" itemValue="id" items="${datatypes}" path="/datatypes" required="true" z="E6T96KDKdRCOrlGXTpxCGan0XhQ="/>
+    <field:simple field="dataSources" id="c_com_sfs_metahive_model_Definition_dataSources" messageCode="entity_reference_not_managed" messageCodeAttribute="Data Source" z="HoHAx9yp0xlPbnZusQZUx61Dg2o="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_sfs_metahive_model_Definition" render="${not empty dependencies}" z="it0XHsySt3Zsef5w+4h8QqQQ8vU="/>
 </div>

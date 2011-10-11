@@ -4,6 +4,7 @@
 package com.sfs.metahive.web;
 
 import com.sfs.metahive.model.Category;
+import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Description;
@@ -99,6 +100,11 @@ privileged aspect DefinitionController_Roo_Controller {
     @ModelAttribute("categorys")
     public Collection<Category> DefinitionController.populateCategorys() {
         return Category.findAllCategorys();
+    }
+    
+    @ModelAttribute("datasources")
+    public java.util.Collection<DataSource> DefinitionController.populateDataSources() {
+        return DataSource.findAllDataSources();
     }
     
     @ModelAttribute("datatypes")

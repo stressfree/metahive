@@ -8,6 +8,7 @@
             <table:column id="c_com_sfs_metahive_model_Definition_descriptions" property="descriptions" z="qwXl7oK1TjtXodErrtYBvLhM3hw="/>
             <table:column id="c_com_sfs_metahive_model_Definition_categories" property="categories" z="hwhLkQ7fNeuL1TRTNQctv5SfXGk="/>
             <table:column id="c_com_sfs_metahive_model_Definition_dataType" property="dataType" z="R+c54SOVTImvGKVrw7oZ4LSBg2k="/>
+        <table:column id="c_com_sfs_metahive_model_Definition_dataSources" property="dataSources" z="q/bqy3lbJy51eE0BHht3mlr0h3s="/>
         </table:table>
     </page:list>
 </div>
