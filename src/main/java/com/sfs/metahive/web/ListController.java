@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @RequestMapping("/lists")
 @Controller
-public class ListController {
+public class ListController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET)
     public String list() {

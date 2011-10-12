@@ -24,7 +24,7 @@ import com.sfs.metahive.model.UserStatus;
 
 @RequestMapping("/people")
 @Controller
-public class PersonController {
+public class PersonController extends BaseController {
 
     
 	@RequestMapping(method = RequestMethod.PUT)

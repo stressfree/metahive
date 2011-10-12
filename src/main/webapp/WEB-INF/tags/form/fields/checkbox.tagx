@@ -17,7 +17,7 @@
     </c:set>
    
     <script type="text/javascript">dojo.require("dijit.form.CheckBox");</script>
-    <div id="_${sec_id}_id">
+    <div id="_${sec_id}_id" class="field field-checkbox">
       <label for="_${sec_field}_id">
         <c:out value="${fn:escapeXml(label)}" />:
       </label>
@@ -33,6 +33,5 @@
       	Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id', widgetType : 'dijit.form.CheckBox', widgetAttrs : {}}));
       </script>
     </div>
-    <br />
   </c:if>
 </jsp:root>

@@ -5,6 +5,9 @@ package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.ConditionOfUse;
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.Organisation;
+import com.sfs.metahive.model.Person;
+import java.util.Set;
 
 privileged aspect DataSource_Roo_JavaBean {
     
@@ -22,6 +25,22 @@ privileged aspect DataSource_Roo_JavaBean {
     
     public void DataSource.setDefinition(Definition definition) {
         this.definition = definition;
+    }
+    
+    public Organisation DataSource.getOrganisation() {
+        return this.organisation;
+    }
+    
+    public void DataSource.setOrganisation(Organisation organisation) {
+        this.organisation = organisation;
+    }
+    
+    public Set<Person> DataSource.getPointsOfContact() {
+        return this.pointsOfContact;
+    }
+    
+    public void DataSource.setPointsOfContact(Set<Person> pointsOfContact) {
+        this.pointsOfContact = pointsOfContact;
     }
     
 }

@@ -41,12 +41,11 @@
       <spring:escapeBody htmlEscape="true" >${itemLabel}</spring:escapeBody>
     </c:set>
 
-    <div id="_${fn:escapeXml(id)}_id">
+    <div id="_${fn:escapeXml(id)}_id" class="field field-select">
       <c:choose>
         <c:when test="${not empty items}">
           <label for="_${sec_field}_id">
-            <c:out value="${fn:escapeXml(label)}" />
-            :
+            <c:out value="${fn:escapeXml(label)}" />:
           </label>
           <c:choose>
             <c:when test="${empty itemValue}">
@@ -76,7 +75,6 @@
                       <form:select id="_${sec_field}_id" items="${items}" path="${sec_field}" disabled="${disabled}" multiple="${multiple}" itemLabel="${sec_itemLabel}" />
                     </c:otherwise>
                   </c:choose>
-                  <br />
                   <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
                 </c:otherwise>
               </c:choose>
@@ -108,7 +106,6 @@
                       <form:select id="_${sec_field}_id" items="${items}" path="${sec_field}" disabled="${disabled}" multiple="${multiple}" itemValue="${fn:escapeXml(itemValue)}" itemLabel="${sec_itemLabel}" />
                     </c:otherwise>
                   </c:choose>
-                  <br />
                   <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
                 </c:otherwise>
               </c:choose>
@@ -126,7 +123,6 @@
         </c:otherwise>
       </c:choose>
     </div>
-    <br />
 
   </c:if>
 </jsp:root>

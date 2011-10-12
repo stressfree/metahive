@@ -28,7 +28,7 @@
     <c:if test="${multipart}">
       <c:set var="enctype" value="multipart/form-data"/>
     </c:if>
-    <spring:message arguments="${label}" code="entity_update" var="title_msg" htmlEscape="false" />
+    <spring:message arguments="${fn:toLowerCase(label)}" code="entity_update" var="title_msg" htmlEscape="false" />
     <c:if test="${!empty title}">
       <spring:message code="${title}" var="title_msg" htmlEscape="false" />
     </c:if> 

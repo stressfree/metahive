@@ -23,10 +23,9 @@
     <c:set var="sec_object" value="${fn:escapeXml(object)}" />
     <c:set var="sec_field" value="${fn:escapeXml(field)}" />
 
-    <div id="_${fn:escapeXml(id)}_id">
+    <div id="_${fn:escapeXml(id)}_id" class="field field-display">
       <label for="_${fn:escapeXml(field)}_id">
-        <c:out value="${label}" />
-        :
+        <c:out value="${label}" />:
       </label>
       <div class="box" id="_${fn:escapeXml(id)}_${fn:escapeXml(field)}_id">
         <c:choose>
@@ -46,6 +45,5 @@
         </c:choose>
       </div>
     </div>
-    <br />
   </c:if>
 </jsp:root>

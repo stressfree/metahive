@@ -10,7 +10,9 @@ privileged aspect DataSource_Roo_ToString {
     public String DataSource.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("ConditionOfUse: ").append(getConditionOfUse()).append(", ");
-        sb.append("Definition: ").append(getDefinition());
+        sb.append("Definition: ").append(getDefinition()).append(", ");
+        sb.append("Organisation: ").append(getOrganisation()).append(", ");
+        sb.append("PointsOfContact: ").append(getPointsOfContact() == null ? "null" : getPointsOfContact().size());
         return sb.toString();
     }
     

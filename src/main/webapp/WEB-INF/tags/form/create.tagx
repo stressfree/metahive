@@ -20,7 +20,7 @@
     <c:if test="${multipart}">
       <c:set var="enctype" value="multipart/form-data"/>
     </c:if>
-    <spring:message arguments="${label}" code="entity_create" var="title_msg" htmlEscape="false" />
+    <spring:message arguments="${fn:toLowerCase(label)}" code="entity_create" var="title_msg" htmlEscape="false" />
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <spring:url value="${path}" var="form_url"/>
       <form:form action="${fn:escapeXml(form_url)}" method="POST" modelAttribute="${modelAttribute}" enctype="${enctype}" onsubmit="encodePk()" dojoType="dijit.form.Form">

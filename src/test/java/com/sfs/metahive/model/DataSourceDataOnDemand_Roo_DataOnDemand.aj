@@ -6,6 +6,7 @@ package com.sfs.metahive.model;
 import com.sfs.metahive.model.ConditionOfUseDataOnDemand;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.DefinitionDataOnDemand;
+import com.sfs.metahive.model.OrganisationDataOnDemand;
 import java.util.List;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,14 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     @Autowired
     private DefinitionDataOnDemand DataSourceDataOnDemand.definitionDataOnDemand;
     
+    @Autowired
+    private OrganisationDataOnDemand DataSourceDataOnDemand.organisationDataOnDemand;
+    
     public DataSource DataSourceDataOnDemand.getNewTransientDataSource(int index) {
         com.sfs.metahive.model.DataSource obj = new com.sfs.metahive.model.DataSource();
         setConditionOfUse(obj, index);
         setDefinition(obj, index);
+        setOrganisation(obj, index);
         return obj;
     }
     
@@ -40,6 +45,11 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     private void DataSourceDataOnDemand.setDefinition(DataSource obj, int index) {
         com.sfs.metahive.model.Definition definition = definitionDataOnDemand.getRandomDefinition();
         obj.setDefinition(definition);
+    }
+    
+    private void DataSourceDataOnDemand.setOrganisation(DataSource obj, int index) {
+        com.sfs.metahive.model.Organisation organisation = organisationDataOnDemand.getRandomOrganisation();
+        obj.setOrganisation(organisation);
     }
     
     public DataSource DataSourceDataOnDemand.getSpecificDataSource(int index) {

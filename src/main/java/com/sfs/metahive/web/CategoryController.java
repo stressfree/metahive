@@ -16,7 +16,7 @@ import com.sfs.metahive.model.Category;
 
 @RequestMapping("/categories")
 @Controller
-public class CategoryController {
+public class CategoryController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.POST)
     public String create(@Valid Category category, BindingResult bindingResult, 

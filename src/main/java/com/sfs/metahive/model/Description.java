@@ -1,14 +1,20 @@
+/*
+ * 
+ */
 package com.sfs.metahive.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -29,6 +35,10 @@ public class Description {
     /** The description. */
     @Lob
     private String description;
+    
+    /** The key value determination. */
+    @Lob
+    private String keyValueDetermination;
 
     /** The example values. */
     private String exampleValues;
@@ -36,10 +46,32 @@ public class Description {
 	/** The person who created the description. */
 	@NotNull
 	@ManyToOne
-	private Person person;
+	private Person user;
 	
-    /** The created timestamp. */
+	/** The created timestamp. */
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "S-")
+    @Column(name = "created", nullable = false)
     private Date created;
+    
+    @PrePersist
+    protected void onCreate() {
+    	created = new Date();
+    }
+    
+    /**
+     * Gets the simple description.
+     *
+     * @return the simple description
+     */
+    public final String getSimpleDescription() {
+    	String simpleDescription = "";
+    	if (StringUtils.isNotBlank(getDescription())) {
+    		simpleDescription = Jsoup.parse(getDescription()).text();
+    	}	
+    	if (simpleDescription.length() > 200) {
+    		simpleDescription = simpleDescription.substring(0, 198).trim() + "...";
+    	}
+    	return simpleDescription;
+    }
+    
 }

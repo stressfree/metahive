@@ -13,7 +13,9 @@ privileged aspect Description_Roo_ToString {
         sb.append("Definition: ").append(getDefinition()).append(", ");
         sb.append("Description: ").append(getDescription()).append(", ");
         sb.append("ExampleValues: ").append(getExampleValues()).append(", ");
-        sb.append("Person: ").append(getPerson());
+        sb.append("KeyValueDetermination: ").append(getKeyValueDetermination()).append(", ");
+        sb.append("SimpleDescription: ").append(getSimpleDescription()).append(", ");
+        sb.append("User: ").append(getUser());
         return sb.toString();
     }
     

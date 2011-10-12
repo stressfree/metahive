@@ -26,6 +26,14 @@ privileged aspect Description_Roo_JavaBean {
         this.description = description;
     }
     
+    public String Description.getKeyValueDetermination() {
+        return this.keyValueDetermination;
+    }
+    
+    public void Description.setKeyValueDetermination(String keyValueDetermination) {
+        this.keyValueDetermination = keyValueDetermination;
+    }
+    
     public String Description.getExampleValues() {
         return this.exampleValues;
     }
@@ -34,12 +42,12 @@ privileged aspect Description_Roo_JavaBean {
         this.exampleValues = exampleValues;
     }
     
-    public Person Description.getPerson() {
-        return this.person;
+    public Person Description.getUser() {
+        return this.user;
     }
     
-    public void Description.setPerson(Person person) {
-        this.person = person;
+    public void Description.setUser(Person user) {
+        this.user = user;
     }
     
     public Date Description.getCreated() {

@@ -31,14 +31,13 @@
     </c:set>
 
     <script type="text/javascript">dojo.require("dijit.Editor");</script>
-    <div id="_${fn:escapeXml(id)}_id">
+    <div id="_${fn:escapeXml(id)}_id" class="field field-editor">
       <label for="_${sec_field}_id">
-        <c:out value="${fn:escapeXml(label)}" />
-        :
+        <c:out value="${fn:escapeXml(label)}" />:
       </label>
       <form:hidden id="_${sec_field}_id" path="${sec_field}" />
       <div>
-      	<div id="_${sec_field}_id_"></div>
+      	<div id="_${sec_field}_id_"><!-- --></div>
         <script type="text/javascript">
            Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id_', widgetType : 'dijit.Editor', widgetAttrs : {disabled: ${disabled}}}));
            dojo.addOnLoad(function () {
@@ -52,9 +51,7 @@
             });
         </script>
       </div>
-      <br />
       <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
     </div>
-    <br />
   </c:if>
 </jsp:root>

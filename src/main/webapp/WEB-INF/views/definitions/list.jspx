@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form"  version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    <page:list id="pl_com_sfs_metahive_model_Definition" items="${definitions}" z="Yi4EYVD6dMzW/FU7ORfvnmC6F1Y=">
-        <table:table data="${definitions}" id="l_com_sfs_metahive_model_Definition" path="/definitions" z="PQBAB4P9E38hIdShcExb/DLtias=">
-            <table:column id="c_com_sfs_metahive_model_Definition_name" property="name" z="kyxUweU57o8mIopfmAQieSReCUQ="/>
-            <table:column id="c_com_sfs_metahive_model_Definition_descriptions" property="descriptions" z="qwXl7oK1TjtXodErrtYBvLhM3hw="/>
-            <table:column id="c_com_sfs_metahive_model_Definition_categories" property="categories" z="hwhLkQ7fNeuL1TRTNQctv5SfXGk="/>
-            <table:column id="c_com_sfs_metahive_model_Definition_dataType" property="dataType" z="R+c54SOVTImvGKVrw7oZ4LSBg2k="/>
-        <table:column id="c_com_sfs_metahive_model_Definition_dataSources" property="dataSources" z="q/bqy3lbJy51eE0BHht3mlr0h3s="/>
-        </table:table>
+    <page:list id="pl_com_sfs_metahive_model_Definition" label="definitions" items="${definitions}" z="user-managed">
+    	<ul>
+    	<c:forEach items="${definitions}" var="definition">
+			<li>
+				<h3><c:out value="${definition.name}" escapeXml="true" /></h3>
+				<div class="description">
+					<c:out value="${definition.description.simpleDescription}" escapeXml="true" />
+				</div>
+				<div class="information">
+					<ul class="metadata">
+						<li>
+							<strong><spring:message code="label_com_sfs_metahive_model_category_plural" />: </strong>
+							<c:out value="${definition.categoryList}" escapeXml="true" />
+						</li>
+						<li>
+							<strong><spring:message code="label_com_sfs_metahive_model_datatype" />: </strong>
+							<c:out value="${definition.dataType.name}" escapeXml="true" />
+						</li>
+						<li>
+							<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_examplevalues" />: </strong>
+							<c:out value="${definition.description.exampleValues}" escapeXml="true" />
+						</li>
+					</ul>
+				</div>
+			</li>
+		</c:forEach>
+		</ul>
     </page:list>
 </div>

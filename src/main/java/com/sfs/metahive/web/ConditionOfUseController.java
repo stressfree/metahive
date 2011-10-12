@@ -16,7 +16,7 @@ import com.sfs.metahive.model.ConditionOfUse;
 
 @RequestMapping("/conditions")
 @Controller
-public class ConditionOfUseController {
+public class ConditionOfUseController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.POST)
     public String create(@Valid ConditionOfUse conditionOfUse, 

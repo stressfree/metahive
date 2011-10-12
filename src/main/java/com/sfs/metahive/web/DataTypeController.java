@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping("/datatypes")
 @Controller
-public class DataTypeController {
+public class DataTypeController extends BaseController {
 	
 	@RequestMapping(method = RequestMethod.POST)
     public String create(@Valid DataType dataType, BindingResult bindingResult, 

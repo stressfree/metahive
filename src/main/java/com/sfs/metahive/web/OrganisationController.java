@@ -21,7 +21,7 @@ import com.sfs.metahive.model.Person;
 
 @RequestMapping("/organisations")
 @Controller
-public class OrganisationController {
+public class OrganisationController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.POST)
     public String create(@Valid Organisation organisation, BindingResult bindingResult, 

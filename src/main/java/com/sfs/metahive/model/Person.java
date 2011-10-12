@@ -67,12 +67,16 @@ public class Person implements UserDetails {
     private String emailAddress;
     
 	/** The descriptions this user has created. */
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Description> descriptions = new HashSet<Description>();
 	
 	/** The organisations. */
 	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "people")
 	private Set<Organisation> organisations = new HashSet<Organisation>();
+	
+	/** The related data sources. */
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "pointsOfContact")
+	private Set<DataSource> dataSources = new HashSet<DataSource>();
     
 	/** 
 	 * Returns the username used to authenticate the user. Cannot return null.
@@ -167,7 +171,17 @@ public class Person implements UserDetails {
 	 * 
 	 * @param organisation the organisation
 	 */
-	public void addOrganisation(Organisation organisation) {
+	public final void addOrganisation(final Organisation organisation) {
 		organisation.addPerson(this);
 	}
+
+	/**
+	 * Adds a data source.
+	 * 
+	 * @param dataSource the data source
+	 */
+	public final void addDataSource(final DataSource dataSource) {
+		dataSource.addPointOfContact(this);
+	}
+	
 }

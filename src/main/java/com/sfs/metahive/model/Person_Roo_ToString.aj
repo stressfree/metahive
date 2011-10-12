@@ -10,6 +10,7 @@ privileged aspect Person_Roo_ToString {
     public String Person.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Authorities: ").append(getAuthorities() == null ? "null" : getAuthorities().size()).append(", ");
+        sb.append("DataSources: ").append(getDataSources() == null ? "null" : getDataSources().size()).append(", ");
         sb.append("Descriptions: ").append(getDescriptions() == null ? "null" : getDescriptions().size()).append(", ");
         sb.append("EmailAddress: ").append(getEmailAddress()).append(", ");
         sb.append("FirstName: ").append(getFirstName()).append(", ");

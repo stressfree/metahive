@@ -32,4 +32,5 @@ public class DataType {
 	/** The definitions. */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "dataType")
 	private Set<Definition> definitions = new HashSet<Definition>();
+	
 }

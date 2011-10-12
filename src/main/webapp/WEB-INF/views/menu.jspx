@@ -12,7 +12,6 @@
     <menu:category id="c_definition" z="lCrpXPrTMs+GW71qPHX9fWk6WYE=">
         <menu:item id="i_definition_new" messageCode="global_menu_new" url="/definitions?form" z="ho6R/44i3btT8gs55onn0jqTzLw="/>
         <menu:item id="i_definition_list" messageCode="global_menu_list" url="/definitions?page=1&amp;size=${empty param.size ? 10 : param.size}" z="i5AskqpO+8aE22gKFt9D5IDDnmw="/>
-        <menu:item id="fi_definition_namelike" messageCode="global_menu_find" url="/definitions?find=ByNameLike&amp;form" z="MqCh2lenjfawH9IYiumMjEOpEgg="/>
     </menu:category>
 </menu:menu>
 </div>

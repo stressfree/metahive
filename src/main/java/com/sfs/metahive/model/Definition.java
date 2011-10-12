@@ -4,10 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Lob;
+import javax.persistence.Column;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -26,6 +27,7 @@ public class Definition {
 	/** The name. */
 	@NotNull
 	@Size(min = 1, max = 100)
+	@Column(unique = true)
 	private String name;
 
 	/** The data type. */
@@ -34,6 +36,7 @@ public class Definition {
 	private DataType dataType;
 	
 	/** The definition descriptions. */
+	@OrderBy("created DESC")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
 	private Set<Description> descriptions = new HashSet<Description>();
 
@@ -42,16 +45,61 @@ public class Definition {
 	private Set<DataSource> dataSources = new HashSet<DataSource>();
 	
 	/** The categories. */
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "definitions")
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<Category> categories = new HashSet<Category>();
 
+	
+	/**
+	 * Gets the category list.
+	 *
+	 * @return the category list
+	 */
+	public final String getCategoryList() {
+		StringBuffer categoryList = new StringBuffer();
+		
+		if (this.getCategories() != null) {
+			for (Category category : categories) {
+				if (categoryList.length() > 0) {
+					categoryList.append(", ");
+				}
+				categoryList.append(category.getName());
+			}
+		}
+		return categoryList.toString();
+	}
+	
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
+	public final Description getDescription() {		
+		Description description = null;
+		
+		if (getDescriptions() != null && getDescriptions().size() > 0) {
+			description = getDescriptions().iterator().next();
+		}
+		return description;
+	}
 
 	/**
 	 * Adds the category.
 	 * 
 	 * @param category the category
 	 */
-	public void addCategory(Category category) {
+	public final void addCategory(Category category) {
+		getCategories().add(category);
 		category.addDefinition(this);
 	}
+
+	/**
+	 * Adds a description.
+	 * 
+	 * @param description the description
+	 */
+	public final void addDescription(Description description) {
+		description.setDefinition(this);
+		getDescriptions().add(description);
+	}
+	
 }

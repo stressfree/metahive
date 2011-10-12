@@ -1,16 +1,35 @@
 body {
    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
    font-weight: 300;
+   line-height: 1.5em;
 }
-b, strong {
-	font-weight: 700;
+b, strong, label {
+	font-weight: 600;
 }
 
 .dojoxGrid table {
 	margin-bottom: 0;
 }
 .dijitEditor {
-	width: 650px;
+	width: 500px;
+	height: 200px;
 	border: 1px solid #ccc;
 	margin: 5px 0 0 10px;	
+}
+
+.field {
+	padding: 0 0 0.9em 0;	
+}
+
+#_c_com_sfs_metahive_web_model_DefinitionForm_name_id .dijitTextBox,
+#_c_com_sfs_metahive_web_model_DefinitionForm_examplevalues_id .dijitTextBox {
+	width: 420px;	
+}
+#_c_com_sfs_metahive_web_model_DefinitionForm_name_id input,
+#_c_com_sfs_metahive_web_model_DefinitionForm_examplevalues_id input {
+	width: 400px;
+}
+#_c_com_sfs_metahive_web_model_DefinitionForm_name_id .dijitValidationIcon,
+#_c_com_sfs_metahive_web_model_DefinitionForm_examplevalues_id .dijitValidationIcon {
+	background-position: top right;	
 }

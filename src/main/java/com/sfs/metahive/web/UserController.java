@@ -1,6 +1,5 @@
 package com.sfs.metahive.web;
 
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -14,12 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.UserRole;
-import com.sfs.metahive.model.UserStatus;
 
 
 @RequestMapping("/user")
 @Controller
-public class UserController {
+public class UserController extends BaseController {
 
     
 	@RequestMapping(method = RequestMethod.PUT)
@@ -31,7 +29,7 @@ public class UserController {
             return "user/update";            
         }
         
-        Person user = loadPerson(httpServletRequest);
+        Person user = loadUser(httpServletRequest);
         
         if (user != null && StringUtils.equalsIgnoreCase(
         		user.getOpenIdIdentifier(), person.getOpenIdIdentifier())) {
@@ -57,7 +55,7 @@ public class UserController {
 		
 		String page = "redirect:/";
 		
-		Person person = loadPerson(request);
+		Person person = loadUser(request);
 
 		if (person != null) {
 			if (person.getUserRole() == UserRole.ROLE_NEWUSER) {
@@ -72,26 +70,5 @@ public class UserController {
 
         return page;
     }
-
-	/**
-	 * Load the person from the request.
-	 *
-	 * @param request the request
-	 * @return the person
-	 */
-	private Person loadPerson(final HttpServletRequest request) {
-		
-		Person person = null;
-		
-		if (request.getUserPrincipal() != null
-				&& StringUtils.isNotBlank(request.getUserPrincipal().getName())) {
-			
-			List<Person> people = Person.findPeopleByOpenIdIdentifier(
-					request.getUserPrincipal().getName()).getResultList();
-			
-			person = people.size() == 0 ? null : people.get(0);
-		}
-		return person;
-	}
 	
 }

@@ -30,11 +30,15 @@ public class Category {
 	private String name;
 
 	/** The definitions. */
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "categories")
 	private Set<Definition> definitions = new HashSet<Definition>();
 
+	/**
+	 * Adds the definition.
+	 *
+	 * @param definition the definition
+	 */
 	public void addDefinition(Definition definition) {
-		getDefinitions().add(definition);
 		definition.getCategories().add(this);
 	}
 }

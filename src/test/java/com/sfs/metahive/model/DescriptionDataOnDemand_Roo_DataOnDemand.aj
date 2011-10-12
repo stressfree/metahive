@@ -29,8 +29,9 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
         com.sfs.metahive.model.Description obj = new com.sfs.metahive.model.Description();
         setDefinition(obj, index);
         setDescription(obj, index);
+        setKeyValueDetermination(obj, index);
         setExampleValues(obj, index);
-        setPerson(obj, index);
+        setUser(obj, index);
         setCreated(obj, index);
         return obj;
     }
@@ -45,14 +46,19 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
         obj.setDescription(description);
     }
     
+    private void DescriptionDataOnDemand.setKeyValueDetermination(Description obj, int index) {
+        java.lang.String keyValueDetermination = "keyValueDetermination_" + index;
+        obj.setKeyValueDetermination(keyValueDetermination);
+    }
+    
     private void DescriptionDataOnDemand.setExampleValues(Description obj, int index) {
         java.lang.String exampleValues = "exampleValues_" + index;
         obj.setExampleValues(exampleValues);
     }
     
-    private void DescriptionDataOnDemand.setPerson(Description obj, int index) {
-        com.sfs.metahive.model.Person person = personDataOnDemand.getRandomPerson();
-        obj.setPerson(person);
+    private void DescriptionDataOnDemand.setUser(Description obj, int index) {
+        com.sfs.metahive.model.Person user = personDataOnDemand.getRandomPerson();
+        obj.setUser(user);
     }
     
     private void DescriptionDataOnDemand.setCreated(Description obj, int index) {
