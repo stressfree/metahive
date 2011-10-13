@@ -20,7 +20,6 @@ import org.springframework.roo.addon.tostring.RooToString;
  * The Class Definition.
  */
 @RooJavaBean
-@RooToString
 @RooEntity(finders = { "findDefinitionsByNameLike" })
 public class Definition {
 
@@ -102,4 +101,10 @@ public class Definition {
 		getDescriptions().add(description);
 	}
 	
+	/**
+	 * The toString method.
+	 */
+	public final String toString() {
+		return getName();
+	}
 }

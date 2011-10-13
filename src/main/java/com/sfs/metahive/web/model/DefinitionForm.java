@@ -17,6 +17,9 @@ import com.sfs.metahive.model.DataType;
 @RooJavaBean
 public class DefinitionForm {
 
+	/** The id. */
+	private long id;
+	
 	/** The name. */
 	@NotNull
 	@Size(min = 1, max = 100)

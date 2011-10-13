@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" id="menu" version="2.0">
+<div xmlns:sec="http://www.springframework.org/security/tags" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" id="menu" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes"/>
 
 <menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
-    <menu:category id="c_administration" z="user-managed">
-        <menu:item id="i_administration_people" url="/people" z="user-managed"/>
-        <menu:item id="i_administration_organisations" url="/organisations" z="user-managed"/>
-        <menu:item id="i_administration_list" url="/lists" z="user-managed"/>
-    </menu:category>
+	<sec:authorize ifAllGranted="ROLE_ADMIN">
+    	<menu:category id="c_administration" z="user-managed">
+        	<menu:item id="i_administration_people" url="/people" z="user-managed"/>
+        	<menu:item id="i_administration_organisations" url="/organisations" z="user-managed"/>
+        	<menu:item id="i_administration_list" url="/lists" z="user-managed"/>
+    	</menu:category>
+    </sec:authorize>
     <menu:category id="c_definition" z="lCrpXPrTMs+GW71qPHX9fWk6WYE=">
-        <menu:item id="i_definition_new" messageCode="global_menu_new" url="/definitions?form" z="ho6R/44i3btT8gs55onn0jqTzLw="/>
-        <menu:item id="i_definition_list" messageCode="global_menu_list" url="/definitions?page=1&amp;size=${empty param.size ? 10 : param.size}" z="i5AskqpO+8aE22gKFt9D5IDDnmw="/>
+    	<sec:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
+        	<menu:item id="i_definition_new" messageCode="global_menu_new" url="/definitions?form" z="user-managed"/>
+        </sec:authorize>
+        <menu:item id="i_definition_list" messageCode="global_menu_list" url="/definitions?page=1&amp;size=${empty param.size ? 10 : param.size}" z="user-managed"/>
     </menu:category>
 </menu:menu>
 </div>

@@ -10,6 +10,14 @@ import java.util.Set;
 
 privileged aspect DefinitionForm_Roo_JavaBean {
     
+    public long DefinitionForm.getId() {
+        return this.id;
+    }
+    
+    public void DefinitionForm.setId(long id) {
+        this.id = id;
+    }
+    
     public String DefinitionForm.getName() {
         return this.name;
     }
