@@ -52,7 +52,7 @@ public class ApplicationConversionServiceFactoryBean
         return new Converter<UserStatus, String>() { 
             public String convert(UserStatus userStatus) { 
                 return context.getMessage(userStatus.getMessageKey(), null, 
-                		LocaleContextHolder.getLocale()); 
+                		LocaleContextHolder.getLocale());
             } 
         }; 
     }

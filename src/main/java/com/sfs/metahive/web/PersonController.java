@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.UserRole;
@@ -28,15 +30,23 @@ public class PersonController extends BaseController {
 
     
 	@RequestMapping(method = RequestMethod.PUT)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String update(@Valid Person person, BindingResult bindingResult, 
-    		Model uiModel, HttpServletRequest httpServletRequest) {
+    		Model uiModel, HttpServletRequest request) {
 		
         if (bindingResult.hasErrors()) {
             uiModel.addAttribute("person", person);
+
+            FlashScope.appendMessage(
+            		getMessage("metahive_object_validation", Person.class), request);
+            
             return "people/update";            
         }
         uiModel.asMap().clear();
         person.merge();
+        
+        FlashScope.appendMessage(
+        		getMessage("metahive_edit_complete", Person.class), request);
         
 		return "redirect:/people";
     }
@@ -46,16 +56,6 @@ public class PersonController extends BaseController {
         uiModel.addAttribute("person", Person.findPerson(id));
                 
         return "people/update";
-    }
-
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String delete(@PathVariable("id") Long id, @RequestParam(
-    		value = "page", required = false) Integer page, 
-    		@RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        Person.findPerson(id).remove();
-        uiModel.asMap().clear();
-
-        return "redirect:/people";
     }
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)

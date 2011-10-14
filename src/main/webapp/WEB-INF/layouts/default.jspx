@@ -14,6 +14,11 @@
 			<div id="hd" role="banner">
 			    <tiles:insertAttribute name="header" ignore="true" />
 			    <tiles:insertAttribute name="menu" ignore="true" />   
+				<c:if test="${not empty requestScope.flash_message}">
+				<div id="flashMessage">
+					<c:out value="${requestScope.flash_message}" escapeXml="false" />
+				</div>
+				</c:if>
 			</div>
 			<div id="bd" role="main">
 		    	<tiles:insertAttribute name="body"/>

@@ -18,6 +18,14 @@ privileged aspect DefinitionForm_Roo_JavaBean {
         this.id = id;
     }
     
+    public long DefinitionForm.getVersion() {
+        return this.version;
+    }
+    
+    public void DefinitionForm.setVersion(long version) {
+        this.version = version;
+    }
+    
     public String DefinitionForm.getName() {
         return this.name;
     }

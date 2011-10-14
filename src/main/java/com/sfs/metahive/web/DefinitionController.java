@@ -5,13 +5,14 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
-import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.web.model.DefinitionForm;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,37 +36,39 @@ public class DefinitionController extends BaseController {
 	 * @param definitionForm the definition form
 	 * @param bindingResult the binding result
 	 * @param uiModel the ui model
-	 * @param httpServletRequest the http servlet request
+	 * @param request the http servlet request
 	 * @return the string
 	 */
 	@RequestMapping(method = RequestMethod.POST)
+	@PreAuthorize("hasAnyRole('ROLE_USER,ROLE_ADMIN')")
     public String create(@Valid DefinitionForm definitionForm, 
     		BindingResult bindingResult, Model uiModel, 
-    		HttpServletRequest httpServletRequest) {
+    		HttpServletRequest request) {
         
-		Person user = loadUser(httpServletRequest);
+		Person user = loadUser(request);
 		
 		if (user == null) {
 			// A valid user is required
+			FlashScope.appendMessage(getMessage("metahive_valid_user_required"), request);
 			return "redirect:/definitions";
 		}
 		if (bindingResult.hasErrors()) {
             uiModel.addAttribute("definition", definitionForm);
+            FlashScope.appendMessage(
+        			getMessage("metahive_object_validation", Definition.class), request);
             return "definitions/create";
         }		
         
         uiModel.asMap().clear();
         
-        Definition definition = new Definition();
-        definition.setName(definitionForm.getName());
-        definition.setDataType(definitionForm.getDataType());
-        definition.setCategories(definitionForm.getCategories());
-             
-        definition.addDescription(buildDescription(definitionForm, user));
-        
+        Definition definition = definitionForm.newDefinition(user);        
         definition.persist();
+
+        FlashScope.appendMessage(
+        		getMessage("metahive_create_complete", Definition.class), request);
+        
         return "redirect:/definitions/" 
-        		+ encodeUrlPathSegment(definition.getId().toString(), httpServletRequest);
+        		+ encodeUrlPathSegment(definition.getId().toString(), request);
     }
 
 	/**
@@ -76,7 +79,7 @@ public class DefinitionController extends BaseController {
 	 */
 	@RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model uiModel) {
-        uiModel.addAttribute("definition", new DefinitionForm());
+        uiModel.addAttribute("definition", new DefinitionForm());        
         return "definitions/create";
     }
     
@@ -86,18 +89,20 @@ public class DefinitionController extends BaseController {
 	 * @param definition the definition
 	 * @param bindingResult the binding result
 	 * @param uiModel the ui model
-	 * @param httpServletRequest the http servlet request
+	 * @param request the http servlet request
 	 * @return the string
 	 */
 	@RequestMapping(method = RequestMethod.PUT)
+	@PreAuthorize("hasAnyRole('ROLE_USER,ROLE_ADMIN')")
     public String update(@Valid DefinitionForm definitionForm, 
     		BindingResult bindingResult, Model uiModel, 
-    		HttpServletRequest httpServletRequest) {
+    		HttpServletRequest request) {
 
-		Person user = loadUser(httpServletRequest);
-		
+		Person user = loadUser(request);
+        
 		if (user == null) {
 			// A valid user is required
+	        FlashScope.appendMessage(getMessage("metahive_valid_user_required"), request);
 			return "redirect:/definitions";
 		}
 		
@@ -106,24 +111,28 @@ public class DefinitionController extends BaseController {
         
         if (definition == null) {
         	// A valid definition was not found
+        	FlashScope.appendMessage(
+        			getMessage("metahive_object_not_found", Definition.class), request);
 			return "redirect:/definitions";        	
         }
 		
         if (bindingResult.hasErrors()) {
             uiModel.addAttribute("definition", definitionForm);
+            FlashScope.appendMessage(
+        			getMessage("metahive_object_validation", Definition.class), request);
             return "definitions/update";            
         }
-        
-    	definition.setDataType(definitionForm.getDataType());
-    	definition.setCategories(definitionForm.getCategories());
 
-        definition.addDescription(buildDescription(definitionForm, user));
+    	definition = definitionForm.mergedDefinition(definition, user);
         
         uiModel.asMap().clear();
         definition.merge();
+        
+        FlashScope.appendMessage(
+        		getMessage("metahive_edit_complete", Definition.class), request);
 
         return "redirect:/definitions/" 
-        		+ encodeUrlPathSegment(definition.getId().toString(), httpServletRequest);
+        		+ encodeUrlPathSegment(definition.getId().toString(), request);
     }
 	
 	/**
@@ -150,7 +159,14 @@ public class DefinitionController extends BaseController {
 	 */
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("definition", Definition.findDefinition(id));
+		Definition definition = Definition.findDefinition(id);
+		
+		if (definition == null) {
+			return "redirect:/definitions";
+		}
+		DefinitionForm definitionForm = DefinitionForm.parseDefinition(definition);
+		
+        uiModel.addAttribute("definition", definitionForm);
                 
         return "definitions/update";
     }
@@ -162,14 +178,20 @@ public class DefinitionController extends BaseController {
 	 * @param page the page
 	 * @param size the size
 	 * @param uiModel the ui model
+	 * @param request the http servlet request
 	 * @return the string
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String delete(@PathVariable("id") Long id, @RequestParam(
     		value = "page", required = false) Integer page, 
-    		@RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    		@RequestParam(value = "size", required = false) Integer size, Model uiModel,
+    		HttpServletRequest request) {
 		Definition.findDefinition(id).remove();
         uiModel.asMap().clear();
+        
+        FlashScope.appendMessage(
+        		getMessage("metahive_delete_complete", Definition.class), request);
 
         return "redirect:/definitions";
     }
@@ -219,25 +241,6 @@ public class DefinitionController extends BaseController {
     @ModelAttribute("datatypes")
     public Collection<DataType> populateDataTypes() {        
         return DataType.findAllDataTypes();
-    }
-    
-    /**
-     * Builds the description.
-     *
-     * @param definitionForm the definition form
-     * @param user the user
-     * @return the definition
-     */
-    private Description buildDescription(
-    		final DefinitionForm definitionForm, 
-    		final Person user) {    	
-    	Description description = new Description();
-        description.setDescription(definitionForm.getDescription());
-        description.setExampleValues(definitionForm.getExampleValues());
-        description.setKeyValueDetermination(definitionForm.getKeyValueDetermination());
-        description.setUser(user);   
-        
-        return description;
     }
 	
 }

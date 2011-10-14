@@ -6,6 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
@@ -14,6 +17,37 @@ import com.sfs.metahive.model.Person;
 
 public abstract class BaseController {
 
+	@Autowired
+	private ApplicationContext context;
+
+	/**
+	 * Gets the translated message.
+	 *
+	 * @param code the code
+	 * @return the message
+	 */
+	protected final String getMessage(final String code) {		
+		return context.getMessage(code, null, LocaleContextHolder.getLocale());		
+	}
+	
+	/**
+	 * Gets the translated message.
+	 *
+	 * @param code the code
+	 * @param objectClass the object class
+	 * @return the message
+	 */
+	protected final String getMessage(final String code, final Class<?> objectClass) {
+		
+		String objectCode = StringUtils.replace(objectClass.getName(), ".", "_");
+		
+		String argument = context.getMessage("label_" + objectCode.toLowerCase(), null,
+        		LocaleContextHolder.getLocale());
+		
+		return context.getMessage(code, new String[] { argument.toLowerCase() }, 
+        		LocaleContextHolder.getLocale());		
+	}
+	
 	/**
 	 * Load the person from the request.
 	 *

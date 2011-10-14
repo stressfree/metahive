@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.UserRole;
 
@@ -18,18 +19,21 @@ import com.sfs.metahive.model.UserRole;
 @RequestMapping("/user")
 @Controller
 public class UserController extends BaseController {
-
     
 	@RequestMapping(method = RequestMethod.PUT)
     public String update(@Valid Person person, BindingResult bindingResult, 
-    		Model uiModel, HttpServletRequest httpServletRequest) {
+    		Model uiModel, HttpServletRequest request) {
 		
         if (bindingResult.hasErrors()) {
             uiModel.addAttribute("person", person);
-            return "user/update";            
+
+            FlashScope.appendMessage(
+            		getMessage("metahive_object_validation", Person.class), request);
+            
+            return "user/update";
         }
         
-        Person user = loadUser(httpServletRequest);
+        Person user = loadUser(request);
         
         if (user != null && StringUtils.equalsIgnoreCase(
         		user.getOpenIdIdentifier(), person.getOpenIdIdentifier())) {
@@ -44,7 +48,9 @@ public class UserController extends BaseController {
         	}
         	
             uiModel.asMap().clear();
-            person.merge();        	
+            person.merge();
+            
+            FlashScope.appendMessage(getMessage("metahive_user_updated"), request);
         }
         
 		return "redirect:/";

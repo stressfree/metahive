@@ -6,15 +6,26 @@ body {
 b, strong, label {
 	font-weight: 600;
 }
+label {
+	min-width: 100px;
+	float: left;
+	text-align: right;
+	margin-right: 10px;
+}
+
+.submit {
+	clear: both;
+}
 
 .dojoxGrid table {
 	margin-bottom: 0;
 }
 .dijitEditor {
+	clear: left;
 	width: 500px;
 	height: 200px;
 	border: 1px solid #ccc;
-	margin: 5px 0 0 10px;	
+	margin: 5px 0 0 30px;	
 }
 
 .field {
