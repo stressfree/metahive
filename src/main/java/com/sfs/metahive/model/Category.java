@@ -30,7 +30,7 @@ public class Category {
 	private String name;
 
 	/** The definitions. */
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "categories")
+	@ManyToMany(mappedBy = "categories")
 	private Set<Definition> definitions = new HashSet<Definition>();
 
 	/**

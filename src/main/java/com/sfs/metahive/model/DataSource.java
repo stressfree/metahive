@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
@@ -30,11 +31,16 @@ public class DataSource {
     @ManyToOne
     private Definition definition;
     
+    /** The related organisation **/
     @ManyToOne
     private Organisation organisation;
     
+    /** The details of the data source **/
+    @Lob    
+    private String details;
+    
 	/** The points of contact within the organisation. */
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private Set<Person> pointsOfContact = new HashSet<Person>();
 
 	/**

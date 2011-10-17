@@ -44,3 +44,9 @@ label {
 #_c_com_sfs_metahive_web_model_DefinitionForm_examplevalues_id .dijitValidationIcon {
 	background-position: top right;	
 }
+#_c_com_sfs_metahive_web_model_DefinitionForm_categories_id label,
+#_c_com_sfs_metahive_model_DataSource_pointsOfContact_id label {
+	float: none;
+	display: block;
+	text-align: left;	
+}

@@ -92,5 +92,4 @@ public class DataTypeController extends BaseController {
 	public @ResponseBody String list() {
 		return DataType.toJsonArray(DataType.findAllDataTypes());
 	}
-	
 }

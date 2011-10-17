@@ -8,8 +8,7 @@
 		<util:load-scripts />		
 		<title><spring:message code="application_name" /></title>
 	</head>	
-  	<body class="nihilo claro spring">
-  	
+  	<body class="nihilo claro spring">  	
   		<div id="doc4" class="yui-t7"> 
 			<div id="hd" role="banner">
 			    <tiles:insertAttribute name="header" ignore="true" />

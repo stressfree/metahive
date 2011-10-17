@@ -26,7 +26,8 @@
     <spring:url value="/organisations?form" var="add_organisation_url" />
             
     <script type="text/javascript">
-   	dojo.require("dojo.parser");
+    <![CDATA[
+	dojo.require("dojo.parser");
     dojo.require("dojox.string.Builder");
    	dojo.require("dojox.grid.EnhancedGrid");
    	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
@@ -34,9 +35,8 @@
     dojo.require("dojo.data.ItemFileReadStore");
     
     dojo.addOnLoad(function() {
-        dojo.parser.parse();
-        
-     	// define events
+       	dojo.parser.parse();
+       	
         dojo.connect(organisationAddButton, "onClick", function() {
             window.location.href="${add_organisation_url}";
         });
@@ -73,6 +73,7 @@
             }
         });
     }
+    ]]>
     </script>
     
 </div>

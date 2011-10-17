@@ -3,6 +3,7 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.Person;
 import java.lang.String;
 import java.util.Set;
@@ -23,6 +24,14 @@ privileged aspect Organisation_Roo_JavaBean {
     
     public void Organisation.setPeople(Set<Person> people) {
         this.people = people;
+    }
+    
+    public java.util.Set<DataSource> Organisation.getDataSources() {
+        return this.dataSources;
+    }
+    
+    public void Organisation.setDataSources(java.util.Set<DataSource> dataSources) {
+        this.dataSources = dataSources;
     }
     
 }

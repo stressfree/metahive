@@ -38,7 +38,7 @@ public class CategoryIntegrationTest {
 	@Transactional
 	public void addAndFetchCategory() {
 		Category category = new Category();
-		category.setName("Test category");
+		category.setName("JUnit Test category");
 
 		category.persist();
 

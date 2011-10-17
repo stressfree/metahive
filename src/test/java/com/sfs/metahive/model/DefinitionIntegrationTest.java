@@ -35,7 +35,7 @@ public class DefinitionIntegrationTest {
 
 		Definition def = new Definition();
 		def.setDataType(dataType);
-		def.setName("Test definition");
+		def.setName("JUnit Test definition");
 
 		def.persist();
 
@@ -71,7 +71,7 @@ public class DefinitionIntegrationTest {
 		dataType.persist();
 
 		Definition def = new Definition();
-		def.setName("Test definition");
+		def.setName("JUnit Test definition");
 		def.setDataType(dataType);
 
 		def.persist();
@@ -98,7 +98,7 @@ public class DefinitionIntegrationTest {
 		Definition def = definitionDod.getRandomDefinition();
 
 		DataType dataType = new DataType();
-		dataType.setName("Test data type");
+		dataType.setName("JUnit Test data type");
 		dataType.persist();
 
 		def.setDataType(dataType);
@@ -127,13 +127,15 @@ public class DefinitionIntegrationTest {
 		CategoryDataOnDemand categoryDod = new CategoryDataOnDemand();
 		Category c1 = categoryDod.getNewTransientCategory(0);
 		Category c2 = categoryDod.getNewTransientCategory(1);
-
+		c1.persist();
+		c2.persist();
+		
 		def.getCategories().add(c1);
 		def.getCategories().add(c2);
 
 		c1.getDefinitions().add(def);
 		c2.getDefinitions().add(def);
-
+		
 		def.flush();
 		def.clear();
 

@@ -5,6 +5,6 @@
     <spring:url value="/lists" var="cancelAction" />
     <form:create id="fc_com_sfs_metahive_model_ConditionOfUse" modelAttribute="conditionOfUse" path="/conditions" render="${empty dependencies}" z="user-managed" cancelAction="${cancelAction}">
         <field:input field="name" id="c_com_sfs_metahive_model_ConditionOfUse_name" required="true" z="user-managed"/>
-        <field:editor field="details" id="c_com_sfs_metahive_model_ConditionOfUse_details" required="false" z="user-managed"/>        
+        <field:editor field="details" id="c_com_sfs_metahive_model_ConditionOfUse_details" required="false" z="user-managed"/>
     </form:create>
 </div>

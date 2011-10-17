@@ -34,6 +34,7 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
         setConditionOfUse(obj, index);
         setDefinition(obj, index);
         setOrganisation(obj, index);
+        setDetails(obj, index);
         return obj;
     }
     
@@ -50,6 +51,11 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     private void DataSourceDataOnDemand.setOrganisation(DataSource obj, int index) {
         com.sfs.metahive.model.Organisation organisation = organisationDataOnDemand.getRandomOrganisation();
         obj.setOrganisation(organisation);
+    }
+    
+    private void DataSourceDataOnDemand.setDetails(DataSource obj, int index) {
+        java.lang.String details = "details_" + index;
+        obj.setDetails(details);
     }
     
     public DataSource DataSourceDataOnDemand.getSpecificDataSource(int index) {

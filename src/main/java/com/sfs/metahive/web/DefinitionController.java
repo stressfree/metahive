@@ -40,7 +40,7 @@ public class DefinitionController extends BaseController {
 	 * @return the string
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	@PreAuthorize("hasAnyRole('ROLE_USER,ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public String create(@Valid DefinitionForm definitionForm, 
     		BindingResult bindingResult, Model uiModel, 
     		HttpServletRequest request) {
@@ -93,7 +93,7 @@ public class DefinitionController extends BaseController {
 	 * @return the string
 	 */
 	@RequestMapping(method = RequestMethod.PUT)
-	@PreAuthorize("hasAnyRole('ROLE_USER,ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public String update(@Valid DefinitionForm definitionForm, 
     		BindingResult bindingResult, Model uiModel, 
     		HttpServletRequest request) {

@@ -7,6 +7,7 @@ import com.sfs.metahive.model.ConditionOfUse;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Person;
+import java.lang.String;
 import java.util.Set;
 
 privileged aspect DataSource_Roo_JavaBean {
@@ -33,6 +34,14 @@ privileged aspect DataSource_Roo_JavaBean {
     
     public void DataSource.setOrganisation(Organisation organisation) {
         this.organisation = organisation;
+    }
+    
+    public String DataSource.getDetails() {
+        return this.details;
+    }
+    
+    public void DataSource.setDetails(String details) {
+        this.details = details;
     }
     
     public Set<Person> DataSource.getPointsOfContact() {

@@ -44,7 +44,7 @@ public class Definition {
 	private Set<DataSource> dataSources = new HashSet<DataSource>();
 	
 	/** The categories. */
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private Set<Category> categories = new HashSet<Category>();
 
 	
@@ -91,6 +91,16 @@ public class Definition {
 		category.addDefinition(this);
 	}
 
+	/**
+	 * Adds a data source.
+	 * 
+	 * @param dataSource the data source
+	 */
+	public final void addDataSource(DataSource dataSource) {
+		dataSource.setDefinition(this);
+		getDataSources().add(dataSource);
+	}
+	
 	/**
 	 * Adds a description.
 	 * 

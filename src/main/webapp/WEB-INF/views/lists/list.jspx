@@ -65,16 +65,16 @@
     <spring:url value="/conditions?form" var="add_condition_url" />
     
     <script type="text/javascript">
-   	dojo.require("dojo.parser");
+    <![CDATA[
+	dojo.require("dojo.parser");
    	dojo.require("dojox.grid.EnhancedGrid");
    	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
    	dojo.require("dijit.form.Button");
     dojo.require("dojo.data.ItemFileReadStore");
     
     dojo.addOnLoad(function() {
-        dojo.parser.parse();
-        
-     	// define events
+       	dojo.parser.parse();
+    	
         dojo.connect(categoryAddButton, "onClick", function() {
             window.location.href="${add_category_url}";
         });
@@ -185,6 +185,7 @@
             }
         });
     }
+    ]]>
     </script>
     
 </div>

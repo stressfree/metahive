@@ -71,7 +71,7 @@ public class Person implements UserDetails {
 	private Set<Description> descriptions = new HashSet<Description>();
 	
 	/** The organisations. */
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "people")
+	@ManyToMany(mappedBy = "people")
 	private Set<Organisation> organisations = new HashSet<Organisation>();
 	
 	/** The related data sources. */

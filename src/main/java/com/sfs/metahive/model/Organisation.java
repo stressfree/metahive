@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,8 +31,12 @@ public class Organisation {
 	private String name;
 
 	/** The definitions. */
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private Set<Person> people = new HashSet<Person>();
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "organisation")
+	private Set<DataSource> dataSources = new HashSet<DataSource>();
+	
 	
 	/**
 	 * Gets the list of people names.
@@ -61,4 +66,15 @@ public class Organisation {
 		getPeople().add(person);
 		person.getOrganisations().add(this);
 	}
+	
+	/**
+	 * Adds a data source.
+	 * 
+	 * @param dataSource the data source
+	 */
+	public final void addDataSource(DataSource dataSource) {
+		dataSource.setOrganisation(this);
+		getDataSources().add(dataSource);
+	}
+	
 }
