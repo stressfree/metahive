@@ -28,11 +28,11 @@
     	</div>
     </div>
     <div class="datasources">
-    
+    	    
     	<h4><spring:message code="label_com_sfs_metahive_model_datasource_plural" />:</h4>
     	<ul>
     	<c:forEach items="${definition.dataSources}" var="dataSource">
-    		<li>
+    		<li class="datasource">
     			<p><strong><c:out value="${dataSource.organisation.name}" escapeXml="true" /></strong></p>
     			<p>
     			   <strong><spring:message code="label_com_sfs_metahive_model_conditionofuse" />: </strong>
@@ -46,14 +46,15 @@
     				</c:forEach>
     			</p>
     			<sec:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
-    				<spring:url value="/datasources/${dataSource.id}" var="update_form_url" />
-   					<form action="${fn:escapeXml(update_form_url)}">
+    			<div class="actions-editdelete">
+    				<spring:url value="/datasources/${dataSource.id}" var="update_datasource_url" />
+   					<form dojoType="dijit.form.Form" action="${fn:escapeXml(update_datasource_url)}">
    						<input type="hidden" name="form" />
                			<button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_edit" /></button>
              		</form>
     				<sec:authorize ifAllGranted="ROLE_ADMIN">
-    					<spring:url value="/datasources/${dataSource.id}" var="delete_form_url" />
-    					<form:form action="${fn:escapeXml(delete_form_url)}" method="DELETE">
+    					<spring:url value="/datasources/${dataSource.id}" var="delete_datasource_url" />
+    					<form:form action="${fn:escapeXml(delete_datasource_url)}" method="DELETE">
                 			<spring:message arguments="data source" code="entity_delete" var="delete_label" htmlEscape="false" />
                 			<c:set var="delete_confirm_msg">
                   				<spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
@@ -61,11 +62,31 @@
                 			<button dojoType="dijit.form.Button" onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
               			</form:form>
               		</sec:authorize>
+              	</div>
               	</sec:authorize>
     		</li>
     	</c:forEach>
     	</ul>
     	
+    	<sec:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
+    		<c:if test="${not empty organisations}">
+    			<div class="actions-add">
+    			<spring:url value="/datasources" var="create_datasource_url" />
+   					<form dojoType="dijit.form.Form" action="${fn:escapeXml(create_datasource_url)}">
+   						<input type="hidden" name="form" />
+   						<input type="hidden" name="definition" value="${definition.id}" />
+   				
+   						<label for="organisation"><spring:message code="metahive_add_datasource" htmlEscape="true" />: </label>
+						<select dojoType="dijit.form.Select" name="organisation" id="organisation">
+							<c:forEach items="${organisations}" var="organisation">
+							<option value="${organisation.id}"><c:out value="${organisation.name}" escapeXml="true" /></option>
+							</c:forEach>
+						</select>
+            			<button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_add" /></button>
+        			</form>
+        		</div>
+        	</c:if>
+        </sec:authorize>
     	
     </div>
     <div class="metadata">
@@ -94,6 +115,7 @@
 		dojo.require("dojo.parser");
         dojo.require("dijit.form.Form");
    		dojo.require("dijit.form.Button");
+   		dojo.require("dijit.form.Select");
    	    
    		dojo.addOnLoad(function() {
    		   	dojo.parser.parse();

@@ -11,6 +11,7 @@ import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
+import com.sfs.metahive.model.UserRole;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -69,19 +70,9 @@ public class DataSourceController extends BaseController {
 		Person user = loadUser(request);
 
 		Definition definition = Definition.findDefinition(definitionId);
-		Organisation organisation = Organisation.findOrganisation(organisationId);
+		Organisation organisation = Organisation.findOrganisation(organisationId);	
 
-		boolean validOrganisation = false;
-		
-		if (user != null && user.getOrganisations() != null) {
-			for (Organisation parent : user.getOrganisations()) {
-				if (parent.getId() == organisation.getId()) {
-					validOrganisation = true;
-				}
-			}
-		}
-
-		if (!validOrganisation) {
+		if (isInvalidOrganisation(organisation, user)) {
             FlashScope.appendMessage(
             		getMessage("metahive_no_valid_organisation"), request);
 			
@@ -110,17 +101,7 @@ public class DataSourceController extends BaseController {
 		Organisation organisation = Organisation.findOrganisation(
 				dataSource.getOrganisation().getId());
 
-		boolean validOrganisation = false;
-		
-		if (user != null && user.getOrganisations() != null) {
-			for (Organisation parent : user.getOrganisations()) {
-				if (parent.getId() == organisation.getId()) {
-					validOrganisation = true;
-				}
-			}
-		}
-
-		if (!validOrganisation) {
+		if (isInvalidOrganisation(organisation, user)) {
             FlashScope.appendMessage(
             		getMessage("metahive_no_valid_organisation"), request);
 			
@@ -177,5 +158,33 @@ public class DataSourceController extends BaseController {
     @ModelAttribute("conditionsOfUse")
     public Collection<ConditionOfUse> populateConditionsOfUse() {
     	return ConditionOfUse.findAllConditionOfUses();
+    }
+    
+    /**
+     * Test if the organisation/user combination is valid.
+     *
+     * @param organisation the organisation
+     * @param user the user
+     * @return true, if successful
+     */
+    private boolean isInvalidOrganisation(final Organisation organisation, 
+    		final Person user) {
+    	
+    	boolean isInvalidOrganisation = true;
+    	
+    	if (user != null && organisation != null) {
+    		if (user.getUserRole() == UserRole.ROLE_ADMIN) {
+    			isInvalidOrganisation = false;
+    		} else {
+    			if (user.getOrganisations() != null) {
+    				for (Organisation parent : user.getOrganisations()) {
+    					if (parent.getId() == organisation.getId()) {
+    						isInvalidOrganisation = false;
+    					}
+    				}
+    			}
+    		}
+		}
+		return isInvalidOrganisation;
     }
 }

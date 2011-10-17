@@ -1,5 +1,6 @@
 package com.sfs.metahive.web;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,8 @@ import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
+import com.sfs.metahive.model.Organisation;
+import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.web.model.DefinitionForm;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -143,10 +146,24 @@ public class DefinitionController extends BaseController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
- 	public String show(@PathVariable("id") Long id, Model uiModel) {
+ 	public String show(@PathVariable("id") Long id, Model uiModel,
+ 			HttpServletRequest request) {
+
+		Person user = loadUser(request);
+		
+		Collection<Organisation> organisations = new ArrayList<Organisation>();
+		if (user != null) {
+			if (user.getUserRole() == UserRole.ROLE_ADMIN) {
+				organisations = Organisation.findAllOrganisations();
+			} else {
+				organisations = user.getOrganisations();
+			}
+		}
+		
 		uiModel.addAttribute("definition", Definition.findDefinition(id));
 		uiModel.addAttribute("itemId", id);
-
+		uiModel.addAttribute("organisations", organisations);
+		
 		return "definitions/show";
 	}
 
