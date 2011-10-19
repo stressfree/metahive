@@ -112,3 +112,4 @@ persistence setup --database HYPERSONIC_IN_MEMORY --provider HIBERNATE
 // [failed] field string --fieldName message --notNull
 entity --class com.sfs.metahive.model.Comment --testAutomatically
 field string --fieldName message --notNull
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-19 16:42:01
