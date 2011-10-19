@@ -5,19 +5,18 @@ package com.sfs.metahive.model;
 
 import java.lang.String;
 
-privileged aspect Description_Roo_ToString {
+privileged aspect Comment_Roo_ToString {
     
-    public String Description.toString() {
+    public String Comment.toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Comment: ").append(getComment()).append(", ");
+        sb.append("CommentType: ").append(getCommentType()).append(", ");
         sb.append("Created: ").append(getCreated()).append(", ");
+        sb.append("DataSource: ").append(getDataSource()).append(", ");
         sb.append("Definition: ").append(getDefinition()).append(", ");
         sb.append("Description: ").append(getDescription()).append(", ");
-        sb.append("ExampleValues: ").append(getExampleValues()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
-        sb.append("KeyValueDetermination: ").append(getKeyValueDetermination()).append(", ");
+        sb.append("Message: ").append(getMessage()).append(", ");
         sb.append("Person: ").append(getPerson()).append(", ");
-        sb.append("SimpleDescription: ").append(getSimpleDescription()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }

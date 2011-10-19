@@ -6,12 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.sfs.metahive.FlashScope;
+import com.sfs.metahive.model.Comment;
+import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.ConditionOfUse;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.UserRole;
+import com.sfs.metahive.web.model.DataSourceForm;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -29,17 +32,28 @@ public class DataSourceController extends BaseController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    public String create(@Valid DataSource dataSource, BindingResult bindingResult, 
+    public String create(@Valid DataSourceForm dataSourceForm, BindingResult bindingResult, 
     		Model uiModel, HttpServletRequest request) {
+
+		Person user = loadUser(request);
+		
+		if (user == null) {
+			// A valid user is required
+			FlashScope.appendMessage(getMessage("metahive_valid_user_required"), request);
+			return "redirect:/definitions" + encodeUrlPathSegment(
+					dataSourceForm.getDefinition().getId().toString(), request);
+		}
 		
         if (bindingResult.hasErrors()) {
-            uiModel.addAttribute("dataSource", dataSource);
+            uiModel.addAttribute("dataSource", dataSourceForm);
 
             FlashScope.appendMessage(
             		getMessage("metahive_object_validation", DataSource.class), request);
             
             return "datasources/create";
         }
+        
+        DataSource dataSource = dataSourceForm.newDataSource(user);
         
         Definition definition = Definition.findDefinition(
         		dataSource.getDefinition().getId());
@@ -53,6 +67,9 @@ public class DataSourceController extends BaseController {
         
         dataSource.persist();
 
+        Comment comment = dataSourceForm.newComment(CommentType.CREATE, dataSource, user);
+        comment.persist();
+        
         FlashScope.appendMessage(
         		getMessage("metahive_create_complete", DataSource.class), request);
 
@@ -68,7 +85,7 @@ public class DataSourceController extends BaseController {
     		Model uiModel, HttpServletRequest request) {
 		
 		Person user = loadUser(request);
-
+				
 		Definition definition = Definition.findDefinition(definitionId);
 		Organisation organisation = Organisation.findOrganisation(organisationId);	
 
@@ -80,26 +97,33 @@ public class DataSourceController extends BaseController {
 	        		+ encodeUrlPathSegment(definition.getId().toString(), request);
 		}
 		
-		DataSource dataSource = new DataSource();
+		DataSourceForm dataSourceForm = new DataSourceForm();
 		
-		dataSource.setDefinition(definition);
-		dataSource.setOrganisation(organisation);
+		dataSourceForm.setDefinition(definition);
+		dataSourceForm.setOrganisation(organisation);
 		
-        uiModel.addAttribute("dataSource", dataSource);
+        uiModel.addAttribute("dataSource", dataSourceForm);
         return "datasources/create";
     }
 	
 	@RequestMapping(method = RequestMethod.PUT)	
 	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    public String update(@Valid DataSource dataSource, BindingResult bindingResult, 
-    		Model uiModel, HttpServletRequest request) {
+    public String update(@Valid DataSourceForm dataSourceForm,
+    		BindingResult bindingResult, Model uiModel, HttpServletRequest request) {
 		
 		Person user = loadUser(request);
 
+		if (user == null) {
+			// A valid user is required
+			FlashScope.appendMessage(getMessage("metahive_valid_user_required"), request);
+			return "redirect:/definitions" + encodeUrlPathSegment(
+					dataSourceForm.getDefinition().getId().toString(), request);
+		}
+		
 		Definition definition = Definition.findDefinition(
-				dataSource.getDefinition().getId());
+				dataSourceForm.getDefinition().getId());
 		Organisation organisation = Organisation.findOrganisation(
-				dataSource.getOrganisation().getId());
+				dataSourceForm.getOrganisation().getId());
 
 		if (isInvalidOrganisation(organisation, user)) {
             FlashScope.appendMessage(
@@ -108,9 +132,20 @@ public class DataSourceController extends BaseController {
 	        return "redirect:/definitions/" 
 	        		+ encodeUrlPathSegment(definition.getId().toString(), request);
 		}
-		
+
+        // Load the existing data source
+        DataSource dataSource = DataSource.findDataSource(dataSourceForm.getId());
+        
+        if (dataSource == null) {
+        	// A valid data source was not found
+        	FlashScope.appendMessage(
+        			getMessage("metahive_object_not_found", DataSource.class), request);
+        	return "redirect:/definitions" 
+        			+ encodeUrlPathSegment(definition.getId().toString(), request);        	
+        }
+        
         if (bindingResult.hasErrors()) {
-            uiModel.addAttribute("dataSource", dataSource);
+            uiModel.addAttribute("dataSource", dataSourceForm);
 
             FlashScope.appendMessage(
             		getMessage("metahive_object_validation", DataSource.class), request);
@@ -118,21 +153,35 @@ public class DataSourceController extends BaseController {
             return "datasources/update";
         }
         
+        dataSource = dataSourceForm.mergedDataSource(dataSource, user);
+        
         uiModel.asMap().clear();
-        definition.addDataSource(dataSource);        
+        
         dataSource.merge();
+
+        Comment comment = dataSourceForm.newComment(CommentType.MODIFY, dataSource, user);
+        comment.persist();
         
         FlashScope.appendMessage(
         		getMessage("metahive_edit_complete", DataSource.class), request);
 
-        return "redirect:/definitions/" 
+        return "redirect:/definitions/"
         		+ encodeUrlPathSegment(definition.getId().toString(), request);
     }
 
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
 	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("dataSource", DataSource.findDataSource(id));
+		
+		DataSource dataSource = DataSource.findDataSource(id);
+		
+		if (dataSource == null) {
+			return "redirect:/definitions";
+		}
+		
+		DataSourceForm dataSourceForm = DataSourceForm.parseDataSource(dataSource);
+		
+        uiModel.addAttribute("dataSource", dataSourceForm);
         return "datasources/update";
     }
 

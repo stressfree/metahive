@@ -4,7 +4,9 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Comment;
-import com.sfs.metahive.model.CommentDataOnDemand;
+import com.sfs.metahive.model.CommentType;
+import com.sfs.metahive.model.DataSource;
+import com.sfs.metahive.model.DataSourceDataOnDemand;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.DefinitionDataOnDemand;
 import com.sfs.metahive.model.Description;
@@ -24,98 +26,98 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
+privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
     
-    declare @type: DescriptionDataOnDemand: @Component;
+    declare @type: CommentDataOnDemand: @Component;
     
-    private Random DescriptionDataOnDemand.rnd = new SecureRandom();
+    private Random CommentDataOnDemand.rnd = new SecureRandom();
     
-    private List<Description> DescriptionDataOnDemand.data;
-    
-    @Autowired
-    private CommentDataOnDemand DescriptionDataOnDemand.commentDataOnDemand;
+    private List<Comment> CommentDataOnDemand.data;
     
     @Autowired
-    private DefinitionDataOnDemand DescriptionDataOnDemand.definitionDataOnDemand;
+    private DataSourceDataOnDemand CommentDataOnDemand.dataSourceDataOnDemand;
     
     @Autowired
-    private PersonDataOnDemand DescriptionDataOnDemand.personDataOnDemand;
+    private DefinitionDataOnDemand CommentDataOnDemand.definitionDataOnDemand;
     
-    public Description DescriptionDataOnDemand.getNewTransientDescription(int index) {
-        Description obj = new Description();
-        setComment(obj, index);
+    @Autowired
+    private PersonDataOnDemand CommentDataOnDemand.personDataOnDemand;
+    
+    public Comment CommentDataOnDemand.getNewTransientComment(int index) {
+        Comment obj = new Comment();
+        setCommentType(obj, index);
         setCreated(obj, index);
+        setDataSource(obj, index);
         setDefinition(obj, index);
         setDescription(obj, index);
-        setExampleValues(obj, index);
-        setKeyValueDetermination(obj, index);
+        setMessage(obj, index);
         setPerson(obj, index);
         return obj;
     }
     
-    public void DescriptionDataOnDemand.setComment(Description obj, int index) {
-        Comment comment = commentDataOnDemand.getSpecificComment(index);
-        obj.setComment(comment);
+    public void CommentDataOnDemand.setCommentType(Comment obj, int index) {
+        CommentType commentType = CommentType.class.getEnumConstants()[0];
+        obj.setCommentType(commentType);
     }
     
-    public void DescriptionDataOnDemand.setCreated(Description obj, int index) {
+    public void CommentDataOnDemand.setCreated(Comment obj, int index) {
         Date created = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setCreated(created);
     }
     
-    public void DescriptionDataOnDemand.setDefinition(Description obj, int index) {
+    public void CommentDataOnDemand.setDataSource(Comment obj, int index) {
+        DataSource dataSource = dataSourceDataOnDemand.getSpecificDataSource(index);
+        obj.setDataSource(dataSource);
+    }
+    
+    public void CommentDataOnDemand.setDefinition(Comment obj, int index) {
         Definition definition = definitionDataOnDemand.getRandomDefinition();
         obj.setDefinition(definition);
     }
     
-    public void DescriptionDataOnDemand.setDescription(Description obj, int index) {
-        String description = "description_" + index;
+    public void CommentDataOnDemand.setDescription(Comment obj, int index) {
+        Description description = null;
         obj.setDescription(description);
     }
     
-    public void DescriptionDataOnDemand.setExampleValues(Description obj, int index) {
-        String exampleValues = "exampleValues_" + index;
-        obj.setExampleValues(exampleValues);
+    public void CommentDataOnDemand.setMessage(Comment obj, int index) {
+        String message = "message_" + index;
+        obj.setMessage(message);
     }
     
-    public void DescriptionDataOnDemand.setKeyValueDetermination(Description obj, int index) {
-        String keyValueDetermination = "keyValueDetermination_" + index;
-        obj.setKeyValueDetermination(keyValueDetermination);
-    }
-    
-    public void DescriptionDataOnDemand.setPerson(Description obj, int index) {
+    public void CommentDataOnDemand.setPerson(Comment obj, int index) {
         Person person = personDataOnDemand.getRandomPerson();
         obj.setPerson(person);
     }
     
-    public Description DescriptionDataOnDemand.getSpecificDescription(int index) {
+    public Comment CommentDataOnDemand.getSpecificComment(int index) {
         init();
         if (index < 0) index = 0;
         if (index > (data.size() - 1)) index = data.size() - 1;
-        Description obj = data.get(index);
-        return Description.findDescription(obj.getId());
+        Comment obj = data.get(index);
+        return Comment.findComment(obj.getId());
     }
     
-    public Description DescriptionDataOnDemand.getRandomDescription() {
+    public Comment CommentDataOnDemand.getRandomComment() {
         init();
-        Description obj = data.get(rnd.nextInt(data.size()));
-        return Description.findDescription(obj.getId());
+        Comment obj = data.get(rnd.nextInt(data.size()));
+        return Comment.findComment(obj.getId());
     }
     
-    public boolean DescriptionDataOnDemand.modifyDescription(Description obj) {
+    public boolean CommentDataOnDemand.modifyComment(Comment obj) {
         return false;
     }
     
-    public void DescriptionDataOnDemand.init() {
-        data = Description.findDescriptionEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Description' illegally returned null");
+    public void CommentDataOnDemand.init() {
+        data = Comment.findCommentEntries(0, 10);
+        if (data == null) throw new IllegalStateException("Find entries implementation for 'Comment' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<com.sfs.metahive.model.Description>();
+        data = new ArrayList<com.sfs.metahive.model.Comment>();
         for (int i = 0; i < 10; i++) {
-            Description obj = getNewTransientDescription(i);
+            Comment obj = getNewTransientComment(i);
             try {
                 obj.persist();
             } catch (ConstraintViolationException e) {

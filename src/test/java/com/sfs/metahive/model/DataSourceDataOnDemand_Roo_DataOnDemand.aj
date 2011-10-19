@@ -3,12 +3,22 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.Comment;
+import com.sfs.metahive.model.ConditionOfUse;
 import com.sfs.metahive.model.ConditionOfUseDataOnDemand;
 import com.sfs.metahive.model.DataSource;
+import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.DefinitionDataOnDemand;
+import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.OrganisationDataOnDemand;
+import java.lang.String;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +26,7 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     
     declare @type: DataSourceDataOnDemand: @Component;
     
-    private Random DataSourceDataOnDemand.rnd = new java.security.SecureRandom();
+    private Random DataSourceDataOnDemand.rnd = new SecureRandom();
     
     private List<DataSource> DataSourceDataOnDemand.data;
     
@@ -30,32 +40,38 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     private OrganisationDataOnDemand DataSourceDataOnDemand.organisationDataOnDemand;
     
     public DataSource DataSourceDataOnDemand.getNewTransientDataSource(int index) {
-        com.sfs.metahive.model.DataSource obj = new com.sfs.metahive.model.DataSource();
+        DataSource obj = new DataSource();
+        setComment(obj, index);
         setConditionOfUse(obj, index);
         setDefinition(obj, index);
-        setOrganisation(obj, index);
         setDetails(obj, index);
+        setOrganisation(obj, index);
         return obj;
     }
     
-    private void DataSourceDataOnDemand.setConditionOfUse(DataSource obj, int index) {
-        com.sfs.metahive.model.ConditionOfUse conditionOfUse = conditionOfUseDataOnDemand.getRandomConditionOfUse();
+    public void DataSourceDataOnDemand.setComment(DataSource obj, int index) {
+        Comment comment = null;
+        obj.setComment(comment);
+    }
+    
+    public void DataSourceDataOnDemand.setConditionOfUse(DataSource obj, int index) {
+        ConditionOfUse conditionOfUse = conditionOfUseDataOnDemand.getRandomConditionOfUse();
         obj.setConditionOfUse(conditionOfUse);
     }
     
-    private void DataSourceDataOnDemand.setDefinition(DataSource obj, int index) {
-        com.sfs.metahive.model.Definition definition = definitionDataOnDemand.getRandomDefinition();
+    public void DataSourceDataOnDemand.setDefinition(DataSource obj, int index) {
+        Definition definition = definitionDataOnDemand.getRandomDefinition();
         obj.setDefinition(definition);
     }
     
-    private void DataSourceDataOnDemand.setOrganisation(DataSource obj, int index) {
-        com.sfs.metahive.model.Organisation organisation = organisationDataOnDemand.getRandomOrganisation();
-        obj.setOrganisation(organisation);
+    public void DataSourceDataOnDemand.setDetails(DataSource obj, int index) {
+        String details = "details_" + index;
+        obj.setDetails(details);
     }
     
-    private void DataSourceDataOnDemand.setDetails(DataSource obj, int index) {
-        java.lang.String details = "details_" + index;
-        obj.setDetails(details);
+    public void DataSourceDataOnDemand.setOrganisation(DataSource obj, int index) {
+        Organisation organisation = organisationDataOnDemand.getRandomOrganisation();
+        obj.setOrganisation(organisation);
     }
     
     public DataSource DataSourceDataOnDemand.getSpecificDataSource(int index) {
@@ -77,16 +93,25 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     }
     
     public void DataSourceDataOnDemand.init() {
-        data = com.sfs.metahive.model.DataSource.findDataSourceEntries(0, 10);
+        data = DataSource.findDataSourceEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'DataSource' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new java.util.ArrayList<com.sfs.metahive.model.DataSource>();
+        data = new ArrayList<com.sfs.metahive.model.DataSource>();
         for (int i = 0; i < 10; i++) {
-            com.sfs.metahive.model.DataSource obj = getNewTransientDataSource(i);
-            obj.persist();
+            DataSource obj = getNewTransientDataSource(i);
+            try {
+                obj.persist();
+            } catch (ConstraintViolationException e) {
+                StringBuilder msg = new StringBuilder();
+                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
+                    ConstraintViolation<?> cv = it.next();
+                    msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
+                }
+                throw new RuntimeException(msg.toString(), e);
+            }
             obj.flush();
             data.add(obj);
         }

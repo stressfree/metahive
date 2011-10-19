@@ -6,9 +6,12 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
 import com.sfs.metahive.model.Category;
+import com.sfs.metahive.model.Comment;
+import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Description;
@@ -46,6 +49,9 @@ public class DefinitionForm {
 	
 	/** The example values. */
 	private String exampleValues;
+	
+	/** The log message. */
+	private String logMessage;
 
 	
 	/**
@@ -74,7 +80,6 @@ public class DefinitionForm {
 		
 		return definition;
 	}
-		
 	
 	/**
 	 * Parses the definition and returns a definition form.
@@ -88,19 +93,44 @@ public class DefinitionForm {
 		
 		if (definition != null) {
 			definitionForm.setId(definition.getId());
-			definitionForm.setName(definition.getName());
+			definitionForm.setName(StringUtils.strip(definition.getName()));
 			definitionForm.setCategories(definition.getCategories());
 			definitionForm.setDataType(definition.getDataType());
 			
 			if (definition.getDescription() != null) {
 				Description dsc = definition.getDescription();
-				definitionForm.setDescription(dsc.getDescription());
-				definitionForm.setExampleValues(dsc.getExampleValues());
-				definitionForm.setKeyValueDetermination(dsc.getKeyValueDetermination());
+				definitionForm.setDescription(StringUtils.strip(dsc.getDescription()));
+				definitionForm.setExampleValues(
+						StringUtils.strip(dsc.getExampleValues()));
+				definitionForm.setKeyValueDetermination(
+						StringUtils.strip(dsc.getKeyValueDetermination()));
 			}
 		}
 		
 		return definitionForm;
+	}
+	
+	/**
+	 * Builds the comment object from the form data.
+	 *
+	 * @param commentType the comment type
+	 * @param definition the definition
+	 * @param user the user
+	 * @return the definition
+	 */
+	public final Comment newComment(final CommentType commentType, 
+			final Definition definition, final Person user) {
+		
+		Comment comment = new Comment();
+		
+		if (definition != null && description != null && user != null) {
+			comment.setCommentType(commentType);
+			comment.setMessage(StringUtils.strip(this.getLogMessage()));
+			comment.setDefinition(definition);
+			comment.setDescription(definition.getDescription());
+			comment.setPerson(user);
+		}
+		return comment;
 	}
 	
 	/**
@@ -117,18 +147,20 @@ public class DefinitionForm {
 
 	    	Description description = new Description();
 	        
-			definition.setName(this.getName());
+			definition.setName(StringUtils.strip(this.getName()));
 	        definition.setDataType(this.getDataType());
 	        definition.setCategories(this.getCategories());
 	            	
-	        description.setDescription(this.getDescription());
-	        description.setExampleValues(this.getExampleValues());
-	        description.setKeyValueDetermination(this.getKeyValueDetermination());
-	        description.setUser(user);   
+	        description.setDescription(StringUtils.strip(this.getDescription()));
+	        description.setExampleValues(StringUtils.strip(this.getExampleValues()));
+	        description.setKeyValueDetermination(
+	        		StringUtils.strip(this.getKeyValueDetermination()));
+	        description.setPerson(user);   
 	        
 	        definition.addDescription(description);
 		}
 		
 		return definition;
 	}
+	
 }

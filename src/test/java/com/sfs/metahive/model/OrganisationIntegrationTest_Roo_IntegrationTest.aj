@@ -83,7 +83,7 @@ privileged aspect OrganisationIntegrationTest_Roo_IntegrationTest {
         obj = com.sfs.metahive.model.Organisation.findOrganisation(id);
         boolean modified =  dod.modifyOrganisation(obj);
         java.lang.Integer currentVersion = obj.getVersion();
-        com.sfs.metahive.model.Organisation merged = (com.sfs.metahive.model.Organisation) obj.merge();
+        com.sfs.metahive.model.Organisation merged =  obj.merge();
         obj.flush();
         org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
         org.junit.Assert.assertTrue("Version for 'Organisation' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);

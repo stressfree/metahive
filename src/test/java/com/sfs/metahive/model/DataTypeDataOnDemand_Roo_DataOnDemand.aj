@@ -4,28 +4,34 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.DataType;
+import java.lang.String;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 privileged aspect DataTypeDataOnDemand_Roo_DataOnDemand {
     
     declare @type: DataTypeDataOnDemand: @Component;
     
-    private Random DataTypeDataOnDemand.rnd = new java.security.SecureRandom();
+    private Random DataTypeDataOnDemand.rnd = new SecureRandom();
     
     private List<DataType> DataTypeDataOnDemand.data;
     
     public DataType DataTypeDataOnDemand.getNewTransientDataType(int index) {
-        com.sfs.metahive.model.DataType obj = new com.sfs.metahive.model.DataType();
+        DataType obj = new DataType();
         setName(obj, index);
         return obj;
     }
     
-    private void DataTypeDataOnDemand.setName(DataType obj, int index) {
-        java.lang.String name = "name_" + index;
+    public void DataTypeDataOnDemand.setName(DataType obj, int index) {
+        String name = "name_" + index;
         if (name.length() > 100) {
-            name = name.substring(0, 100);
+            name = new Random().nextInt(10) + name.substring(1, 100);
         }
         obj.setName(name);
     }
@@ -49,16 +55,25 @@ privileged aspect DataTypeDataOnDemand_Roo_DataOnDemand {
     }
     
     public void DataTypeDataOnDemand.init() {
-        data = com.sfs.metahive.model.DataType.findDataTypeEntries(0, 10);
+        data = DataType.findDataTypeEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'DataType' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new java.util.ArrayList<com.sfs.metahive.model.DataType>();
+        data = new ArrayList<com.sfs.metahive.model.DataType>();
         for (int i = 0; i < 10; i++) {
-            com.sfs.metahive.model.DataType obj = getNewTransientDataType(i);
-            obj.persist();
+            DataType obj = getNewTransientDataType(i);
+            try {
+                obj.persist();
+            } catch (ConstraintViolationException e) {
+                StringBuilder msg = new StringBuilder();
+                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
+                    ConstraintViolation<?> cv = it.next();
+                    msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
+                }
+                throw new RuntimeException(msg.toString(), e);
+            }
             obj.flush();
             data.add(obj);
         }

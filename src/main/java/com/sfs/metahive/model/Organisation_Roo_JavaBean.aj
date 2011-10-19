@@ -26,11 +26,11 @@ privileged aspect Organisation_Roo_JavaBean {
         this.people = people;
     }
     
-    public java.util.Set<DataSource> Organisation.getDataSources() {
+    public Set<DataSource> Organisation.getDataSources() {
         return this.dataSources;
     }
     
-    public void Organisation.setDataSources(java.util.Set<DataSource> dataSources) {
+    public void Organisation.setDataSources(Set<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
     

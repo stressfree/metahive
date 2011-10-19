@@ -83,7 +83,7 @@ privileged aspect PersonIntegrationTest_Roo_IntegrationTest {
         obj = com.sfs.metahive.model.Person.findPerson(id);
         boolean modified =  dod.modifyPerson(obj);
         java.lang.Integer currentVersion = obj.getVersion();
-        com.sfs.metahive.model.Person merged = (com.sfs.metahive.model.Person) obj.merge();
+        com.sfs.metahive.model.Person merged =  obj.merge();
         obj.flush();
         org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
         org.junit.Assert.assertTrue("Version for 'Person' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);

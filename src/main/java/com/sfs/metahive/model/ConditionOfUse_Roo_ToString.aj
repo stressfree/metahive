@@ -11,7 +11,9 @@ privileged aspect ConditionOfUse_Roo_ToString {
         StringBuilder sb = new StringBuilder();
         sb.append("DataSources: ").append(getDataSources() == null ? "null" : getDataSources().size()).append(", ");
         sb.append("Details: ").append(getDetails()).append(", ");
-        sb.append("Name: ").append(getName());
+        sb.append("Id: ").append(getId()).append(", ");
+        sb.append("Name: ").append(getName()).append(", ");
+        sb.append("Version: ").append(getVersion());
         return sb.toString();
     }
     

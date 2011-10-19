@@ -40,12 +40,18 @@ public class Definition {
 	private Set<Description> descriptions = new HashSet<Description>();
 
 	/** The data sources. */
+	@OrderBy("organisation ASC")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
 	private Set<DataSource> dataSources = new HashSet<DataSource>();
 	
 	/** The categories. */
 	@ManyToMany
 	private Set<Category> categories = new HashSet<Category>();
+	
+	/** The comments. */
+	@OrderBy("created ASC")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
+	private Set<Comment> comments = new HashSet<Comment>();
 
 	
 	/**
@@ -109,6 +115,16 @@ public class Definition {
 	public final void addDescription(Description description) {
 		description.setDefinition(this);
 		getDescriptions().add(description);
+	}
+	
+	/**
+	 * Adds a comment.
+	 * 
+	 * @param comment the comment
+	 */
+	public final void addComment(Comment comment) {
+		comment.setDefinition(this);
+		getComments().add(comment);
 	}
 	
 	/**

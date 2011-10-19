@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.roo.addon.entity.RooEntity;
@@ -42,6 +43,10 @@ public class DataSource {
 	/** The points of contact within the organisation. */
 	@ManyToMany
 	private Set<Person> pointsOfContact = new HashSet<Person>();
+	
+	/** The associated comment by the person who created the data source */
+	@OneToOne
+	private Comment comment;
 
 	/**
 	 * Adds a point of contact.

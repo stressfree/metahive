@@ -74,4 +74,12 @@ privileged aspect DefinitionForm_Roo_JavaBean {
         this.exampleValues = exampleValues;
     }
     
+    public String DefinitionForm.getLogMessage() {
+        return this.logMessage;
+    }
+    
+    public void DefinitionForm.setLogMessage(String logMessage) {
+        this.logMessage = logMessage;
+    }
+    
 }

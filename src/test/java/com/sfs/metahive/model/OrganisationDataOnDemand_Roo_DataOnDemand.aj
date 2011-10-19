@@ -4,28 +4,34 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Organisation;
+import java.lang.String;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 privileged aspect OrganisationDataOnDemand_Roo_DataOnDemand {
     
     declare @type: OrganisationDataOnDemand: @Component;
     
-    private Random OrganisationDataOnDemand.rnd = new java.security.SecureRandom();
+    private Random OrganisationDataOnDemand.rnd = new SecureRandom();
     
     private List<Organisation> OrganisationDataOnDemand.data;
     
     public Organisation OrganisationDataOnDemand.getNewTransientOrganisation(int index) {
-        com.sfs.metahive.model.Organisation obj = new com.sfs.metahive.model.Organisation();
+        Organisation obj = new Organisation();
         setName(obj, index);
         return obj;
     }
     
-    private void OrganisationDataOnDemand.setName(Organisation obj, int index) {
-        java.lang.String name = "name_" + index;
+    public void OrganisationDataOnDemand.setName(Organisation obj, int index) {
+        String name = "name_" + index;
         if (name.length() > 100) {
-            name = name.substring(0, 100);
+            name = new Random().nextInt(10) + name.substring(1, 100);
         }
         obj.setName(name);
     }
@@ -49,16 +55,25 @@ privileged aspect OrganisationDataOnDemand_Roo_DataOnDemand {
     }
     
     public void OrganisationDataOnDemand.init() {
-        data = com.sfs.metahive.model.Organisation.findOrganisationEntries(0, 10);
+        data = Organisation.findOrganisationEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Organisation' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new java.util.ArrayList<com.sfs.metahive.model.Organisation>();
+        data = new ArrayList<com.sfs.metahive.model.Organisation>();
         for (int i = 0; i < 10; i++) {
-            com.sfs.metahive.model.Organisation obj = getNewTransientOrganisation(i);
-            obj.persist();
+            Organisation obj = getNewTransientOrganisation(i);
+            try {
+                obj.persist();
+            } catch (ConstraintViolationException e) {
+                StringBuilder msg = new StringBuilder();
+                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
+                    ConstraintViolation<?> cv = it.next();
+                    msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
+                }
+                throw new RuntimeException(msg.toString(), e);
+            }
             obj.flush();
             data.add(obj);
         }

@@ -7,15 +7,16 @@
         <springform:hidden path="definition.id" />
         <springform:hidden path="organisation.id" />
         <div class="yui-u first"> 
-			<div class="field" id="_c_com_sfs_metahive_model_DataSource_organisation_name">
-				<label for="_organisation_name"><spring:message code="label_com_sfs_metahive_model_datasource_organisation" />:</label>
+			<div class="field" id="_c_com_sfs_metahive_web_model_DataSourceForm_organisation_name">
+				<label for="_organisation_name"><spring:message code="label_com_sfs_metahive_web_model_datasourceform_organisation" />:</label>
 				<c:out value="${dataSource.organisation.name}" escapeXml="true" />
 			</div>
-			<field:select field="conditionOfUse" id="c_com_sfs_metahive_model_DataSource_conditionOfUse" itemValue="id" itemLabel="name" items="${conditionsOfUse}" path="/conditions" required="true" z="user-managed"/>
-			<field:editor field="details" id="c_com_sfs_metahive_model_DataSource_details" required="false" z="user-managed"/>
+			<field:select field="conditionOfUse" id="c_com_sfs_metahive_web_model_DataSourceForm_conditionOfUse" itemValue="id" itemLabel="name" items="${conditionsOfUse}" path="/conditions" required="true" z="user-managed"/>
+			<field:editor field="details" id="c_com_sfs_metahive_web_model_DataSourceForm_details" required="false" z="user-managed"/>
+			<field:editor field="logMessage" id="c_com_sfs_metahive_web_model_DataSourceForm_logMessage" z="user-managed"/>
 		</div>        
         <div class="yui-u">
-        	<field:select field="pointsOfContact" id="c_com_sfs_metahive_model_DataSource_pointsOfContact" items="${dataSource.organisation.people}" path="people" itemValue="id" itemLabel="formattedName" required="true" multiple="true" />
+        	<field:select field="pointsOfContact" id="c_com_sfs_metahive_web_model_DataSourceForm_pointsOfContact" items="${dataSource.organisation.people}" path="people" itemValue="id" itemLabel="formattedName" required="true" multiple="true" />
         </div>
     </form:update>
 </div>

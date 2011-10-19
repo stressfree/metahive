@@ -83,7 +83,7 @@ privileged aspect DataTypeIntegrationTest_Roo_IntegrationTest {
         obj = com.sfs.metahive.model.DataType.findDataType(id);
         boolean modified =  dod.modifyDataType(obj);
         java.lang.Integer currentVersion = obj.getVersion();
-        com.sfs.metahive.model.DataType merged = (com.sfs.metahive.model.DataType) obj.merge();
+        com.sfs.metahive.model.DataType merged =  obj.merge();
         obj.flush();
         org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
         org.junit.Assert.assertTrue("Version for 'DataType' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);

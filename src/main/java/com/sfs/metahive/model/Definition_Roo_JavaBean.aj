@@ -4,6 +4,7 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Category;
+import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Description;
@@ -36,20 +37,28 @@ privileged aspect Definition_Roo_JavaBean {
         this.descriptions = descriptions;
     }
     
-    public java.util.Set<DataSource> Definition.getDataSources() {
+    public Set<DataSource> Definition.getDataSources() {
         return this.dataSources;
     }
     
-    public void Definition.setDataSources(java.util.Set<DataSource> dataSources) {
+    public void Definition.setDataSources(Set<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
     
-    public java.util.Set<Category> Definition.getCategories() {
+    public Set<Category> Definition.getCategories() {
         return this.categories;
     }
     
-    public void Definition.setCategories(java.util.Set<Category> categories) {
+    public void Definition.setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+    
+    public Set<Comment> Definition.getComments() {
+        return this.comments;
+    }
+    
+    public void Definition.setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
     
 }

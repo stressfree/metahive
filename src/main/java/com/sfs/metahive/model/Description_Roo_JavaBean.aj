@@ -3,6 +3,7 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import java.lang.String;
@@ -42,12 +43,20 @@ privileged aspect Description_Roo_JavaBean {
         this.exampleValues = exampleValues;
     }
     
-    public Person Description.getUser() {
-        return this.user;
+    public Person Description.getPerson() {
+        return this.person;
     }
     
-    public void Description.setUser(Person user) {
-        this.user = user;
+    public void Description.setPerson(Person person) {
+        this.person = person;
+    }
+    
+    public Comment Description.getComment() {
+        return this.comment;
+    }
+    
+    public void Description.setComment(Comment comment) {
+        this.comment = comment;
     }
     
     public Date Description.getCreated() {

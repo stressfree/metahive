@@ -1,9 +1,16 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:sec="http://www.springframework.org/security/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
   <jsp:output omit-xml-declaration="yes"/>  
   <jsp:directive.attribute name="name" type="java.lang.String" required="false" rtexprvalue="true" description="The name of the definition that was searched for"/>
   <jsp:directive.attribute name="category" type="java.lang.String" required="false" rtexprvalue="true" description="The category that was searched for"/>
   
   <h2><spring:message code="metahive_datadictionary" /></h2>
+  
+  <sec:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
+	  <div class="actions-new">
+	   	<div id="definitionNewButton" dojoType="dijit.form.Button" jsId="definitionNewButton"><spring:message code="metahive_button_new_definition" /></div>
+	  </div>
+  </sec:authorize>
+  
   <spring:url value="/definitions" var="search" />
   <form:form id="filterform" action="${search}" method="GET" dojoType="dijit.form.Form">
   	<div class="filterfield">
@@ -21,6 +28,7 @@
   	</div> 	
   	<spring:message code="button_filter" var="filter_button" htmlEscape="false" />
     <button dojoType="dijit.form.Button" id="filter" type="submit"><c:out value="${fn:escapeXml(filter_button)}" /></button>
+    <div class="clear"><!-- --></div>
   </form:form>
   
   <script type="text/javascript">
@@ -32,8 +40,20 @@
    	dojo.require("dijit.form.Select");
     
     dojo.addOnLoad(function() {
-        dojo.parser.parse();
+        dojo.parser.parse();        
     });
     ]]>
   </script>
+  <sec:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
+	<spring:url value="/definitions?form" var="create_url" />
+  <script type="text/javascript">
+  <![CDATA[
+	dojo.addOnLoad(function() {
+		dojo.connect(definitionNewButton, "onClick", function() {
+            window.location.href="${create_url}";
+        });
+	});
+	]]>
+  </script>
+  </sec:authorize>
 </jsp:root>

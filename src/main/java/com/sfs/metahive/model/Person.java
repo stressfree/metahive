@@ -67,7 +67,7 @@ public class Person implements UserDetails {
     private String emailAddress;
     
 	/** The descriptions this user has created. */
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
 	private Set<Description> descriptions = new HashSet<Description>();
 	
 	/** The organisations. */
@@ -77,7 +77,12 @@ public class Person implements UserDetails {
 	/** The related data sources. */
 	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "pointsOfContact")
 	private Set<DataSource> dataSources = new HashSet<DataSource>();
+
+	/** The related comments. */
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+	private Set<Comment> comments = new HashSet<Comment>();
     
+	
 	/** 
 	 * Returns the username used to authenticate the user. Cannot return null.
 	 * 

@@ -17,6 +17,19 @@ label {
 	clear: both;
 }
 
+.body {
+	font-size: 1.2em;
+	line-height: 1.5em;	
+}
+
+.definition .metadata {
+	width: 280px;
+	float: right;
+	border: 1px solid #ccc;
+	padding: 10px 15px;
+}
+
+
 .dojoxGrid table {
 	margin-bottom: 0;
 }

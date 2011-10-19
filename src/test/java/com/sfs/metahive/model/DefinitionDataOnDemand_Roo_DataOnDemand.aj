@@ -3,10 +3,17 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.DataTypeDataOnDemand;
 import com.sfs.metahive.model.Definition;
+import java.lang.String;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +21,7 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     
     declare @type: DefinitionDataOnDemand: @Component;
     
-    private Random DefinitionDataOnDemand.rnd = new java.security.SecureRandom();
+    private Random DefinitionDataOnDemand.rnd = new SecureRandom();
     
     private List<Definition> DefinitionDataOnDemand.data;
     
@@ -22,23 +29,23 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     private DataTypeDataOnDemand DefinitionDataOnDemand.dataTypeDataOnDemand;
     
     public Definition DefinitionDataOnDemand.getNewTransientDefinition(int index) {
-        com.sfs.metahive.model.Definition obj = new com.sfs.metahive.model.Definition();
-        setName(obj, index);
+        Definition obj = new Definition();
         setDataType(obj, index);
+        setName(obj, index);
         return obj;
     }
     
-    private void DefinitionDataOnDemand.setName(Definition obj, int index) {
-        java.lang.String name = "name_" + index;
-        if (name.length() > 100) {
-            name = name.substring(0, 100);
-        }
-        obj.setName(name);
+    public void DefinitionDataOnDemand.setDataType(Definition obj, int index) {
+        DataType dataType = dataTypeDataOnDemand.getRandomDataType();
+        obj.setDataType(dataType);
     }
     
-    private void DefinitionDataOnDemand.setDataType(Definition obj, int index) {
-        com.sfs.metahive.model.DataType dataType = dataTypeDataOnDemand.getRandomDataType();
-        obj.setDataType(dataType);
+    public void DefinitionDataOnDemand.setName(Definition obj, int index) {
+        String name = "name_" + index;
+        if (name.length() > 100) {
+            name = new Random().nextInt(10) + name.substring(1, 100);
+        }
+        obj.setName(name);
     }
     
     public Definition DefinitionDataOnDemand.getSpecificDefinition(int index) {
@@ -60,16 +67,25 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     }
     
     public void DefinitionDataOnDemand.init() {
-        data = com.sfs.metahive.model.Definition.findDefinitionEntries(0, 10);
+        data = Definition.findDefinitionEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Definition' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new java.util.ArrayList<com.sfs.metahive.model.Definition>();
+        data = new ArrayList<com.sfs.metahive.model.Definition>();
         for (int i = 0; i < 10; i++) {
-            com.sfs.metahive.model.Definition obj = getNewTransientDefinition(i);
-            obj.persist();
+            Definition obj = getNewTransientDefinition(i);
+            try {
+                obj.persist();
+            } catch (ConstraintViolationException e) {
+                StringBuilder msg = new StringBuilder();
+                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
+                    ConstraintViolation<?> cv = it.next();
+                    msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
+                }
+                throw new RuntimeException(msg.toString(), e);
+            }
             obj.flush();
             data.add(obj);
         }

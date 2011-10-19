@@ -106,3 +106,9 @@ persistence setup --database MYSQL --provider HIBERNATE
 // Spring Roo 1.1.3.RELEASE [rev 4404ffb] log closed at 2011-10-18 11:15:55
 // Spring Roo 1.1.3.RELEASE [rev 4404ffb] log opened at 2011-10-18 11:16:38
 persistence setup --database HYPERSONIC_IN_MEMORY --provider HIBERNATE
+// Spring Roo 1.1.3.RELEASE [rev 4404ffb] log closed at 2011-10-18 13:28:00
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-10-19 11:14:49
+// [failed] entity --class com.sfs.metahive.model.Comment --testAutomatically
+// [failed] field string --fieldName message --notNull
+entity --class com.sfs.metahive.model.Comment --testAutomatically
+field string --fieldName message --notNull

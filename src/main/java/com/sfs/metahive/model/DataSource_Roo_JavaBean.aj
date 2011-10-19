@@ -3,6 +3,7 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.ConditionOfUse;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Organisation;
@@ -50,6 +51,14 @@ privileged aspect DataSource_Roo_JavaBean {
     
     public void DataSource.setPointsOfContact(Set<Person> pointsOfContact) {
         this.pointsOfContact = pointsOfContact;
+    }
+    
+    public Comment DataSource.getComment() {
+        return this.comment;
+    }
+    
+    public void DataSource.setComment(Comment comment) {
+        this.comment = comment;
     }
     
 }

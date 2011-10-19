@@ -83,7 +83,7 @@ privileged aspect DescriptionIntegrationTest_Roo_IntegrationTest {
         obj = com.sfs.metahive.model.Description.findDescription(id);
         boolean modified =  dod.modifyDescription(obj);
         java.lang.Integer currentVersion = obj.getVersion();
-        com.sfs.metahive.model.Description merged = (com.sfs.metahive.model.Description) obj.merge();
+        com.sfs.metahive.model.Description merged =  obj.merge();
         obj.flush();
         org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
         org.junit.Assert.assertTrue("Version for 'Description' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);

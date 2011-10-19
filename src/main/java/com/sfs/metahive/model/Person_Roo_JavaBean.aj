@@ -3,6 +3,7 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.Organisation;
@@ -69,20 +70,28 @@ privileged aspect Person_Roo_JavaBean {
         this.descriptions = descriptions;
     }
     
-    public java.util.Set<Organisation> Person.getOrganisations() {
+    public Set<Organisation> Person.getOrganisations() {
         return this.organisations;
     }
     
-    public void Person.setOrganisations(java.util.Set<Organisation> organisations) {
+    public void Person.setOrganisations(Set<Organisation> organisations) {
         this.organisations = organisations;
     }
     
-    public java.util.Set<DataSource> Person.getDataSources() {
+    public Set<DataSource> Person.getDataSources() {
         return this.dataSources;
     }
     
-    public void Person.setDataSources(java.util.Set<DataSource> dataSources) {
+    public void Person.setDataSources(Set<DataSource> dataSources) {
         this.dataSources = dataSources;
+    }
+    
+    public Set<Comment> Person.getComments() {
+        return this.comments;
+    }
+    
+    public void Person.setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
     
 }

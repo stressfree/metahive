@@ -4,36 +4,42 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.ConditionOfUse;
+import java.lang.String;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 privileged aspect ConditionOfUseDataOnDemand_Roo_DataOnDemand {
     
     declare @type: ConditionOfUseDataOnDemand: @Component;
     
-    private Random ConditionOfUseDataOnDemand.rnd = new java.security.SecureRandom();
+    private Random ConditionOfUseDataOnDemand.rnd = new SecureRandom();
     
     private List<ConditionOfUse> ConditionOfUseDataOnDemand.data;
     
     public ConditionOfUse ConditionOfUseDataOnDemand.getNewTransientConditionOfUse(int index) {
-        com.sfs.metahive.model.ConditionOfUse obj = new com.sfs.metahive.model.ConditionOfUse();
-        setName(obj, index);
+        ConditionOfUse obj = new ConditionOfUse();
         setDetails(obj, index);
+        setName(obj, index);
         return obj;
     }
     
-    private void ConditionOfUseDataOnDemand.setName(ConditionOfUse obj, int index) {
-        java.lang.String name = "name_" + index;
-        if (name.length() > 100) {
-            name = name.substring(0, 100);
-        }
-        obj.setName(name);
+    public void ConditionOfUseDataOnDemand.setDetails(ConditionOfUse obj, int index) {
+        String details = "details_" + index;
+        obj.setDetails(details);
     }
     
-    private void ConditionOfUseDataOnDemand.setDetails(ConditionOfUse obj, int index) {
-        java.lang.String details = "details_" + index;
-        obj.setDetails(details);
+    public void ConditionOfUseDataOnDemand.setName(ConditionOfUse obj, int index) {
+        String name = "name_" + index;
+        if (name.length() > 100) {
+            name = new Random().nextInt(10) + name.substring(1, 100);
+        }
+        obj.setName(name);
     }
     
     public ConditionOfUse ConditionOfUseDataOnDemand.getSpecificConditionOfUse(int index) {
@@ -55,16 +61,25 @@ privileged aspect ConditionOfUseDataOnDemand_Roo_DataOnDemand {
     }
     
     public void ConditionOfUseDataOnDemand.init() {
-        data = com.sfs.metahive.model.ConditionOfUse.findConditionOfUseEntries(0, 10);
+        data = ConditionOfUse.findConditionOfUseEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'ConditionOfUse' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new java.util.ArrayList<com.sfs.metahive.model.ConditionOfUse>();
+        data = new ArrayList<com.sfs.metahive.model.ConditionOfUse>();
         for (int i = 0; i < 10; i++) {
-            com.sfs.metahive.model.ConditionOfUse obj = getNewTransientConditionOfUse(i);
-            obj.persist();
+            ConditionOfUse obj = getNewTransientConditionOfUse(i);
+            try {
+                obj.persist();
+            } catch (ConstraintViolationException e) {
+                StringBuilder msg = new StringBuilder();
+                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
+                    ConstraintViolation<?> cv = it.next();
+                    msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
+                }
+                throw new RuntimeException(msg.toString(), e);
+            }
             obj.flush();
             data.add(obj);
         }

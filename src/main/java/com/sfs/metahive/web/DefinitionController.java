@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.Category;
+import com.sfs.metahive.model.Comment;
+import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
@@ -67,6 +69,9 @@ public class DefinitionController extends BaseController {
         Definition definition = definitionForm.newDefinition(user);        
         definition.persist();
 
+        Comment comment = definitionForm.newComment(CommentType.CREATE, definition, user);
+        comment.persist();
+        
         FlashScope.appendMessage(
         		getMessage("metahive_create_complete", Definition.class), request);
         
@@ -127,9 +132,12 @@ public class DefinitionController extends BaseController {
         }
 
     	definition = definitionForm.mergedDefinition(definition, user);
-        
+    	        
         uiModel.asMap().clear();
         definition.merge();
+        
+        Comment comment = definitionForm.newComment(CommentType.MODIFY, definition, user);
+        comment.persist();
         
         FlashScope.appendMessage(
         		getMessage("metahive_edit_complete", Definition.class), request);

@@ -10,7 +10,7 @@
 	</head>	
   	<body class="nihilo claro spring">  	
   		<div id="doc4" class="yui-t7"> 
-			<div id="hd" role="banner">
+			<div id="hd" role="banner" class="banner">
 			    <tiles:insertAttribute name="header" ignore="true" />
 			    <tiles:insertAttribute name="menu" ignore="true" />   
 				<c:if test="${not empty requestScope.flash_message}">
@@ -19,10 +19,10 @@
 				</div>
 				</c:if>
 			</div>
-			<div id="bd" role="main">
+			<div id="bd" role="main" class="body">
 		    	<tiles:insertAttribute name="body"/>
 		    </div>
-		    <div id="ft" role="contentinfo">
+		    <div id="ft" role="contentinfo" class="footer">
 				<tiles:insertAttribute name="footer" ignore="true"/>
 		    </div>
 		</div>

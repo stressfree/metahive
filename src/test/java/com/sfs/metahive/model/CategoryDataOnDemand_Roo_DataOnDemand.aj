@@ -4,28 +4,34 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Category;
+import java.lang.String;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 privileged aspect CategoryDataOnDemand_Roo_DataOnDemand {
     
     declare @type: CategoryDataOnDemand: @Component;
     
-    private Random CategoryDataOnDemand.rnd = new java.security.SecureRandom();
+    private Random CategoryDataOnDemand.rnd = new SecureRandom();
     
     private List<Category> CategoryDataOnDemand.data;
     
     public Category CategoryDataOnDemand.getNewTransientCategory(int index) {
-        com.sfs.metahive.model.Category obj = new com.sfs.metahive.model.Category();
+        Category obj = new Category();
         setName(obj, index);
         return obj;
     }
     
-    private void CategoryDataOnDemand.setName(Category obj, int index) {
-        java.lang.String name = "name_" + index;
+    public void CategoryDataOnDemand.setName(Category obj, int index) {
+        String name = "name_" + index;
         if (name.length() > 100) {
-            name = name.substring(0, 100);
+            name = new Random().nextInt(10) + name.substring(1, 100);
         }
         obj.setName(name);
     }
@@ -49,16 +55,25 @@ privileged aspect CategoryDataOnDemand_Roo_DataOnDemand {
     }
     
     public void CategoryDataOnDemand.init() {
-        data = com.sfs.metahive.model.Category.findCategoryEntries(0, 10);
+        data = Category.findCategoryEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Category' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new java.util.ArrayList<com.sfs.metahive.model.Category>();
+        data = new ArrayList<com.sfs.metahive.model.Category>();
         for (int i = 0; i < 10; i++) {
-            com.sfs.metahive.model.Category obj = getNewTransientCategory(i);
-            obj.persist();
+            Category obj = getNewTransientCategory(i);
+            try {
+                obj.persist();
+            } catch (ConstraintViolationException e) {
+                StringBuilder msg = new StringBuilder();
+                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
+                    ConstraintViolation<?> cv = it.next();
+                    msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
+                }
+                throw new RuntimeException(msg.toString(), e);
+            }
             obj.flush();
             data.add(obj);
         }

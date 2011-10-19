@@ -4,57 +4,65 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Person;
+import com.sfs.metahive.model.UserRole;
+import com.sfs.metahive.model.UserStatus;
+import java.lang.String;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
     
     declare @type: PersonDataOnDemand: @Component;
     
-    private Random PersonDataOnDemand.rnd = new java.security.SecureRandom();
+    private Random PersonDataOnDemand.rnd = new SecureRandom();
     
     private List<Person> PersonDataOnDemand.data;
     
     public Person PersonDataOnDemand.getNewTransientPerson(int index) {
-        com.sfs.metahive.model.Person obj = new com.sfs.metahive.model.Person();
+        Person obj = new Person();
+        setEmailAddress(obj, index);
+        setFirstName(obj, index);
+        setLastName(obj, index);
         setOpenIdIdentifier(obj, index);
         setUserRole(obj, index);
         setUserStatus(obj, index);
-        setFirstName(obj, index);
-        setLastName(obj, index);
-        setEmailAddress(obj, index);
         return obj;
     }
     
-    private void PersonDataOnDemand.setOpenIdIdentifier(Person obj, int index) {
-        java.lang.String openIdIdentifier = "openIdIdentifier_" + index;
-        obj.setOpenIdIdentifier(openIdIdentifier);
+    public void PersonDataOnDemand.setEmailAddress(Person obj, int index) {
+        String emailAddress = "emailAddress_" + index;
+        obj.setEmailAddress(emailAddress);
     }
     
-    private void PersonDataOnDemand.setUserRole(Person obj, int index) {
-        com.sfs.metahive.model.UserRole userRole = com.sfs.metahive.model.UserRole.class.getEnumConstants()[0];
-        obj.setUserRole(userRole);
-    }
-    
-    private void PersonDataOnDemand.setUserStatus(Person obj, int index) {
-        com.sfs.metahive.model.UserStatus userStatus = com.sfs.metahive.model.UserStatus.class.getEnumConstants()[0];
-        obj.setUserStatus(userStatus);
-    }
-    
-    private void PersonDataOnDemand.setFirstName(Person obj, int index) {
-        java.lang.String firstName = "firstName_" + index;
+    public void PersonDataOnDemand.setFirstName(Person obj, int index) {
+        String firstName = "firstName_" + index;
         obj.setFirstName(firstName);
     }
     
-    private void PersonDataOnDemand.setLastName(Person obj, int index) {
-        java.lang.String lastName = "lastName_" + index;
+    public void PersonDataOnDemand.setLastName(Person obj, int index) {
+        String lastName = "lastName_" + index;
         obj.setLastName(lastName);
     }
     
-    private void PersonDataOnDemand.setEmailAddress(Person obj, int index) {
-        java.lang.String emailAddress = "emailAddress_" + index;
-        obj.setEmailAddress(emailAddress);
+    public void PersonDataOnDemand.setOpenIdIdentifier(Person obj, int index) {
+        String openIdIdentifier = "openIdIdentifier_" + index;
+        obj.setOpenIdIdentifier(openIdIdentifier);
+    }
+    
+    public void PersonDataOnDemand.setUserRole(Person obj, int index) {
+        UserRole userRole = UserRole.class.getEnumConstants()[0];
+        obj.setUserRole(userRole);
+    }
+    
+    public void PersonDataOnDemand.setUserStatus(Person obj, int index) {
+        UserStatus userStatus = UserStatus.class.getEnumConstants()[0];
+        obj.setUserStatus(userStatus);
     }
     
     public Person PersonDataOnDemand.getSpecificPerson(int index) {
@@ -76,16 +84,25 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
     }
     
     public void PersonDataOnDemand.init() {
-        data = com.sfs.metahive.model.Person.findPersonEntries(0, 10);
+        data = Person.findPersonEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Person' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new java.util.ArrayList<com.sfs.metahive.model.Person>();
+        data = new ArrayList<com.sfs.metahive.model.Person>();
         for (int i = 0; i < 10; i++) {
-            com.sfs.metahive.model.Person obj = getNewTransientPerson(i);
-            obj.persist();
+            Person obj = getNewTransientPerson(i);
+            try {
+                obj.persist();
+            } catch (ConstraintViolationException e) {
+                StringBuilder msg = new StringBuilder();
+                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
+                    ConstraintViolation<?> cv = it.next();
+                    msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
+                }
+                throw new RuntimeException(msg.toString(), e);
+            }
             obj.flush();
             data.add(obj);
         }
