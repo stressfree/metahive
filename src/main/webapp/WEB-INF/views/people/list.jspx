@@ -2,12 +2,7 @@
 <div class="yui-g" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     
-   	<spring:message var="people_heading" code="metahive_people" htmlEscape="true" />   	
-   	<spring:message code="label_com_sfs_metahive_model_userstatus_active" var="userstatus_active" htmlEscape="true" />
-   	<spring:message code="label_com_sfs_metahive_model_userstatus_disabled" var="userstatus_disabled" htmlEscape="true" />
-   	<spring:message code="label_com_sfs_metahive_model_userrole_newuser" var="userrole_newuser" htmlEscape="true" />
-   	<spring:message code="label_com_sfs_metahive_model_userrole_user" var="userrole_user" htmlEscape="true" />
-   	<spring:message code="label_com_sfs_metahive_model_userrole_admin" var="userrole_admin" htmlEscape="true" />
+   	<spring:message var="people_heading" code="metahive_people" htmlEscape="true" />
    	
     <util:panel id="_people_heading" title="${people_heading}">
     
@@ -35,7 +30,6 @@
     <script type="text/javascript">
     <![CDATA[
 	dojo.require("dojo.parser");
-    dojo.require("dojox.string.Builder");
    	dojo.require("dojox.grid.EnhancedGrid");
    	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
    	dojo.require("dijit.form.Button");
@@ -62,20 +56,13 @@
     });
 
     function loadGrid(dataGrid, datasource) {
-        dojo.xhrGet({
+    	dojo.xhrGet({
             url: datasource,
             handleAs: "json", 
             load: function(inputJson, ioArgs) {
-            	var data = new dojox.string.Builder(dojo.toJson(inputJson));
-            	data.replace('ACTIVE', '${userstatus_active}');
-            	data.replace('DISABLED', '${userstatus_disabled}');
-            	data.replace('ROLE_NEWUSER', '${userrole_newuser}');
-            	data.replace('ROLE_USER', '${userrole_user}');
-            	data.replace('ROLE_ADMIN', '${userrole_admin}');
-            	
             	dataGrid.setStore(
                         new dojo.data.ItemFileReadStore(
-                            {data: {items : dojo.fromJson(data)}})
+                            {data: {items :inputJson} })
                 );
             },
             error: function(error) {

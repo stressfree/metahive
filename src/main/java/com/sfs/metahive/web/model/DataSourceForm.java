@@ -4,19 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
-import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.ConditionOfUse;
-import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.Definition;
-import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Person;
 
@@ -24,7 +19,7 @@ import com.sfs.metahive.model.Person;
  * The Class DataSourceForm.
  */
 @RooJavaBean
-public class DataSourceForm {
+public class DataSourceForm extends BackingForm {
 
 	/** The id. */
 	private long id;
@@ -94,7 +89,7 @@ public class DataSourceForm {
 			dataSourceForm.setId(dataSource.getId());
 			dataSourceForm.setDefinition(dataSource.getDefinition());
 			dataSourceForm.setOrganisation(dataSource.getOrganisation());
-			dataSourceForm.setDetails(StringUtils.strip(dataSource.getDetails()));
+			dataSourceForm.setDetails(trim(dataSource.getDetails()));
 			dataSourceForm.setConditionOfUse(dataSource.getConditionOfUse());
 			dataSourceForm.setPointsOfContact(dataSource.getPointsOfContact());
 		}
@@ -117,7 +112,7 @@ public class DataSourceForm {
 		
 		if (dataSource != null && user != null) {
 			comment.setCommentType(commentType);
-			comment.setMessage(StringUtils.strip(this.getLogMessage()));
+			comment.setMessage(trim(this.getLogMessage()));
 			comment.setDefinition(dataSource.getDefinition());
 			comment.setDataSource(dataSource);
 			comment.setPerson(user);
@@ -142,7 +137,7 @@ public class DataSourceForm {
 				dataSource.setDefinition(this.getDefinition());
 				dataSource.setOrganisation(this.getOrganisation());
 			}
-			dataSource.setDetails(StringUtils.strip(this.getDetails()));
+			dataSource.setDetails(trim(this.getDetails()));
 			dataSource.setConditionOfUse(this.getConditionOfUse());
 			dataSource.setPointsOfContact(this.getPointsOfContact());
 		}

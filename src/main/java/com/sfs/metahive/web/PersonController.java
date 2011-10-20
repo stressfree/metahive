@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,7 +61,16 @@ public class PersonController extends BaseController {
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public @ResponseBody String list() {
-		return Person.toJsonArray(Person.findAllPeople());
+		String json = Person.toJsonArray(Person.findAllPeople());
+		
+		// Translate the user role and statuses
+		for (UserRole ur : UserRole.values()) {
+			json = StringUtils.replace(json, ur.name(), getMessage(ur.getMessageKey()));
+		}
+		for (UserStatus us : UserStatus.values()) {
+			json = StringUtils.replace(json, us.name(), getMessage(us.getMessageKey()));
+		}
+		return json;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

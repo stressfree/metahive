@@ -5,6 +5,12 @@
     
     <spring:url value="/definitions/${definition.id}?form" var="update_form_url" />
     <metahive:dictionary />
+        
+    <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
+    	<div class="actions">
+        	<div id="definitionEditButton" dojoType="dijit.form.Button" jsId="definitionEditButton"><spring:message code="metahive_button_edit_definition" /></div>
+  		</div>
+    </sec:authorize>
     
     <spring:url value="/definitions" var="browse" />
     <div class="definition-title">
@@ -13,12 +19,6 @@
     		<c:out value="${definition.name}" escapeXml="true" />
     	</h1>
     </div>
-    
-    <sec:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
-    	<div class="actions">
-        	<div id="definitionEditButton" dojoType="dijit.form.Button" jsId="definitionEditButton"><spring:message code="metahive_button_edit" /></div>
-  		</div>
-    </sec:authorize>
     
     <div class="metadata">
     	<div class="categories">
@@ -69,7 +69,7 @@
     			<div class="datasource-details">
     				<c:out value="${dataSource.details}" escapeXml="false" />
     			</div>
-    			<sec:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
+    			<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
     			<div class="actions-editdelete">
     				<spring:url value="/datasources/${dataSource.id}" var="update_datasource_url" />
    					<form dojoType="dijit.form.Form" action="${fn:escapeXml(update_datasource_url)}">
@@ -92,7 +92,7 @@
     	</c:forEach>
     	</ul>
     	
-    	<sec:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
+    	<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
     		<c:if test="${not empty organisations}">
     			<div class="actions-add">
     			<spring:url value="/datasources" var="create_datasource_url" />
@@ -118,17 +118,24 @@
     	<div class="comments">
     		<h4><spring:message code="label_com_sfs_metahive_model_comment_plural" />:</h4>
     		<c:forEach items="${definition.comments}" var="comment">
+    			<spring:message code="label_com_sfs_metahive_model_${comment.relatedObject}" var="commentObject" />
+    			<c:set var="commentDate"><fmt:formatDate pattern="d/M/yyyy" value="${comment.created}" /></c:set>
+    			<c:set var="commentTime"><fmt:formatDate pattern="h:mma" value="${comment.created}" /></c:set>
     			<div class="comment">
     				<div class="detail">
-    					<span class="author"><c:out value="${comment.person.formattedName}" escapeXml="true" /></span>
-    					action description on
-    					<span class="date"><fmt:formatDate pattern="d/M/yyyy 'at' h:mma" value="${comment.created}" /></span>
+    					<spring:message code="${comment.commentType.messageKey}" htmlEscape="false" arguments="${comment.person.formattedName},${fn:toLowerCase(commentObject)},${commentDate},${fn:toLowerCase(commentTime)}" />
     				</div>
-    				<div class="message">
-						<c:out value="${comment.message}" escapeXml="false" />
-    				</div>
+    				<div class="message"><c:out value="${fn:trim(comment.message)}" escapeXml="false" /></div>
     			</div>
     		</c:forEach>
+    		
+    		<spring:url value="/definitions/comment/${definition.id}" var="add_comment_url" />
+    		<spring:message code="metahive_add_comment" var="addComment" />
+    		<form:form action="${fn:escapeXml(add_comment_url)}" method="POST" modelAttribute="comment">
+                <field:editor label="${addComment}" field="message" required="true" id="c_com_sfs_metahive_model_Comment_message" z="user-managed" />
+                <button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_post" /></button>
+            </form:form>
+    		
    		</div>
    		
 		<script type="text/javascript">

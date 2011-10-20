@@ -3,13 +3,12 @@
   <jsp:directive.attribute name="name" type="java.lang.String" required="false" rtexprvalue="true" description="The name of the definition that was searched for"/>
   <jsp:directive.attribute name="category" type="java.lang.String" required="false" rtexprvalue="true" description="The category that was searched for"/>
   
-  <h2><spring:message code="metahive_datadictionary" /></h2>
-  
-  <sec:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
+  <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
 	  <div class="actions-new">
 	   	<div id="definitionNewButton" dojoType="dijit.form.Button" jsId="definitionNewButton"><spring:message code="metahive_button_new_definition" /></div>
 	  </div>
   </sec:authorize>
+  <h2><spring:message code="metahive_datadictionary" /></h2>
   
   <spring:url value="/definitions" var="search" />
   <form:form id="filterform" action="${search}" method="GET" dojoType="dijit.form.Form">
@@ -44,7 +43,7 @@
     });
     ]]>
   </script>
-  <sec:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
+  <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
 	<spring:url value="/definitions?form" var="create_url" />
   <script type="text/javascript">
   <![CDATA[

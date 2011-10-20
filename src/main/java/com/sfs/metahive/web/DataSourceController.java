@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DataSourceController extends BaseController {
 	
 	@RequestMapping(method = RequestMethod.POST)
-	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')")
     public String create(@Valid DataSourceForm dataSourceForm, BindingResult bindingResult, 
     		Model uiModel, HttpServletRequest request) {
 
@@ -78,7 +78,7 @@ public class DataSourceController extends BaseController {
     }
 
 	@RequestMapping(params = "form", method = RequestMethod.GET)
-	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')")
     public String createForm(
     		@RequestParam(value = "definition", required = true) Long definitionId,
     		@RequestParam(value = "organisation", required = true) Long organisationId,
@@ -107,7 +107,7 @@ public class DataSourceController extends BaseController {
     }
 	
 	@RequestMapping(method = RequestMethod.PUT)	
-	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')")
     public String update(@Valid DataSourceForm dataSourceForm,
     		BindingResult bindingResult, Model uiModel, HttpServletRequest request) {
 		
@@ -170,7 +170,7 @@ public class DataSourceController extends BaseController {
     }
 
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')")
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
 		
 		DataSource dataSource = DataSource.findDataSource(id);

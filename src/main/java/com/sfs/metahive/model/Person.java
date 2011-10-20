@@ -1,5 +1,7 @@
 package com.sfs.metahive.model;
 
+import flexjson.JSON;
+
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.json.RooJson;
@@ -89,6 +91,7 @@ public class Person implements UserDetails {
 	 * @return the username (never null)
 	 */
     @Override
+    @JSON(include=false)
 	public final String getUsername() {
         return this.openIdIdentifier;
     }
@@ -99,6 +102,7 @@ public class Person implements UserDetails {
      * @return the password (never null)
      */
     @Override
+    @JSON(include=false)
 	public final String getPassword() {
         return "";
     }
@@ -111,6 +115,7 @@ public class Person implements UserDetails {
      *         false if no longer valid (ie expired)
      */
     @Override
+    @JSON(include=false)
 	public final boolean isAccountNonExpired() {
         return true;
     }
@@ -122,6 +127,7 @@ public class Person implements UserDetails {
      * @return true if the user is not locked, false otherwise
      */
     @Override
+    @JSON(include=false)
 	public final boolean isAccountNonLocked() {
         return true;
     }
@@ -134,6 +140,7 @@ public class Person implements UserDetails {
      *         false if no longer valid (ie expired)
      */
     @Override
+    @JSON(include=false)
 	public final boolean isCredentialsNonExpired() {
         return true;
     }
@@ -145,6 +152,7 @@ public class Person implements UserDetails {
      * @return true if the user is enabled, false otherwise
      */
     @Override
+    @JSON(include=false)
 	public final boolean isEnabled() {
         return this.userStatus == UserStatus.ACTIVE;
     }

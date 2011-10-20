@@ -16,13 +16,13 @@
   <spring:url value="/resources/spring/Spring-Dojo.js" var="spring_dojo_url" />
   <spring:url value="/resources/images/favicon.ico" var="favicon" />
   
-  <link rel="stylesheet" type="text/css" href="${reset_url}"><!-- required for FF3 and Opera --></link>
-  <link rel="stylesheet" type="text/css" href="${base_url}"><!-- required for FF3 and Opera --></link>
-  <link rel="stylesheet" type="text/css" href="${nihilo_url}"><!-- required for FF3 and Opera --></link>
-  <link rel="stylesheet" type="text/css" href="${grid_url}"><!-- required for FF3 and Opera --></link>
-  <link rel="stylesheet" type="text/css" href="${grid_claro_url}"><!-- required for FF3 and Opera --></link>
-  <link rel="stylesheet" type="text/css" href="${multiselect_url}"><!-- required for FF3 and Opera --></link>
-  <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}"><!-- required for FF3 and Opera --></link>
+  <link rel="stylesheet" type="text/css" href="${reset_url}" />
+  <link rel="stylesheet" type="text/css" href="${base_url}" />
+  <link rel="stylesheet" type="text/css" href="${nihilo_url}" />
+  <link rel="stylesheet" type="text/css" href="${grid_url}" />
+  <link rel="stylesheet" type="text/css" href="${grid_claro_url}" />
+  <link rel="stylesheet" type="text/css" href="${multiselect_url}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}" />
   <link rel="SHORTCUT ICON" href="${favicon}" />
 
   <!-- Get the user local from the page context (it was set by Spring MVC's locale resolver) -->

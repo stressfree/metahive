@@ -65,4 +65,17 @@ public class Comment {
     	created = new Date();
     }
     
+    /**
+     * Gets the related object type.
+     *
+     * @return the related object
+     */
+    public String getRelatedObject() {
+    	String changedObject = "definition";
+    	
+    	if (dataSource != null) {
+    		changedObject = "datasource";
+    	}    	
+    	return changedObject;
+    }
 }

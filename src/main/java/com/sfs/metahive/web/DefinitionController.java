@@ -45,7 +45,7 @@ public class DefinitionController extends BaseController {
 	 * @return the string
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')")
     public String create(@Valid DefinitionForm definitionForm, 
     		BindingResult bindingResult, Model uiModel, 
     		HttpServletRequest request) {
@@ -101,7 +101,7 @@ public class DefinitionController extends BaseController {
 	 * @return the string
 	 */
 	@RequestMapping(method = RequestMethod.PUT)
-	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')")
     public String update(@Valid DefinitionForm definitionForm, 
     		BindingResult bindingResult, Model uiModel, 
     		HttpServletRequest request) {
@@ -169,6 +169,7 @@ public class DefinitionController extends BaseController {
 		}
 		
 		uiModel.addAttribute("definition", Definition.findDefinition(id));
+		uiModel.addAttribute("comment", new Comment());
 		uiModel.addAttribute("itemId", id);
 		uiModel.addAttribute("organisations", organisations);
 		

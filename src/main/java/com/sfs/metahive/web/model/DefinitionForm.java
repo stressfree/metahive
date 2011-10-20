@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
 import com.sfs.metahive.model.Category;
@@ -21,7 +20,7 @@ import com.sfs.metahive.model.Person;
  * The Class DefinitionForm.
  */
 @RooJavaBean
-public class DefinitionForm {
+public class DefinitionForm extends BackingForm {
 
 	/** The id. */
 	private long id;
@@ -93,17 +92,16 @@ public class DefinitionForm {
 		
 		if (definition != null) {
 			definitionForm.setId(definition.getId());
-			definitionForm.setName(StringUtils.strip(definition.getName()));
+			definitionForm.setName(trim(definition.getName()));
 			definitionForm.setCategories(definition.getCategories());
 			definitionForm.setDataType(definition.getDataType());
 			
 			if (definition.getDescription() != null) {
 				Description dsc = definition.getDescription();
-				definitionForm.setDescription(StringUtils.strip(dsc.getDescription()));
-				definitionForm.setExampleValues(
-						StringUtils.strip(dsc.getExampleValues()));
+				definitionForm.setDescription(trim(dsc.getDescription()));
+				definitionForm.setExampleValues(trim(dsc.getExampleValues()));
 				definitionForm.setKeyValueDetermination(
-						StringUtils.strip(dsc.getKeyValueDetermination()));
+						trim(dsc.getKeyValueDetermination()));
 			}
 		}
 		
@@ -125,7 +123,7 @@ public class DefinitionForm {
 		
 		if (definition != null && description != null && user != null) {
 			comment.setCommentType(commentType);
-			comment.setMessage(StringUtils.strip(this.getLogMessage()));
+			comment.setMessage(trim(this.getLogMessage()));
 			comment.setDefinition(definition);
 			comment.setDescription(definition.getDescription());
 			comment.setPerson(user);
@@ -147,14 +145,13 @@ public class DefinitionForm {
 
 	    	Description description = new Description();
 	        
-			definition.setName(StringUtils.strip(this.getName()));
+			definition.setName(trim(this.getName()));
 	        definition.setDataType(this.getDataType());
 	        definition.setCategories(this.getCategories());
 	            	
-	        description.setDescription(StringUtils.strip(this.getDescription()));
-	        description.setExampleValues(StringUtils.strip(this.getExampleValues()));
-	        description.setKeyValueDetermination(
-	        		StringUtils.strip(this.getKeyValueDetermination()));
+	        description.setDescription(trim(this.getDescription()));
+	        description.setExampleValues(trim(this.getExampleValues()));
+	        description.setKeyValueDetermination(trim(this.getKeyValueDetermination()));
 	        description.setPerson(user);   
 	        
 	        definition.addDescription(description);
