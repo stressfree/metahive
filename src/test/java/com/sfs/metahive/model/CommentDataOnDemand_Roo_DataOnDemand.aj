@@ -5,13 +5,11 @@ package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.CommentType;
-import com.sfs.metahive.model.DataSource;
-import com.sfs.metahive.model.DataSourceDataOnDemand;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.DefinitionDataOnDemand;
-import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.PersonDataOnDemand;
+import java.lang.Long;
 import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -35,9 +33,6 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
     private List<Comment> CommentDataOnDemand.data;
     
     @Autowired
-    private DataSourceDataOnDemand CommentDataOnDemand.dataSourceDataOnDemand;
-    
-    @Autowired
     private DefinitionDataOnDemand CommentDataOnDemand.definitionDataOnDemand;
     
     @Autowired
@@ -47,9 +42,9 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
         Comment obj = new Comment();
         setCommentType(obj, index);
         setCreated(obj, index);
-        setDataSource(obj, index);
+        setDataSourceId(obj, index);
         setDefinition(obj, index);
-        setDescription(obj, index);
+        setDescriptionId(obj, index);
         setMessage(obj, index);
         setPerson(obj, index);
         return obj;
@@ -65,9 +60,9 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
         obj.setCreated(created);
     }
     
-    public void CommentDataOnDemand.setDataSource(Comment obj, int index) {
-        DataSource dataSource = dataSourceDataOnDemand.getSpecificDataSource(index);
-        obj.setDataSource(dataSource);
+    public void CommentDataOnDemand.setDataSourceId(Comment obj, int index) {
+        Long dataSourceId = new Integer(index).longValue();
+        obj.setDataSourceId(dataSourceId);
     }
     
     public void CommentDataOnDemand.setDefinition(Comment obj, int index) {
@@ -75,9 +70,9 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
         obj.setDefinition(definition);
     }
     
-    public void CommentDataOnDemand.setDescription(Comment obj, int index) {
-        Description description = null;
-        obj.setDescription(description);
+    public void CommentDataOnDemand.setDescriptionId(Comment obj, int index) {
+        Long descriptionId = new Integer(index).longValue();
+        obj.setDescriptionId(descriptionId);
     }
     
     public void CommentDataOnDemand.setMessage(Comment obj, int index) {

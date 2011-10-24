@@ -15,6 +15,7 @@ import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.UserRole;
+import com.sfs.metahive.web.model.CommentForm;
 import com.sfs.metahive.web.model.DefinitionForm;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -168,8 +169,13 @@ public class DefinitionController extends BaseController {
 			}
 		}
 		
-		uiModel.addAttribute("definition", Definition.findDefinition(id));
-		uiModel.addAttribute("comment", new Comment());
+		Definition definition = Definition.findDefinition(id);
+		
+		CommentForm commentForm = new CommentForm();
+		commentForm.setDefinition(definition);
+		
+		uiModel.addAttribute("definition", definition);
+		uiModel.addAttribute("comment", commentForm);
 		uiModel.addAttribute("itemId", id);
 		uiModel.addAttribute("organisations", organisations);
 		

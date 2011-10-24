@@ -11,12 +11,13 @@ privileged aspect Comment_Roo_ToString {
         StringBuilder sb = new StringBuilder();
         sb.append("CommentType: ").append(getCommentType()).append(", ");
         sb.append("Created: ").append(getCreated()).append(", ");
-        sb.append("DataSource: ").append(getDataSource()).append(", ");
+        sb.append("DataSourceId: ").append(getDataSourceId()).append(", ");
         sb.append("Definition: ").append(getDefinition()).append(", ");
-        sb.append("Description: ").append(getDescription()).append(", ");
+        sb.append("DescriptionId: ").append(getDescriptionId()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Message: ").append(getMessage()).append(", ");
         sb.append("Person: ").append(getPerson()).append(", ");
+        sb.append("RelatedObject: ").append(getRelatedObject()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }

@@ -3,7 +3,6 @@
 
 package com.sfs.metahive.model;
 
-import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.ConditionOfUse;
 import com.sfs.metahive.model.ConditionOfUseDataOnDemand;
 import com.sfs.metahive.model.DataSource;
@@ -41,17 +40,11 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     
     public DataSource DataSourceDataOnDemand.getNewTransientDataSource(int index) {
         DataSource obj = new DataSource();
-        setComment(obj, index);
         setConditionOfUse(obj, index);
         setDefinition(obj, index);
         setDetails(obj, index);
         setOrganisation(obj, index);
         return obj;
-    }
-    
-    public void DataSourceDataOnDemand.setComment(DataSource obj, int index) {
-        Comment comment = null;
-        obj.setComment(comment);
     }
     
     public void DataSourceDataOnDemand.setConditionOfUse(DataSource obj, int index) {

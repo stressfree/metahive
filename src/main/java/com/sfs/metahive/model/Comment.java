@@ -7,7 +7,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,17 +34,14 @@ public class Comment {
     private String message;
     
 	/** The related definition. */
-    @NotNull
     @ManyToOne
     private Definition definition;
     
-    /** The description. */
-    @OneToOne
-    private Description description;
+    /** The related description id if applicable. */
+    private Long descriptionId;
     
-    /** The data source. */
-    @OneToOne
-    private DataSource dataSource;    
+    /** The related data source id if applicable. */
+    private Long dataSourceId;    
     
 	/** The person who created the comment. */
 	@NotNull
@@ -73,7 +69,7 @@ public class Comment {
     public String getRelatedObject() {
     	String changedObject = "definition";
     	
-    	if (dataSource != null) {
+    	if (this.dataSourceId != null && this.dataSourceId > 0) {
     		changedObject = "datasource";
     	}    	
     	return changedObject;

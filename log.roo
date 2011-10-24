@@ -113,3 +113,23 @@ persistence setup --database HYPERSONIC_IN_MEMORY --provider HIBERNATE
 entity --class com.sfs.metahive.model.Comment --testAutomatically
 field string --fieldName message --notNull
 // Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-19 16:42:01
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-10-24 10:20:54
+perform clean
+perform package
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-24 10:25:02
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-10-24 10:25:16
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-24 10:27:16
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-10-24 10:28:07
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-24 10:28:46
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-10-24 10:30:35
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-24 10:31:27
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-10-24 10:32:01
+quit
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-24 10:36:17
+// Spring Roo 1.1.4.RELEASE [rev f787ce7] log opened at 2011-10-24 10:37:12
+// Spring Roo 1.1.4.RELEASE [rev f787ce7] log opened at 2011-10-24 10:42:58
+exit
+// Spring Roo 1.1.4.RELEASE [rev f787ce7] log closed at 2011-10-24 14:47:57
+// Spring Roo 1.1.4.RELEASE [rev f787ce7] log closed at 2011-10-24 22:18:52
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-10-24 22:19:13
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-24 22:34:27

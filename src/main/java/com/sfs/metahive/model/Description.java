@@ -8,7 +8,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,10 +47,6 @@ public class Description {
 	@NotNull
 	@ManyToOne
 	private Person person;
-	
-	/** The associated comment by the person who created the description */
-	@OneToOne
-	private Comment comment;
 	
 	/** The created timestamp. */
     @Temporal(TemporalType.TIMESTAMP)

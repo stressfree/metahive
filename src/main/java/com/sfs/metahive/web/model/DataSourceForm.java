@@ -114,7 +114,7 @@ public class DataSourceForm extends BackingForm {
 			comment.setCommentType(commentType);
 			comment.setMessage(trim(this.getLogMessage()));
 			comment.setDefinition(dataSource.getDefinition());
-			comment.setDataSource(dataSource);
+			comment.setDataSourceId(dataSource.getId());
 			comment.setPerson(user);
 		}
 		return comment;

@@ -3,8 +3,6 @@
 
 package com.sfs.metahive.model;
 
-import com.sfs.metahive.model.Comment;
-import com.sfs.metahive.model.CommentDataOnDemand;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.DefinitionDataOnDemand;
 import com.sfs.metahive.model.Description;
@@ -33,9 +31,6 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
     private List<Description> DescriptionDataOnDemand.data;
     
     @Autowired
-    private CommentDataOnDemand DescriptionDataOnDemand.commentDataOnDemand;
-    
-    @Autowired
     private DefinitionDataOnDemand DescriptionDataOnDemand.definitionDataOnDemand;
     
     @Autowired
@@ -43,7 +38,6 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
     
     public Description DescriptionDataOnDemand.getNewTransientDescription(int index) {
         Description obj = new Description();
-        setComment(obj, index);
         setCreated(obj, index);
         setDefinition(obj, index);
         setDescription(obj, index);
@@ -51,11 +45,6 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
         setKeyValueDetermination(obj, index);
         setPerson(obj, index);
         return obj;
-    }
-    
-    public void DescriptionDataOnDemand.setComment(Description obj, int index) {
-        Comment comment = commentDataOnDemand.getSpecificComment(index);
-        obj.setComment(comment);
     }
     
     public void DescriptionDataOnDemand.setCreated(Description obj, int index) {

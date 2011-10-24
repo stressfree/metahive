@@ -125,7 +125,9 @@ public class DefinitionForm extends BackingForm {
 			comment.setCommentType(commentType);
 			comment.setMessage(trim(this.getLogMessage()));
 			comment.setDefinition(definition);
-			comment.setDescription(definition.getDescription());
+			if (definition.getDescription() != null) {
+				comment.setDescriptionId(definition.getDescription().getId());
+			}
 			comment.setPerson(user);
 		}
 		return comment;

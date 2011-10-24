@@ -9,7 +9,6 @@ privileged aspect Description_Roo_ToString {
     
     public String Description.toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Comment: ").append(getComment()).append(", ");
         sb.append("Created: ").append(getCreated()).append(", ");
         sb.append("Definition: ").append(getDefinition()).append(", ");
         sb.append("Description: ").append(getDescription()).append(", ");
