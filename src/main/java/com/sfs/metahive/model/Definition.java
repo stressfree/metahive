@@ -1,6 +1,7 @@
 package com.sfs.metahive.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -133,4 +134,15 @@ public class Definition {
 	public final String toString() {
 		return getName();
 	}
+	
+	/**
+	 * Find all of the definitions.
+	 * 
+	 * @return an ordered list of definitions
+	 */
+	public static List<Definition> findAllDefinitions() {
+        return entityManager().createQuery(
+        		"SELECT o FROM Definition o ORDER BY name ASC", Definition.class)
+        		.getResultList();
+    }
 }

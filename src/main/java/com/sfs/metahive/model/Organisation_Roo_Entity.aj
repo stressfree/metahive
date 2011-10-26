@@ -96,10 +96,6 @@ privileged aspect Organisation_Roo_Entity {
         return entityManager().createQuery("SELECT COUNT(o) FROM Organisation o", Long.class).getSingleResult();
     }
     
-    public static List<Organisation> Organisation.findAllOrganisations() {
-        return entityManager().createQuery("SELECT o FROM Organisation o", Organisation.class).getResultList();
-    }
-    
     public static Organisation Organisation.findOrganisation(Long id) {
         if (id == null) return null;
         return entityManager().find(Organisation.class, id);

@@ -96,10 +96,6 @@ privileged aspect Definition_Roo_Entity {
         return entityManager().createQuery("SELECT COUNT(o) FROM Definition o", Long.class).getSingleResult();
     }
     
-    public static List<Definition> Definition.findAllDefinitions() {
-        return entityManager().createQuery("SELECT o FROM Definition o", Definition.class).getResultList();
-    }
-    
     public static Definition Definition.findDefinition(Long id) {
         if (id == null) return null;
         return entityManager().find(Definition.class, id);

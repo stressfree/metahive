@@ -7,11 +7,9 @@
 	<menu:item id="i_home" url="/" z="user-managed"/>
     <menu:item id="i_definition_list" url="/definitions" z="user-managed"/>
 	<sec:authorize ifAllGranted="ROLE_ADMIN">
-    	<menu:category id="c_administration" z="user-managed">
-        	<menu:item id="i_administration_people" url="/people" z="user-managed"/>
-        	<menu:item id="i_administration_organisations" url="/organisations" z="user-managed"/>
-        	<menu:item id="i_administration_list" url="/lists" z="user-managed"/>
-    	</menu:category>
+    	<menu:item id="i_administration_people" url="/people" z="user-managed"/>
+        <menu:item id="i_administration_organisations" url="/organisations" z="user-managed"/>
+        <menu:item id="i_administration_list" url="/lists" z="user-managed"/>
     </sec:authorize> 
   	<c:choose>
   		<c:when test="${pageContext['request'].userPrincipal != null}">

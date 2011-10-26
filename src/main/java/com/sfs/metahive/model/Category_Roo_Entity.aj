@@ -96,10 +96,6 @@ privileged aspect Category_Roo_Entity {
         return entityManager().createQuery("SELECT COUNT(o) FROM Category o", Long.class).getSingleResult();
     }
     
-    public static List<Category> Category.findAllCategorys() {
-        return entityManager().createQuery("SELECT o FROM Category o", Category.class).getResultList();
-    }
-    
     public static Category Category.findCategory(Long id) {
         if (id == null) return null;
         return entityManager().find(Category.class, id);

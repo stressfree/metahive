@@ -96,10 +96,6 @@ privileged aspect DataType_Roo_Entity {
         return entityManager().createQuery("SELECT COUNT(o) FROM DataType o", Long.class).getSingleResult();
     }
     
-    public static List<DataType> DataType.findAllDataTypes() {
-        return entityManager().createQuery("SELECT o FROM DataType o", DataType.class).getResultList();
-    }
-    
     public static DataType DataType.findDataType(Long id) {
         if (id == null) return null;
         return entityManager().find(DataType.class, id);

@@ -1,6 +1,7 @@
 package com.sfs.metahive.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -38,4 +39,13 @@ public class ConditionOfUse {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "conditionOfUse")
 	private Set<DataSource> dataSources = new HashSet<DataSource>();
 	
+	/**
+	 * Find all conditions of use ordered by their name.
+	 * 
+	 * @return an ordered list of conditions of use
+	 */
+	public static List<ConditionOfUse> findAllConditionOfUses() {
+        return entityManager().createQuery("SELECT o FROM ConditionOfUse o ORDER BY name",
+        		ConditionOfUse.class).getResultList();
+    }
 }

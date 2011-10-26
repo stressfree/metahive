@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" id="footer" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" id="footer" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8"/>
   <jsp:output omit-xml-declaration="yes"/>
 
-  <spring:url value="/" var="home"/>
-  <ul>
-  	<li><a href="${home}"><spring:message code="button_home"/></a></li>
+  <menu:menu id="_footer_menu" z="user-managed">
+	<menu:item id="i_home" url="/" z="user-managed"/>
+    <menu:item id="i_definition_list" url="/definitions" z="user-managed"/>
   	<c:choose>
   		<c:when test="${pageContext['request'].userPrincipal != null}">
-  			<spring:url value="/user" var="userdetails"/>
-  			<spring:url value="/resources/j_spring_security_logout" var="logout"/>
-      		<li><a href="${userdetails}"><spring:message code="metahive_userdetails"/></a></li>
-      		<li><a href="${logout}"><spring:message code="security_logout"/></a></li>
+  			<menu:item id="i_userdetails" url="/user" z="user-managed"/>
+  			<menu:item id="i_logout" url="/resources/j_spring_security_logout" z="user-managed"/>
   		</c:when>
   		<c:otherwise>
-  			<spring:url value="/login" var="login"/>
-  			<li><a href="${login}"><spring:message code="security_login_title"/></a></li>
+  			<menu:item id="i_login" url="/login" z="user-managed"/>
   		</c:otherwise>
-  	</c:choose>
-  </ul>
+  	</c:choose>    
+  </menu:menu>
 
 </div>

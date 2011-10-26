@@ -1,6 +1,7 @@
 package com.sfs.metahive.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -41,4 +42,14 @@ public class Category {
 	public void addDefinition(Definition definition) {
 		definition.getCategories().add(this);
 	}
+	
+	/**
+	 * Find all of the categories ordered by name.
+	 * 
+	 * @return an ordered list of categories
+	 */
+	public static List<Category> findAllCategorys() {
+        return entityManager().createQuery("SELECT o FROM Category o ORDER BY name", 
+        		Category.class).getResultList();
+    }
 }

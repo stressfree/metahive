@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -197,4 +198,14 @@ public class Person implements UserDetails {
 		dataSource.addPointOfContact(this);
 	}
 	
+	/**
+	 * Find an ordered list of people.
+	 * 
+	 * @return an ordered list of people
+	 */
+	public static List<Person> findAllPeople() {
+        return entityManager().createQuery(
+        		"SELECT o FROM Person o ORDER BY lastName, firstName", 
+        		Person.class).getResultList();
+    }
 }

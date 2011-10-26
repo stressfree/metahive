@@ -1,6 +1,7 @@
 package com.sfs.metahive.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,5 +33,14 @@ public class DataType {
 	/** The definitions. */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "dataType")
 	private Set<Definition> definitions = new HashSet<Definition>();
-	
+
+	/**
+	 * Find an ordered list of data types.
+	 * 
+	 * @return an ordered list of data types
+	 */
+    public static List<DataType> findAllDataTypes() {
+        return entityManager().createQuery("SELECT o FROM DataType o ORDER BY name",
+        		DataType.class).getResultList();
+    }
 }

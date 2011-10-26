@@ -96,10 +96,6 @@ privileged aspect ConditionOfUse_Roo_Entity {
         return entityManager().createQuery("SELECT COUNT(o) FROM ConditionOfUse o", Long.class).getSingleResult();
     }
     
-    public static List<ConditionOfUse> ConditionOfUse.findAllConditionOfUses() {
-        return entityManager().createQuery("SELECT o FROM ConditionOfUse o", ConditionOfUse.class).getResultList();
-    }
-    
     public static ConditionOfUse ConditionOfUse.findConditionOfUse(Long id) {
         if (id == null) return null;
         return entityManager().find(ConditionOfUse.class, id);

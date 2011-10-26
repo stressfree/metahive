@@ -1,6 +1,7 @@
 package com.sfs.metahive.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -76,5 +77,15 @@ public class Organisation {
 		dataSource.setOrganisation(this);
 		getDataSources().add(dataSource);
 	}
+	
+	/**
+	 * Find an ordered list of organisations.
+	 * 
+	 * @return an ordered list of organisations
+	 */
+	public static List<Organisation> findAllOrganisations() {
+        return entityManager().createQuery("SELECT o FROM Organisation o ORDER BY name",
+        		Organisation.class).getResultList();
+    }
 	
 }
