@@ -2,6 +2,7 @@ body {
    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
    font-weight: 300;
    line-height: 1.5em;
+   color: #333;
 }
 b, strong, label {
 	font-weight: 600;
@@ -25,6 +26,41 @@ label {
 	line-height: 1.5em;	
 }
 
+#header {
+	background: #e92c19;
+	margin: 10px 0 1em 0;
+	border: 1px solid #ccc;
+}
+#header h2 {
+	font-size: 2.5em;
+	margin: 0 0 0 0.5em;
+	padding: 2em 0 0.5em 0;
+	font-weight: lighter!important;
+}
+#header h2 a {
+	text-decoration: none;
+	color: #fff;
+}
+#menu {
+	text-align: right;	
+	padding: 0 1em 0 0;
+	font-size: 1.4em;
+}
+#menu ul {
+	margin: 0;
+	padding: 0;	
+}
+#menu li {
+	display: inline;
+	padding: 0 0 0 1em;
+}
+
+#footer {
+	border-top: 1px solid #eee;
+	padding: 1em 0 2em 0;
+	margin: 2em 0 0 0;
+}
+
 .definition .metadata {
 	width: 280px;
 	float: right;
@@ -32,10 +68,23 @@ label {
 	padding: 10px 15px;
 }
 
-.actions, .actions-new {
+.dictionary-header .actions {
 	float: right;
+	width: 500px;
+	text-align: right;
+}
+.dictionary-header .actions form {
+	display: inline;
 }
 
+.definition-title span {
+	font-size: 0.8em;	
+}
+
+.comments .actions {
+	float: left;	
+}
+	
 #filterform {
 	clear: both;
 	border: 1px solid #ccc;
@@ -47,7 +96,7 @@ label {
 	float: left;
 }
 #filterform label {
-	line-height: 1.8em;	
+	line-height: 1.9em;	
 }
 
 .dojoxGrid table {

@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.Comment;
+import com.sfs.metahive.model.ConditionOfUse;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.web.model.CommentForm;
@@ -13,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -65,5 +67,20 @@ public class CommentController extends BaseController {
         return "redirect:/definitions/" 
         		+ encodeUrlPathSegment(definition.getId().toString(), request);
     }
-	
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String delete(@PathVariable("id") Long id, Model uiModel,
+    		HttpServletRequest request) {		
+        Comment comment = Comment.findComment(id);
+        Definition definition = comment.getDefinition();
+        comment.remove();
+        uiModel.asMap().clear();
+
+        FlashScope.appendMessage(
+        		getMessage("metahive_delete_complete", Comment.class), request);
+
+        return "redirect:/definitions/" 
+        		+ encodeUrlPathSegment(definition.getId().toString(), request);
+    }
 }

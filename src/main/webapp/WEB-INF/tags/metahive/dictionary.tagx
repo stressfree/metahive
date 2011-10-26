@@ -2,33 +2,48 @@
   <jsp:output omit-xml-declaration="yes"/>  
   <jsp:directive.attribute name="name" type="java.lang.String" required="false" rtexprvalue="true" description="The name of the definition that was searched for"/>
   <jsp:directive.attribute name="category" type="java.lang.String" required="false" rtexprvalue="true" description="The category that was searched for"/>
-  
-  <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
-	  <div class="actions-new">
-	   	<div id="definitionNewButton" dojoType="dijit.form.Button" jsId="definitionNewButton"><spring:message code="metahive_button_new_definition" /></div>
-	  </div>
-  </sec:authorize>
-  <h2><spring:message code="metahive_datadictionary" /></h2>
-  
-  <spring:url value="/definitions" var="search" />
-  <form:form id="filterform" action="${search}" method="GET" dojoType="dijit.form.Form">
-  	<div class="filterfield">
-  		<label for="name"><spring:message code="label_com_sfs_metahive_model_definition_name" htmlEscape="true" />: </label>
-  		<input type="text" id="name" name="name" dojoType="dijit.form.TextBox" value="" />
-  	</div>  	
-  	<div class="filterfield">
-  		<label for="category"><spring:message code="label_com_sfs_metahive_model_category" htmlEscape="true" />: </label>
-  		<select id="category" name="category" style="width: 200px;" dojoType="dijit.form.Select">
-  			<option value="-">Any category</option>
-  			<c:forEach items="${categories}" var="category">
-  			<option value="${category.name}">${category.name}</option>
-  			</c:forEach>
-  		</select>
-  	</div> 	
-  	<spring:message code="button_filter" var="filter_button" htmlEscape="false" />
-    <button dojoType="dijit.form.Button" id="filter" type="submit"><c:out value="${fn:escapeXml(filter_button)}" /></button>
-    <div class="clear"><!-- --></div>
-  </form:form>
+    
+  <div class="dictionary-header">
+	  <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
+	  	 <div class="actions">
+		   	<div id="definitionNewButton" dojoType="dijit.form.Button" jsId="definitionNewButton"><spring:message code="metahive_button_new_definition" /></div>
+		   	<c:if test="${not empty definition}">
+		   		<div id="definitionEditButton" dojoType="dijit.form.Button" jsId="definitionEditButton"><spring:message code="metahive_button_edit_definition" /></div>
+		        <sec:authorize ifAllGranted="ROLE_ADMIN">
+					<spring:url value="/definitions/${definition.id}" var="delete_definition_url" />
+					<form:form action="${fn:escapeXml(delete_definition_url)}" method="DELETE">
+		           		<spring:message arguments="definition" code="entity_delete" var="delete_label" htmlEscape="false" />
+		           		<c:set var="delete_confirm_msg">
+		            		<spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
+		           		</c:set>
+		           		<button dojoType="dijit.form.Button" onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete_definition" /></button>
+		         	</form:form>
+		        </sec:authorize>
+		   	</c:if>	   	
+	     </div>
+	  </sec:authorize>
+	  <h2><spring:message code="metahive_datadictionary" /></h2>
+	  
+	  <spring:url value="/definitions" var="search" />
+	  <form:form id="filterform" action="${search}" method="GET" dojoType="dijit.form.Form">
+	  	<div class="filterfield">
+	  		<label for="name"><spring:message code="label_com_sfs_metahive_model_definition_name" htmlEscape="true" />: </label>
+	  		<input type="text" id="name" name="name" dojoType="dijit.form.TextBox" value="" />
+	  	</div>  	
+	  	<div class="filterfield">
+	  		<label for="category"><spring:message code="label_com_sfs_metahive_model_category" htmlEscape="true" />: </label>
+	  		<select id="category" name="category" style="width: 200px;" dojoType="dijit.form.Select">
+	  			<option value="-">Any category</option>
+	  			<c:forEach items="${categories}" var="category">
+	  			<option value="${category.name}">${category.name}</option>
+	  			</c:forEach>
+	  		</select>
+	  	</div> 	
+	  	<spring:message code="button_filter" var="filter_button" htmlEscape="false" />
+	    <button dojoType="dijit.form.Button" id="filter" type="submit"><c:out value="${fn:escapeXml(filter_button)}" /></button>
+	    <div class="clear"><!-- --></div>
+	  </form:form>
+  </div>
   
   <script type="text/javascript">
   <![CDATA[
@@ -54,5 +69,17 @@
 	});
 	]]>
   </script>
+  <c:if test="${not empty definition}">
+  <spring:url value="/definitions/${definition.id}?form" var="update_form_url" />
+  <script type="text/javascript">
+  <![CDATA[
+	dojo.addOnLoad(function() {  	
+    	dojo.connect(definitionEditButton, "onClick", function() {
+        	window.location.href="${update_form_url}";
+    	});
+	});
+	]]>
+  </script>
+  </c:if>
   </sec:authorize>
 </jsp:root>

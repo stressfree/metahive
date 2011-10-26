@@ -215,9 +215,7 @@ public class DefinitionController extends BaseController {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String delete(@PathVariable("id") Long id, @RequestParam(
-    		value = "page", required = false) Integer page, 
-    		@RequestParam(value = "size", required = false) Integer size, Model uiModel,
+    public String delete(@PathVariable("id") Long id, Model uiModel,
     		HttpServletRequest request) {
 		Definition.findDefinition(id).remove();
         uiModel.asMap().clear();
