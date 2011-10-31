@@ -2,5 +2,6 @@
 .classpath
 .project
 .settings
+output.log
 log.roo
 target
