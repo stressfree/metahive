@@ -55,14 +55,20 @@
     <spring:url value="/categories" var="categories_url" />
     <spring:url value="/categories/list" var="categories_datasource"/>
     <spring:url value="/categories?form" var="add_category_url" />
+    <spring:message arguments="category" code="metahive_edit_select" var="category_edit" />
+    <spring:message arguments="category" code="metahive_delete_confirm" var="category_delete" />
         
     <spring:url value="/datatypes" var="datatypes_url" />
     <spring:url value="/datatypes/list" var="datatypes_datasource"/>
     <spring:url value="/datatypes?form" var="add_datatype_url" />
+    <spring:message arguments="data type" code="metahive_edit_select" var="datatype_edit" />
+    <spring:message arguments="data type" code="metahive_delete_confirm" var="datatype_delete" />
     
     <spring:url value="/conditions" var="conditions_url" />
     <spring:url value="/conditions/list" var="conditions_datasource"/>
     <spring:url value="/conditions?form" var="add_condition_url" />
+    <spring:message arguments="condition of use" code="metahive_edit_select" var="condition_edit" />
+    <spring:message arguments="condition of use" code="metahive_delete_confirm" var="condition_delete" />
     
     <script type="text/javascript">
     <![CDATA[
@@ -92,7 +98,7 @@
         		var id = categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex).id;
             	window.location.href="${categories_url}/" + id + "?form";        		
             } else {
-            	alert('<spring:message arguments="category" code="metahive_edit_select" />');            	
+            	alert('${category_edit}');            	
             }
         });
         
@@ -101,7 +107,7 @@
         		var id = dataTypeDataGrid.getItem(dataTypeDataGrid.selection.selectedIndex).id;
             	window.location.href="${datatypes_url}/" + id + "?form";        		
             } else {
-            	alert('<spring:message arguments="data type" code="metahive_edit_select" />');            	
+            	alert('${datatype_edit}');            	
             }
         });
         
@@ -110,12 +116,12 @@
         		var id = conditionOfUseDataGrid.getItem(conditionOfUseDataGrid.selection.selectedIndex).id;
             	window.location.href="${conditions_url}/" + id + "?form";        		
             } else {
-            	alert('<spring:message arguments="data type" code="metahive_edit_select" />');            	
+            	alert('${condition_edit}');            	
             }
         });
         
         dojo.connect(categoryDeleteButton, "onClick", function() {
-        	if (confirm('<spring:message arguments="category" code="metahive_delete_confirm" />')) {
+        	if (confirm('${category_delete}')) {
           		var id = categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex).id;
           		dojo.xhrDelete({
               		url: "${categories_url}/" + id,
@@ -127,7 +133,7 @@
         });
         
         dojo.connect(dataTypeDeleteButton, "onClick", function() {
-        	if (confirm('<spring:message arguments="data type" code="metahive_delete_confirm" />')) {
+        	if (confirm('${datatype_delete}')) {
           		var id = dataTypeDataGrid.getItem(dataTypeDataGrid.selection.selectedIndex).id;
           		dojo.xhrDelete({
               		url: "${datatypes_url}/" + id,
@@ -139,7 +145,7 @@
         });
         
         dojo.connect(conditionOfUseDeleteButton, "onClick", function() {
-        	if (confirm('<spring:message arguments="condition of use" code="metahive_delete_confirm" />')) {
+        	if (confirm('${condition_delete}')) {
           		var id = conditionOfUseDataGrid.getItem(conditionOfUseDataGrid.selection.selectedIndex).id;
           		dojo.xhrDelete({
               		url: "${conditions_url}/" + id,

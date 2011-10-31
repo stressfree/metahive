@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sfs.metahive.FlashScope;
-import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.model.UserStatus;
@@ -57,6 +55,20 @@ public class PersonController extends BaseController {
         uiModel.addAttribute("person", Person.findPerson(id));
                 
         return "people/update";
+    }
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String delete(@PathVariable("id") Long id, Model uiModel,
+    		HttpServletRequest request) {
+		
+		Person.findPerson(id).remove();
+        uiModel.asMap().clear();
+
+        FlashScope.appendMessage(
+        		getMessage("metahive_delete_complete", Person.class), request);
+        
+        return "redirect:/people";
     }
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)

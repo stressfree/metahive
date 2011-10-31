@@ -6,8 +6,9 @@
    	
     <util:panel id="_people_heading" title="${people_heading}">
     
-      <div id="userEditButton" dojoType="dijit.form.Button" jsId="userEditButton"><spring:message code="metahive_button_edit" /></div>
-      <div id="userDataGrid" jsId="userDataGrid"
+      <div id="personEditButton" dojoType="dijit.form.Button" jsId="personEditButton"><spring:message code="metahive_button_edit" /></div>
+      <div id="personDeleteButton" dojoType="dijit.form.Button" jsId="personDeleteButton"><spring:message code="metahive_button_delete" /></div>
+      <div id="personDataGrid" jsId="personDataGrid"
          dojoType="dojox.grid.EnhancedGrid"
          structure ="[
          	{ field: 'firstName', name: 'First name', width: '160px' },
@@ -26,6 +27,8 @@
     
     <spring:url value="/people" var="people_url" />
     <spring:url value="/people/list" var="people_datasource"/>
+    <spring:message arguments="person" code="metahive_edit_select" var="person_edit" />
+    <spring:message arguments="person" code="metahive_delete_confirm" var="person_delete" />
             
     <script type="text/javascript">
     <![CDATA[
@@ -38,21 +41,33 @@
     dojo.addOnLoad(function() {
        	dojo.parser.parse();
        	
-        dojo.connect(userEditButton, "onClick", function() {        	
-        	if (userDataGrid.getItem(userDataGrid.selection.selectedIndex)) {
-        		var id = userDataGrid.getItem(userDataGrid.selection.selectedIndex).id;
+        dojo.connect(personEditButton, "onClick", function() {        	
+        	if (personDataGrid.getItem(personDataGrid.selection.selectedIndex)) {
+        		var id = personDataGrid.getItem(personDataGrid.selection.selectedIndex).id;
             	window.location.href="${people_url}/" + id + "?form";        		
             } else {
-            	alert('<spring:message arguments="user" code="metahive_edit_select" />');            	
+            	alert('${person_edit}');            	
             }
         });
         
-        dojo.connect(userDataGrid, "onRowDblClick", function(event) {
-        	 var id = userDataGrid.getItem(event.rowIndex).id;
+        dojo.connect(personDataGrid, "onRowDblClick", function(event) {
+        	 var id = personDataGrid.getItem(event.rowIndex).id;
         	 window.location.href="${people_url}/" + id + "?form";
         });
+
+        dojo.connect(personDeleteButton, "onClick", function() {
+        	if (confirm('${person_delete}')) {
+          		var id = personDataGrid.getItem(personDataGrid.selection.selectedIndex).id;
+          		dojo.xhrDelete({
+              		url: "${people_url}/" + id,
+              		load: function() {
+                        loadGrid(personDataGrid, "${people_datasource}");
+                    }
+                });
+        	}
+        });
         
-        loadGrid(userDataGrid, "${people_datasource}");
+        loadGrid(personDataGrid, "${people_datasource}");
     });
 
     function loadGrid(dataGrid, datasource) {

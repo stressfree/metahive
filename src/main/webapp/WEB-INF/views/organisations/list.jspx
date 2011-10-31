@@ -7,6 +7,7 @@
    	
 	  <div id="organisationAddButton" dojoType="dijit.form.Button" jsId="organisationAddButton"><spring:message code="metahive_button_add" /></div>
       <div id="organisationEditButton" dojoType="dijit.form.Button" jsId="organisationEditButton"><spring:message code="metahive_button_edit" /></div>
+      <div id="organisationDeleteButton" dojoType="dijit.form.Button" jsId="organisationDeleteButton"><spring:message code="metahive_button_delete" /></div>
       <div id="organisationDataGrid" jsId="organisationDataGrid"
          dojoType="dojox.grid.EnhancedGrid"
          structure ="[
@@ -24,6 +25,8 @@
     <spring:url value="/organisations" var="organisations_url" />
     <spring:url value="/organisations/list" var="organisations_datasource"/>
     <spring:url value="/organisations?form" var="add_organisation_url" />
+    <spring:message arguments="organisation" code="metahive_edit_select" var="organisation_edit" />
+    <spring:message arguments="organisation" code="metahive_delete_confirm" var="organisation_delete" />
             
     <script type="text/javascript">
     <![CDATA[
@@ -46,8 +49,20 @@
         		var id = organisationDataGrid.getItem(organisationDataGrid.selection.selectedIndex).id;
             	window.location.href="${organisations_url}/" + id + "?form";        		
             } else {
-            	alert('<spring:message arguments="organisation" code="metahive_edit_select" />');            	
+            	alert('${organisation_edit}');            	
             }
+        });
+
+        dojo.connect(organisationDeleteButton, "onClick", function() {
+        	if (confirm('${organisation_delete}')) {
+          		var id = organisationDataGrid.getItem(organisationDataGrid.selection.selectedIndex).id;
+          		dojo.xhrDelete({
+              		url: "${organisations_url}/" + id,
+              		load: function() {
+                        loadGrid(organisationDataGrid, "${organisations_datasource}");
+                    }
+                });
+        	}
         });
         
         dojo.connect(organisationDataGrid, "onRowDblClick", function(event) {
