@@ -43,10 +43,6 @@ public class UserController extends BaseController {
         	person.setUserStatus(user.getUserStatus());
         	person.setUserRole(user.getUserRole());
         	
-        	if (user.getUserRole() == UserRole.ROLE_NEWUSER) {
-        		person.setUserRole(UserRole.ROLE_USER);
-        	}
-        	
             uiModel.asMap().clear();
             person.merge();
             
@@ -64,12 +60,6 @@ public class UserController extends BaseController {
 		Person person = loadUser(request);
 
 		if (person != null) {
-			if (person.getUserRole() == UserRole.ROLE_NEWUSER) {
-				// Reset the first, last and email address values
-				person.setFirstName("");
-				person.setLastName("");
-				person.setEmailAddress("");
-			}
 			page = "user/update";	
 			uiModel.addAttribute("person", person);			
 		}

@@ -1,18 +1,13 @@
 package com.sfs.metahive;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
-
-import com.sfs.metahive.model.Person;
-import com.sfs.metahive.model.UserRole;
 
 
 /**
@@ -22,9 +17,6 @@ public class RedirectAccessDeniedHandler implements AccessDeniedHandler {
 
 	/** The access denied url. */
 	private String accessDeniedUrl;
-	
-	/** The new user url. */
-	private String newUserUrl;
 	
 
     /**
@@ -57,21 +49,7 @@ public class RedirectAccessDeniedHandler implements AccessDeniedHandler {
     		final AccessDeniedException accessDeniedException) 
     		throws IOException, ServletException {
     	
-    	String redirect = this.accessDeniedUrl;
-    	
-    	if (StringUtils.isNotBlank(this.newUserUrl) 
-    			&& request.getUserPrincipal() != null) {
-    		List<Person> people = Person.findPeopleByOpenIdIdentifier(
-    			request.getUserPrincipal().getName()).getResultList();
-    
-    		Person person = people.size() == 0 ? null : people.get(0);
-    		
-    		if (person != null && person.getUserRole() == UserRole.ROLE_NEWUSER) {
-    			redirect = this.newUserUrl;
-    		}
-    	}
-    	
-        response.sendRedirect(redirect);
+        response.sendRedirect(this.accessDeniedUrl);
     }
 
     /**
@@ -90,24 +68,6 @@ public class RedirectAccessDeniedHandler implements AccessDeniedHandler {
      */
     public final void setAccessDeniedUrl(final String accessDeniedUrlVal) {
         this.accessDeniedUrl = accessDeniedUrlVal;
-    }
-    
-    /**
-     * Gets the new user url.
-     *
-     * @return the new user url
-     */
-    public final String getNewUserUrl() {
-        return this.newUserUrl;
-    }
-    
-    /**
-     * Sets the new user url.
-     *
-     * @param newUserUrlVal the new new user url
-     */
-    public final void setNewUserUrl(final String newUserUrlVal) {
-        this.newUserUrl = newUserUrlVal;
     }
 	
 }

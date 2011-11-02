@@ -5,7 +5,6 @@ import javax.validation.Valid;
 
 import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.Comment;
-import com.sfs.metahive.model.ConditionOfUse;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.web.model.CommentForm;

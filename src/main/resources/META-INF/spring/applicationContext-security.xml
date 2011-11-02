@@ -21,7 +21,13 @@
         <intercept-url pattern="/resources/**" access="permitAll" />
         <intercept-url pattern="/**" access="permitAll" />
         
-        <openid-login authentication-failure-url="/login?login_error=t" user-service-ref="openIdUserService" />    
+        <openid-login authentication-failure-url="/login?login_error=t" user-service-ref="openIdUserService" authentication-failure-handler-ref="openIdAuthenticationFailureHandler">
+        	<attribute-exchange>
+                <openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true" />
+                <openid-attribute name="firstName" type="http://axschema.org/namePerson/first" required="true" />
+                <openid-attribute name="lastName" type="http://axschema.org/namePerson/last" required="true" />
+            </attribute-exchange>
+        </openid-login>    
         
         <access-denied-handler ref="accessDeniedHandler" />
     </http>
@@ -31,9 +37,10 @@
 	
 	<beans:bean id="openIdUserService" class="com.sfs.metahive.service.OpenIdUserDetailsService" />
 	
+	<beans:bean id="openIdAuthenticationFailureHandler" class="com.sfs.metahive.service.OpenIdAuthenticationFailureHandler" />
+	
 	<beans:bean id="accessDeniedHandler" class="com.sfs.metahive.RedirectAccessDeniedHandler">
     	<beans:property name="accessDeniedUrl" value="accessDenied" />
-    	<beans:property name="newUserUrl" value="user" />
 	</beans:bean>
 	
 </beans:beans>

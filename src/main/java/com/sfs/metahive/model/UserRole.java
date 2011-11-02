@@ -7,8 +7,7 @@ public enum UserRole {
 
     ROLE_ADMIN("label_com_sfs_metahive_model_userrole_admin"),
     ROLE_EDITOR("label_com_sfs_metahive_model_userrole_editor"),
-    ROLE_USER("label_com_sfs_metahive_model_userrole_user"),
-    ROLE_NEWUSER("label_com_sfs_metahive_model_userrole_newuser");
+    ROLE_USER("label_com_sfs_metahive_model_userrole_user");
     
     private String messageKey; 
      
