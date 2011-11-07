@@ -189,10 +189,24 @@ public class DataSourceController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String delete(@PathVariable("id") Long id, Model uiModel,
     		HttpServletRequest request) {
+				
         DataSource dataSource = DataSource.findDataSource(id);
         Definition definition = Definition.findDefinition(
         		dataSource.getDefinition().getId());
 		
+		Person user = loadUser(request);
+
+		if (user == null) {
+			// A valid user is required
+			FlashScope.appendMessage(getMessage("metahive_valid_user_required"), request);
+			return "redirect:/definitions" + encodeUrlPathSegment(
+					definition.getId().toString(), request);
+		}
+
+		DataSourceForm dataSourceForm = new DataSourceForm();
+        Comment comment = dataSourceForm.newComment(CommentType.DELETE, dataSource, user);
+        comment.persist();
+        
 		dataSource.remove();
                 
         uiModel.asMap().clear();

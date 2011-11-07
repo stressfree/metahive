@@ -8,6 +8,7 @@ import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Person;
 import java.lang.String;
+import java.util.Date;
 import java.util.Set;
 
 privileged aspect DataSourceForm_Roo_JavaBean {
@@ -36,6 +37,14 @@ privileged aspect DataSourceForm_Roo_JavaBean {
         this.definition = definition;
     }
     
+    public String DataSourceForm.getCollectionSource() {
+        return this.collectionSource;
+    }
+    
+    public void DataSourceForm.setCollectionSource(String collectionSource) {
+        this.collectionSource = collectionSource;
+    }
+    
     public Organisation DataSourceForm.getOrganisation() {
         return this.organisation;
     }
@@ -58,6 +67,14 @@ privileged aspect DataSourceForm_Roo_JavaBean {
     
     public void DataSourceForm.setConditionOfUse(ConditionOfUse conditionOfUse) {
         this.conditionOfUse = conditionOfUse;
+    }
+    
+    public Date DataSourceForm.getCollectionDate() {
+        return this.collectionDate;
+    }
+    
+    public void DataSourceForm.setCollectionDate(Date collectionDate) {
+        this.collectionDate = collectionDate;
     }
     
     public Set<Person> DataSourceForm.getPointsOfContact() {

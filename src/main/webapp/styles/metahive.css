@@ -1,4 +1,4 @@
-body {
+body, button, input {
    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
    font-weight: 300;
    line-height: 1.5em;
@@ -12,6 +12,13 @@ label {
 	float: left;
 	text-align: right;
 	margin-right: 10px;
+}
+
+a, a:visited {
+	color: #52509d;	
+}
+a:hover {
+	color: #e92c19;
 }
 
 .clear {
@@ -147,6 +154,12 @@ label {
 	margin: 0;
 	list-style: none;
 }
+.definition .datasource .datasource-name {
+	display: inline;
+}
+.definition .datasource .datasource-name span {
+	font-weight: 300;	
+}
 .definition .datasource .datasource-conditions strong, 
 .definition .datasource .datasource-contacts strong {
 	font-weight: 300;
@@ -156,12 +169,29 @@ label {
 	float: left;
 }
 
+.datasource .actions, .datasource .actions form,
+.comment .actions, .comment .actions form {
+	display: inline;
+}
+.datasource .actions button,
+.comment .actions button {
+	display: inline;
+	margin: 0;
+	padding: 0 0.1em 0 0.6em;
+	border: 0;
+	background: none;
+	color: #52509d;
+}
+.datasource .actions button:hover,
+.comment .actions button:hover {
+	text-decoration: underline;
+	color: #e92c19;
+	cursor: pointer;
+}
+
 .comments {
 	clear: left;
 	margin: 0 0 1em 0;
-}
-.comments .actions {
-	float: left;	
 }
 .comments .comment {
 	clear: left;
@@ -169,6 +199,7 @@ label {
 }
 .comments .comment .detail {
 	color: #666;
+	display: inline;
 }
 .comments .actions-add {
 	clear: left;

@@ -41,18 +41,26 @@
     		<c:out value="${definition.description.keyValueDetermination}" escapeXml="false" />
     	</div>
     </div>
-    <div class="datasources">
-    	    
+    <div class="datasources">    	    
     	<h4><spring:message code="label_com_sfs_metahive_model_datasource_plural" />:</h4>
     	<ul>
     	<c:forEach items="${definition.dataSources}" var="dataSource">
-    		<li class="datasource">
+    		<li class="datasource">    			
+    			<div class="datasource-name">
+    				<strong>
+    					<c:if test="${not empty dataSource.collectionSource}">
+    						<c:out value="${dataSource.collectionSource}" escapeXml="true" /><c:out value=" " />
+    						<span><spring:message code="metahive_contributedby" htmlEscape="true" /></span><c:out value=" " />
+    					</c:if>
+    					<c:out value="${dataSource.organisation.name}" escapeXml="true" />    			
+    				</strong>
+    			</div>
     			<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
     			<div class="actions">
     				<spring:url value="/datasources/${dataSource.id}" var="update_datasource_url" />
    					<form dojoType="dijit.form.Form" action="${fn:escapeXml(update_datasource_url)}">
    						<input type="hidden" name="form" />
-               			<button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_edit" /></button>
+               			<button type="submit"><spring:message code="metahive_button_edit" /></button>
              		</form>
     				<sec:authorize ifAllGranted="ROLE_ADMIN">
     					<spring:url value="/datasources/${dataSource.id}" var="delete_datasource_url" />
@@ -61,12 +69,17 @@
                 			<c:set var="delete_confirm_msg">
                   				<spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
                 			</c:set>
-                			<button dojoType="dijit.form.Button" onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
+                			<button onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
               			</form:form>
               		</sec:authorize>
               	</div>
               	</sec:authorize>
-    			<div class="datasource-name"><strong><c:out value="${dataSource.organisation.name}" escapeXml="true" /></strong></div>
+    			<c:if test="${not empty dataSource.collectionDate}">
+    				<div class="datasource-collectiondate">
+    			   		<strong><spring:message code="label_com_sfs_metahive_model_datasource_collectiondate" />: </strong>
+    			   		<fmt:formatDate pattern="d/M/yyyy" value="${dataSource.collectionDate}" />
+    				</div>
+    			</c:if>
     			<div class="datasource-conditions">
     			   <strong><spring:message code="label_com_sfs_metahive_model_conditionofuse" />: </strong>
     			   <c:out value="${dataSource.conditionOfUse.name}" escapeXml="true" />
@@ -114,8 +127,11 @@
     			<spring:message code="label_com_sfs_metahive_model_${comment.relatedObject}" var="commentObject" />
     			<c:set var="commentDate"><fmt:formatDate pattern="d/M/yyyy" value="${comment.created}" /></c:set>
     			<c:set var="commentTime"><fmt:formatDate pattern="h:mma" value="${comment.created}" /></c:set>
-    			<div class="comment">    				
-	    			<sec:authorize ifAnyGranted="ROLE_ADMIN">
+    			<div class="comment">   			
+    				<div class="detail">
+    					<spring:message code="${comment.commentType.messageKey}" htmlEscape="false" arguments="${comment.person.formattedName},${fn:toLowerCase(commentObject)},${commentDate},${fn:toLowerCase(commentTime)}" />
+    				</div>
+    				<sec:authorize ifAnyGranted="ROLE_ADMIN">
 	    				<div class="actions">
 	    					<spring:url value="/comments/${comment.id}" var="delete_comment_url" />
 	    					<form:form action="${fn:escapeXml(delete_comment_url)}" method="DELETE">
@@ -123,13 +139,10 @@
 	                			<c:set var="delete_confirm_msg">
 	                  				<spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
 	                			</c:set>
-	                			<button dojoType="dijit.form.Button" onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
+	                			<button onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
 	              			</form:form>
 	              		</div>
-              		</sec:authorize>
-    				<div class="detail">
-    					<spring:message code="${comment.commentType.messageKey}" htmlEscape="false" arguments="${comment.person.formattedName},${fn:toLowerCase(commentObject)},${commentDate},${fn:toLowerCase(commentTime)}" />
-    				</div>
+              		</sec:authorize>    				
     				<div class="message"><c:out value="${fn:trim(comment.message)}" escapeXml="false" /></div>
     			</div>
     		</c:forEach>

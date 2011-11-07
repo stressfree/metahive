@@ -1,10 +1,12 @@
 package com.sfs.metahive.web.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
 import com.sfs.metahive.model.Comment;
@@ -31,6 +33,9 @@ public class DataSourceForm extends BackingForm {
 	@NotNull
 	private Definition definition;
 	
+	/** The source of the collected data. */
+	private String collectionSource;
+	
 	/** The organisation. */
 	private Organisation organisation;
 	
@@ -41,6 +46,10 @@ public class DataSourceForm extends BackingForm {
 	@NotNull
 	private ConditionOfUse conditionOfUse;
 	
+    /** The date the data was collected */
+	@DateTimeFormat(pattern = "d/M/yyyy")
+	private Date collectionDate;
+    
 	/** The people. */
 	private Set<Person> pointsOfContact = new HashSet<Person>();
 	
@@ -87,10 +96,12 @@ public class DataSourceForm extends BackingForm {
 		
 		if (dataSource != null) {
 			dataSourceForm.setId(dataSource.getId());
+			dataSourceForm.setCollectionSource(dataSource.getCollectionSource());
 			dataSourceForm.setDefinition(dataSource.getDefinition());
 			dataSourceForm.setOrganisation(dataSource.getOrganisation());
 			dataSourceForm.setDetails(trim(dataSource.getDetails()));
 			dataSourceForm.setConditionOfUse(dataSource.getConditionOfUse());
+			dataSourceForm.setCollectionDate(dataSource.getCollectionDate());
 			dataSourceForm.setPointsOfContact(dataSource.getPointsOfContact());
 		}
 		
@@ -137,9 +148,11 @@ public class DataSourceForm extends BackingForm {
 				dataSource.setDefinition(this.getDefinition());
 				dataSource.setOrganisation(this.getOrganisation());
 			}
+			dataSource.setCollectionSource(this.getCollectionSource());
 			dataSource.setDetails(trim(this.getDetails()));
 			dataSource.setConditionOfUse(this.getConditionOfUse());
 			dataSource.setPointsOfContact(this.getPointsOfContact());
+			dataSource.setCollectionDate(this.getCollectionDate());
 		}
 		
 		return dataSource;

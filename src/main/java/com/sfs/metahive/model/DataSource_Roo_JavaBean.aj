@@ -8,9 +8,18 @@ import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Person;
 import java.lang.String;
+import java.util.Date;
 import java.util.Set;
 
 privileged aspect DataSource_Roo_JavaBean {
+    
+    public String DataSource.getCollectionSource() {
+        return this.collectionSource;
+    }
+    
+    public void DataSource.setCollectionSource(String collectionSource) {
+        this.collectionSource = collectionSource;
+    }
     
     public ConditionOfUse DataSource.getConditionOfUse() {
         return this.conditionOfUse;
@@ -34,6 +43,14 @@ privileged aspect DataSource_Roo_JavaBean {
     
     public void DataSource.setOrganisation(Organisation organisation) {
         this.organisation = organisation;
+    }
+    
+    public Date DataSource.getCollectionDate() {
+        return this.collectionDate;
+    }
+    
+    public void DataSource.setCollectionDate(Date collectionDate) {
+        this.collectionDate = collectionDate;
     }
     
     public String DataSource.getDetails() {

@@ -1,5 +1,6 @@
 package com.sfs.metahive.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -19,7 +21,10 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooEntity
 public class DataSource {
-
+	
+	/** The source of the collected data. */
+	private String collectionSource;
+	
 	/** The related condition of use. */
     @NotNull
     @ManyToOne
@@ -30,11 +35,15 @@ public class DataSource {
     @ManyToOne
     private Definition definition;
     
-    /** The related organisation **/
+    /** The related organisation */
     @ManyToOne
     private Organisation organisation;
     
-    /** The details of the data source **/
+    /** The date the data was collected */
+    @DateTimeFormat(pattern = "d/M/yyyy")
+    private Date collectionDate;
+    
+    /** The details of the data source */
     @Lob    
     private String details;
     
