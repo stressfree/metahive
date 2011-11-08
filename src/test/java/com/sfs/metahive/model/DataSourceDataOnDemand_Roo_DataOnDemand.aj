@@ -13,6 +13,9 @@ import com.sfs.metahive.model.OrganisationDataOnDemand;
 import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -40,11 +43,23 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     
     public DataSource DataSourceDataOnDemand.getNewTransientDataSource(int index) {
         DataSource obj = new DataSource();
+        setCollectionDate(obj, index);
+        setCollectionSource(obj, index);
         setConditionOfUse(obj, index);
         setDefinition(obj, index);
         setDetails(obj, index);
         setOrganisation(obj, index);
         return obj;
+    }
+    
+    public void DataSourceDataOnDemand.setCollectionDate(DataSource obj, int index) {
+        Date collectionDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
+        obj.setCollectionDate(collectionDate);
+    }
+    
+    public void DataSourceDataOnDemand.setCollectionSource(DataSource obj, int index) {
+        String collectionSource = "collectionSource_" + index;
+        obj.setCollectionSource(collectionSource);
     }
     
     public void DataSourceDataOnDemand.setConditionOfUse(DataSource obj, int index) {
