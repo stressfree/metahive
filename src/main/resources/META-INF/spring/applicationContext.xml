@@ -73,5 +73,4 @@
             </props>
         </property>
     </bean>
-    <bean class="org.springframework.mail.SimpleMailMessage" id="templateMessage" />
 </beans>
