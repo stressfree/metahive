@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @RequestMapping("/definitions")
 @Controller
-public class DefinitionController extends BaseController {
-
+public class DefinitionController extends BaseController {	
+		
 	/**
 	 * Creates the definition.
 	 *
@@ -167,7 +167,7 @@ public class DefinitionController extends BaseController {
 			} else {
 				organisations = user.getOrganisations();
 			}
-		}
+		}		
 		
 		Definition definition = Definition.findDefinition(id);
 		
@@ -202,7 +202,6 @@ public class DefinitionController extends BaseController {
                 
         return "definitions/update";
     }
-
 	/**
 	 * Delete the definition.
 	 *

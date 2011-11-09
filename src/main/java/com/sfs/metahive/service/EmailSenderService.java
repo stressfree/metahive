@@ -2,34 +2,37 @@ package com.sfs.metahive.service;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.TreeMap;
 
-import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 
 import com.sfs.metahive.ConvertHtmlToText;
 
 /**
  * The Class EmailSenderService.
  */
+@Component
 public class EmailSenderService {
 
     /** The logger. */
     private static Logger logger = Logger.getLogger(EmailSenderService.class);
 	
     /** The java mail sender. */
-    @Resource
-    private JavaMailSender mailSender;
+    @Autowired
+    private transient JavaMailSender mailSender;
 	
     /**
      * Send an email message using the configured Spring sender. On success
@@ -64,7 +67,7 @@ public class EmailSenderService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = null;
         boolean htmlMessage = false;
-        if (StringUtils.containsIgnoreCase(email.getText(), "<html>")) {
+        if (StringUtils.containsIgnoreCase(email.getText(), "<html")) {
         	htmlMessage = true;
             try {
                 helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -78,11 +81,16 @@ public class EmailSenderService {
 
         try {
         	helper.setTo(email.getTo());
-        	helper.setCc(email.getCc());
-        	helper.setBcc(email.getBcc());
         	helper.setFrom(email.getFrom());
-        	
             helper.setSubject(email.getSubject());
+        	
+        	if (email.getCc() != null) {
+        		helper.setCc(email.getCc());
+        	}
+        	if (email.getBcc() != null) {
+        		helper.setBcc(email.getBcc());
+        	}
+        	
             if (htmlMessage) {
                 String plainText = email.getText();
                 try {
@@ -96,7 +104,12 @@ public class EmailSenderService {
             } else {
                 helper.setText(email.getText());
             }
-            helper.setSentDate(email.getSentDate());
+            
+            if (email.getSentDate() != null) {
+                helper.setSentDate(email.getSentDate());
+            } else {
+            	helper.setSentDate(Calendar.getInstance().getTime());
+            }
 
         } catch (MessagingException me) {
             throw new ServiceException("Error preparing email for sending: "
