@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div class="yui-g" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <spring:url value="/lists" var="cancelAction" />
+    <form:update title="metahive_preferences" id="fu_com_sfs_metahive_model_MetahivePreferences" modelAttribute="metahivePreferences" path="/preferences" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
+        <field:input field="url" id="c_com_sfs_metahive_model_MetahivePreferences_url" required="true" z="user-managed"/>
+        <h3><spring:message code="metahive_preferences_emailaddresses" /></h3>
+        <field:input field="adminEmail" id="c_com_sfs_metahive_model_MetahivePreferences_adminEmail" required="true" z="user-managed"/>
+        <field:input field="fromEmail" id="c_com_sfs_metahive_model_MetahivePreferences_fromEmail" required="true" z="user-managed"/>
+        <h3><spring:message code="metahive_preferences_homepage" /></h3>
+        <field:input field="homepageTitle" id="c_com_sfs_metahive_model_MetahivePreferences_homepageTitle" required="true" z="user-managed"/>
+        <field:editor field="homepageContent" id="c_com_sfs_metahive_model_MetahivePreferences_homepageContent" z="user-managed"/>        	
+    </form:update>
+</div>

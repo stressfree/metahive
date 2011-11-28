@@ -1,6 +1,8 @@
 package com.sfs.metahive.web;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,10 +11,13 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 import com.sfs.metahive.model.Person;
+import com.sfs.metahive.model.UserRole;
+import com.sfs.metahive.model.MetahivePreferences;
 
 
 public abstract class BaseController {
@@ -68,6 +73,12 @@ public abstract class BaseController {
 		}
 		return user;
 	}
+	
+
+    @ModelAttribute("preferences")
+    public MetahivePreferences loadPreferences() {
+    	return MetahivePreferences.load();
+    }
 	
 	/**
 	 * Encode the url path segment.
