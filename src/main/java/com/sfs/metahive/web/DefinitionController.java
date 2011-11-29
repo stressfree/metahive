@@ -18,6 +18,7 @@ import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.web.model.CommentForm;
 import com.sfs.metahive.web.model.DefinitionForm;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class DefinitionController extends BaseController {	
 		
+	/** The default page size. */
+	private int defaultPageSize = 10;
+	
 	/**
 	 * Creates the definition.
 	 *
@@ -228,27 +232,52 @@ public class DefinitionController extends BaseController {
 	/**
 	 * List the definitions.
 	 *
+	 * @param name the name
+	 * @param category the category
 	 * @param page the page
 	 * @param size the size
 	 * @param uiModel the ui model
+	 * @param request the http servlet request
 	 * @return the string
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-    public String list(@RequestParam(value = "page", required = false) Integer page, 
-    		@RequestParam(value = "size", required = false) Integer size, 
-    		Model uiModel) {
+    public String list(
+    		@RequestParam(value = "name", required = false) String name,
+    		@RequestParam(value = "category", required = false) String category,
+    		@RequestParam(value = "page", required = false) Integer page, 
+    		@RequestParam(value = "size", required = false) Integer size,
+    		Model uiModel, HttpServletRequest request) {
 		
-        if (page != null || size != null) {
-            int sizeNo = size == null ? 10 : size.intValue();
-            uiModel.addAttribute("definitions", Definition.findDefinitionEntries(
-            		page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
-            float nrOfPages = (float) Definition.countDefinitions() / sizeNo;
-            uiModel.addAttribute("maxPages", (int) (
-            		(nrOfPages > (int) nrOfPages || nrOfPages == 0.0) 
-            		? nrOfPages + 1 : nrOfPages));
-        } else {
-            uiModel.addAttribute("definitions", Definition.findAllDefinitions());
+		int sizeNo = size == null ? defaultPageSize : size.intValue();
+		int pageNo = page == null ? 0 : page.intValue() - 1;
+				
+		if (StringUtils.equalsIgnoreCase(category, "-")) {
+			category = "";
+		}
+		
+        uiModel.addAttribute("definitions", Definition.findDefinitionEntries(
+        		name, category, pageNo * sizeNo, sizeNo));
+            
+        float nrOfPages = (float) Definition.countDefinitions() / sizeNo;
+
+        uiModel.addAttribute("page", pageNo + 1);
+        uiModel.addAttribute("size", sizeNo);
+
+        StringBuffer queryString = new StringBuffer();
+        if (StringUtils.isNotBlank(name)) {
+        	queryString.append("&name=");
+        	queryString.append(encodeUrlPathSegment(name, request));
         }
+        if (StringUtils.isNotBlank(category)) {
+        	queryString.append("&category=");
+        	queryString.append(encodeUrlPathSegment(category, request));        	
+        }
+        
+        uiModel.addAttribute("queryString", queryString.toString());
+        uiModel.addAttribute("maxPages", 
+        		(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) 
+        		? nrOfPages + 1 : nrOfPages));
+        
         return "definitions/list";
     }
 	

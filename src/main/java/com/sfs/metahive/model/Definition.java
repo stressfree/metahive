@@ -1,5 +1,6 @@
 package com.sfs.metahive.model;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,9 +11,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
@@ -144,4 +147,43 @@ public class Definition {
         		"SELECT o FROM Definition o ORDER BY name ASC", Definition.class)
         		.getResultList();
     }
+    
+    /**
+     * Find definition entries.
+     *
+     * @param name the filter name
+     * @param category the filter category
+     * @param firstResult the first result
+     * @param maxResults the max results
+     * @return the list
+     */
+    public static List<Definition> findDefinitionEntries(final String name,
+    		final String category, final int firstResult, final int maxResults) {
+    	
+    	HashMap<String, String> variables = new HashMap<String, String>();
+    	
+    	StringBuffer sqlWhere = new StringBuffer();
+    	if (StringUtils.isNotBlank(name)) {
+    		sqlWhere.append("LOWER(o.name) LIKE LOWER(:name)");
+    		variables.put("name", "%" + name + "%");    		
+    	}    	
+
+    	StringBuffer sql = new StringBuffer("SELECT o FROM Definition o");
+    	if (sqlWhere.length() > 0) {
+    		sql.append(" WHERE ");
+    		sql.append(sqlWhere);
+    	}
+    	sql.append(" ORDER BY o.name ASC");
+    	
+    	TypedQuery<Definition> q = entityManager().createQuery(
+        		sql.toString(), Definition.class)
+        		.setFirstResult(firstResult).setMaxResults(maxResults);
+    	
+    	for (String variable : variables.keySet()) {
+    		q.setParameter(variable, variables.get(variable));
+    	}
+    	
+    	return q.getResultList();
+    }
+    
 }

@@ -12,6 +12,8 @@ label {
 	float: left;
 	text-align: right;
 	margin-right: 10px;
+	font-weight: normal;
+	color: #666;
 }
 
 a, a:visited {
@@ -231,6 +233,28 @@ a:hover {
 	font-weight: 300!important;
 }
 
+.paginationGrouping, .paginationActions {
+	clear: left;	
+}
+.paginationGrouping p, .paginationActions p {
+	float: left;
+	margin: 0;
+}
+.paginationGrouping ul, .paginationActions ul {
+	margin: 0;
+	padding: 0;
+}
+.paginationGrouping li, .paginationActions li {
+	list-style: none;
+	margin: 0;
+	padding: 0 0.4em;	
+	float: left;
+	border-left: 1px solid #ccc;
+}
+.paginationGrouping li:first-child, .paginationActions li:first-child {
+	border-left: none;
+}
+
 .dojoxGrid table {
 	margin-bottom: 0;
 }
@@ -247,6 +271,12 @@ a:hover {
 
 .field {
 	padding: 0 0 0.9em 0;	
+}
+
+#_c_com_sfs_metahive_web_model_DefinitionForm_categories_id .dojoxMultiSelect {
+	height: auto;
+	overflow: auto;
+	overflow-y: auto;	
 }
 
 #_c_com_sfs_metahive_web_model_DefinitionForm_name_id .dijitTextBox,

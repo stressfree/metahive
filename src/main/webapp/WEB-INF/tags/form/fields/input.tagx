@@ -10,6 +10,7 @@
   <jsp:directive.attribute name="validationRegex" type="java.lang.String" required="false" rtexprvalue="true" description="Specify regular expression to be used for the validation of the input contents" />
   <jsp:directive.attribute name="validationMessageCode" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the message (message property code) to be displayed if the regular expression validation fails" />
   <jsp:directive.attribute name="validationMessage" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the message to be displayed if the regular expression validation fails" />
+  <jsp:directive.attribute name="validationPrompt" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the message to be displayed to prompt the user to enter data for the field" />
   <jsp:directive.attribute name="min" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the minimum length of the input contents" />
   <jsp:directive.attribute name="max" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the maximum length of the input contents" />
   <jsp:directive.attribute name="decimalMin" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the minimum size of the input contents" />
@@ -82,6 +83,11 @@
           <spring:message argumentSeparator="," arguments="${label}, " code="field_simple_validation" var="field_validation" htmlEscape="false" />
         </c:otherwise>
       </c:choose>
+      
+      <c:if test="${not empty validationPrompt}">
+      	<spring:message code="${validationPrompt}" var="field_validation" htmlEscape="false" />
+      </c:if>
+      
       <c:set var="sec_field_validation">
         <spring:escapeBody javaScriptEscape="true">${field_validation}</spring:escapeBody>
       </c:set>

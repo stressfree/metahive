@@ -27,18 +27,23 @@ public class PreferencesController extends BaseController {
 
             FlashScope.appendMessage(getMessage("metahive_object_validation", 
             		MetahivePreferences.class), request);
+            
+            return "preferences/update";
         }
-        uiModel.asMap().clear();
-        if (metahivePreferences.getId() != null) {
-        	// Updating existing preferences
-        	metahivePreferences.merge();
-        } else {
-        	// No preferences exist yet
-        	metahivePreferences.persist();        	
-        }
-        FlashScope.appendMessage(getMessage("metahive_edit_complete", 
-        		MetahivePreferences.class), request);
-
+        
+    	uiModel.asMap().clear();
+    	if (metahivePreferences.getId() != null) {
+    		// Updating existing preferences
+    		metahivePreferences.merge();
+    	} else {
+    		// No preferences exist yet
+    		metahivePreferences.persist();        	
+    	}
+    	FlashScope.appendMessage(getMessage("metahive_edit_complete", 
+    			MetahivePreferences.class), request);
+    	
+    	uiModel.addAttribute("metahivePreferences", this.loadPreferences());
+        
         return "preferences/update";
     }
 

@@ -1,8 +1,6 @@
 package com.sfs.metahive.web;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +14,6 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 import com.sfs.metahive.model.Person;
-import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.model.MetahivePreferences;
 
 
@@ -78,6 +75,11 @@ public abstract class BaseController {
     @ModelAttribute("preferences")
     public MetahivePreferences loadPreferences() {
     	return MetahivePreferences.load();
+    }
+
+    @ModelAttribute("resultCounts")
+    public Integer[] resultCounts() {
+    	return new Integer[] { 25, 50, 100, 200 };
     }
 	
 	/**

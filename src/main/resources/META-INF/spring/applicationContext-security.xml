@@ -18,6 +18,7 @@
         <intercept-url pattern="/categories/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/people/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/organisations/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/preferences" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/resources/**" access="permitAll" />
         <intercept-url pattern="/**" access="permitAll" />
         
