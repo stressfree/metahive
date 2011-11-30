@@ -19,7 +19,8 @@
     		<c:if test="${not empty definition.categories}">
     			<ul>
     				<c:forEach items="${definition.categories}" var="category">
-    				<li><c:out value="${category.name}" escapeXml="true" /></li>
+    				<spring:url value="/definitions?category=${category.name}" var="categoryLink" />
+    				<li><a href="${categoryLink}"><c:out value="${category.name}" escapeXml="true" /></a></li>
     				</c:forEach>
     			</ul>
     		</c:if>

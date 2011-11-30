@@ -42,6 +42,24 @@ public class MetahivePreferences {
     @Lob
     private String homepageContent;
     
+    /** The primary record name. */
+    private String primaryRecordName;
+    
+    /** The primary record regex. */
+    private String primaryRecordRegex;
+    
+    /** The secondary record name. */
+    private String secondaryRecordName;
+    
+    /** The secondary record regex. */
+    private String secondaryRecordRegex;
+    
+    /** The tertiary record name. */
+    private String tertiaryRecordName;
+    
+    /** The tertiary record regex. */
+    private String tertiaryRecordRegex;
+    
 
     /**
      * Load the preferences.

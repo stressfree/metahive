@@ -100,5 +100,9 @@ privileged aspect Definition_Roo_Entity {
         if (id == null) return null;
         return entityManager().find(Definition.class, id);
     }
+
+    public static List<Definition> Definition.findDefinitionEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("SELECT o FROM Definition o", Definition.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
     
 }

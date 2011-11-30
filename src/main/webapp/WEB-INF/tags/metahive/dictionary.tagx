@@ -2,21 +2,32 @@
   <jsp:output omit-xml-declaration="yes"/>  
   <jsp:directive.attribute name="name" type="java.lang.String" required="false" rtexprvalue="true" description="The name of the definition that was searched for"/>
   <jsp:directive.attribute name="category" type="java.lang.String" required="false" rtexprvalue="true" description="The category that was searched for"/>
-    
+  <jsp:directive.attribute name="filter" type="com.sfs.metahive.web.model.DefinitionFilter" required="false" rtexprvalue="true" description="The filter applied to the paginated search" />
+      
+  <c:if test="${not empty filter.name}">
+  	<c:set var="filterName" value="${filter.name}" />
+  </c:if>
+  <c:if test="${not empty filter.category}">
+  	<c:set var="filterCategory" value="${filter.category}" />
+  </c:if>
+       
   <div class="dictionary-header">	  
 	  <spring:url value="/definitions" var="search" />
 	  <form:form id="filterform" action="${search}" method="GET" dojoType="dijit.form.Form">
 	  	<h3><spring:message code="metahive_datadictionary" /></h3>
 	  	<div class="filterfield">
 	  		<label for="name"><spring:message code="label_com_sfs_metahive_model_definition_name" htmlEscape="true" />: </label>
-	  		<input type="text" id="name" name="name" dojoType="dijit.form.TextBox" value="" />
+	  		<input type="text" id="name" name="name" dojoType="dijit.form.TextBox" value="${filterName}" />
 	  	</div>  	
 	  	<div class="filterfield">
 	  		<label for="category"><spring:message code="label_com_sfs_metahive_model_category" htmlEscape="true" />: </label>
 	  		<select id="category" name="category" style="width: 200px;" dojoType="dijit.form.Select">
 	  			<option value="-">Any category</option>
 	  			<c:forEach items="${categories}" var="category">
-	  			<option value="${category.name}">${category.name}</option>
+	  				<c:if test="${fn:toLowerCase(category.name) eq fn:toLowerCase(filterCategory)}">
+	  					<c:set var="selected" value="selected" />
+	  				</c:if>
+	  			<option value="${category.name}" selected="${selected}">${category.name}</option>
 	  			</c:forEach>
 	  		</select>
 	  	</div> 	

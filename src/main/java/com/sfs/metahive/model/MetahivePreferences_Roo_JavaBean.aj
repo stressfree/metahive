@@ -47,4 +47,52 @@ privileged aspect MetahivePreferences_Roo_JavaBean {
         this.homepageContent = homepageContent;
     }
     
+    public String MetahivePreferences.getPrimaryRecordName() {
+        return this.primaryRecordName;
+    }
+    
+    public void MetahivePreferences.setPrimaryRecordName(String primaryRecordName) {
+        this.primaryRecordName = primaryRecordName;
+    }
+    
+    public String MetahivePreferences.getPrimaryRecordRegex() {
+        return this.primaryRecordRegex;
+    }
+    
+    public void MetahivePreferences.setPrimaryRecordRegex(String primaryRecordRegex) {
+        this.primaryRecordRegex = primaryRecordRegex;
+    }
+    
+    public String MetahivePreferences.getSecondaryRecordName() {
+        return this.secondaryRecordName;
+    }
+    
+    public void MetahivePreferences.setSecondaryRecordName(String secondaryRecordName) {
+        this.secondaryRecordName = secondaryRecordName;
+    }
+    
+    public String MetahivePreferences.getSecondaryRecordRegex() {
+        return this.secondaryRecordRegex;
+    }
+    
+    public void MetahivePreferences.setSecondaryRecordRegex(String secondaryRecordRegex) {
+        this.secondaryRecordRegex = secondaryRecordRegex;
+    }
+    
+    public String MetahivePreferences.getTertiaryRecordName() {
+        return this.tertiaryRecordName;
+    }
+    
+    public void MetahivePreferences.setTertiaryRecordName(String tertiaryRecordName) {
+        this.tertiaryRecordName = tertiaryRecordName;
+    }
+    
+    public String MetahivePreferences.getTertiaryRecordRegex() {
+        return this.tertiaryRecordRegex;
+    }
+    
+    public void MetahivePreferences.setTertiaryRecordRegex(String tertiaryRecordRegex) {
+        this.tertiaryRecordRegex = tertiaryRecordRegex;
+    }
+    
 }

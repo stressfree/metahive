@@ -11,6 +11,13 @@
         <field:input validationPrompt="metahive_preferences_prompt_fromemail" field="fromEmail" id="c_com_sfs_metahive_model_MetahivePreferences_fromEmail" required="true" validationRegex="\\b[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b" validationMessageCode="field_invalid_email" z="user-managed"/>
         <h3><spring:message code="metahive_preferences_homepage" /></h3>
         <field:input validationPrompt="metahive_preferences_prompt_homepagetitle" field="homepageTitle" id="c_com_sfs_metahive_model_MetahivePreferences_homepageTitle" z="user-managed"/>
-        <field:editor field="homepageContent" id="c_com_sfs_metahive_model_MetahivePreferences_homepageContent" z="user-managed"/>        	
+        <field:editor field="homepageContent" id="c_com_sfs_metahive_model_MetahivePreferences_homepageContent" z="user-managed"/>
+        <h3><spring:message code="metahive_preferences_records" /></h3>
+        <field:input validationPrompt="metahive_preferences_prompt_primaryrecordname" field="primaryRecordName" id="c_com_sfs_metahive_model_MetahivePreferences_primaryRecordName" required="true"  z="user-managed"/>
+        <field:input validationPrompt="metahive_preferences_prompt_primaryrecordregex" field="primaryRecordRegex" id="c_com_sfs_metahive_model_MetahivePreferences_primaryRecordRegex" z="user-managed"/>
+        <field:input validationPrompt="metahive_preferences_prompt_secondaryrecordname" field="secondaryRecordName" id="c_com_sfs_metahive_model_MetahivePreferences_secondaryRecordName" z="user-managed"/>
+        <field:input validationPrompt="metahive_preferences_prompt_secondaryrecordregex" field="secondaryRecordRegex" id="c_com_sfs_metahive_model_MetahivePreferences_secondaryRecordRegex" z="user-managed"/>
+        <field:input validationPrompt="metahive_preferences_prompt_tertiaryrecordname" field="tertiaryRecordName" id="c_com_sfs_metahive_model_MetahivePreferences_tertiaryRecordName" z="user-managed"/>
+        <field:input validationPrompt="metahive_preferences_prompt_tertiaryrecordregex" field="tertiaryRecordRegex" id="c_com_sfs_metahive_model_MetahivePreferences_tertiaryRecordRegex" z="user-managed"/>   	
     </form:update>
 </div>

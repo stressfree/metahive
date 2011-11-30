@@ -16,6 +16,7 @@ import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.web.model.CommentForm;
+import com.sfs.metahive.web.model.DefinitionFilter;
 import com.sfs.metahive.web.model.DefinitionForm;
 
 import org.apache.commons.lang.StringUtils;
@@ -250,30 +251,28 @@ public class DefinitionController extends BaseController {
 		
 		int sizeNo = size == null ? defaultPageSize : size.intValue();
 		int pageNo = page == null ? 0 : page.intValue() - 1;
-				
-		if (StringUtils.equalsIgnoreCase(category, "-")) {
-			category = "";
+		
+		
+		DefinitionFilter filter = new DefinitionFilter();
+		
+		filter.setEncoding(request.getCharacterEncoding());
+		
+		if (StringUtils.isNotBlank(name)) {
+			filter.setName(name);
+		}
+		if (StringUtils.isNotBlank(category) 
+				&& !StringUtils.equalsIgnoreCase(category, "-")) {
+			filter.setCategory(category);
 		}
 		
         uiModel.addAttribute("definitions", Definition.findDefinitionEntries(
-        		name, category, pageNo * sizeNo, sizeNo));
+        		filter, pageNo * sizeNo, sizeNo));
             
-        float nrOfPages = (float) Definition.countDefinitions() / sizeNo;
+        float nrOfPages = (float) Definition.countDefinitions(filter) / sizeNo;
 
         uiModel.addAttribute("page", pageNo + 1);
-        uiModel.addAttribute("size", sizeNo);
-
-        StringBuffer queryString = new StringBuffer();
-        if (StringUtils.isNotBlank(name)) {
-        	queryString.append("&name=");
-        	queryString.append(encodeUrlPathSegment(name, request));
-        }
-        if (StringUtils.isNotBlank(category)) {
-        	queryString.append("&category=");
-        	queryString.append(encodeUrlPathSegment(category, request));        	
-        }
-        
-        uiModel.addAttribute("queryString", queryString.toString());
+        uiModel.addAttribute("size", sizeNo);    
+        uiModel.addAttribute("filter", filter);
         uiModel.addAttribute("maxPages", 
         		(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) 
         		? nrOfPages + 1 : nrOfPages));
@@ -300,5 +299,4 @@ public class DefinitionController extends BaseController {
     public Collection<DataType> populateDataTypes() {        
         return DataType.findAllDataTypes();
     }
-	
 }
