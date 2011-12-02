@@ -13,13 +13,15 @@ privileged aspect MetahivePreferences_Roo_ToString {
         sb.append("FromEmail: ").append(getFromEmail()).append(", ");
         sb.append("HomepageContent: ").append(getHomepageContent()).append(", ");
         sb.append("HomepageTitle: ").append(getHomepageTitle()).append(", ");
+        sb.append("Id: ").append(getId()).append(", ");
         sb.append("PrimaryRecordName: ").append(getPrimaryRecordName()).append(", ");
         sb.append("PrimaryRecordRegex: ").append(getPrimaryRecordRegex()).append(", ");
         sb.append("SecondaryRecordName: ").append(getSecondaryRecordName()).append(", ");
         sb.append("SecondaryRecordRegex: ").append(getSecondaryRecordRegex()).append(", ");
         sb.append("TertiaryRecordName: ").append(getTertiaryRecordName()).append(", ");
         sb.append("TertiaryRecordRegex: ").append(getTertiaryRecordRegex()).append(", ");
-        sb.append("Url: ").append(getUrl());
+        sb.append("Url: ").append(getUrl()).append(", ");
+        sb.append("Version: ").append(getVersion());
         return sb.toString();
     }
     

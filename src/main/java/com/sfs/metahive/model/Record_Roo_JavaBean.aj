@@ -15,4 +15,36 @@ privileged aspect Record_Roo_JavaBean {
         this.recordId = recordId;
     }
     
+    public int Record.getSecondaryRecordCount() {
+        return this.secondaryRecordCount;
+    }
+    
+    public void Record.setSecondaryRecordCount(int secondaryRecordCount) {
+        this.secondaryRecordCount = secondaryRecordCount;
+    }
+    
+    public String Record.getSecondaryRecords() {
+        return this.secondaryRecords;
+    }
+    
+    public void Record.setSecondaryRecords(String secondaryRecords) {
+        this.secondaryRecords = secondaryRecords;
+    }
+    
+    public int Record.getTertiaryRecordCount() {
+        return this.tertiaryRecordCount;
+    }
+    
+    public void Record.setTertiaryRecordCount(int tertiaryRecordCount) {
+        this.tertiaryRecordCount = tertiaryRecordCount;
+    }
+    
+    public String Record.getTertiaryRecords() {
+        return this.tertiaryRecords;
+    }
+    
+    public void Record.setTertiaryRecords(String tertiaryRecords) {
+        this.tertiaryRecords = tertiaryRecords;
+    }
+    
 }

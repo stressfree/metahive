@@ -5,8 +5,8 @@ package com.sfs.metahive.model;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect PrimaryRecord_Roo_Configurable {
+privileged aspect RecordIntegrationTest_Roo_Configurable {
     
-    declare @type: PrimaryRecord: @Configurable;
+    declare @type: RecordIntegrationTest: @Configurable;
     
 }

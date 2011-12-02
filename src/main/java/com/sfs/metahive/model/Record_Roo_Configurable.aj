@@ -5,8 +5,8 @@ package com.sfs.metahive.model;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect TertiaryRecord_Roo_Configurable {
+privileged aspect Record_Roo_Configurable {
     
-    declare @type: TertiaryRecord: @Configurable;
+    declare @type: Record: @Configurable;
     
 }
