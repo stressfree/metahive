@@ -95,12 +95,12 @@ a:hover {
 	padding: 10px 15px;
 }
 
-.dictionary-header .actions {
+.dictionary-header .actions, .record-header .actions {
 	float: right;
 	width: 500px;
 	text-align: right;
 }
-.dictionary-header .actions form {
+.dictionary-header .actions form, .record-header .actions form {
 	display: inline;
 }
 
@@ -125,7 +125,7 @@ a:hover {
 	display: inline;
 	padding: 0 2em 0 0;	
 }
-.definition-title span {
+.definition-title span, .record-title span {
 	font-size: 0.6em;	
 }
 
@@ -208,6 +208,20 @@ a:hover {
 	padding: 0.8em 0 0 0;
 }
 
+.recordOptions {
+	margin: 0 0 1em 0;
+}
+.recordOptions ul {
+	margin: 0;
+	padding: 0;	
+}
+.recordOptions li {
+	float: left;
+	padding: 0 0.5em 0 0.5em;
+	list-style: none;
+}
+
+
 #filterform {
 	clear: both;
 	padding: 0.4em 20px 0.2em 20px;
@@ -268,6 +282,9 @@ a:hover {
 .dijitDownArrowButton {
 	height: 1.5em;
 }
+.dijitSelect, .dijitToggleButton, .dijitButton, .dijitDropDownButton, .dijitComboButton {
+	margin: 0 0.2em 0.2em 0.2em;	
+}
 
 .field {
 	padding: 0 0 0.9em 0;	
@@ -296,4 +313,9 @@ a:hover {
 	float: none;
 	display: block;
 	text-align: left;	
+}
+
+#_c_com_sfs_metahive_web_model_RecordForm_recordids_id textarea {
+	width: 400px;
+	height: 300px;
 }

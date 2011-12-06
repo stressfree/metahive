@@ -5,6 +5,7 @@
 	
 <menu:menu id="_menu" z="user-managed">
 	<menu:item id="i_home" url="/" z="user-managed"/>
+    <menu:item id="i_record_list" url="/records" z="user-managed"/>
     <menu:item id="i_definition_list" url="/definitions" z="user-managed"/>
 	<sec:authorize ifAllGranted="ROLE_ADMIN">
     	<menu:item id="i_administration_preferences" url="/preferences" z="user-managed"/>

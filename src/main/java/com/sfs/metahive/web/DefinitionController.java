@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DefinitionController extends BaseController {	
 		
 	/** The default page size. */
-	private int defaultPageSize = 10;
+	private final static int DEFAULT_PAGE_SIZE = 25;
 	
 	/**
 	 * Creates the definition.
@@ -207,6 +207,7 @@ public class DefinitionController extends BaseController {
                 
         return "definitions/update";
     }
+	
 	/**
 	 * Delete the definition.
 	 *
@@ -221,6 +222,15 @@ public class DefinitionController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String delete(@PathVariable("id") Long id, Model uiModel,
     		HttpServletRequest request) {
+
+		Person user = loadUser(request);
+        
+		if (user == null) {
+			// A valid user is required
+	        FlashScope.appendMessage(getMessage("metahive_valid_user_required"), request);
+			return "redirect:/definitions";
+		}
+		
 		Definition.findDefinition(id).remove();
         uiModel.asMap().clear();
         
@@ -249,12 +259,11 @@ public class DefinitionController extends BaseController {
     		@RequestParam(value = "size", required = false) Integer size,
     		Model uiModel, HttpServletRequest request) {
 		
-		int sizeNo = size == null ? defaultPageSize : size.intValue();
+		int sizeNo = size == null ? DEFAULT_PAGE_SIZE : size.intValue();
 		int pageNo = page == null ? 0 : page.intValue() - 1;
 		
 		
-		DefinitionFilter filter = new DefinitionFilter();
-		
+		DefinitionFilter filter = new DefinitionFilter();		
 		filter.setEncoding(request.getCharacterEncoding());
 		
 		if (StringUtils.isNotBlank(name)) {

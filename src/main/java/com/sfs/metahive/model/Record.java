@@ -1,22 +1,41 @@
 package com.sfs.metahive.model;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
+import javax.persistence.Column;
+import javax.persistence.TypedQuery;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
+
+import com.sfs.metahive.web.model.RecordFilter;
 
 /**
  * The Class Record.
  */
 @RooJavaBean
 @RooToString
-@RooEntity
+@RooEntity(finders = { "findRecordsByRecordIdEquals" })
 public class Record {
 
+    /** The logger. */
+    private static Logger logger = Logger.getLogger(Record.class);
+	
 	/** The record id. */
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(unique = true)
 	private String recordId;
 	
 	/** The secondary record count. */
@@ -40,7 +59,7 @@ public class Record {
 	public void addSecondaryRecord(final String record) {
 		if (StringUtils.isNotBlank(record)) {
 			TreeSet<String> records = buildRecordSet(secondaryRecords);
-			if (records.contains(record)) {
+			if (!records.contains(record)) {
 				records.add(record);
 				secondaryRecordCount = records.size();
 				secondaryRecords = buildRecordString(records);
@@ -56,7 +75,7 @@ public class Record {
 	public void addTertiaryRecord(final String record) {
 		if (StringUtils.isNotBlank(record)) {
 			TreeSet<String> records = buildRecordSet(tertiaryRecords);
-			if (records.contains(record)) {
+			if (!records.contains(record)) {
 				records.add(record);
 				tertiaryRecordCount = records.size();
 				tertiaryRecords = buildRecordString(records);
@@ -82,6 +101,154 @@ public class Record {
 		return buildRecordSet(this.tertiaryRecords);	
 	}
 	
+	/**
+	 * Perform a regular expression match.
+	 *
+	 * @param record the record
+	 * @param regEx the reg ex
+	 * @return the string
+	 */
+	public static Record build(final String recordId,
+			final MetahivePreferences prefs) {
+		
+		Record record = new Record();
+		
+		if (StringUtils.isNotBlank(recordId)) {
+			
+			if (prefs != null && StringUtils.isNotBlank(prefs.getPrimaryRecordRegex())) {
+				
+				String primaryRecordId = regex(recordId, prefs.getPrimaryRecordRegex());
+
+				TypedQuery<Record> records = findRecordsByRecordIdEquals(primaryRecordId);								
+				record = records.getResultList().size() == 0
+						? new Record() : records.getResultList().get(0);
+							
+				if (StringUtils.isBlank(record.getRecordId())) {
+					record.setRecordId(primaryRecordId);
+				}
+						
+				if (StringUtils.isNotBlank(prefs.getSecondaryRecordRegex())) {
+					record.addSecondaryRecord(regex(recordId, 
+							prefs.getSecondaryRecordRegex()));
+				}
+				
+				if (StringUtils.isNotBlank(prefs.getTertiaryRecordRegex())) {
+					record.addTertiaryRecord(regex(recordId, 
+							prefs.getTertiaryRecordRegex()));
+				}
+							
+			} else {
+				// Preferences or primary regex not supplied, load the unparsed record
+				TypedQuery<Record> records = findRecordsByRecordIdEquals(recordId);								
+				record = records.getResultList().size() == 0
+						? new Record() : records.getResultList().get(0);
+			}
+		}
+		
+		if (StringUtils.isBlank(record.getRecordId())) {
+			record.setRecordId(recordId);
+		}
+		
+		return record;
+	}
+	
+	/**
+	 * Find all of the records.
+	 * 
+	 * @return an ordered list of records
+	 */
+	public static List<Record> findAllRecords() {
+        return entityManager().createQuery(
+        		"SELECT r FROM Record r ORDER BY r.recordId ASC", Record.class)
+        		.getResultList();
+    }
+
+    
+    /**
+     * Find record entries.
+     *
+     * @param filter the record filter
+     * @param firstResult the first result
+     * @param maxResults the max results
+     * @return the list
+     */
+    public static List<Record> findRecordEntries(final RecordFilter filter,
+    		final int firstResult, final int maxResults) {
+    	
+    	StringBuffer sql = new StringBuffer("SELECT r FROM Record r");    	
+    	sql.append(buildWhere(filter));
+    	sql.append(" ORDER BY r.recordId ASC");
+    	
+    	TypedQuery<Record> q = entityManager().createQuery(
+        		sql.toString(), Record.class)
+        		.setFirstResult(firstResult).setMaxResults(maxResults);
+    	
+    	HashMap<String, String> variables = buildVariables(filter);
+    	for (String variable : variables.keySet()) {
+    		q.setParameter(variable, variables.get(variable));
+    	}
+    	
+    	return q.getResultList();
+    }
+
+    /**
+     * Count the records.
+     *
+     * @param filter the filter
+     * @return the long
+     */
+    public static long countRecords(final RecordFilter filter) {
+    	
+    	StringBuffer sql = new StringBuffer("SELECT COUNT(r) FROM Record r");    	
+    	sql.append(buildWhere(filter));
+    	
+        TypedQuery<Long> q = entityManager().createQuery(sql.toString(), Long.class);
+
+    	HashMap<String, String> variables = buildVariables(filter);
+    	for (String variable : variables.keySet()) {
+    		q.setParameter(variable, variables.get(variable));
+    	}
+        
+        return q.getSingleResult();
+    }
+    
+    
+    /**
+     * Builds the where statement.
+     *
+     * @param filter the filter
+     * @return the string
+     */
+    private static String buildWhere(final RecordFilter filter) {
+    	StringBuffer where = new StringBuffer();
+    	
+    	if (StringUtils.isNotBlank(filter.getRecordId())) {
+    		where.append("LOWER(r.recordId) LIKE LOWER(:recordId)");		
+    	}
+    	
+    	if (where.length() > 0) {
+    		where.insert(0, " WHERE ");
+    	}
+    	return where.toString();
+    }
+    
+    /**
+     * Builds the variables for the where statement.
+     *
+     * @param filter the filter
+     * @return the hash map
+     */
+    private static HashMap<String, String> buildVariables(final RecordFilter filter) {
+    	
+    	HashMap<String, String> variables = new HashMap<String, String>();
+
+    	if (StringUtils.isNotBlank(filter.getRecordId())) {
+    		variables.put("recordId", filter.getRecordId());    		
+    	}
+    	
+    	return variables;
+    }
+		
 	/**
 	 * Builds the record string from the supplied collection.
 	 *
@@ -128,6 +295,30 @@ public class Record {
 			}
 		}	
 		return records;
+	}
+	
+	/**
+	 * Apply the regular expression to the supplied record.
+	 *
+	 * @param record the record
+	 * @param regEx the reg ex
+	 * @return the string
+	 */
+	private static String regex(final String record, final String regEx) {
+				
+		String result = ""; 
+		
+		try {
+	         Pattern p = Pattern.compile (regEx);
+	         Matcher m = p.matcher(record);
+	         if (m.find ()) {
+	        	 result = m.group();
+		     }
+	    } catch (PatternSyntaxException pe) {
+	         logger.error("Regex syntax error ('" + pe.getPattern() + "') "
+	        		 + pe.getMessage());
+	    }
+		return result;
 	}
 	
 }

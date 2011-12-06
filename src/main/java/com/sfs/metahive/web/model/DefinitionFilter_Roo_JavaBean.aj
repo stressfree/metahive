@@ -23,12 +23,4 @@ privileged aspect DefinitionFilter_Roo_JavaBean {
         this.category = category;
     }
     
-    public String DefinitionFilter.getEncoding() {
-        return this.encoding;
-    }
-    
-    public void DefinitionFilter.setEncoding(String encoding) {
-        this.encoding = encoding;
-    }
-    
 }

@@ -162,8 +162,6 @@ public class Definition {
     public static List<Definition> findDefinitionEntries(final DefinitionFilter filter,
     		final int firstResult, final int maxResults) {
     	
-    	
-
     	StringBuffer sql = new StringBuffer(
     			"SELECT d FROM Definition d JOIN d.categories c");    	
     	sql.append(buildWhere(filter));

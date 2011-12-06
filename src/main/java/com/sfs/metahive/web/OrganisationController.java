@@ -62,7 +62,8 @@ public class OrganisationController extends BaseController {
             uiModel.addAttribute("organisation", organisation);
 
             FlashScope.appendMessage(
-            		getMessage("metahive_object_validation", Organisation.class), request);
+            		getMessage("metahive_object_validation", Organisation.class), 
+            		request);
             
             return "organisations/update";
         }

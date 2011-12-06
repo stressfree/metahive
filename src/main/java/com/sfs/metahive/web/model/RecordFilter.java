@@ -4,18 +4,14 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
 /**
- * The Class DefinitionFilter.
+ * The Class RecordFilter.
  */
 @RooJavaBean
-public class DefinitionFilter extends BaseFilter {
+public class RecordFilter extends BaseFilter {
 
 	/** The name. */
-	private String name;
-	
-	/** The category. */
-	private String category;
-	
-	
+	private String recordId;
+		
     /**
      * Builds the query string.
      *
@@ -27,13 +23,9 @@ public class DefinitionFilter extends BaseFilter {
     	
         StringBuffer queryString = new StringBuffer();
         
-        if (StringUtils.isNotBlank(name)) {
-        	queryString.append("&name=");
-        	queryString.append(encodeUrlPathSegment(name));
-        }
-        if (StringUtils.isNotBlank(category)) {
-        	queryString.append("&category=");
-        	queryString.append(encodeUrlPathSegment(category));        	
+        if (StringUtils.isNotBlank(recordId)) {
+        	queryString.append("&recordId=");
+        	queryString.append(encodeUrlPathSegment(recordId));
         }
         return queryString.toString();    	
     }

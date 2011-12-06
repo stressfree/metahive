@@ -1,7 +1,5 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:sec="http://www.springframework.org/security/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
-  <jsp:output omit-xml-declaration="yes"/>  
-  <jsp:directive.attribute name="name" type="java.lang.String" required="false" rtexprvalue="true" description="The name of the definition that was searched for"/>
-  <jsp:directive.attribute name="category" type="java.lang.String" required="false" rtexprvalue="true" description="The category that was searched for"/>
+  <jsp:output omit-xml-declaration="yes"/>
   <jsp:directive.attribute name="filter" type="com.sfs.metahive.web.model.DefinitionFilter" required="false" rtexprvalue="true" description="The filter applied to the paginated search" />
       
   <c:if test="${not empty filter.name}">
