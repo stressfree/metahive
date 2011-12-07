@@ -18,6 +18,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -75,6 +76,7 @@ public class Person implements UserDetails {
 	
 	/** The organisations. */
 	@ManyToMany(mappedBy = "people")
+	@OrderBy("name ASC")
 	private Set<Organisation> organisations = new HashSet<Organisation>();
 	
 	/** The related data sources. */

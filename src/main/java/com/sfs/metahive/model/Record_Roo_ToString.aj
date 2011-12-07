@@ -9,13 +9,15 @@ privileged aspect Record_Roo_ToString {
     
     public String Record.toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("Id: ").append(getId()).append(", ");
         sb.append("RecordId: ").append(getRecordId()).append(", ");
         sb.append("SecondaryRecordCount: ").append(getSecondaryRecordCount()).append(", ");
         sb.append("SecondaryRecordSet: ").append(getSecondaryRecordSet()).append(", ");
         sb.append("SecondaryRecords: ").append(getSecondaryRecords()).append(", ");
         sb.append("TertiaryRecordCount: ").append(getTertiaryRecordCount()).append(", ");
         sb.append("TertiaryRecordSet: ").append(getTertiaryRecordSet()).append(", ");
-        sb.append("TertiaryRecords: ").append(getTertiaryRecords());
+        sb.append("TertiaryRecords: ").append(getTertiaryRecords()).append(", ");
+        sb.append("Version: ").append(getVersion());
         return sb.toString();
     }
     

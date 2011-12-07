@@ -290,6 +290,21 @@ a:hover {
 	padding: 0 0 0.9em 0;	
 }
 
+.contributefields .dojoxMultiSelect {
+	clear: left;
+	display: block;
+	margin: 0.3em 30px 0.3em 140px;
+}
+ul.checkall {
+	margin: 0;
+	padding: 0;
+}
+ul.checkall li {
+	float: left;
+	padding: 0 1em 0 0;
+	list-style: none;	
+}
+
 #_c_com_sfs_metahive_web_model_DefinitionForm_categories_id .dojoxMultiSelect {
 	height: auto;
 	overflow: auto;

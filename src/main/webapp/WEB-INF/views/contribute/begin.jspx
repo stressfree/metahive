@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    	
+	<spring:message var="title" code="metahive_contribute" htmlEscape="false" />
+  	<util:panel id="title" title="${title}">
+    	<p><spring:message code="metahive_contribute_selectfields" htmlEscape="false" /></p>
+    	<spring:url value="/contribute/template" var="template_url" />
+		<form:form id="template" action="${template_url}" method="POST" dojoType="dijit.form.Form">
+			<div class="field contributefields">
+	  			<label for="id"><spring:message code="label_com_sfs_metahive_model_organisation" htmlEscape="true" />: </label>
+				<ul class="checkall">
+	  				<li><a id="checkAllLink">Check all</a></li>
+	  				<li><a id="uncheckAllLink">Uncheck all</a></li>
+	  			</ul>				  			
+	  			<select multiple="true" id="definitions" name="definitions" dojoType="dojox.form.CheckedMultiSelect">
+	  				<c:forEach items="${definitions}" var="definition">
+	  				<option value="${definition.id}">${definition.name}</option>
+	  				</c:forEach>
+	  			</select>
+	  		</div>
+	  		
+			<spring:message code="metahive_button_template" var="template_button" htmlEscape="true" />
+	    	<button dojoType="dijit.form.Button" id="next" type="submit"><c:out value="${template_button}" /></button>
+		</form:form>
+  	</util:panel>
+  	  	
+  	<script type="text/javascript">
+  	<![CDATA[
+   	dojo.require("dojo.parser");
+   	dojo.require("dijit.form.Form");
+   	dojo.require("dijit.form.Button");
+   	dojo.require("dojox.form.CheckedMultiSelect");
+    
+    dojo.addOnLoad(function() {
+        dojo.parser.parse();
+        
+        dojo.query('#checkAllLink').onclick(function() {
+            dojo.query('.dijitCheckBoxInput').forEach(function(inputTag) {
+            	dijit.getEnclosingWidget(inputTag).set("checked",true);
+            });
+        });
+        dojo.query('#uncheckAllLink').onclick(function() {
+            dojo.query('.dijitCheckBoxInput').forEach(function(inputTag) {
+            	dijit.getEnclosingWidget(inputTag).set("checked",false);
+            });
+        });
+    });
+    ]]>
+  	</script>
+</div>

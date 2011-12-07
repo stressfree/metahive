@@ -1,5 +1,6 @@
 package com.sfs.metahive.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -149,6 +150,31 @@ public class Definition {
         return entityManager().createQuery(
         		"SELECT d FROM Definition d ORDER BY name ASC", Definition.class)
         		.getResultList();
+    }
+    
+    /**
+     * Find definitions that have data supplied by the supplied organisation.
+     *
+     * @param organisation the organisation to filter by
+     * @return the list of data sources
+     */
+    public static List<Definition> findDefinitionEntries(
+    		final Organisation organisation) {
+    	
+    	List<Definition> definitions = new ArrayList<Definition>();
+    	
+    	if (organisation != null && organisation.getId() != null) {
+    	
+	    	String sql = "SELECT d FROM Definition d"
+	    			+ " JOIN d.dataSources ds JOIN ds.organisation o"
+	    			+ " WHERE o.id = :organisationId ORDER BY d.name ASC";
+	    	
+	    	TypedQuery<Definition> q = entityManager().createQuery(sql, Definition.class);
+	    	q.setParameter("organisationId", organisation.getId());
+    	
+	    	definitions = q.getResultList();
+    	}
+    	return definitions;
     }
     
     /**

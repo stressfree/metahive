@@ -29,8 +29,8 @@
 	  			</c:forEach>
 	  		</select>
 	  	</div> 	
-	  	<spring:message code="button_filter" var="filter_button" htmlEscape="false" />
-	    <button dojoType="dijit.form.Button" id="filter" type="submit"><c:out value="${fn:escapeXml(filter_button)}" /></button>
+	  	<spring:message code="button_filter" var="filter_button" htmlEscape="true" />
+	    <button dojoType="dijit.form.Button" id="filter" type="submit"><c:out value="${filter_button}" /></button>
 	    <div class="clear"><!-- --></div>
 	  </form:form>
 	  

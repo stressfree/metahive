@@ -34,6 +34,9 @@ privileged aspect RecordOnDemand_Roo_DataOnDemand {
     
     public void RecordOnDemand.setRecordId(Record obj, int index) {
         String recordId = "recordId_" + index;
+        if (recordId.length() > 255) {
+            recordId = new Random().nextInt(10) + recordId.substring(1, 255);
+        }
         obj.setRecordId(recordId);
     }
     
