@@ -156,7 +156,7 @@ public class Definition {
      * Find definitions that have data supplied by the supplied organisation.
      *
      * @param organisation the organisation to filter by
-     * @return the list of data sources
+     * @return the list of definitions
      */
     public static List<Definition> findDefinitionEntries(
     		final Organisation organisation) {
@@ -173,6 +173,48 @@ public class Definition {
 	    	q.setParameter("organisationId", organisation.getId());
     	
 	    	definitions = q.getResultList();
+    	}
+    	return definitions;
+    }
+
+    /**
+     * Find definitions for the supplied ids.
+     *
+     * @param definitionIds the definition ids
+     * @return the list of definitions
+     */
+    public static List<Definition> findDefinitionEntries(
+    		final String[] definitionIds) {
+    	
+    	List<Definition> definitions = new ArrayList<Definition>();
+
+		StringBuffer where = new StringBuffer();
+		
+    	if (definitionIds != null) {    	
+    		for (String definitionId : definitionIds) {
+    			try {
+    				Long id = new Long(definitionId);
+    				
+    				if (id > 0) {
+    					if (where.length() > 0) {
+    						where.append(" OR ");
+    					}
+    	    			where.append("d.id = ");
+    	    			where.append(id);
+    				}
+    			} catch (Exception e) {
+    				// Error casting to a Long - skip
+    			}
+    		}
+    	}
+    	
+    	if (where.length() > 0) {
+	    	StringBuffer sql = new StringBuffer("SELECT d FROM Definition d WHERE ");
+	    	sql.append(where.toString());
+	    	sql.append(" ORDER BY d.name ASC");
+	    	
+	    	definitions = entityManager().createQuery(
+	    			sql.toString(), Definition.class).getResultList();
     	}
     	return definitions;
     }

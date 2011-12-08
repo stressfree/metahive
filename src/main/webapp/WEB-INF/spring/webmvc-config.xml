@@ -60,9 +60,10 @@
 	
 	<!-- allows for integration of file upload functionality -->
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
-<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
-    <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
-  </bean>
+	
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
+    	<property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+  	</bean>
     <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer" id="tilesConfigurer">
     <property name="definitions">
       <list>
@@ -72,6 +73,12 @@
       </list>
     </property>
   </bean>
+  
+  <bean id="excelViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+  	<property name="order" value="1"/>
+    <property name="location" value="/WEB-INF/views/views-excel.xml"/>
+  </bean>
+  
 
 	<!--Installs application converters and formatters-->
 	<bean class="com.sfs.metahive.web.ApplicationConversionServiceFactoryBean" id="applicationConversionService"/>

@@ -10,4 +10,10 @@
 	<definition extends="default" name="contribute/noorganisation">
         <put-attribute name="body" value="/WEB-INF/views/contribute/noorganisation.jspx"/>
     </definition>
+	<definition extends="default" name="contribute/nodefinitions">
+        <put-attribute name="body" value="/WEB-INF/views/contribute/nodefinitions.jspx"/>
+    </definition>
+	<definition extends="default" name="contribute/template">
+        <put-attribute name="body" value="/WEB-INF/views/contribute/template.jspx"/>
+    </definition>
 </tiles-definitions>

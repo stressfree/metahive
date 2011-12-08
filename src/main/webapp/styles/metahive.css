@@ -290,10 +290,18 @@ a:hover {
 	padding: 0 0 0.9em 0;	
 }
 
-.contributefields .dojoxMultiSelect {
+.contributefields .checkboxset {
 	clear: left;
-	display: block;
 	margin: 0.3em 30px 0.3em 140px;
+}
+.contributefields .checkboxset label {
+	float: none;
+	color: #333;
+	padding: 0 0 0 5px	
+}
+.contributefields .contributefield {
+	float: left;
+	width: 250px;
 }
 ul.checkall {
 	margin: 0;

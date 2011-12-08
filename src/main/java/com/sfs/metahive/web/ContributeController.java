@@ -1,6 +1,9 @@
 package com.sfs.metahive.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -8,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.sfs.metahive.model.DataGrid;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
@@ -52,15 +57,40 @@ public class ContributeController extends BaseController {
 			}
 
 			if (organisation != null) {
-				uiModel.addAttribute("definitions", Definition.findDefinitionEntries(
-						organisation));
-				page = "contribute/begin";
+				
+				page = "contribute/nodefinitions";
+				
+				List<Definition> definitions = Definition.findDefinitionEntries(
+						organisation);
+				
+				if (definitions != null && definitions.size() > 0) {
+					uiModel.addAttribute("definitions", definitions);
+					page = "contribute/begin";
+				}
 			}
 		}
 		
         return page;
     }
 	
+	@RequestMapping(value = "/template.xls", method = RequestMethod.POST)
+	public ModelAndView buildTemplate(
+			@RequestParam(value = "definitions", required = true) String[] definitionIds,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+	  
+		List<Definition> definitions = Definition.findDefinitionEntries(definitionIds);
+		
+		DataGrid dataGrid = new DataGrid();
+		dataGrid.setTitle("Contribution template");
+		
+		dataGrid.addHeaderField(loadPreferences().getPrimaryRecordName());
+		
+		for (Definition definition : definitions) {
+			dataGrid.addHeaderField(definition.getName());
+		}
+
+		return new ModelAndView("ExcelTemplateView", "dataGrid", dataGrid);
+	}
 	
 	
 }
