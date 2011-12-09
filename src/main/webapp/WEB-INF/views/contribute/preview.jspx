@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>    	
+    <table>
+    	<thead>
+    		<tr>
+    			<c:forEach items="${validatedDataGrid.headerFields}" var="field">
+    			<th class="${field.validString}"><c:out value="${field.value}" escapeXml="true" /></th>
+    			</c:forEach>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<c:forEach items="${validatedDataGrid.rows}" var="row">    		
+    		<tr class="${row.validString}">
+    			<c:forEach items="${row.fields}" var="field">
+    			<td class="${field.validString}">${row.valid}<c:out value="${field.value}" escapeXml="true" /></td>
+    			</c:forEach>
+    		</tr>
+    		</c:forEach>
+    	</tbody>
+    </table>
+</div>

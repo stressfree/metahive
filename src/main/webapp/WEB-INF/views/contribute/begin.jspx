@@ -38,10 +38,7 @@
 	  			</div>
 	  			<div class="clear"><!-- --></div>
 	  		</div>
-	  		
-			<spring:message code="metahive_button_template" var="template_button" htmlEscape="true" />
-	    	<button dojoType="dijit.form.Button" id="generateTemplate" type="submit"><c:out value="${template_button}" /></button>
-	    	
+	    	<button dojoType="dijit.form.Button" id="generateTemplate" type="submit"><spring:message code="metahive_button_template" /></button>
 	    	<div id="nextButton" dojoType="dijit.form.Button" jsId="nextButton"><spring:message code="metahive_button_next" /></div>
 		</form:form>
   	</util:panel>

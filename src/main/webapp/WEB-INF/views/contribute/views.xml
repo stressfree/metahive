@@ -13,7 +13,10 @@
 	<definition extends="default" name="contribute/nodefinitions">
         <put-attribute name="body" value="/WEB-INF/views/contribute/nodefinitions.jspx"/>
     </definition>
-	<definition extends="default" name="contribute/template">
-        <put-attribute name="body" value="/WEB-INF/views/contribute/template.jspx"/>
+	<definition extends="default" name="contribute/submission">
+        <put-attribute name="body" value="/WEB-INF/views/contribute/submission.jspx"/>
+    </definition>
+	<definition extends="ajax" name="contribute/preview">
+        <put-attribute name="body" value="/WEB-INF/views/contribute/preview.jspx"/>
     </definition>
 </tiles-definitions>

@@ -15,10 +15,8 @@
 	  				<option value="${organisation.id}">${organisation.name}</option>
 	  				</c:forEach>
 	  			</select>
-	  		</div>
-	  		
-			<spring:message code="metahive_button_next" var="next_button" htmlEscape="true" />
-	    	<button dojoType="dijit.form.Button" id="next" type="submit"><c:out value="${next_button}" /></button>
+	  		</div>	  					
+	    	<button dojoType="dijit.form.Button" id="next" type="submit"><spring:message code="metahive_button_next" /></button>
 		</form:form>
   	</util:panel>
   	

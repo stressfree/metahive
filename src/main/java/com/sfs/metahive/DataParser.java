@@ -1,7 +1,11 @@
 package com.sfs.metahive;
 
-import java.util.StringTokenizer;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.TreeMap;
+
+import com.sfs.metahive.SmartTokenizer;
 
 /**
  * The Class DataParser.
@@ -23,28 +27,32 @@ public class DataParser {
         // This counter holds the maximum number of columns provided
         int maxNumberOfTokens = 0;
 
-        if (text != null) {
-            StringTokenizer tokenizer = new StringTokenizer(text, "\n");
+        if (text != null) {        	
+        	BufferedReader in = new BufferedReader(new StringReader(text));
 
+        	String line;
             int lineCounter = 0;
 
-            while (tokenizer.hasMoreTokens()) {
-                String line = tokenizer.nextToken();
-                TreeMap<Integer, String> parsedLine = new TreeMap<Integer, String>();
+            try {
+            	while ((line = in.readLine()) != null) {                                
+                	TreeMap<Integer, String> parsedLine = new TreeMap<Integer, String>();
 
-                final StringTokenizer tabTokenizer = new StringTokenizer(line, "\t");
-                if (tabTokenizer.countTokens() > 1) {
-                    parsedLine = tokenizerToMap(tabTokenizer);
-                } else {
-                    final StringTokenizer commaTokenizer = new StringTokenizer(line, ",");
-                    parsedLine = tokenizerToMap(commaTokenizer);
-                }
-                if (parsedLine.size() > maxNumberOfTokens) {
-                    maxNumberOfTokens = parsedLine.size();
-                }
+                	SmartTokenizer tabTokenizer = new SmartTokenizer(line, "\t");
+                	if (tabTokenizer.countTokens() > 1) {
+                		parsedLine = tokenizerToMap(tabTokenizer);
+                	} else {
+                		SmartTokenizer commaTokenizer = new SmartTokenizer(line, ",");
+                    	parsedLine = tokenizerToMap(commaTokenizer);
+                	}
+                	if (parsedLine.size() > maxNumberOfTokens) {
+                		maxNumberOfTokens = parsedLine.size();
+                	}
 
-                rowData.put(lineCounter, parsedLine);
-                lineCounter++;
+                	rowData.put(lineCounter, parsedLine);
+                	lineCounter++;
+            	}
+            } catch (IOException ioe) {
+            	// Error reading string
             }
         }
         
@@ -54,17 +62,16 @@ public class DataParser {
         // Ensure that each row has the same (max) number of tokens
         for (int rowIndex : rowData.keySet()) {
             TreeMap<Integer, String> parsedLine = rowData.get(rowIndex);
-
+            
             // This map holds the final values
             TreeMap<Integer, String> columnTokens = new TreeMap<Integer, String>();
 
-            for (int i = 0; i < maxNumberOfTokens; i++) {
+            for (int i = 0; i < maxNumberOfTokens; i++) {    
+            	String value = "";
                 if (parsedLine.containsKey(i)) {
-                    String value = parsedLine.get(i);
-                    columnTokens.put(i, value);
-                } else {
-                    columnTokens.put(i, "");
+                    value = parsedLine.get(i);
                 }
+                columnTokens.put(i, value);
             }
             
             parsedData[rowIndex] = new String[columnTokens.size()];
@@ -85,12 +92,12 @@ public class DataParser {
      * @return the tree map< integer, string>
      */
     private static TreeMap<Integer, String> tokenizerToMap(
-            final StringTokenizer tokenizer) {
+            final SmartTokenizer tokenizer) {
 
         TreeMap<Integer, String> parsedData = new TreeMap<Integer, String>();
 
         int lineCounter = 0;
-        if (tokenizer != null) {
+        if (tokenizer != null) {        	
             while (tokenizer.hasMoreTokens()) {
                 String token = tokenizer.nextToken();
 

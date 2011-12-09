@@ -5,6 +5,8 @@
 
 <tiles-definitions>
 
+  <definition name="ajax" template="/WEB-INF/layouts/ajax.jspx" />
+  
   <definition name="default" template="/WEB-INF/layouts/default.jspx">
     <put-attribute name="header" value="/WEB-INF/views/header.jspx" />
     <put-attribute name="menu" value="/WEB-INF/views/menu.jspx" />

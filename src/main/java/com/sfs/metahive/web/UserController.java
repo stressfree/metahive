@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.Person;
-import com.sfs.metahive.model.UserRole;
 
 
 @RequestMapping("/user")

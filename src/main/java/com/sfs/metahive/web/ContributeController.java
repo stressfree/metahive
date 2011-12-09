@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sfs.metahive.DataParser;
 import com.sfs.metahive.model.DataGrid;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
+import com.sfs.metahive.model.ValidatedDataGrid;
 
 
 @RequestMapping("/contribute")
@@ -72,6 +74,39 @@ public class ContributeController extends BaseController {
 		
         return page;
     }
+	
+	@RequestMapping(value = "/submission", method = RequestMethod.GET)
+	public String submission() throws Exception {	  		
+		return "contribute/submission";
+	}
+	
+	@RequestMapping(value = "/preview", method = RequestMethod.POST)
+	public String preview(
+			@RequestParam(value = "previewData", required = true) String previewData,
+			Model uiModel, HttpServletRequest request) throws Exception {
+	  		
+		String[][] parsedData = DataParser.parseTextData(previewData);		
+		DataGrid dataGrid = new DataGrid();
+		
+		int y = 0;
+		for (String[] row : parsedData) {
+			if (y == 0) {
+				// The first row of data is the header.
+				for (String field : row) {
+					dataGrid.addHeaderField(field);
+				}
+			} else {
+				dataGrid.addRow(row);
+			}
+			y++;
+		}
+		
+		ValidatedDataGrid validatedDataGrid = new ValidatedDataGrid(dataGrid);
+		
+		uiModel.addAttribute("validatedDataGrid", validatedDataGrid);
+		
+		return "contribute/preview";
+	}
 	
 	@RequestMapping(value = "/template.xls", method = RequestMethod.POST)
 	public ModelAndView buildTemplate(

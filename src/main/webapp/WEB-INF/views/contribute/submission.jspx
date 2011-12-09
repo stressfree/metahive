@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    	
+	<spring:message var="title" code="metahive_contribute" htmlEscape="false" />
+  	<util:panel id="title" title="${title}">
+    	<p><spring:message code="metahive_contribute_submission" htmlEscape="false" /></p>    	
+    	<spring:url value="/contribute/complete" var="complete_url" />
+		<form:form id="submission" action="${complete_url}" method="POST" dojoType="dijit.form.Form">
+			<div class="field">
+	  			<textarea id="submissionData" name="submissionData"><!-- --></textarea>
+	  		</div>
+	    	<div id="previewButton" dojoType="dijit.form.Button" jsId="previewButton"><spring:message code="metahive_button_preview" /></div>
+	    	<button dojoType="dijit.form.Button" id="next" type="submit"><spring:message code="metahive_button_submit" /></button>
+		</form:form>		
+		<div id="submissionPreview"></div>
+  	</util:panel>
+  			
+	<spring:url value="/contribute/preview" var="preview_url" />
+	<form:form id="preview" action="${preview_url}" method="POST" dojoType="dijit.form.Form">
+		<input type="hidden" id="previewData" name="previewData" />
+	</form:form>
+		
+  	<script type="text/javascript">
+  	<![CDATA[
+   	dojo.require("dojo.parser");
+   	dojo.require("dijit.form.Form");
+   	dojo.require("dijit.form.Button");
+    
+    dojo.addOnLoad(function() {
+        dojo.parser.parse();
+                
+        dojo.connect(previewButton, "onClick", function() {
+        	dojo.byId("previewData").value = dojo.byId("submissionData").value;
+        	dojo.xhrPost({
+        	    form: "preview",
+        	    handleAs: "text",
+        	    handle: function(data,args){
+        		    if (typeof data == "error"){
+        	    	    console.warn("Submission error", args);
+        	   	    }
+        	        dojo.byId("submissionPreview").innerHTML = data;
+        	    }
+            });
+        });
+    });    
+    ]]>
+  	</script>
+</div>

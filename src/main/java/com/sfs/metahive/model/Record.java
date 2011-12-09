@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javax.persistence.Column;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,7 +27,7 @@ import com.sfs.metahive.web.model.RecordFilter;
  */
 @RooJavaBean
 @RooToString
-@RooEntity(finders = { "findRecordsByRecordIdEquals" })
+@RooEntity
 public class Record {
 
     /** The logger. */
@@ -119,9 +120,10 @@ public class Record {
 				
 				String primaryRecordId = regex(recordId, prefs.getPrimaryRecordRegex());
 
-				TypedQuery<Record> records = findRecordsByRecordIdEquals(primaryRecordId);								
-				record = records.getResultList().size() == 0
-						? new Record() : records.getResultList().get(0);
+				record = findRecordByRecordIdEquals(primaryRecordId);
+				if (record == null) {
+					record = new Record();
+				}
 							
 				if (StringUtils.isBlank(record.getRecordId())) {
 					record.setRecordId(primaryRecordId);
@@ -139,9 +141,10 @@ public class Record {
 							
 			} else {
 				// Preferences or primary regex not supplied, load the unparsed record
-				TypedQuery<Record> records = findRecordsByRecordIdEquals(recordId);								
-				record = records.getResultList().size() == 0
-						? new Record() : records.getResultList().get(0);
+				record = findRecordByRecordIdEquals(recordId);
+				if (record == null) {
+					record = new Record();
+				}
 			}
 		}
 		
@@ -151,6 +154,34 @@ public class Record {
 		
 		return record;
 	}
+    
+	/**
+	 * Find the record going by the supplied record id.
+	 *
+	 * @param recordId the recordId
+	 * @return the record
+	 */
+	public static Record findRecordByRecordIdEquals(String recordId) {
+		
+		Record record = null;
+		
+        if (recordId == null || recordId.length() == 0) {
+        	throw new IllegalArgumentException("The recordId argument is required");
+        }
+        
+        EntityManager em = Definition.entityManager();
+        TypedQuery<Record> q = em.createQuery(
+        		"SELECT r FROM Record AS r WHERE LOWER(r.recordId) = LOWER(:recordId)", 
+        		Record.class);
+        q.setParameter("recordId", recordId);
+        
+        List<Record> records = q.getResultList();
+        
+        if (records != null && records.size() > 0) {
+        	record = records.get(0);
+        }        
+        return record;
+    }
 	
 	/**
 	 * Find all of the records.

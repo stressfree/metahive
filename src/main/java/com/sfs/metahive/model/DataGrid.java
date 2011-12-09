@@ -125,5 +125,25 @@ public class DataGrid {
 		}
 		return data;
 	}
+
+	/**
+	 * Gets the rows as a list.
+     *
+	 * @return the list of row data
+	 */
+	public List<List<String>> getRows() {
+		List<List<String>> data = new ArrayList<List<String>>();
+		
+		for (int i : body.keySet()) {
+			TreeMap<Integer, String> row = body.get(i);
+			List<String> rowData = new ArrayList<String>();
+			
+			for (int index : row.keySet()) {
+				rowData.add(row.get(index));
+			}
+			data.add(rowData);
+		}		
+		return data;
+	}
 	
 }

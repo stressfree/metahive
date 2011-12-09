@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EntityManager;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -152,6 +153,34 @@ public class Definition {
         		.getResultList();
     }
     
+	/**
+	 * Find the definition going by the supplied name.
+	 *
+	 * @param name the name
+	 * @return the definition
+	 */
+	public static Definition findDefinitionByNameEquals(String name) {
+		
+		Definition definition = null;
+		
+        if (name == null || name.length() == 0) {
+        	throw new IllegalArgumentException("The name argument is required");
+        }
+        
+        EntityManager em = Definition.entityManager();
+        TypedQuery<Definition> q = em.createQuery(
+        		"SELECT d FROM Definition AS d WHERE LOWER(d.name) = LOWER(:name)", 
+        		Definition.class);
+        q.setParameter("name", name);
+        
+        List<Definition> definitions = q.getResultList();
+        
+        if (definitions != null && definitions.size() > 0) {
+        	definition = definitions.get(0);
+        }        
+        return definition;
+    }
+	
     /**
      * Find definitions that have data supplied by the supplied organisation.
      *
