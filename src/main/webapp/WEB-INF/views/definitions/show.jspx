@@ -26,8 +26,11 @@
     		</c:if>
     	</div>
     	<div class="datatype">
-    		<h4><spring:message code="label_com_sfs_metahive_model_definition_datatype" />:</h4>
-    		<c:out value="${definition.dataType.name}" escapeXml="true" />
+    		<h4><spring:message code="label_com_sfs_metahive_model_definition_datatypeandmeasure" />:</h4>
+    		<spring:message code="${definition.dataType.messageKey}" />
+    		<c:if test="${not empty definition.unitOfMeasure}">
+			<c:out value=" (${definition.unitOfMeasure})" escapeXml="true" />
+			</c:if>
 		</div>
     	<div class="examplevalue">
     		<h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_examplevalues" />:</h4>

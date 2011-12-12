@@ -29,12 +29,8 @@ public class DefinitionIntegrationTest {
 	@Test
 	@Transactional
 	public void addAndFetchDefinition() {
-		DataTypeDataOnDemand dataTypeDod = new DataTypeDataOnDemand();
-		DataType dataType = dataTypeDod.getRandomDataType();
-		dataType.persist();
-
 		Definition def = new Definition();
-		def.setDataType(dataType);
+		def.setDataType(DataType.TYPE_STRING);
 		def.setName("JUnit Test definition");
 
 		def.persist();
@@ -47,7 +43,6 @@ public class DefinitionIntegrationTest {
 		Definition def2 = Definition.findDefinition(def.getId());
 		Assert.assertNotNull(def2);
 		Assert.assertEquals(def.getName(), def2.getName());
-
 	}
 
 	/**
@@ -66,13 +61,9 @@ public class DefinitionIntegrationTest {
 	@Test
 	public void testFindByNameFinder() {
 
-		DataTypeDataOnDemand dataTypeDod = new DataTypeDataOnDemand();
-		DataType dataType = dataTypeDod.getRandomDataType();
-		dataType.persist();
-
 		Definition def = new Definition();
 		def.setName("JUnit Test definition");
-		def.setDataType(dataType);
+		def.setDataType(DataType.TYPE_STRING);
 
 		def.persist();
 		def.flush();
@@ -97,17 +88,13 @@ public class DefinitionIntegrationTest {
 		DefinitionDataOnDemand definitionDod = new DefinitionDataOnDemand();
 		Definition def = definitionDod.getRandomDefinition();
 
-		DataType dataType = new DataType();
-		dataType.setName("JUnit Test data type");
-		dataType.persist();
-
-		def.setDataType(dataType);
+		def.setDataType(DataType.TYPE_STRING);
 
 		def.flush();
 		def.clear();
 
 		Assert.assertEquals(Definition.findDefinition(def.getId())
-				.getDataType().getName(), dataType.getName());
+				.getDataType(), DataType.TYPE_STRING);
 
 	}
 
@@ -116,13 +103,10 @@ public class DefinitionIntegrationTest {
 	 */
 	@Test
 	public void testPersistCategoriesInDefinitions() {
-		DataTypeDataOnDemand dataTypeDod = new DataTypeDataOnDemand();
-		DataType dataType = dataTypeDod.getRandomDataType();
-		dataType.persist();
 
 		DefinitionDataOnDemand definitionDod = new DefinitionDataOnDemand();
 		Definition def = definitionDod.getRandomDefinition();
-		def.setDataType(dataType);
+		def.setDataType(DataType.TYPE_STRING);
 
 		CategoryDataOnDemand categoryDod = new CategoryDataOnDemand();
 		Category c1 = categoryDod.getNewTransientCategory(0);

@@ -29,6 +29,14 @@ privileged aspect Definition_Roo_JavaBean {
         this.dataType = dataType;
     }
     
+    public String Definition.getUnitOfMeasure() {
+        return this.unitOfMeasure;
+    }
+    
+    public void Definition.setUnitOfMeasure(String unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
+    }
+    
     public Set<Description> Definition.getDescriptions() {
         return this.descriptions;
     }

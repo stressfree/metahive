@@ -10,6 +10,9 @@
 	<definition extends="default" name="contribute/noorganisation">
         <put-attribute name="body" value="/WEB-INF/views/contribute/noorganisation.jspx"/>
     </definition>
+	<definition extends="default" name="contribute/nouniqueid">
+        <put-attribute name="body" value="/WEB-INF/views/contribute/nouniqueid.jspx"/>
+    </definition>
 	<definition extends="default" name="contribute/nodefinitions">
         <put-attribute name="body" value="/WEB-INF/views/contribute/nodefinitions.jspx"/>
     </definition>

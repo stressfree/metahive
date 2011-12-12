@@ -30,6 +30,15 @@ a:hover {
 	clear: both;
 }
 
+.hidden {
+	display: none;
+}
+.loader {
+	height: 50px;
+	background: url('../images/loader.gif') 1.5em 0 no-repeat;
+}
+
+
 .body {
 	font-size: 1.2em;
 	line-height: 1.5em;	
@@ -86,6 +95,8 @@ a:hover {
 	line-height: 1.2em;
 	margin: 0.6em 0 0.5em 0;
 }
+
+
 
 
 .definition .metadata {
@@ -311,6 +322,50 @@ ul.checkall li {
 	float: left;
 	padding: 0 1em 0 0;
 	list-style: none;	
+}
+#submissionData {
+	width: 100%;
+	height: 200px;	
+}
+#submissionPreview {
+	margin: 1em 0 0 0;	
+}
+#submissionPreview table {
+	clear: left;
+}
+#submissionPreview table th {
+	background: #666;
+	color: #fff;
+	border: none;
+	border-bottom: 1px solid #333;
+	padding: 0.3em 0.8em;
+}
+#submissionPreview table td {
+	border: none;
+	border-bottom: 1px solid #999;
+	border-right: 1px solid #eee;
+	border-left: 1px solid #eee;
+	padding: 0.3em 1em;
+}
+#submissionPreview table th.invalid, #submissionPreview li.invalidcolumn {
+	background: #DB6B55;
+	color: #fff;
+}
+#submissionPreview table tr.invalid, #submissionPreview li.invalidrow {
+	background: #FFFEEE;	
+}
+#submissionPreview table td.invalid, #submissionPreview li.invalidcell {
+	background: #FAD9D2;
+}
+#submissionPreview ul {
+	margin: 0;
+	padding: 0;
+}
+#submissionPreview li {
+	list-style: none;
+	float: left;
+	padding: 0.3em 1em;
+	margin: 0 0 1em 0;
 }
 
 #_c_com_sfs_metahive_web_model_DefinitionForm_categories_id .dojoxMultiSelect {

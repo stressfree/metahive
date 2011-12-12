@@ -29,6 +29,10 @@
 	  				<li><a id="uncheckAllLink"><spring:message code="metahive_uncheck_all" /></a></li>
 	  			</ul>
 	  			<div class="checkboxset">
+	  				<div class="contributefield">
+	  					<input id="definitions_${uniqueIdDef.id}" name="definitions" dojoType="dijit.form.CheckBox" value="${uniqueIdDef.id}" checked="checked" disabled="true" />
+	  					<label for="definitions_${uniqueIdDef.id}"><c:out value="${uniqueIdDef.name}" /></label>
+	  				</div>
 	  				<c:forEach items="${definitions}" var="definition">
 	  				<div class="contributefield">
 	  					<input id="definitions_${definition.id}" name="definitions" dojoType="dijit.form.CheckBox" value="${definition.id}" />
@@ -60,12 +64,14 @@
         
         dojo.query('#checkAllLink').onclick(function() {
             dojo.query('.contributefields input').forEach(function(inputTag) {
-            	dijit.getEnclosingWidget(inputTag).set("checked",true);
+	            dijit.getEnclosingWidget(inputTag).set("checked",true);
             });
         });
         dojo.query('#uncheckAllLink').onclick(function() {
             dojo.query('.contributefields input').forEach(function(inputTag) {
-            	dijit.getEnclosingWidget(inputTag).set("checked",false);
+            	if (dijit.getEnclosingWidget(inputTag).get("disabled") != true) {
+            		dijit.getEnclosingWidget(inputTag).set("checked",false);
+            	}
             });
         });
     });

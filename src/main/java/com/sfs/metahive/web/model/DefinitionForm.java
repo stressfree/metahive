@@ -37,6 +37,9 @@ public class DefinitionForm extends BackingForm {
 	@NotNull
 	private DataType dataType;
 	
+	/** The unit of measure. */
+	private String unitOfMeasure;
+	
 	/** The categories. */
 	private Set<Category> categories = new HashSet<Category>();
 
@@ -95,6 +98,7 @@ public class DefinitionForm extends BackingForm {
 			definitionForm.setName(trim(definition.getName()));
 			definitionForm.setCategories(definition.getCategories());
 			definitionForm.setDataType(definition.getDataType());
+			definitionForm.setUnitOfMeasure(definition.getUnitOfMeasure());
 			
 			if (definition.getDescription() != null) {
 				Description dsc = definition.getDescription();
@@ -149,6 +153,7 @@ public class DefinitionForm extends BackingForm {
 	        
 			definition.setName(trim(this.getName()));
 	        definition.setDataType(this.getDataType());
+	        definition.setUnitOfMeasure(this.getUnitOfMeasure());
 	        definition.setCategories(this.getCategories());
 	            	
 	        description.setDescription(trim(this.getDescription()));

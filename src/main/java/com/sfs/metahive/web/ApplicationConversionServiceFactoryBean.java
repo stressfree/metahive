@@ -8,6 +8,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 import org.springframework.roo.addon.web.mvc.controller.RooConversionService;
 
+import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.model.UserStatus;
         
@@ -25,9 +26,24 @@ public class ApplicationConversionServiceFactoryBean
 	protected void installFormatters(FormatterRegistry registry) {
 		super.installFormatters(registry);
 		// Register application converters and formatters
+		registry.addConverter(getDataTypeConverter());
 		registry.addConverter(getUserRoleConverter());
 		registry.addConverter(getUserStatusConverter());
 	}
+
+	/**
+	 * Gets the data type converter.
+	 *
+	 * @return the data type converter
+	 */
+	Converter<DataType, String> getDataTypeConverter() { 
+        return new Converter<DataType, String>() { 
+            public String convert(DataType dataType) { 
+                return context.getMessage(dataType.getMessageKey(), null, 
+                		LocaleContextHolder.getLocale()); 
+            } 
+        }; 
+    }
 	
 	/**
 	 * Gets the user role converter.

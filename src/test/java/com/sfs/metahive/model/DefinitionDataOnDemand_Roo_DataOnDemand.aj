@@ -4,7 +4,6 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.DataType;
-import com.sfs.metahive.model.DataTypeDataOnDemand;
 import com.sfs.metahive.model.Definition;
 import java.lang.String;
 import java.security.SecureRandom;
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
@@ -25,18 +23,16 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     
     private List<Definition> DefinitionDataOnDemand.data;
     
-    @Autowired
-    private DataTypeDataOnDemand DefinitionDataOnDemand.dataTypeDataOnDemand;
-    
     public Definition DefinitionDataOnDemand.getNewTransientDefinition(int index) {
         Definition obj = new Definition();
         setDataType(obj, index);
         setName(obj, index);
+        setUnitOfMeasure(obj, index);
         return obj;
     }
     
     public void DefinitionDataOnDemand.setDataType(Definition obj, int index) {
-        DataType dataType = dataTypeDataOnDemand.getRandomDataType();
+        DataType dataType = DataType.class.getEnumConstants()[0];
         obj.setDataType(dataType);
     }
     
@@ -46,6 +42,11 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
             name = new Random().nextInt(10) + name.substring(1, 100);
         }
         obj.setName(name);
+    }
+    
+    public void DefinitionDataOnDemand.setUnitOfMeasure(Definition obj, int index) {
+        String unitOfMeasure = "unitOfMeasure_" + index;
+        obj.setUnitOfMeasure(unitOfMeasure);
     }
     
     public Definition DefinitionDataOnDemand.getSpecificDefinition(int index) {

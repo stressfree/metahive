@@ -305,7 +305,12 @@ public class DefinitionController extends BaseController {
      * @return the data types
      */
     @ModelAttribute("datatypes")
-    public Collection<DataType> populateDataTypes() {        
-        return DataType.findAllDataTypes();
+    public Collection<DataType> populateDataTypes() {
+    	Collection<DataType> dataTypes = new ArrayList<DataType>();
+    	for (DataType dataType : DataType.values()) {
+    		dataTypes.add(dataType);
+    	}        
+        return dataTypes;
     }
+    
 }

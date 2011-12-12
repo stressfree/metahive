@@ -21,21 +21,6 @@
 	    </div>
 	    
 	    <div class="yui-u">
-		   <spring:message var="datatype_heading" code="metahive_datatypes" />
-		   <h3><c:out value="${datatype_heading}" /></h3>
-	       <div id="dataTypeAddButton" dojoType="dijit.form.Button" jsId="dataTypeAddButton"><spring:message code="metahive_button_add" /></div>
-	       <div id="dataTypeEditButton" dojoType="dijit.form.Button" jsId="dataTypeEditButton"><spring:message code="metahive_button_edit" /></div>
-	       <div id="dataTypeDeleteButton" dojoType="dijit.form.Button" jsId="dataTypeDeleteButton"><spring:message code="metahive_button_delete" /></div>
-	       <div id="dataTypeDataGrid" jsId="dataTypeDataGrid"
-	          dojoType="dojox.grid.EnhancedGrid"
-	          structure ="[{ field: 'name', name: 'Name', width: '260px' }]"
-	          autoWidth="true"
-	          autoHeight="true"
-	          plugins="{indirectSelection: true}"
-	          selectionMode="single"><!-- --></div>   
-	    </div>
-	    
-	    <div class="yui-u">
 		   <spring:message var="conditionofuse_heading" code="metahive_conditionsofuse" />
 		   <h3><c:out value="${conditionofuse_heading}" /></h3>
 	       <div id="conditionOfUseAddButton" dojoType="dijit.form.Button" jsId="conditionOfUseAddButton"><spring:message code="metahive_button_add" /></div>
@@ -58,12 +43,6 @@
     <spring:message arguments="category" code="metahive_edit_select" var="category_edit" />
     <spring:message arguments="category" code="metahive_delete_confirm" var="category_delete" />
         
-    <spring:url value="/datatypes" var="datatypes_url" />
-    <spring:url value="/datatypes/list" var="datatypes_datasource"/>
-    <spring:url value="/datatypes?form" var="add_datatype_url" />
-    <spring:message arguments="data type" code="metahive_edit_select" var="datatype_edit" />
-    <spring:message arguments="data type" code="metahive_delete_confirm" var="datatype_delete" />
-    
     <spring:url value="/conditions" var="conditions_url" />
     <spring:url value="/conditions/list" var="conditions_datasource"/>
     <spring:url value="/conditions?form" var="add_condition_url" />
@@ -84,10 +63,6 @@
         dojo.connect(categoryAddButton, "onClick", function() {
             window.location.href="${add_category_url}";
         });
-     	
-        dojo.connect(dataTypeAddButton, "onClick", function() {
-            window.location.href="${add_datatype_url}";
-        });
         
         dojo.connect(conditionOfUseAddButton, "onClick", function() {
             window.location.href="${add_condition_url}";
@@ -99,15 +74,6 @@
             	window.location.href="${categories_url}/" + id + "?form";        		
             } else {
             	alert('${category_edit}');            	
-            }
-        });
-        
-        dojo.connect(dataTypeEditButton, "onClick", function() {        	
-        	if (dataTypeDataGrid.getItem(dataTypeDataGrid.selection.selectedIndex)) {
-        		var id = dataTypeDataGrid.getItem(dataTypeDataGrid.selection.selectedIndex).id;
-            	window.location.href="${datatypes_url}/" + id + "?form";        		
-            } else {
-            	alert('${datatype_edit}');            	
             }
         });
         
@@ -131,19 +97,7 @@
                 });
         	}
         });
-        
-        dojo.connect(dataTypeDeleteButton, "onClick", function() {
-        	if (confirm('${datatype_delete}')) {
-          		var id = dataTypeDataGrid.getItem(dataTypeDataGrid.selection.selectedIndex).id;
-          		dojo.xhrDelete({
-              		url: "${datatypes_url}/" + id,
-              		load: function() {
-                        loadGrid(dataTypeDataGrid, "${datatypes_datasource}");
-                    }
-                });
-        	}
-        });
-        
+                
         dojo.connect(conditionOfUseDeleteButton, "onClick", function() {
         	if (confirm('${condition_delete}')) {
           		var id = conditionOfUseDataGrid.getItem(conditionOfUseDataGrid.selection.selectedIndex).id;
@@ -161,18 +115,12 @@
         	 window.location.href="${categories_url}/" + id + "?form";
         });
         
-        dojo.connect(dataTypeDataGrid, "onRowDblClick", function(event) {
-       	     var id = dataTypeDataGrid.getItem(event.rowIndex).id;
-       	     window.location.href="${datatypes_url}/" + id + "?form";
-        });
-        
         dojo.connect(conditionOfUseDataGrid, "onRowDblClick", function(event) {
       	     var id = conditionOfUseDataGrid.getItem(event.rowIndex).id;
       	     window.location.href="${conditions_url}/" + id + "?form";
         });
         
         loadGrid(categoryDataGrid, "${categories_datasource}");
-        loadGrid(dataTypeDataGrid, "${datatypes_datasource}");
         loadGrid(conditionOfUseDataGrid, "${conditions_datasource}");
     });
 

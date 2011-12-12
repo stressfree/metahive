@@ -40,8 +40,14 @@ public class ContributeController extends BaseController {
 		Person user = loadUser(request);
 		
 		String page = "contribute/noorganisation";
+
+		Definition uniqueIdDef = Definition.findUniqueIdentifierDefinition();
 		
-		if (user != null && user.getOrganisations() != null) {
+		if (uniqueIdDef == null) {
+			page = "contribute/nouniqueid";			
+		}
+		
+		if (user != null && user.getOrganisations() != null && uniqueIdDef != null) {
 			Organisation organisation = null;
 			if (user.getOrganisations().size() == 1) {
 				organisation = user.getOrganisations().iterator().next();
@@ -66,6 +72,7 @@ public class ContributeController extends BaseController {
 						organisation);
 				
 				if (definitions != null && definitions.size() > 0) {
+					uiModel.addAttribute("uniqueIdDef", uniqueIdDef);					
 					uiModel.addAttribute("definitions", definitions);
 					page = "contribute/begin";
 				}

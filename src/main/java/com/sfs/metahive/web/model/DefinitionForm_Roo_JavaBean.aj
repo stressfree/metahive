@@ -42,6 +42,14 @@ privileged aspect DefinitionForm_Roo_JavaBean {
         this.dataType = dataType;
     }
     
+    public String DefinitionForm.getUnitOfMeasure() {
+        return this.unitOfMeasure;
+    }
+    
+    public void DefinitionForm.setUnitOfMeasure(String unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
+    }
+    
     public Set<Category> DefinitionForm.getCategories() {
         return this.categories;
     }

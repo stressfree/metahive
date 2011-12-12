@@ -1,7 +1,5 @@
 package com.sfs.metahive.model;
 
-import javax.validation.ConstraintViolationException;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -20,16 +18,6 @@ public class DescriptionIntegrationTest {
     @Test
     public void testMarkerMethod() {
     }
-
-    /**
-	 * Test invalid data type.
-	 */
-	@Test(expected = ConstraintViolationException.class)
-	public void testInvalidDataType() {
-		DataType dataType = new DataType();
-
-		dataType.persist();
-	}
 
 	/**
 	 * The add and fetch description test.

@@ -9,12 +9,12 @@
     	<spring:url value="/contribute/complete" var="complete_url" />
 		<form:form id="submission" action="${complete_url}" method="POST" dojoType="dijit.form.Form">
 			<div class="field">
-	  			<textarea id="submissionData" name="submissionData"><!-- --></textarea>
+	  			<textarea data-dojo-type="dijit.form.SimpleTextarea" id="submissionData" name="submissionData"><!-- --></textarea>
 	  		</div>
 	    	<div id="previewButton" dojoType="dijit.form.Button" jsId="previewButton"><spring:message code="metahive_button_preview" /></div>
-	    	<button dojoType="dijit.form.Button" id="next" type="submit"><spring:message code="metahive_button_submit" /></button>
+	    	<button dojoType="dijit.form.Button" id="next" disabled="true" type="submit"><spring:message code="metahive_button_submit" /></button>
 		</form:form>		
-		<div id="submissionPreview"></div>
+		<div id="submissionPreview" class="hidden"><div class="loader"><!-- --></div></div>
   	</util:panel>
   			
 	<spring:url value="/contribute/preview" var="preview_url" />
@@ -27,12 +27,14 @@
    	dojo.require("dojo.parser");
    	dojo.require("dijit.form.Form");
    	dojo.require("dijit.form.Button");
+   	dojo.require("dijit.form.SimpleTextarea");
     
     dojo.addOnLoad(function() {
         dojo.parser.parse();
                 
         dojo.connect(previewButton, "onClick", function() {
         	dojo.byId("previewData").value = dojo.byId("submissionData").value;
+        	dojo.removeClass("submissionPreview", "hidden");
         	dojo.xhrPost({
         	    form: "preview",
         	    handleAs: "text",
@@ -40,7 +42,8 @@
         		    if (typeof data == "error"){
         	    	    console.warn("Submission error", args);
         	   	    }
-        	        dojo.byId("submissionPreview").innerHTML = data;
+        	        dojo.byId("submissionPreview").innerHTML = data;     
+        	        dijit.getEnclosingWidget(dojo.byId("next")).set("disabled", false);
         	    }
             });
         });
