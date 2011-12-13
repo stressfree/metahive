@@ -97,7 +97,12 @@ a:hover {
 }
 
 
-
+.googlelogon {
+	background: url('../images/google-account-logo.png') top left no-repeat;
+}
+.googlelogon form {
+	margin: 0 0 0 190px;
+}
 
 .definition .metadata {
 	width: 280px;

@@ -5,6 +5,7 @@ package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.Person;
+import com.sfs.metahive.model.Submission;
 import java.lang.String;
 import java.util.Set;
 
@@ -32,6 +33,14 @@ privileged aspect Organisation_Roo_JavaBean {
     
     public void Organisation.setDataSources(Set<DataSource> dataSources) {
         this.dataSources = dataSources;
+    }
+    
+    public Set<Submission> Organisation.getSubmissions() {
+        return this.submissions;
+    }
+    
+    public void Organisation.setSubmissions(Set<Submission> submissions) {
+        this.submissions = submissions;
     }
     
 }

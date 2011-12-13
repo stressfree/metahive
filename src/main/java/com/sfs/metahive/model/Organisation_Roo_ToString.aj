@@ -14,6 +14,7 @@ privileged aspect Organisation_Roo_ToString {
         sb.append("Name: ").append(getName()).append(", ");
         sb.append("People: ").append(getPeople() == null ? "null" : getPeople().size()).append(", ");
         sb.append("PeopleNames: ").append(getPeopleNames()).append(", ");
+        sb.append("Submissions: ").append(getSubmissions() == null ? "null" : getSubmissions().size()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }

@@ -47,7 +47,7 @@
 		</form:form>
   	</util:panel>
   	  	
-    <spring:url value="/contribute/submission" var="submission_url" />
+    <spring:url value="/contribute/submission?id=${organisationId}" var="submission_url" />
   	<script type="text/javascript">
   	<![CDATA[
    	dojo.require("dojo.parser");

@@ -292,12 +292,9 @@ public class Definition {
 	/**
 	 * Find definition entries.
 	 * 
-	 * @param filter
-	 *            the definition filter
-	 * @param firstResult
-	 *            the first result
-	 * @param maxResults
-	 *            the max results
+	 * @param filter the definition filter
+	 * @param firstResult the first result
+	 * @param maxResults the max results
 	 * @return the list
 	 */
 	public static List<Definition> findDefinitionEntries(
@@ -324,8 +321,7 @@ public class Definition {
 	/**
 	 * Count the definitions.
 	 * 
-	 * @param filter
-	 *            the filter
+	 * @param filter the filter
 	 * @return the long
 	 */
 	public static long countDefinitions(final DefinitionFilter filter) {
@@ -348,8 +344,7 @@ public class Definition {
 	/**
 	 * Builds the where statement.
 	 * 
-	 * @param filter
-	 *            the filter
+	 * @param filter the filter
 	 * @return the string
 	 */
 	private static String buildWhere(final DefinitionFilter filter) {
@@ -375,8 +370,7 @@ public class Definition {
 	/**
 	 * Builds the variables for the where statement.
 	 * 
-	 * @param filter
-	 *            the filter
+	 * @param filter the filter
 	 * @return the hash map
 	 */
 	private static HashMap<String, String> buildVariables(

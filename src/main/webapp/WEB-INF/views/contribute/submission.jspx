@@ -8,6 +8,7 @@
     	<p><spring:message code="metahive_contribute_submission" htmlEscape="false" /></p>    	
     	<spring:url value="/contribute/complete" var="complete_url" />
 		<form:form id="submission" action="${complete_url}" method="POST" dojoType="dijit.form.Form">
+			<input type="hidden" id="submissionId" name="submissionId" value="${organisationId}" />
 			<div class="field">
 	  			<textarea data-dojo-type="dijit.form.SimpleTextarea" id="submissionData" name="submissionData"><!-- --></textarea>
 	  		</div>
@@ -20,6 +21,7 @@
 	<spring:url value="/contribute/preview" var="preview_url" />
 	<form:form id="preview" action="${preview_url}" method="POST" dojoType="dijit.form.Form">
 		<input type="hidden" id="previewData" name="previewData" />
+		<input type="hidden" id="previewId" name="previewId" value="${organisationId}" />
 	</form:form>
 		
   	<script type="text/javascript">

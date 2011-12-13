@@ -71,7 +71,7 @@ public class Person implements UserDetails {
     private String emailAddress;
     
 	/** The descriptions this user has created. */
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+	@OneToMany(mappedBy = "person")
 	private Set<Description> descriptions = new HashSet<Description>();
 	
 	/** The organisations. */
@@ -85,7 +85,13 @@ public class Person implements UserDetails {
 
 	/** The related comments. */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+	@OrderBy("created ASC")
 	private Set<Comment> comments = new HashSet<Comment>();
+	
+	/** The related submissions. */
+	@OneToMany(mappedBy = "person")
+	@OrderBy("created ASC")
+	private Set<Submission> submissions = new HashSet<Submission>();
     
 	
 	/** 

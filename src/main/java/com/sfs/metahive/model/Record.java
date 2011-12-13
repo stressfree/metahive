@@ -53,6 +53,16 @@ public class Record {
 	
 	
 	/**
+	 * Contains the supplied secondary record.
+	 *
+	 * @param record the record
+	 * @return true, if successful
+	 */
+	public boolean containsSecondaryRecord(final String record) {		
+		return buildRecordSet(secondaryRecords).contains(record);
+	}
+	
+	/**
 	 * Adds the secondary record.
 	 *
 	 * @param record the record
@@ -66,6 +76,16 @@ public class Record {
 				secondaryRecords = buildRecordString(records);
 			}
 		}
+	}
+
+	/**
+	 * Contains the supplied tertiary record.
+	 *
+	 * @param record the record
+	 * @return true, if successful
+	 */
+	public boolean containsTertiaryRecord(final String record) {		
+		return buildRecordSet(tertiaryRecords).contains(record);
 	}
 	
 	/**
@@ -154,6 +174,63 @@ public class Record {
 		
 		return record;
 	}
+	
+	/**
+	 * Parses the primary record id.
+	 *
+	 * @param recordId the record id
+	 * @param prefs the prefs
+	 * @return the string
+	 */
+	public static String parsePrimaryRecordId(final String recordId,
+			final MetahivePreferences prefs) {
+		
+		String primaryRecordId = "";
+		
+		if (StringUtils.isNotBlank(recordId) && prefs != null 
+				&& StringUtils.isNotBlank(prefs.getPrimaryRecordRegex())) {
+			primaryRecordId = regex(recordId, prefs.getPrimaryRecordRegex());
+		}
+		return primaryRecordId;
+	}
+	
+	/**
+	 * Parses the secondary record id.
+	 *
+	 * @param recordId the record id
+	 * @param prefs the prefs
+	 * @return the string
+	 */
+	public static String parseSecondaryRecordId(final String recordId,
+			final MetahivePreferences prefs) {
+		
+		String secondaryRecordId = "";
+		
+		if (StringUtils.isNotBlank(recordId) && prefs != null 
+				&& StringUtils.isNotBlank(prefs.getSecondaryRecordRegex())) {
+			secondaryRecordId = regex(recordId, prefs.getSecondaryRecordRegex());
+		}
+		return secondaryRecordId;
+	}
+	
+	/**
+	 * Parses the tertiary record id.
+	 *
+	 * @param recordId the record id
+	 * @param prefs the prefs
+	 * @return the string
+	 */
+	public static String parseTertiaryRecordId(final String recordId,
+			final MetahivePreferences prefs) {
+		
+		String tertiaryRecordId = "";
+		
+		if (StringUtils.isNotBlank(recordId) && prefs != null 
+				&& StringUtils.isNotBlank(prefs.getTertiaryRecordRegex())) {
+			tertiaryRecordId = regex(recordId, prefs.getTertiaryRecordRegex());
+		}
+		return tertiaryRecordId;
+	}	
     
 	/**
 	 * Find the record going by the supplied record id.

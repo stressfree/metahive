@@ -51,7 +51,7 @@ public class ContributeController extends BaseController {
 			Organisation organisation = null;
 			if (user.getOrganisations().size() == 1) {
 				organisation = user.getOrganisations().iterator().next();
-			}
+			}			
 			if (user.getOrganisations().size() > 1) {
 				if (id != null) {
 					for (Organisation userOrg : user.getOrganisations()) {
@@ -59,9 +59,10 @@ public class ContributeController extends BaseController {
 							organisation = userOrg;
 						}
 					}
+				} else {
+					uiModel.addAttribute("organisations", user.getOrganisations());
+					page = "contribute/select";	
 				}
-				uiModel.addAttribute("organisations", user.getOrganisations());
-				page = "contribute/select";		
 			}
 
 			if (organisation != null) {
@@ -72,6 +73,7 @@ public class ContributeController extends BaseController {
 						organisation);
 				
 				if (definitions != null && definitions.size() > 0) {
+					uiModel.addAttribute("organisationId", organisation.getId());	
 					uiModel.addAttribute("uniqueIdDef", uniqueIdDef);					
 					uiModel.addAttribute("definitions", definitions);
 					page = "contribute/begin";
@@ -81,38 +83,51 @@ public class ContributeController extends BaseController {
 		
         return page;
     }
-	
+
+	@PreAuthorize("hasAnyRole('ROLE_CONTRIBUTOR','ROLE_EDITOR','ROLE_ADMIN')")
 	@RequestMapping(value = "/submission", method = RequestMethod.GET)
-	public String submission() throws Exception {	  		
+	public String submission(@RequestParam(value = "id", required = true) Long id,
+			Model uiModel, HttpServletRequest request) throws Exception {
+		
+		uiModel.addAttribute("organisationId", id);
+		
 		return "contribute/submission";
 	}
 	
 	@RequestMapping(value = "/preview", method = RequestMethod.POST)
 	public String preview(
-			@RequestParam(value = "previewData", required = true) String previewData,
+			@RequestParam(value = "previewData", required = true) String data,
 			Model uiModel, HttpServletRequest request) throws Exception {
-	  		
-		String[][] parsedData = DataParser.parseTextData(previewData);		
-		DataGrid dataGrid = new DataGrid();
-		
-		int y = 0;
-		for (String[] row : parsedData) {
-			if (y == 0) {
-				// The first row of data is the header.
-				for (String field : row) {
-					dataGrid.addHeaderField(field);
-				}
-			} else {
-				dataGrid.addRow(row);
-			}
-			y++;
-		}
-		
-		ValidatedDataGrid validatedDataGrid = new ValidatedDataGrid(dataGrid);
-		
-		uiModel.addAttribute("validatedDataGrid", validatedDataGrid);
+	  				
+		uiModel.addAttribute("validatedDataGrid", validateGrid(data));
 		
 		return "contribute/preview";
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_CONTRIBUTOR','ROLE_EDITOR','ROLE_ADMIN')")
+	@RequestMapping(value = "/complete", method = RequestMethod.POST)
+	public String complete(
+			@RequestParam(value = "submissionId", required = true) Long id,
+			@RequestParam(value = "submissionData", required = true) String data,
+			Model uiModel, HttpServletRequest request) throws Exception {
+
+		Person user = loadUser(request);
+
+		String page = "redirect:/contribute";
+		
+		if (user != null && user.getOrganisations() != null) {
+			for (Organisation userOrg : user.getOrganisations()) {				
+				if (userOrg.getId().compareTo(id) == 0) {					
+					if (validateGrid(data).processData(data, user, userOrg) > 0) {
+						page = "redirect:/submissions";
+					} else {
+						page = "contribute/nodata";
+					}
+				}
+			}
+		}
+		
+		return page;
 	}
 	
 	@RequestMapping(value = "/template.xls", method = RequestMethod.POST)
@@ -134,5 +149,31 @@ public class ContributeController extends BaseController {
 		return new ModelAndView("ExcelTemplateView", "dataGrid", dataGrid);
 	}
 	
+	/**
+	 * Validate the data grid.
+	 *
+	 * @param data the data
+	 * @return the validated data grid
+	 */
+	private ValidatedDataGrid validateGrid(final String data) {
+		
+		String[][] parsedData = DataParser.parseTextData(data);		
+		DataGrid dataGrid = new DataGrid();
+		
+		int y = 0;
+		for (String[] row : parsedData) {
+			if (y == 0) {
+				// The first row of data is the header.
+				for (String field : row) {
+					dataGrid.addHeaderField(field);
+				}
+			} else {
+				dataGrid.addRow(row);
+			}
+			y++;
+		}
+		
+		return new ValidatedDataGrid(dataGrid);		
+	}
 	
 }

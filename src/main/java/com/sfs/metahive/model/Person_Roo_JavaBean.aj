@@ -7,6 +7,7 @@ import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.Organisation;
+import com.sfs.metahive.model.Submission;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.model.UserStatus;
 import java.lang.String;
@@ -92,6 +93,14 @@ privileged aspect Person_Roo_JavaBean {
     
     public void Person.setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+    
+    public Set<Submission> Person.getSubmissions() {
+        return this.submissions;
+    }
+    
+    public void Person.setSubmissions(Set<Submission> submissions) {
+        this.submissions = submissions;
     }
     
 }

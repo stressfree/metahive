@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -37,6 +38,11 @@ public class Organisation {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "organisation")
 	private Set<DataSource> dataSources = new HashSet<DataSource>();
+
+	/** The related submissions. */
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "organisation")
+	@OrderBy("created ASC")
+	private Set<Submission> submissions = new HashSet<Submission>();
 	
 	
 	/**
