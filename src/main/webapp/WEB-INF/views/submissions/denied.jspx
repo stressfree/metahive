@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:spring="http://www.springframework.org/tags">
+    <p><spring:message code="metahive_submissions_denied" htmlEscape="false" /></p>
+</div>

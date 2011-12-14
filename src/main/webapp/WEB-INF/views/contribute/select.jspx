@@ -22,11 +22,10 @@
   	
   	<script type="text/javascript">
   	<![CDATA[
-   	dojo.require("dojo.parser");
    	dojo.require("dijit.form.Form");
    	dojo.require("dijit.form.Button");
    	dojo.require("dijit.form.Select");
-    
+   	    
     dojo.addOnLoad(function() {
         dojo.parser.parse();        
     });

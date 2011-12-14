@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sfs.metahive.DataParser;
+import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.DataGrid;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
@@ -119,6 +119,8 @@ public class ContributeController extends BaseController {
 			for (Organisation userOrg : user.getOrganisations()) {				
 				if (userOrg.getId().compareTo(id) == 0) {					
 					if (validateGrid(data).processData(data, user, userOrg) > 0) {
+						FlashScope.appendMessage(
+								getMessage("metahive_submissions_complete"), request);
 						page = "redirect:/submissions";
 					} else {
 						page = "contribute/nodata";
@@ -156,24 +158,7 @@ public class ContributeController extends BaseController {
 	 * @return the validated data grid
 	 */
 	private ValidatedDataGrid validateGrid(final String data) {
-		
-		String[][] parsedData = DataParser.parseTextData(data);		
-		DataGrid dataGrid = new DataGrid();
-		
-		int y = 0;
-		for (String[] row : parsedData) {
-			if (y == 0) {
-				// The first row of data is the header.
-				for (String field : row) {
-					dataGrid.addHeaderField(field);
-				}
-			} else {
-				dataGrid.addRow(row);
-			}
-			y++;
-		}
-		
-		return new ValidatedDataGrid(dataGrid);		
+		return new ValidatedDataGrid(new DataGrid(data));		
 	}
 	
 }

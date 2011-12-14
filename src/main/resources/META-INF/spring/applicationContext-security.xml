@@ -14,6 +14,7 @@
         <!-- Configure these elements to secure URIs in your application -->
         <intercept-url pattern="/lists/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/contribute/**" access="hasAnyRole('ROLE_CONTRIBUTOR','ROLE_EDITOR','ROLE_ADMIN')"/>
+        <intercept-url pattern="/submissions/**" access="hasAnyRole('ROLE_CONTRIBUTOR','ROLE_EDITOR','ROLE_ADMIN')"/>
         <intercept-url pattern="/datatypes/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/datasources/**" access="hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')"/>
         <intercept-url pattern="/categories/**" access="hasRole('ROLE_ADMIN')"/>

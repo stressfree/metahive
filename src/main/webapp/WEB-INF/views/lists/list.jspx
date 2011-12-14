@@ -3,6 +3,9 @@
     <jsp:output omit-xml-declaration="yes"/>
     
     <spring:message var="list_management" code="metahive_lists" />
+    <spring:message var="category_name" code="label_com_sfs_metahive_model_category_name" />
+    <spring:message var="conditionofuse_name" code="label_com_sfs_metahive_model_conditionofuse_name" />
+    
     <util:panel id="_list_management" title="${list_management}">
     
 	    <div class="yui-u first">
@@ -13,7 +16,7 @@
 	       <div id="categoryDeleteButton" dojoType="dijit.form.Button" jsId="categoryDeleteButton"><spring:message code="metahive_button_delete" /></div>
 	       <div id="categoryDataGrid" jsId="categoryDataGrid"
 	          dojoType="dojox.grid.EnhancedGrid"
-	          structure ="[{ field: 'name', name: 'Name', width: '260px' }]"
+	          structure ="[{ field: 'name', name: '${category_name}', width: '260px' }]"
 	          autoWidth="true"
 	          autoHeight="true"
 	          plugins="{indirectSelection: true}"
@@ -28,7 +31,7 @@
 	       <div id="conditionOfUseDeleteButton" dojoType="dijit.form.Button" jsId="conditionOfUseDeleteButton"><spring:message code="metahive_button_delete" /></div>
 	       <div id="conditionOfUseDataGrid" jsId="conditionOfUseDataGrid"
 	          dojoType="dojox.grid.EnhancedGrid"
-	          structure ="[{ field: 'name', name: 'Name', width: '260px' }]"
+	          structure ="[{ field: 'name', name: '${conditionofuse_name}', width: '260px' }]"
 	          autoWidth="true"
 	          autoHeight="true"
 	          plugins="{indirectSelection: true}"
@@ -51,15 +54,15 @@
     
     <script type="text/javascript">
     <![CDATA[
-	dojo.require("dojo.parser");
    	dojo.require("dojox.grid.EnhancedGrid");
    	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
    	dojo.require("dijit.form.Button");
     dojo.require("dojo.data.ItemFileReadStore");
     
     dojo.addOnLoad(function() {
-       	dojo.parser.parse();
-    	
+
+        dojo.parser.parse();
+        
         dojo.connect(categoryAddButton, "onClick", function() {
             window.location.href="${add_category_url}";
         });

@@ -10,10 +10,14 @@ privileged aspect Submission_Roo_ToString {
     public String Submission.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Created: ").append(getCreated()).append(", ");
+        sb.append("FormattedCreationDate: ").append(getFormattedCreationDate()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Organisation: ").append(getOrganisation()).append(", ");
+        sb.append("OrganisationName: ").append(getOrganisationName()).append(", ");
         sb.append("Person: ").append(getPerson()).append(", ");
+        sb.append("PersonName: ").append(getPersonName()).append(", ");
         sb.append("RawData: ").append(getRawData()).append(", ");
+        sb.append("RawDataGrid: ").append(getRawDataGrid()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }

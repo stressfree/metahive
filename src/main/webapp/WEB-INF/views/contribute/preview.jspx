@@ -4,29 +4,29 @@
     <jsp:output omit-xml-declaration="yes"/>
 	<c:choose>
 		<c:when test="${not empty validatedDataGrid.rows}">
-	<ul>
-		<li class="invalidcolumn"><spring:message code="metahive_contribute_invalidcolumn" /></li>
-		<li class="invalidrow"><spring:message code="metahive_contribute_invalidrow" /></li>
-		<li class="invalidcell"><spring:message code="metahive_contribute_invalidcell" /></li>
-	</ul>
-    <table>
-    	<thead>
-    		<tr>
-    			<c:forEach items="${validatedDataGrid.headerFields}" var="field">
-    			<th class="${field.validString}"><c:out value="${field.value}" escapeXml="true" /></th>
-    			</c:forEach>
-    		</tr>
-    	</thead>
-    	<tbody>
-    		<c:forEach items="${validatedDataGrid.rows}" var="row">    		
-    		<tr class="${row.validString}">
-    			<c:forEach items="${row.fields}" var="field">
-    			<td class="${field.validString}"><c:out value="${field.value}" escapeXml="true" /></td>
-    			</c:forEach>
-    		</tr>
-    		</c:forEach>
-    	</tbody>
-    </table>
+			<ul>
+				<li class="invalidcolumn"><spring:message code="metahive_contribute_invalidcolumn" /></li>
+				<li class="invalidrow"><spring:message code="metahive_contribute_invalidrow" /></li>
+				<li class="invalidcell"><spring:message code="metahive_contribute_invalidcell" /></li>
+			</ul>
+		    <table>
+		    	<thead>
+		    		<tr>
+		    			<c:forEach items="${validatedDataGrid.headerFields}" var="field">
+		    			<th class="${field.validString}"><c:out value="${field.value}" escapeXml="true" /></th>
+		    			</c:forEach>
+		    		</tr>
+		    	</thead>
+		    	<tbody>
+		    		<c:forEach items="${validatedDataGrid.rows}" var="row">    		
+		    		<tr class="${row.validString}">
+		    			<c:forEach items="${row.fields}" var="field">
+		    			<td class="${field.validString}"><c:out value="${field.value}" escapeXml="true" /></td>
+		    			</c:forEach>
+		    		</tr>
+		    		</c:forEach>
+		    	</tbody>
+		    </table>
     	</c:when>
     	<c:otherwise>
     		<p><spring:message code="metahive_contribute_noresults" /></p>

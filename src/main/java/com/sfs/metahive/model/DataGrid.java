@@ -6,6 +6,8 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.sfs.metahive.DataParser;
+
 
 /**
  * The Class DataGrid.
@@ -22,6 +24,34 @@ public class DataGrid {
 	private TreeMap<Integer, TreeMap<Integer, String>> body = 
 			new TreeMap<Integer, TreeMap<Integer, String>>();
 
+	
+	/**
+	 * Instantiates a new data grid.
+	 *
+	 * @param data the data
+	 */
+	public DataGrid(final String data) {
+		
+		String[][] parsedData = DataParser.parseTextData(data);
+		
+		int y = 0;
+		for (String[] row : parsedData) {
+			if (y == 0) {
+				// The first row of data is the header.
+				for (String field : row) {
+					this.addHeaderField(field);
+				}
+			} else {
+				this.addRow(row);
+			}
+			y++;
+		}
+	}
+	
+	/**
+	 * Instantiates a new data grid.
+	 */
+	public DataGrid() {}
 	
 	/**
 	 * Sets the title.

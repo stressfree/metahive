@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<table xmlns:c="http://java.sun.com/jsp/jstl/core">
+  	<thead>
+  		<tr>
+  			<c:forEach items="${dataGrid.headerFields}" var="field">
+  			<th><c:out value="${field}" escapeXml="true" /></th>
+  			</c:forEach>
+  		</tr>
+  	</thead>
+  	<tbody>
+  		<c:forEach items="${dataGrid.rows}" var="row">    		
+  		<tr>
+  			<c:forEach items="${row}" var="field">
+  			<td><c:out value="${field}" escapeXml="true" /></td>
+  			</c:forEach>
+  		</tr>
+  		</c:forEach>
+  	</tbody>
+</table>

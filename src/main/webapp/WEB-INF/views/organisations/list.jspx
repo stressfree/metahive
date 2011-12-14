@@ -3,6 +3,9 @@
     <jsp:output omit-xml-declaration="yes"/>
     
    	<spring:message var="organisation_heading" code="metahive_organisations" />
+   	<spring:message var="organisation_name" code="label_com_sfs_metahive_model_organisation_name" />   	
+   	<spring:message var="organisation_members" code="label_com_sfs_metahive_model_organisation_people" />
+   	
     <util:panel id="_organisation_heading" title="${organisation_heading}">
    	
 	  <div id="organisationAddButton" dojoType="dijit.form.Button" jsId="organisationAddButton"><spring:message code="metahive_button_add" /></div>
@@ -11,8 +14,8 @@
       <div id="organisationDataGrid" jsId="organisationDataGrid"
          dojoType="dojox.grid.EnhancedGrid"
          structure ="[
-         	{ field: 'name', name: 'Name', width: '350px' },
-         	{ field: 'peopleNames', name: 'Members', width: '500px' },
+         	{ field: 'name', name: '${organisation_name}', width: '350px' },
+         	{ field: 'peopleNames', name: '${organisation_members}', width: '500px' },
          ]"
          autoWidth="true"
          autoHeight="true"
@@ -30,16 +33,15 @@
             
     <script type="text/javascript">
     <![CDATA[
-	dojo.require("dojo.parser");
-    dojo.require("dojox.string.Builder");
    	dojo.require("dojox.grid.EnhancedGrid");
    	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
    	dojo.require("dijit.form.Button");
     dojo.require("dojo.data.ItemFileReadStore");
     
     dojo.addOnLoad(function() {
-       	dojo.parser.parse();
-       	
+
+        dojo.parser.parse();
+            
         dojo.connect(organisationAddButton, "onClick", function() {
             window.location.href="${add_organisation_url}";
         });

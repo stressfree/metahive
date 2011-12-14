@@ -3,6 +3,11 @@
     <jsp:output omit-xml-declaration="yes"/>
     
    	<spring:message var="people_heading" code="metahive_people" htmlEscape="true" />
+   	<spring:message var="people_firstname" code="label_com_sfs_metahive_model_person_firstname" />
+   	<spring:message var="people_lastname" code="label_com_sfs_metahive_model_person_lastname" />
+   	<spring:message var="people_email" code="label_com_sfs_metahive_model_person_emailaddress" />
+   	<spring:message var="people_role" code="label_com_sfs_metahive_model_person_userrole" />
+   	<spring:message var="people_status" code="label_com_sfs_metahive_model_person_userstatus" />	
    	
     <util:panel id="_people_heading" title="${people_heading}">
     
@@ -11,11 +16,11 @@
       <div id="personDataGrid" jsId="personDataGrid"
          dojoType="dojox.grid.EnhancedGrid"
          structure ="[
-         	{ field: 'firstName', name: 'First name', width: '160px' },
-         	{ field: 'lastName', name: 'Last name', width: '200px' },
-         	{ field: 'emailAddress', name: 'Email address', width: '300px' },         	
-         	{ field: 'userRole', name: 'Role', width: '170px' },         	
-         	{ field: 'userStatus', name: 'Status', width: '100px' }
+         	{ field: 'firstName', name: '${people_firstname}', width: '160px' },
+         	{ field: 'lastName', name: '${people_lastname}', width: '200px' },
+         	{ field: 'emailAddress', name: '${people_email}', width: '300px' },         	
+         	{ field: 'userRole', name: '${people_role}', width: '170px' },         	
+         	{ field: 'userStatus', name: '${people_status}', width: '100px' }
          ]"
          autoWidth="true"
          autoHeight="true"
@@ -32,13 +37,13 @@
             
     <script type="text/javascript">
     <![CDATA[
-	dojo.require("dojo.parser");
    	dojo.require("dojox.grid.EnhancedGrid");
    	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
    	dojo.require("dijit.form.Button");
     dojo.require("dojo.data.ItemFileReadStore");
     
     dojo.addOnLoad(function() {
+    	
        	dojo.parser.parse();
        	
         dojo.connect(personEditButton, "onClick", function() {        	

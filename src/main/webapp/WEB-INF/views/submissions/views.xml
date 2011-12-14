@@ -4,4 +4,10 @@
 	<definition extends="default" name="submissions/list">
 		<put-attribute name="body" value="/WEB-INF/views/submissions/list.jspx" />
 	</definition>
+	<definition extends="ajax" name="submissions/denied">
+		<put-attribute name="body" value="/WEB-INF/views/submissions/denied.jspx" />
+	</definition>
+	<definition extends="ajax" name="submissions/viewdata">
+		<put-attribute name="body" value="/WEB-INF/views/submissions/viewdata.jspx" />
+	</definition>
 </tiles-definitions>

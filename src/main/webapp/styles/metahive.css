@@ -338,14 +338,14 @@ ul.checkall li {
 #submissionPreview table {
 	clear: left;
 }
-#submissionPreview table th {
+#submissionPreview table th, #viewData table th {
 	background: #666;
 	color: #fff;
 	border: none;
 	border-bottom: 1px solid #333;
 	padding: 0.3em 0.8em;
 }
-#submissionPreview table td {
+#submissionPreview table td, #viewData table td {
 	border: none;
 	border-bottom: 1px solid #999;
 	border-right: 1px solid #eee;
@@ -371,6 +371,12 @@ ul.checkall li {
 	float: left;
 	padding: 0.3em 1em;
 	margin: 0 0 1em 0;
+}
+
+#viewDataContent {
+	width: 800px;
+	height: 600px;
+	overflow: auto;	
 }
 
 #_c_com_sfs_metahive_web_model_DefinitionForm_categories_id .dojoxMultiSelect {

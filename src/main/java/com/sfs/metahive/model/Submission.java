@@ -1,8 +1,13 @@
 package com.sfs.metahive.model;
 
+import flexjson.JSON;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Lob;
@@ -13,8 +18,10 @@ import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
+import org.springframework.roo.addon.json.RooJson;
 import org.springframework.roo.addon.tostring.RooToString;
 
 import com.sfs.metahive.web.model.SubmissionFilter;
@@ -25,6 +32,7 @@ import com.sfs.metahive.web.model.SubmissionFilter;
 @RooJavaBean
 @RooToString
 @RooEntity
+@RooJson
 public class Submission {
 	
 	/** The person. */
@@ -53,7 +61,101 @@ public class Submission {
     protected void onCreate() {
     	created = new Date();
     }
-	
+    
+    @JSON(include=false)
+    public Person getPerson() {
+        return this.person;
+    }
+    
+    /**
+     * Gets the person's name.
+     *
+     * @return the person name
+     */
+    public String getPersonName() {
+    	
+    	String personName = "";
+    	
+    	if (this.person != null) {
+    		personName = this.person.getFormattedName();
+    	}
+    	return personName;
+    }
+    
+    /**
+     * Gets the organisation.
+     *
+     * @return the organisation
+     */
+    @JSON(include=false)
+    public Organisation getOrganisation() {
+        return this.organisation;
+    }
+    
+    /**
+     * Gets the organisation's name.
+     *
+     * @return the organisation name
+     */
+    public String getOrganisationName() {
+    	
+    	String organisationName = "";
+    	
+    	if (this.organisation != null) {
+    		organisationName = this.organisation.getName();
+    	}    	
+    	return organisationName;
+    }
+    
+    public String getFormattedCreationDate() {
+    	
+    	String formattedCreated = "";
+    	
+    	if (this.created != null) {    		
+    		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    		formattedCreated = format.format(this.created);    		
+    	}
+    	return formattedCreated;
+    }
+    
+    /**
+     * Gets the raw data.
+     *
+     * @return the raw data
+     */
+    @JSON(include=false)
+    public String getRawData() {
+    	if (StringUtils.isBlank(rawData)) {
+    		rawData = "";
+    	}
+    	return rawData;
+    }
+    
+    /**
+     * Gets the raw data grid.
+     *
+     * @return the raw data grid
+     */
+    @JSON(include=false)
+    public DataGrid getRawDataGrid() {    	
+    	DataGrid dataGrid = new DataGrid();
+    	
+    	if (StringUtils.isNotBlank(this.getRawData())) {
+    		dataGrid = new DataGrid(this.getRawData());
+    	}    	
+        return dataGrid;
+    }
+    
+    /**
+     * Gets the creation time for the submission.
+     *
+     * @return the created
+     */
+    @JSON(include=false)
+    public Date getCreated() {
+        return this.created;
+    }
+    
 	/**
 	 * Find all of the submissions.
 	 * 
@@ -63,6 +165,36 @@ public class Submission {
 		return entityManager().createQuery(
 				"SELECT s FROM Submission s ORDER BY created ASC",
 				Submission.class).getResultList();
+	}
+    
+	/**
+	 * Find all of the submissions for the supplied organisations.
+	 * 
+	 * @return an ordered list of submissions
+	 */
+	public static List<Submission> findAllSubmissions(Set<Organisation> organisations) {
+		
+		List<Submission> submissions = new ArrayList<Submission>();
+		
+		StringBuilder where = new StringBuilder();
+		
+		if (organisations != null) {
+			for (Organisation organisation : organisations) {
+				if (where.length() > 0) {
+					where.append(" OR ");
+				}
+				where.append("s.organisation = ");
+				where.append(organisation.getId());
+			}
+		}
+		
+		if (where.length() > 0) {
+		
+			submissions = entityManager().createQuery("SELECT s FROM Submission s WHERE " 
+					+ where.toString() + " ORDER BY created ASC",
+					Submission.class).getResultList();
+		}
+		return submissions;
 	}
 
 	/**

@@ -10,32 +10,16 @@ import java.util.Date;
 
 privileged aspect Submission_Roo_JavaBean {
     
-    public Person Submission.getPerson() {
-        return this.person;
-    }
-    
     public void Submission.setPerson(Person person) {
         this.person = person;
-    }
-    
-    public Organisation Submission.getOrganisation() {
-        return this.organisation;
     }
     
     public void Submission.setOrganisation(Organisation organisation) {
         this.organisation = organisation;
     }
     
-    public String Submission.getRawData() {
-        return this.rawData;
-    }
-    
     public void Submission.setRawData(String rawData) {
         this.rawData = rawData;
-    }
-    
-    public Date Submission.getCreated() {
-        return this.created;
     }
     
     public void Submission.setCreated(Date created) {
