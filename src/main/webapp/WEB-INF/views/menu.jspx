@@ -11,10 +11,7 @@
     	<menu:item id="i_submissions" url="/submissions" z="user-managed"/>
     </sec:authorize>
 	<sec:authorize ifAllGranted="ROLE_ADMIN">
-    	<menu:item id="i_administration_preferences" url="/preferences" z="user-managed"/>
-    	<menu:item id="i_administration_people" url="/people" z="user-managed"/>
-        <menu:item id="i_administration_organisations" url="/organisations" z="user-managed"/>
-        <menu:item id="i_administration_list" url="/lists" z="user-managed"/>
+    	<menu:item id="i_administration_administration" url="/preferences" z="user-managed"/>
     </sec:authorize> 
   	<c:choose>
   		<c:when test="${pageContext['request'].userPrincipal != null}">

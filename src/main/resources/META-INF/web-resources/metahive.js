@@ -17,7 +17,26 @@ function loadGrid(dataGrid, datasource) {
 	});
 }
 
-function formatDate(formattedCreated) {    	
-	var d = dojo.date.locale.parse(formattedCreated, {datePattern: "yyyy-MM-dd HH:mm:ss", selector: "date"});
-    return dojo.date.locale.format(d, {datePattern: "dd/MM/yyyy", timePattern: "'at' h:mm a"});
+function formatDate(formattedCreated) {
+	var d = dojo.date.locale.parse(formattedCreated, {
+		datePattern : "yyyy-MM-dd HH:mm:ss",
+		selector : "date"
+	});
+	return dojo.date.locale.format(d, {
+		datePattern : "dd/MM/yyyy",
+		timePattern : "'at' h:mm a"
+	});
+}
+
+function displayFlashMessage() {
+
+	dojo.style("flashMessage", "display", "none");
+	var wipeArgs = {
+		node : "flashMessage"
+	};
+	dojo.fx.wipeIn(wipeArgs).play();
+	setTimeout(function() {
+		dojo.fx.wipeOut(wipeArgs).play();
+	}, 7000);
+
 }

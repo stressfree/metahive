@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div class="yui-g" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<div class="yui-g" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
+    
+    <metahive:administration />
     
    	<spring:message var="organisation_heading" code="metahive_organisations" />
    	<spring:message var="organisation_name" code="label_com_sfs_metahive_model_organisation_name" />   	

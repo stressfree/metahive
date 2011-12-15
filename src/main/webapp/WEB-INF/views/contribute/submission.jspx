@@ -13,16 +13,24 @@
 	  			<textarea data-dojo-type="dijit.form.SimpleTextarea" id="submissionData" name="submissionData"><!-- --></textarea>
 	  		</div>
 	    	<div id="previewButton" dojoType="dijit.form.Button" jsId="previewButton"><spring:message code="metahive_button_preview" /></div>
-	    	<button dojoType="dijit.form.Button" id="next" disabled="true" type="submit"><spring:message code="metahive_button_submit" /></button>
-		</form:form>		
-		<div id="submissionPreview" class="hidden"><div class="loader"><!-- --></div></div>
+	    	
+	    	<spring:message code="metahive_contribute_preview" var="contribute_preview" />
+		  	<div id="submissionPreview" dojoType="dijit.Dialog" title="${contribute_preview}">
+		  		<div class="actions">
+	    			<div id="next" dojoType="dijit.form.Button" jsId="nextButton"><spring:message code="metahive_button_submit" /></div>
+	    		</div>
+	    		<div id="submissionPreviewContent"><div class="loader"><!--  --></div></div>
+    		</div>
+		</form:form>
   	</util:panel>
+  			
   			
 	<spring:url value="/contribute/preview" var="preview_url" />
 	<form:form id="preview" action="${preview_url}" method="POST" dojoType="dijit.form.Form">
 		<input type="hidden" id="previewData" name="previewData" />
 		<input type="hidden" id="previewId" name="previewId" value="${organisationId}" />
 	</form:form>
+  			
 		
   	<script type="text/javascript">
   	<![CDATA[
@@ -35,17 +43,21 @@
         dojo.parser.parse();
 
         dojo.connect(previewButton, "onClick", function() {
-        	dojo.byId("previewData").value = dojo.byId("submissionData").value;
-        	dojo.removeClass("submissionPreview", "hidden");
+        	dojo.byId("previewData").value = dojo.byId("submissionData").value;        	
+        	dijit.byId("submissionPreview").show();
+        	
         	dojo.xhrPost({
         	    form: "preview",
         	    handleAs: "text",
-        	    handle: function(data,args){
+        	   handle: function(data,args){
         		    if (typeof data == "error"){
         	    	    console.warn("Submission error", args);
         	   	    }
-        	        dojo.byId("submissionPreview").innerHTML = data;     
-        	        dijit.getEnclosingWidget(dojo.byId("next")).set("disabled", false);
+        	        dojo.byId("submissionPreviewContent").innerHTML = data;
+        	        
+        	        dojo.connect(nextButton, "onClick", function() {
+        	        	dijit.byId("submission").submit();
+        	        });
         	    }
             });
         });

@@ -62,8 +62,9 @@ public final class FlashScope {
 		sb.append(message);
 		
 		flashMap.put(FLASH_MESSAGE_ATTRIBUTE, sb.toString());
+		request.setAttribute(FLASH_MESSAGE_ATTRIBUTE, sb.toString());
 		
-		session.setAttribute(FLASH_SCOPE_ATTRIBUTE, flashMap);;
+		session.setAttribute(FLASH_SCOPE_ATTRIBUTE, flashMap);
 	}
 	
 	/**

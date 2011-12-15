@@ -9,6 +9,7 @@
 				<li class="invalidrow"><spring:message code="metahive_contribute_invalidrow" /></li>
 				<li class="invalidcell"><spring:message code="metahive_contribute_invalidcell" /></li>
 			</ul>
+			<div class="previewTable">
 		    <table>
 		    	<thead>
 		    		<tr>
@@ -27,6 +28,7 @@
 		    		</c:forEach>
 		    	</tbody>
 		    </table>
+		    </div>
     	</c:when>
     	<c:otherwise>
     		<p><spring:message code="metahive_contribute_noresults" /></p>

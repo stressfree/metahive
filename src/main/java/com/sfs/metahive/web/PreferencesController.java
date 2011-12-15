@@ -39,8 +39,7 @@ public class PreferencesController extends BaseController {
     		// No preferences exist yet
     		metahivePreferences.persist();        	
     	}
-    	FlashScope.appendMessage(getMessage("metahive_edit_complete", 
-    			MetahivePreferences.class), request);
+    	FlashScope.appendMessage(getMessage("metahive_preferences_edited"), request);
     	
     	uiModel.addAttribute("metahivePreferences", this.loadPreferences());
         

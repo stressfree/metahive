@@ -25,8 +25,9 @@
          selectionMode="single"><!-- --></div>	   
          
     </util:panel>
-            
-    <div id="viewData" dojoType="dijit.Dialog">
+
+    <spring:message code="metahive_submissions_rawdata" var="view_rawdata" />
+    <div id="viewData" dojoType="dijit.Dialog" title="${view_rawdata}">
     	<div id="viewDataContent"><!--  --></div>
     </div>
             

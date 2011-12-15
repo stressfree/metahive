@@ -14,9 +14,20 @@
 			    <tiles:insertAttribute name="header" ignore="true" />
 			    <tiles:insertAttribute name="menu" ignore="true" />   
 				<c:if test="${not empty requestScope.flash_message}">
-				<div id="flashMessage">
-					<c:out value="${requestScope.flash_message}" escapeXml="false" />
+				<div id="flashMessage" style="display: none;">
+					<div class="flashMessageContent">
+						<p><c:out value="${requestScope.flash_message}" escapeXml="false" /></p>
+					</div>
 				</div>
+				<script type="text/javascript">
+				dojo.require("dojo.fx");
+    			<![CDATA[				
+    			dojo.addOnLoad(function() {
+       				dojo.parser.parse();       				
+       				displayFlashMessage();
+				});
+       		    ]]>
+       		    </script>
 				</c:if>
 			</div>
 			<div id="bd" role="main" class="body">
