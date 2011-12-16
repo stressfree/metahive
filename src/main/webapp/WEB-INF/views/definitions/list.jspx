@@ -13,16 +13,18 @@
 				<li>
 					<h3><a href="${definitionlink}"><c:out value="${definition.name}" escapeXml="true" /></a></h3>
 					<div class="description">
-						<p><c:out value="${definition.description.simpleDescription}" escapeXml="true" /></p>
+						<p>
+						   <c:out value="${definition.description.simpleDescription}" escapeXml="true" />
+						   <c:out value=" " />
+						   <span><a href="${definitionlink}"><spring:message code="metahive_moredetails" /></a></span>
+						</p>
 					</div>
 					<div class="information">
 						<ul class="metadata">
 							<li>
-								<a href="${definitionlink}"><spring:message code="metahive_moredetails" /></a>
-							</li>
-							<li>
-								<strong><spring:message code="label_com_sfs_metahive_model_category_plural" />: </strong>
-								<c:out value="${definition.categoryList}" escapeXml="true" />
+								<strong><spring:message code="label_com_sfs_metahive_model_category" />: </strong>
+								<c:out value="${definition.category.name}" escapeXml="true" />
+								(<c:out value="${definition.recordType.name}" escapeXml="true" />)
 							</li>
 							<li>
 								<strong><spring:message code="label_com_sfs_metahive_model_datatype" />: </strong>

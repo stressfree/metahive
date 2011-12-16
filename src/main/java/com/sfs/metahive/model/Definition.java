@@ -11,7 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.TypedQuery;
@@ -55,33 +55,20 @@ public class Definition {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
 	private Set<DataSource> dataSources = new HashSet<DataSource>();
 
-	/** The categories. */
-	@ManyToMany
-	private Set<Category> categories = new HashSet<Category>();
+	/** The category. */
+	@ManyToOne
+	@NotNull
+	private Category category;
+	
+	/** The record type. */
+	@ManyToOne
+	@NotNull
+	private RecordType recordType;
 
 	/** The comments. */
 	@OrderBy("created ASC")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
 	private Set<Comment> comments = new HashSet<Comment>();
-
-	/**
-	 * Gets the category list.
-	 * 
-	 * @return the category list
-	 */
-	public final String getCategoryList() {
-		StringBuffer categoryList = new StringBuffer();
-
-		if (this.getCategories() != null) {
-			for (Category category : categories) {
-				if (categoryList.length() > 0) {
-					categoryList.append(", ");
-				}
-				categoryList.append(category.getName());
-			}
-		}
-		return categoryList.toString();
-	}
 
 	/**
 	 * Gets the description.
@@ -98,21 +85,9 @@ public class Definition {
 	}
 
 	/**
-	 * Adds the category.
-	 * 
-	 * @param category
-	 *            the category
-	 */
-	public final void addCategory(Category category) {
-		getCategories().add(category);
-		category.addDefinition(this);
-	}
-
-	/**
 	 * Adds a data source.
 	 * 
-	 * @param dataSource
-	 *            the data source
+	 * @param dataSource the data source
 	 */
 	public final void addDataSource(DataSource dataSource) {
 		dataSource.setDefinition(this);
@@ -122,8 +97,7 @@ public class Definition {
 	/**
 	 * Adds a description.
 	 * 
-	 * @param description
-	 *            the description
+	 * @param description the description
 	 */
 	public final void addDescription(Description description) {
 		description.setDefinition(this);
@@ -133,8 +107,7 @@ public class Definition {
 	/**
 	 * Adds a comment.
 	 * 
-	 * @param comment
-	 *            the comment
+	 * @param comment the comment
 	 */
 	public final void addComment(Comment comment) {
 		comment.setDefinition(this);
@@ -175,10 +148,9 @@ public class Definition {
 		}
 
 		EntityManager em = Definition.entityManager();
-		TypedQuery<Definition> q = em
-				.createQuery(
-						"SELECT d FROM Definition AS d WHERE LOWER(d.name) = LOWER(:name)",
-						Definition.class);
+		TypedQuery<Definition> q = em.createQuery(
+				"SELECT d FROM Definition AS d WHERE LOWER(d.name) = LOWER(:name)",
+				Definition.class);
 		q.setParameter("name", name);
 
 		List<Definition> definitions = q.getResultList();
@@ -302,7 +274,7 @@ public class Definition {
 			final int maxResults) {
 
 		StringBuffer sql = new StringBuffer(
-				"SELECT d FROM Definition d JOIN d.categories c");
+				"SELECT d FROM Definition d JOIN d.category c");
 		sql.append(buildWhere(filter));
 		sql.append(" ORDER BY d.name ASC");
 
@@ -327,7 +299,7 @@ public class Definition {
 	public static long countDefinitions(final DefinitionFilter filter) {
 
 		StringBuffer sql = new StringBuffer(
-				"SELECT COUNT(d) FROM Definition d JOIN d.categories c");
+				"SELECT COUNT(d) FROM Definition d JOIN d.category c");
 		sql.append(buildWhere(filter));
 
 		TypedQuery<Long> q = entityManager().createQuery(sql.toString(),

@@ -3,8 +3,12 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.Category;
+import com.sfs.metahive.model.CategoryDataOnDemand;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.RecordType;
+import com.sfs.metahive.model.RecordTypeDataOnDemand;
 import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -13,6 +17,7 @@ import java.util.List;
 import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
@@ -23,12 +28,25 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     
     private List<Definition> DefinitionDataOnDemand.data;
     
+    @Autowired
+    private CategoryDataOnDemand DefinitionDataOnDemand.categoryDataOnDemand;
+    
+    @Autowired
+    private RecordTypeDataOnDemand DefinitionDataOnDemand.recordTypeDataOnDemand;
+    
     public Definition DefinitionDataOnDemand.getNewTransientDefinition(int index) {
         Definition obj = new Definition();
+        setCategory(obj, index);
         setDataType(obj, index);
         setName(obj, index);
+        setRecordType(obj, index);
         setUnitOfMeasure(obj, index);
         return obj;
+    }
+    
+    public void DefinitionDataOnDemand.setCategory(Definition obj, int index) {
+        Category category = categoryDataOnDemand.getRandomCategory();
+        obj.setCategory(category);
     }
     
     public void DefinitionDataOnDemand.setDataType(Definition obj, int index) {
@@ -42,6 +60,11 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
             name = new Random().nextInt(10) + name.substring(1, 100);
         }
         obj.setName(name);
+    }
+    
+    public void DefinitionDataOnDemand.setRecordType(Definition obj, int index) {
+        RecordType recordType = recordTypeDataOnDemand.getRandomRecordType();
+        obj.setRecordType(recordType);
     }
     
     public void DefinitionDataOnDemand.setUnitOfMeasure(Definition obj, int index) {

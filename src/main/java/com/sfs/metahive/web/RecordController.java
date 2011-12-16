@@ -27,7 +27,7 @@ import com.sfs.metahive.web.model.RecordForm;
 public class RecordController extends BaseController {
 
 	/** The default page size. */
-	private final static int DEFAULT_PAGE_SIZE = 25;
+	private final static int DEFAULT_PAGE_SIZE = 50;
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

@@ -16,13 +16,13 @@ import org.springframework.roo.addon.json.RooJson;
 import org.springframework.roo.addon.tostring.RooToString;
 
 /**
- * The Class Category.
+ * The Class RecordType.
  */
 @RooJavaBean
 @RooToString
 @RooEntity
 @RooJson
-public class Category {
+public class RecordType {
 
 	/** The name. */
 	@NotNull
@@ -31,17 +31,17 @@ public class Category {
 	private String name;
 
 	/** The definitions. */
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recordType")
 	private Set<Definition> definitions = new HashSet<Definition>();
 
-	
+
 	/**
 	 * Find all of the categories ordered by name.
 	 * 
 	 * @return an ordered list of categories
 	 */
-	public static List<Category> findAllCategorys() {
-        return entityManager().createQuery("SELECT c FROM Category c ORDER BY name", 
-        		Category.class).getResultList();
+	public static List<RecordType> findAllRecordTypes() {
+        return entityManager().createQuery("SELECT r FROM RecordType r ORDER BY name", 
+        		RecordType.class).getResultList();
     }
 }

@@ -79,7 +79,7 @@ public abstract class BaseController {
 
     @ModelAttribute("resultCounts")
     public Integer[] resultCounts() {
-    	return new Integer[] { 25, 50, 100, 200 };
+    	return new Integer[] { 50, 100, 200 };
     }
 	
 	/**

@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div class="yui-gc" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<div class="yui-g" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <spring:url value="/definitions/${definition.id}" var="cancelAction" />
     <form:update id="fu_com_sfs_metahive_web_model_DefinitionForm" modelAttribute="definition" path="/definitions" versionField="Version" cancelAction="${cancelAction}" z="user-managed">
-        <div class="yui-u first">
-	        <field:input field="name" id="c_com_sfs_metahive_web_model_DefinitionForm_name" required="true" z="user-managed"/>
-			<field:select field="dataType" id="c_com_sfs_metahive_web_model_DefinitionForm_dataType" path="dataType" items="${datatypes}" required="true" z="user-managed"/>
-        	<field:input field="unitOfMeasure" id="c_com_sfs_metahive_web_model_DefinitionForm_unitofmeasure" z="user-managed"/>
-        	<field:input field="exampleValues" id="c_com_sfs_metahive_web_model_DefinitionForm_examplevalues" z="user-managed"/>
-        	<field:editor field="description" id="c_com_sfs_metahive_web_model_DefinitionForm_description" z="user-managed"/>
-        	<field:editor field="keyValueDetermination" id="c_com_sfs_metahive_web_model_DefinitionForm_keyvaluedetermination" z="user-managed"/>
-        	<field:editor field="logMessage" id="c_com_sfs_metahive_web_model_DefinitionForm_logMessage" z="user-managed"/>
-        </div>
-        <div class="yui-u">
-        	<field:select field="categories" id="c_com_sfs_metahive_web_model_DefinitionForm_categories" itemValue="id" itemLabel="name" items="${categories}" multiple="true" path="/categories" z="user-managed"/>
-        </div>
+        <field:input field="name" id="c_com_sfs_metahive_web_model_DefinitionForm_name" required="true" z="user-managed"/>
+		<field:select field="dataType" id="c_com_sfs_metahive_web_model_DefinitionForm_dataType" path="dataType" items="${datatypes}" required="true" z="user-managed"/>
+       	<field:select field="category" id="c_com_sfs_metahive_web_model_DefinitionForm_category" path="category" itemValue="id" itemLabel="name" items="${categories}" required="true" z="user-managed"/>
+       	<field:select field="recordType" id="c_com_sfs_metahive_web_model_DefinitionForm_recordType" path="recordType" itemValue="id" itemLabel="name" items="${recordTypes}" required="true" z="user-managed"/>
+       	<field:input field="unitOfMeasure" id="c_com_sfs_metahive_web_model_DefinitionForm_unitofmeasure" z="user-managed"/>
+       	<field:input field="exampleValues" id="c_com_sfs_metahive_web_model_DefinitionForm_examplevalues" z="user-managed"/>
+       	<field:editor field="description" id="c_com_sfs_metahive_web_model_DefinitionForm_description" z="user-managed"/>
+       	<field:editor field="keyValueDetermination" id="c_com_sfs_metahive_web_model_DefinitionForm_keyvaluedetermination" z="user-managed"/>
+       	<field:editor field="logMessage" id="c_com_sfs_metahive_web_model_DefinitionForm_logMessage" z="user-managed"/>
     </form:update>
 </div>

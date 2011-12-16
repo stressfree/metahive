@@ -8,6 +8,7 @@ import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Description;
+import com.sfs.metahive.model.RecordType;
 import java.lang.String;
 import java.util.Set;
 
@@ -53,12 +54,20 @@ privileged aspect Definition_Roo_JavaBean {
         this.dataSources = dataSources;
     }
     
-    public Set<Category> Definition.getCategories() {
-        return this.categories;
+    public Category Definition.getCategory() {
+        return this.category;
     }
     
-    public void Definition.setCategories(Set<Category> categories) {
-        this.categories = categories;
+    public void Definition.setCategory(Category category) {
+        this.category = category;
+    }
+    
+    public RecordType Definition.getRecordType() {
+        return this.recordType;
+    }
+    
+    public void Definition.setRecordType(RecordType recordType) {
+        this.recordType = recordType;
     }
     
     public Set<Comment> Definition.getComments() {

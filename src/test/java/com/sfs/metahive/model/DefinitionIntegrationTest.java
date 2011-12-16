@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolationException;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.roo.addon.test.RooIntegrationTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,27 @@ import org.springframework.transaction.annotation.Transactional;
 @RooIntegrationTest(entity = Definition.class)
 public class DefinitionIntegrationTest {
 
+	/** The category. */
+	Category category;
+	
+	/** The record type. */
+	RecordType recordType;
+	
+	/**
+	 * Creates the objects.
+	 */
+	@Before
+    public void createObjects() {
+		CategoryDataOnDemand categoryDod = new CategoryDataOnDemand();
+		RecordTypeDataOnDemand recordTypeDod = new RecordTypeDataOnDemand();
+				
+		category = categoryDod.getRandomCategory();
+		category.persist();
+		
+		recordType = recordTypeDod.getRandomRecordType();
+		recordType.persist();
+    }
+	
 	/**
 	 * Test marker method.
 	 */
@@ -30,7 +52,10 @@ public class DefinitionIntegrationTest {
 	@Transactional
 	public void addAndFetchDefinition() {
 		Definition def = new Definition();
+		
 		def.setDataType(DataType.TYPE_STRING);
+		def.setCategory(category);
+		def.setRecordType(recordType);
 		def.setName("JUnit Test definition");
 
 		def.persist();
@@ -62,8 +87,11 @@ public class DefinitionIntegrationTest {
 	public void testFindByNameFinder() {
 
 		Definition def = new Definition();
+		
 		def.setName("JUnit Test definition");
 		def.setDataType(DataType.TYPE_STRING);
+		def.setCategory(category);
+		def.setRecordType(recordType);
 
 		def.persist();
 		def.flush();
@@ -88,6 +116,8 @@ public class DefinitionIntegrationTest {
 		DefinitionDataOnDemand definitionDod = new DefinitionDataOnDemand();
 		Definition def = definitionDod.getRandomDefinition();
 
+		def.setCategory(category);
+		def.setRecordType(recordType);
 		def.setDataType(DataType.TYPE_STRING);
 
 		def.flush();
@@ -95,40 +125,6 @@ public class DefinitionIntegrationTest {
 
 		Assert.assertEquals(Definition.findDefinition(def.getId())
 				.getDataType(), DataType.TYPE_STRING);
-
-	}
-
-	/**
-	 * Test persist categories in definitions.
-	 */
-	@Test
-	public void testPersistCategoriesInDefinitions() {
-
-		DefinitionDataOnDemand definitionDod = new DefinitionDataOnDemand();
-		Definition def = definitionDod.getRandomDefinition();
-		def.setDataType(DataType.TYPE_STRING);
-
-		CategoryDataOnDemand categoryDod = new CategoryDataOnDemand();
-		Category c1 = categoryDod.getNewTransientCategory(0);
-		Category c2 = categoryDod.getNewTransientCategory(1);
-		c1.persist();
-		c2.persist();
-		
-		def.getCategories().add(c1);
-		def.getCategories().add(c2);
-
-		c1.getDefinitions().add(def);
-		c2.getDefinitions().add(def);
-		
-		def.flush();
-		def.clear();
-
-		boolean result = false;
-		if (Definition.findDefinition(def.getId()).getCategories().size() > 1) {
-			result = true;
-		}
-		
-		Assert.assertEquals(true, result);
 
 	}
 }

@@ -1,8 +1,5 @@
 package com.sfs.metahive.web.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -15,6 +12,7 @@ import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.Person;
+import com.sfs.metahive.model.RecordType;
 
 /**
  * The Class DefinitionForm.
@@ -36,12 +34,17 @@ public class DefinitionForm extends BackingForm {
 	/** The data type. */
 	@NotNull
 	private DataType dataType;
+
+	/** The category. */
+	@NotNull
+	private Category category;
+	
+	/** The record type. */
+	@NotNull
+	private RecordType recordType;
 	
 	/** The unit of measure. */
 	private String unitOfMeasure;
-	
-	/** The categories. */
-	private Set<Category> categories = new HashSet<Category>();
 
 	/** The description. */
 	private String description;
@@ -96,7 +99,8 @@ public class DefinitionForm extends BackingForm {
 		if (definition != null) {
 			definitionForm.setId(definition.getId());
 			definitionForm.setName(trim(definition.getName()));
-			definitionForm.setCategories(definition.getCategories());
+			definitionForm.setCategory(definition.getCategory());
+			definitionForm.setRecordType(definition.getRecordType());
 			definitionForm.setDataType(definition.getDataType());
 			definitionForm.setUnitOfMeasure(definition.getUnitOfMeasure());
 			
@@ -154,7 +158,8 @@ public class DefinitionForm extends BackingForm {
 			definition.setName(trim(this.getName()));
 	        definition.setDataType(this.getDataType());
 	        definition.setUnitOfMeasure(this.getUnitOfMeasure());
-	        definition.setCategories(this.getCategories());
+	        definition.setCategory(this.getCategory());
+	        definition.setRecordType(this.getRecordType());
 	            	
 	        description.setDescription(trim(this.getDescription()));
 	        description.setExampleValues(trim(this.getExampleValues()));

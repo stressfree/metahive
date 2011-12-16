@@ -15,6 +15,7 @@ import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.UserRole;
+import com.sfs.metahive.model.RecordType;
 import com.sfs.metahive.web.model.CommentForm;
 import com.sfs.metahive.web.model.DefinitionFilter;
 import com.sfs.metahive.web.model.DefinitionForm;
@@ -39,7 +40,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DefinitionController extends BaseController {	
 		
 	/** The default page size. */
-	private final static int DEFAULT_PAGE_SIZE = 25;
+	private final static int DEFAULT_PAGE_SIZE = 50;
 	
 	/**
 	 * Creates the definition.
@@ -297,6 +298,16 @@ public class DefinitionController extends BaseController {
     @ModelAttribute("categories")
     public Collection<Category> populateCategories() {        
         return Category.findAllCategorys();
+    }
+
+	/**
+     * Populate record types.
+     *
+     * @return the collection
+     */
+    @ModelAttribute("recordTypes")
+    public Collection<RecordType> populateRecordTypes() {        
+        return RecordType.findAllRecordTypes();
     }
     
     /**

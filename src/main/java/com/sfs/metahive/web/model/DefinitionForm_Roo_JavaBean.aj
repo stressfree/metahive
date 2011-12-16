@@ -5,8 +5,8 @@ package com.sfs.metahive.web.model;
 
 import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.DataType;
+import com.sfs.metahive.model.RecordType;
 import java.lang.String;
-import java.util.Set;
 
 privileged aspect DefinitionForm_Roo_JavaBean {
     
@@ -42,20 +42,28 @@ privileged aspect DefinitionForm_Roo_JavaBean {
         this.dataType = dataType;
     }
     
+    public Category DefinitionForm.getCategory() {
+        return this.category;
+    }
+    
+    public void DefinitionForm.setCategory(Category category) {
+        this.category = category;
+    }
+    
+    public RecordType DefinitionForm.getRecordType() {
+        return this.recordType;
+    }
+    
+    public void DefinitionForm.setRecordType(RecordType recordType) {
+        this.recordType = recordType;
+    }
+    
     public String DefinitionForm.getUnitOfMeasure() {
         return this.unitOfMeasure;
     }
     
     public void DefinitionForm.setUnitOfMeasure(String unitOfMeasure) {
         this.unitOfMeasure = unitOfMeasure;
-    }
-    
-    public Set<Category> DefinitionForm.getCategories() {
-        return this.categories;
-    }
-    
-    public void DefinitionForm.setCategories(Set<Category> categories) {
-        this.categories = categories;
     }
     
     public String DefinitionForm.getDescription() {
