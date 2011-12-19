@@ -5,6 +5,7 @@ package com.sfs.metahive.web.model;
 
 import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.DataType;
+import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.RecordType;
 import java.lang.String;
 
@@ -42,6 +43,14 @@ privileged aspect DefinitionForm_Roo_JavaBean {
         this.dataType = dataType;
     }
     
+    public KeyValueGenerator DefinitionForm.getKeyValueGenerator() {
+        return this.keyValueGenerator;
+    }
+    
+    public void DefinitionForm.setKeyValueGenerator(KeyValueGenerator keyValueGenerator) {
+        this.keyValueGenerator = keyValueGenerator;
+    }
+    
     public Category DefinitionForm.getCategory() {
         return this.category;
     }
@@ -72,14 +81,6 @@ privileged aspect DefinitionForm_Roo_JavaBean {
     
     public void DefinitionForm.setDescription(String description) {
         this.description = description;
-    }
-    
-    public String DefinitionForm.getKeyValueDetermination() {
-        return this.keyValueDetermination;
-    }
-    
-    public void DefinitionForm.setKeyValueDetermination(String keyValueDetermination) {
-        this.keyValueDetermination = keyValueDetermination;
     }
     
     public String DefinitionForm.getExampleValues() {

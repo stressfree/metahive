@@ -41,9 +41,11 @@ public class Definition {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private DataType dataType;
-
-	/** The unit of measure. */
-	private String unitOfMeasure;
+	
+	/** The key value generator. */
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private KeyValueGenerator keyValueGenerator;
 
 	/** The definition descriptions. */
 	@OrderBy("created DESC")
@@ -208,8 +210,7 @@ public class Definition {
 			TypedQuery<Definition> q = entityManager().createQuery(sql,
 					Definition.class);
 			q.setParameter("organisationId", organisation.getId());
-			// Do not include the unique id data type as it is assumed this is
-			// known.
+			// Do not include the unique id data type as it is assumed this is known.
 			q.setParameter("dataType", DataType.TYPE_UNIQUEID);
 
 			definitions = q.getResultList();

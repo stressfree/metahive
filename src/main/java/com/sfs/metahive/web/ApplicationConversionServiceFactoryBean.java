@@ -9,6 +9,7 @@ import org.springframework.format.support.FormattingConversionServiceFactoryBean
 import org.springframework.roo.addon.web.mvc.controller.RooConversionService;
 
 import com.sfs.metahive.model.DataType;
+import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.model.UserStatus;
         
@@ -27,6 +28,7 @@ public class ApplicationConversionServiceFactoryBean
 		super.installFormatters(registry);
 		// Register application converters and formatters
 		registry.addConverter(getDataTypeConverter());
+		registry.addConverter(getKeyValueGeneratorConverter());
 		registry.addConverter(getUserRoleConverter());
 		registry.addConverter(getUserStatusConverter());
 	}
@@ -40,6 +42,20 @@ public class ApplicationConversionServiceFactoryBean
         return new Converter<DataType, String>() { 
             public String convert(DataType dataType) { 
                 return context.getMessage(dataType.getMessageKey(), null, 
+                		LocaleContextHolder.getLocale()); 
+            } 
+        }; 
+    }
+
+	/**
+	 * Gets the key value generator converter.
+	 *
+	 * @return the key value generator converter
+	 */
+	Converter<KeyValueGenerator, String> getKeyValueGeneratorConverter() { 
+        return new Converter<KeyValueGenerator, String>() { 
+            public String convert(KeyValueGenerator keyValueGenerator) { 
+                return context.getMessage(keyValueGenerator.getMessageKey(), null, 
                 		LocaleContextHolder.getLocale()); 
             } 
         }; 

@@ -22,8 +22,8 @@
     	<div class="datatype">
     		<h4><spring:message code="label_com_sfs_metahive_model_definition_datatypeandmeasure" />:</h4>
     		<spring:message code="${definition.dataType.messageKey}" />
-    		<c:if test="${not empty definition.unitOfMeasure}">
-			<c:out value=" (${definition.unitOfMeasure})" escapeXml="true" />
+    		<c:if test="${not empty definition.description.unitOfMeasure}">
+			<c:out value=" (${definition.description.unitOfMeasure})" escapeXml="true" />
 			</c:if>
 		</div>
     	<div class="examplevalue">
@@ -34,10 +34,6 @@
     
     <div class="details">
     	<div class="description"><c:out value="${definition.description.description}" escapeXml="false" /></div>
-    	<div class="keyvalue">
-    		<h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvaluedetermination" />:</h4>
-    		<c:out value="${definition.description.keyValueDetermination}" escapeXml="false" />
-    	</div>
     </div>
     <div class="datasources">    	    
     	<h4><spring:message code="label_com_sfs_metahive_model_datasource_plural" />:</h4>

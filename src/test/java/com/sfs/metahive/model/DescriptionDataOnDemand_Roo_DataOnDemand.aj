@@ -42,8 +42,8 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
         setDefinition(obj, index);
         setDescription(obj, index);
         setExampleValues(obj, index);
-        setKeyValueDetermination(obj, index);
         setPerson(obj, index);
+        setUnitOfMeasure(obj, index);
         return obj;
     }
     
@@ -67,14 +67,14 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
         obj.setExampleValues(exampleValues);
     }
     
-    public void DescriptionDataOnDemand.setKeyValueDetermination(Description obj, int index) {
-        String keyValueDetermination = "keyValueDetermination_" + index;
-        obj.setKeyValueDetermination(keyValueDetermination);
-    }
-    
     public void DescriptionDataOnDemand.setPerson(Description obj, int index) {
         Person person = personDataOnDemand.getRandomPerson();
         obj.setPerson(person);
+    }
+    
+    public void DescriptionDataOnDemand.setUnitOfMeasure(Description obj, int index) {
+        String unitOfMeasure = "unitOfMeasure_" + index;
+        obj.setUnitOfMeasure(unitOfMeasure);
     }
     
     public Description DescriptionDataOnDemand.getSpecificDescription(int index) {

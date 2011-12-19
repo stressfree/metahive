@@ -32,13 +32,12 @@ public class Description {
     @ManyToOne
     private Definition definition;
 
+	/** The unit of measure. */
+	private String unitOfMeasure;
+
     /** The description. */
     @Lob
     private String description;
-    
-    /** The key value determination. */
-    @Lob
-    private String keyValueDetermination;
 
     /** The example values. */
     private String exampleValues;

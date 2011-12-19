@@ -8,6 +8,7 @@ import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Description;
+import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.RecordType;
 import java.lang.String;
 import java.util.Set;
@@ -30,12 +31,12 @@ privileged aspect Definition_Roo_JavaBean {
         this.dataType = dataType;
     }
     
-    public String Definition.getUnitOfMeasure() {
-        return this.unitOfMeasure;
+    public KeyValueGenerator Definition.getKeyValueGenerator() {
+        return this.keyValueGenerator;
     }
     
-    public void Definition.setUnitOfMeasure(String unitOfMeasure) {
-        this.unitOfMeasure = unitOfMeasure;
+    public void Definition.setKeyValueGenerator(KeyValueGenerator keyValueGenerator) {
+        this.keyValueGenerator = keyValueGenerator;
     }
     
     public Set<Description> Definition.getDescriptions() {

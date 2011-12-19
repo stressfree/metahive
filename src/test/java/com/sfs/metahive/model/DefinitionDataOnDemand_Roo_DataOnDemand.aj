@@ -7,6 +7,7 @@ import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.CategoryDataOnDemand;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.RecordType;
 import com.sfs.metahive.model.RecordTypeDataOnDemand;
 import java.lang.String;
@@ -38,9 +39,9 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
         Definition obj = new Definition();
         setCategory(obj, index);
         setDataType(obj, index);
+        setKeyValueGenerator(obj, index);
         setName(obj, index);
         setRecordType(obj, index);
-        setUnitOfMeasure(obj, index);
         return obj;
     }
     
@@ -54,6 +55,11 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
         obj.setDataType(dataType);
     }
     
+    public void DefinitionDataOnDemand.setKeyValueGenerator(Definition obj, int index) {
+        KeyValueGenerator keyValueGenerator = KeyValueGenerator.class.getEnumConstants()[0];
+        obj.setKeyValueGenerator(keyValueGenerator);
+    }
+    
     public void DefinitionDataOnDemand.setName(Definition obj, int index) {
         String name = "name_" + index;
         if (name.length() > 100) {
@@ -65,11 +71,6 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     public void DefinitionDataOnDemand.setRecordType(Definition obj, int index) {
         RecordType recordType = recordTypeDataOnDemand.getRandomRecordType();
         obj.setRecordType(recordType);
-    }
-    
-    public void DefinitionDataOnDemand.setUnitOfMeasure(Definition obj, int index) {
-        String unitOfMeasure = "unitOfMeasure_" + index;
-        obj.setUnitOfMeasure(unitOfMeasure);
     }
     
     public Definition DefinitionDataOnDemand.getSpecificDefinition(int index) {

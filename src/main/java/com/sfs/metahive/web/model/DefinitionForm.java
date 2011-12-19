@@ -11,6 +11,7 @@ import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Description;
+import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.RecordType;
 
@@ -33,7 +34,11 @@ public class DefinitionForm extends BackingForm {
 
 	/** The data type. */
 	@NotNull
-	private DataType dataType;
+	private DataType dataType = DataType.TYPE_STRING;
+	
+	/** The key value generator. */
+	@NotNull
+	private KeyValueGenerator keyValueGenerator = KeyValueGenerator.NEWEST;
 
 	/** The category. */
 	@NotNull
@@ -48,10 +53,7 @@ public class DefinitionForm extends BackingForm {
 
 	/** The description. */
 	private String description;
-	
-	/** The key value determination. */
-	private String keyValueDetermination;
-	
+		
 	/** The example values. */
 	private String exampleValues;
 	
@@ -102,14 +104,13 @@ public class DefinitionForm extends BackingForm {
 			definitionForm.setCategory(definition.getCategory());
 			definitionForm.setRecordType(definition.getRecordType());
 			definitionForm.setDataType(definition.getDataType());
-			definitionForm.setUnitOfMeasure(definition.getUnitOfMeasure());
+			definitionForm.setKeyValueGenerator(definition.getKeyValueGenerator());
 			
 			if (definition.getDescription() != null) {
 				Description dsc = definition.getDescription();
+				definitionForm.setUnitOfMeasure(dsc.getUnitOfMeasure());
 				definitionForm.setDescription(trim(dsc.getDescription()));
 				definitionForm.setExampleValues(trim(dsc.getExampleValues()));
-				definitionForm.setKeyValueDetermination(
-						trim(dsc.getKeyValueDetermination()));
 			}
 		}
 		
@@ -157,13 +158,13 @@ public class DefinitionForm extends BackingForm {
 	        
 			definition.setName(trim(this.getName()));
 	        definition.setDataType(this.getDataType());
-	        definition.setUnitOfMeasure(this.getUnitOfMeasure());
 	        definition.setCategory(this.getCategory());
+	        definition.setKeyValueGenerator(this.getKeyValueGenerator());
 	        definition.setRecordType(this.getRecordType());
-	            	
+
+	        description.setUnitOfMeasure(this.getUnitOfMeasure());
 	        description.setDescription(trim(this.getDescription()));
 	        description.setExampleValues(trim(this.getExampleValues()));
-	        description.setKeyValueDetermination(trim(this.getKeyValueDetermination()));
 	        description.setPerson(user);   
 	        
 	        definition.addDescription(description);

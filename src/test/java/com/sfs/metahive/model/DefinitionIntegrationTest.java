@@ -54,6 +54,7 @@ public class DefinitionIntegrationTest {
 		Definition def = new Definition();
 		
 		def.setDataType(DataType.TYPE_STRING);
+		def.setKeyValueGenerator(KeyValueGenerator.NEWEST);
 		def.setCategory(category);
 		def.setRecordType(recordType);
 		def.setName("JUnit Test definition");
@@ -90,6 +91,7 @@ public class DefinitionIntegrationTest {
 		
 		def.setName("JUnit Test definition");
 		def.setDataType(DataType.TYPE_STRING);
+		def.setKeyValueGenerator(KeyValueGenerator.NEWEST);
 		def.setCategory(category);
 		def.setRecordType(recordType);
 
@@ -119,6 +121,7 @@ public class DefinitionIntegrationTest {
 		def.setCategory(category);
 		def.setRecordType(recordType);
 		def.setDataType(DataType.TYPE_STRING);
+		def.setKeyValueGenerator(KeyValueGenerator.NEWEST);
 
 		def.flush();
 		def.clear();

@@ -18,20 +18,20 @@ privileged aspect Description_Roo_JavaBean {
         this.definition = definition;
     }
     
+    public String Description.getUnitOfMeasure() {
+        return this.unitOfMeasure;
+    }
+    
+    public void Description.setUnitOfMeasure(String unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
+    }
+    
     public String Description.getDescription() {
         return this.description;
     }
     
     public void Description.setDescription(String description) {
         this.description = description;
-    }
-    
-    public String Description.getKeyValueDetermination() {
-        return this.keyValueDetermination;
-    }
-    
-    public void Description.setKeyValueDetermination(String keyValueDetermination) {
-        this.keyValueDetermination = keyValueDetermination;
     }
     
     public String Description.getExampleValues() {
