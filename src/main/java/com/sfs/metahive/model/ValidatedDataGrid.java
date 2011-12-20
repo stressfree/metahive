@@ -3,7 +3,6 @@ package com.sfs.metahive.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -50,106 +49,6 @@ public class ValidatedDataGrid {
 	 */
 	public List<ValidatedField> getHeaderFields() {
 		return validatedHeaderFields;
-	}
-		
-	/**
-	 * Process the verified data.
-	 *
-	 * @param data the data
-	 * @param person the person
-	 * @param organisation the organisation
-	 * @return the int
-	 */
-	public int processData(final String data, final Person person, 
-			final Organisation organisation) {
-
-		int processCount = 0;
-				
-		MetahivePreferences prefs = MetahivePreferences.load();
-		
-		// Create the new submission
-		Submission submission = new Submission();
-		submission.setPerson(person);
-		submission.setOrganisation(organisation);
-		submission.setRawData(data);
-					
-		submission.persist();
-		
-		
-		TreeMap<Integer, Definition> definitions = new TreeMap<Integer, Definition>();		
-		int columnIndex = 0;
-		int recordIndex = 0;
-		
-		for (ValidatedField field : this.getHeaderFields()) {
-			if (field.isValid()) {
-				if (StringUtils.equalsIgnoreCase(prefs.getPrimaryRecordName(),
-						field.getValue())) {
-					recordIndex = columnIndex;
-				} else {
-					Definition definition = Definition.findDefinitionByNameEquals(
-							field.getValue());
-					definitions.put(columnIndex, definition);
-				}
-			}
-			columnIndex++;
-		}
-		
-		for (ValidatedRow row : this.getRows()) {
-			if (row.isValid()) {
-				// Load the record
-				String recordId = row.getFields().get(recordIndex).getValue();
-				
-				String primaryRecord = Record.parsePrimaryRecordId(recordId, prefs);
-				String secondaryRecord = Record.parseSecondaryRecordId(recordId, prefs);
-				String tertiaryRecord = Record.parseTertiaryRecordId(recordId, prefs);
-				
-				Record record = Record.findRecordByRecordIdEquals(primaryRecord);
-				
-				boolean fieldCreated = false;
-				
-				if (record != null) {
-					for (int index : definitions.keySet()) {
-						Definition definition = definitions.get(index);
-						ValidatedField cell = row.getFields().get(index);
-						if (cell.isValid() && StringUtils.isNotBlank(cell.getValue())) {
-							SubmittedField field = new SubmittedField();
-							
-							field.setDefinition(definition);
-							field.setRecord(record);
-							field.setSubmission(submission);
-							
-							field.setPrimaryRecordId(primaryRecord);
-							field.setSecondaryRecordId(secondaryRecord);
-							field.setTertiaryRecordId(tertiaryRecord);
-							
-							field.setValue(cell.getValue().trim());
-							
-							field.persist();
-							
-							processCount++;
-							fieldCreated = true;							
-						}
-					}
-				}
-				
-				if (fieldCreated) {
-					// Update the secondary/tertiary record counts if applicable
-					if (!record.containsSecondaryRecord(secondaryRecord)
-							|| !record.containsTertiaryRecord(tertiaryRecord)) {
-						record.addSecondaryRecord(secondaryRecord);
-						record.addTertiaryRecord(tertiaryRecord);
-						record.merge();
-					}
-				}				
-			}
-		}
-		
-		if (processCount == 0) {
-			// Delete the empty submission
-			submission.remove();
-		}
-		
-		return processCount;		
 	}
 
 	/**

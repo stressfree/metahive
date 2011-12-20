@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +20,16 @@ import com.sfs.metahive.model.DataGrid;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
+import com.sfs.metahive.model.Submission;
 import com.sfs.metahive.model.ValidatedDataGrid;
-
 
 @RequestMapping("/contribute")
 @Controller
 public class ContributeController extends BaseController {
 
+	@Autowired
+	private transient JmsTemplate metahiveContributionTemplate;
+	
 	/**
 	 * Begin the contribute data process.
 	 *
@@ -117,18 +122,24 @@ public class ContributeController extends BaseController {
 		
 		if (user != null && user.getOrganisations() != null) {
 			for (Organisation userOrg : user.getOrganisations()) {				
-				if (userOrg.getId().compareTo(id) == 0) {					
-					if (validateGrid(data).processData(data, user, userOrg) > 0) {
-						FlashScope.appendMessage(
-								getMessage("metahive_submissions_complete"), request);
-						page = "redirect:/submissions";
-					} else {
-						page = "contribute/nodata";
-					}
+				if (userOrg.getId().compareTo(id) == 0) {
+					// Save the submission and add it to the processing queue
+					Submission submission = new Submission();
+					submission.setPerson(user);
+					submission.setOrganisation(userOrg);
+					submission.setRawData(data);
+								
+					submission.persist();
+					submission.flush();
+					
+					metahiveContributionTemplate.convertAndSend(submission.getId());
+								
+					FlashScope.appendMessage(
+							getMessage("metahive_submissions_complete"), request);
+					page = "redirect:/submissions";
 				}
 			}
-		}
-		
+		}		
 		return page;
 	}
 	

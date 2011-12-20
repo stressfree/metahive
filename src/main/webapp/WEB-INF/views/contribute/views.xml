@@ -22,7 +22,4 @@
 	<definition extends="ajax" name="contribute/preview">
         <put-attribute name="body" value="/WEB-INF/views/contribute/preview.jspx"/>
     </definition>
-	<definition extends="default" name="contribute/nodata">
-        <put-attribute name="body" value="/WEB-INF/views/contribute/nodata.jspx"/>
-    </definition>
 </tiles-definitions>

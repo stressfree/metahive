@@ -162,6 +162,8 @@ a:hover {
 	font-size: 0.6em;	
 }
 
+
+
 .definition .keyvalue {
 	margin: 1em 0;
 }
@@ -169,6 +171,7 @@ a:hover {
 .definition .datasources {
 	clear: left;
 	margin: 0 0 1em 0;
+	padding: 1em 0 0 0;
 }
 .definition .datasources ul {
 	margin: 0;

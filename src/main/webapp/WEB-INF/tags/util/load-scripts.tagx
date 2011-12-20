@@ -2,8 +2,6 @@
 
   <jsp:output omit-xml-declaration="yes" />
 
-  <spring:theme code="styleSheet" var="roo_css" />
-  <spring:url value="/${roo_css}" var="roo_css_url" />
   <spring:url value="/resources/dojo/dojo.js" var="dojo_url" />
   <spring:url value="/resources/dojox/grid/enhanced/resources/EnhancedGrid.css" var="grid_url" />
   <spring:url value="/resources/dojox/grid/enhanced/resources/claroEnhancedGrid.css" var="grid_claro_url" />
@@ -11,6 +9,7 @@
 
   <spring:url value="/styles/reset-fonts-grid.css" var="reset_url" />
   <spring:url value="/styles/base-min.css" var="base_url" />
+  <spring:url value="/styles/metahive.css" var="metahive_url" />
   <spring:url value="/resources/dijit/themes/nihilo/nihilo.css" var="nihilo_url" />
   <spring:url value="/resources/spring/Spring.js" var="spring_url" />
   <spring:url value="/resources/spring/Spring-Dojo.js" var="spring_dojo_url" />
@@ -23,7 +22,7 @@
   <link rel="stylesheet" type="text/css" href="${grid_url}" />
   <link rel="stylesheet" type="text/css" href="${grid_claro_url}" />
   <link rel="stylesheet" type="text/css" href="${multiselect_url}" />
-  <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}" />
+  <link rel="stylesheet" type="text/css" href="${metahive_url}" />
   <link rel="SHORTCUT ICON" href="${favicon}" />
 
   <!-- Get the user local from the page context (it was set by Spring MVC's locale resolver) -->

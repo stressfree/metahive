@@ -4,6 +4,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Index;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -25,6 +26,7 @@ public class SubmittedField {
 	/** The definition. */
 	@ManyToOne
 	@NotNull
+	@Index(name="indexDefinition")
 	private Definition definition;
 	
 	/** The submission. */
@@ -34,12 +36,15 @@ public class SubmittedField {
 	
 	/** The primary record id. */
 	@NotNull
+	@Index(name="indexPrimaryRecordId")
 	private String primaryRecordId;
 	
 	/** The secondary record id. */
+	@Index(name="indexSecondaryRecordId")
 	private String secondaryRecordId;
 	
 	/** The tertiary record id. */
+	@Index(name="indexTertiaryRecordId")
 	private String tertiaryRecordId;
 	
 	/** The value. */

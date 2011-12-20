@@ -27,4 +27,11 @@ public enum KeyValueGenerator {
     public String getMessageKey() { 
         return messageKey; 
     }
+    
+    public void calculate(final Definition definition, final String primaryRecordId,
+    		final String secondaryRecordId, final String tertiaryRecordId) {
+    	
+    	
+    	
+    }
 }
