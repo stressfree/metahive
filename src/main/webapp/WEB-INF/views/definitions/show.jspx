@@ -17,7 +17,7 @@
     	<div class="categories">
 	    	<spring:url value="/definitions?category=${definition.category.name}" var="categoryLink" />
     		<h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_category" />:</h4>
-    		<a href="${categoryLink}"><c:out value="${definition.category.name}" escapeXml="true" /></a> (<c:out value="${definition.recordType.name}" escapeXml="true" />)
+    		<a href="${categoryLink}"><c:out value="${definition.category.name}" escapeXml="true" /></a> (<c:out value="${definition.applicability.metahiveName}" escapeXml="true" />)
     	</div>
     	<div class="datatype">
     		<h4><spring:message code="label_com_sfs_metahive_model_definition_datatypeandmeasure" />:</h4>

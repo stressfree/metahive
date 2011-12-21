@@ -21,7 +21,7 @@ public class DefinitionIntegrationTest {
 	Category category;
 	
 	/** The record type. */
-	RecordType recordType;
+	Applicability recordType;
 	
 	/**
 	 * Creates the objects.
@@ -29,13 +29,10 @@ public class DefinitionIntegrationTest {
 	@Before
     public void createObjects() {
 		CategoryDataOnDemand categoryDod = new CategoryDataOnDemand();
-		RecordTypeDataOnDemand recordTypeDod = new RecordTypeDataOnDemand();
 				
 		category = categoryDod.getRandomCategory();
 		category.persist();
-		
-		recordType = recordTypeDod.getRandomRecordType();
-		recordType.persist();
+
     }
 	
 	/**
@@ -56,7 +53,7 @@ public class DefinitionIntegrationTest {
 		def.setDataType(DataType.TYPE_STRING);
 		def.setKeyValueGenerator(KeyValueGenerator.NEWEST);
 		def.setCategory(category);
-		def.setRecordType(recordType);
+		def.setApplicability(Applicability.RECORD_PRIMARY);
 		def.setName("JUnit Test definition");
 
 		def.persist();
@@ -93,7 +90,7 @@ public class DefinitionIntegrationTest {
 		def.setDataType(DataType.TYPE_STRING);
 		def.setKeyValueGenerator(KeyValueGenerator.NEWEST);
 		def.setCategory(category);
-		def.setRecordType(recordType);
+		def.setApplicability(Applicability.RECORD_PRIMARY);
 
 		def.persist();
 		def.flush();
@@ -119,7 +116,7 @@ public class DefinitionIntegrationTest {
 		Definition def = definitionDod.getRandomDefinition();
 
 		def.setCategory(category);
-		def.setRecordType(recordType);
+		def.setApplicability(Applicability.RECORD_PRIMARY);
 		def.setDataType(DataType.TYPE_STRING);
 		def.setKeyValueGenerator(KeyValueGenerator.NEWEST);
 

@@ -24,7 +24,7 @@
 							<li>
 								<strong><spring:message code="label_com_sfs_metahive_model_category" />: </strong>
 								<c:out value="${definition.category.name}" escapeXml="true" />
-								(<c:out value="${definition.recordType.name}" escapeXml="true" />)
+								(<c:out value="${definition.applicability.metahiveName}" escapeXml="true" />)
 							</li>
 							<li>
 								<strong><spring:message code="label_com_sfs_metahive_model_datatype" />: </strong>

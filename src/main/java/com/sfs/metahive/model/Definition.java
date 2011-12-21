@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
@@ -62,10 +61,10 @@ public class Definition {
 	@NotNull
 	private Category category;
 	
-	/** The record type. */
-	@ManyToOne
+	/** The applicability. */
 	@NotNull
-	private RecordType recordType;
+	@Enumerated(EnumType.STRING)
+	private Applicability applicability;
 
 	/** The comments. */
 	@OrderBy("created ASC")
@@ -149,8 +148,7 @@ public class Definition {
 			throw new IllegalArgumentException("The name argument is required");
 		}
 
-		EntityManager em = Definition.entityManager();
-		TypedQuery<Definition> q = em.createQuery(
+		TypedQuery<Definition> q = entityManager().createQuery(
 				"SELECT d FROM Definition AS d WHERE LOWER(d.name) = LOWER(:name)",
 				Definition.class);
 		q.setParameter("name", name);
@@ -174,8 +172,7 @@ public class Definition {
 
 		Definition definition = null;
 
-		EntityManager em = Definition.entityManager();
-		TypedQuery<Definition> q = em.createQuery(
+		TypedQuery<Definition> q = entityManager().createQuery(
 				"SELECT d FROM Definition AS d WHERE d.dataType = :dataType",
 				Definition.class);
 		q.setParameter("dataType", DataType.TYPE_UNIQUEID);

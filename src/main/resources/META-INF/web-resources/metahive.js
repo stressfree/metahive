@@ -29,7 +29,6 @@ function formatDate(formattedCreated) {
 }
 
 function displayFlashMessage() {
-
 	dojo.style("flashMessage", "display", "none");
 	var wipeArgs = {
 		node : "flashMessage"
@@ -38,5 +37,4 @@ function displayFlashMessage() {
 	setTimeout(function() {
 		dojo.fx.wipeOut(wipeArgs).play();
 	}, 7000);
-
 }

@@ -6,7 +6,6 @@
     
     <spring:message var="list_management" code="metahive_lists" />
     <spring:message var="category_name" code="label_com_sfs_metahive_model_category_name" />
-    <spring:message var="recordtype_name" code="label_com_sfs_metahive_model_recordtype_name" />
     <spring:message var="conditionofuse_name" code="label_com_sfs_metahive_model_conditionofuse_name" />
     
     <util:panel id="_list_management" title="${list_management}">
@@ -20,21 +19,6 @@
 	       <div id="categoryDataGrid" jsId="categoryDataGrid"
 	          dojoType="dojox.grid.EnhancedGrid"
 	          structure ="[{ field: 'name', name: '${category_name}', width: '260px' }]"
-	          autoWidth="true"
-	          autoHeight="true"
-	          plugins="{indirectSelection: true}"
-	          selectionMode="single"><!-- --></div>	    
-	    </div>
-	    
-	    <div class="yui-u">
-	       <spring:message var="recordtype_heading" code="metahive_recordtypes" />
-		   <h3><c:out value="${recordtype_heading}" /></h3>
-	       <div id="recordTypeAddButton" dojoType="dijit.form.Button" jsId="recordTypeAddButton"><spring:message code="metahive_button_add" /></div>
-	       <div id="recordTypeEditButton" dojoType="dijit.form.Button" jsId="recordTypeEditButton"><spring:message code="metahive_button_edit" /></div>
-	       <div id="recordTypeDeleteButton" dojoType="dijit.form.Button" jsId="recordTypeDeleteButton"><spring:message code="metahive_button_delete" /></div>
-	       <div id="recordTypeDataGrid" jsId="recordTypeDataGrid"
-	          dojoType="dojox.grid.EnhancedGrid"
-	          structure ="[{ field: 'name', name: '${recordtype_name}', width: '260px' }]"
 	          autoWidth="true"
 	          autoHeight="true"
 	          plugins="{indirectSelection: true}"
@@ -63,13 +47,7 @@
     <spring:url value="/categories?form" var="add_category_url" />
     <spring:message arguments="category" code="metahive_edit_select" var="category_edit" />
     <spring:message arguments="category" code="metahive_delete_confirm" var="category_delete" />
-        
-    <spring:url value="/recordtypes" var="recordtypes_url" />
-    <spring:url value="/recordtypes/list" var="recordtypes_datasource"/>
-    <spring:url value="/recordtypes?form" var="add_recordtype_url" />
-    <spring:message arguments="record type" code="metahive_edit_select" var="recordtype_edit" />
-    <spring:message arguments="record type" code="metahive_delete_confirm" var="recordtype_delete" />
-        
+            
     <spring:url value="/conditions" var="conditions_url" />
     <spring:url value="/conditions/list" var="conditions_datasource"/>
     <spring:url value="/conditions?form" var="add_condition_url" />
@@ -90,10 +68,6 @@
         dojo.connect(categoryAddButton, "onClick", function() {
             window.location.href="${add_category_url}";
         });
-
-        dojo.connect(recordTypeAddButton, "onClick", function() {
-            window.location.href="${add_recordtype_url}";
-        });
         
         dojo.connect(conditionOfUseAddButton, "onClick", function() {
             window.location.href="${add_condition_url}";
@@ -105,15 +79,6 @@
             	window.location.href="${categories_url}/" + id + "?form";        		
             } else {
             	alert('${category_edit}');            	
-            }
-        });
-        
-        dojo.connect(recordTypeEditButton, "onClick", function() {        	
-        	if (recordTypeDataGrid.getItem(recordTypeDataGrid.selection.selectedIndex)) {
-        		var id = recordTypeDataGrid.getItem(recordTypeDataGrid.selection.selectedIndex).id;
-            	window.location.href="${recordtypes_url}/" + id + "?form";        		
-            } else {
-            	alert('${recordtype_edit}');            	
             }
         });
         
@@ -137,18 +102,6 @@
                 });
         	}
         });
-        
-        dojo.connect(recordTypeDeleteButton, "onClick", function() {
-        	if (confirm('${recordtype_delete}')) {
-          		var id = recordTypeDataGrid.getItem(recordTypeDataGrid.selection.selectedIndex).id;
-          		dojo.xhrDelete({
-              		url: "${recordtypes_url}/" + id,
-              		load: function() {
-                        loadGrid(recordTypeDataGrid, "${recordtypes_datasource}");
-                    }
-                });
-        	}
-        });
                 
         dojo.connect(conditionOfUseDeleteButton, "onClick", function() {
         	if (confirm('${condition_delete}')) {
@@ -166,11 +119,6 @@
         	 var id = categoryDataGrid.getItem(event.rowIndex).id;
         	 window.location.href="${categories_url}/" + id + "?form";
         });
-
-        dojo.connect(recordTypeDataGrid, "onRowDblClick", function(event) {
-        	 var id = recordTypeDataGrid.getItem(event.rowIndex).id;
-        	 window.location.href="${recordtypes_url}/" + id + "?form";
-        });
         
         dojo.connect(conditionOfUseDataGrid, "onRowDblClick", function(event) {
       	     var id = conditionOfUseDataGrid.getItem(event.rowIndex).id;
@@ -178,25 +126,8 @@
         });
         
         loadGrid(categoryDataGrid, "${categories_datasource}");
-        loadGrid(recordTypeDataGrid, "${recordtypes_datasource}");
         loadGrid(conditionOfUseDataGrid, "${conditions_datasource}");
     });
-
-    function loadGrid(dataGrid, datasource) {
-        dojo.xhrGet({
-            url: datasource,
-            handleAs: "json", 
-            load: function(data, ioArgs) {
-            	dataGrid.setStore(
-                        new dojo.data.ItemFileReadStore(
-                            {data: {items : data}})
-                );
-            },
-            error: function(error) {
-                console.log("loading of grid data failed. Exception...", error);
-            }
-        });
-    }
     ]]>
     </script>
     

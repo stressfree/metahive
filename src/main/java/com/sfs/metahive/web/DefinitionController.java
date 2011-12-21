@@ -15,7 +15,7 @@ import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.UserRole;
-import com.sfs.metahive.model.RecordType;
+import com.sfs.metahive.model.Applicability;
 import com.sfs.metahive.web.model.CommentForm;
 import com.sfs.metahive.web.model.DefinitionFilter;
 import com.sfs.metahive.web.model.DefinitionForm;
@@ -301,13 +301,17 @@ public class DefinitionController extends BaseController {
     }
 
 	/**
-     * Populate record types.
+     * Populate applicabilities.
      *
      * @return the collection
      */
-    @ModelAttribute("recordTypes")
-    public Collection<RecordType> populateRecordTypes() {        
-        return RecordType.findAllRecordTypes();
+    @ModelAttribute("applicabilities")
+    public Collection<Applicability> populateRecordTypes() {        
+    	Collection<Applicability> applicabilities = new ArrayList<Applicability>();
+    	for (Applicability applicability : Applicability.values()) {
+    		applicabilities.add(applicability);
+    	}
+        return applicabilities;
     }
     
     /**
@@ -320,7 +324,7 @@ public class DefinitionController extends BaseController {
     	Collection<DataType> dataTypes = new ArrayList<DataType>();
     	for (DataType dataType : DataType.values()) {
     		dataTypes.add(dataType);
-    	}        
+    	}
         return dataTypes;
     }
     

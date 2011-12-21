@@ -3,10 +3,10 @@
 
 package com.sfs.metahive.web.model;
 
+import com.sfs.metahive.model.Applicability;
 import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.KeyValueGenerator;
-import com.sfs.metahive.model.RecordType;
 import java.lang.String;
 
 privileged aspect DefinitionForm_Roo_JavaBean {
@@ -59,12 +59,12 @@ privileged aspect DefinitionForm_Roo_JavaBean {
         this.category = category;
     }
     
-    public RecordType DefinitionForm.getRecordType() {
-        return this.recordType;
+    public Applicability DefinitionForm.getApplicability() {
+        return this.applicability;
     }
     
-    public void DefinitionForm.setRecordType(RecordType recordType) {
-        this.recordType = recordType;
+    public void DefinitionForm.setApplicability(Applicability applicability) {
+        this.applicability = applicability;
     }
     
     public String DefinitionForm.getUnitOfMeasure() {

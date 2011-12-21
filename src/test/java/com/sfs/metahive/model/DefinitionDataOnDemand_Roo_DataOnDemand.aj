@@ -3,13 +3,12 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.Applicability;
 import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.CategoryDataOnDemand;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.KeyValueGenerator;
-import com.sfs.metahive.model.RecordType;
-import com.sfs.metahive.model.RecordTypeDataOnDemand;
 import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -32,17 +31,19 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     @Autowired
     private CategoryDataOnDemand DefinitionDataOnDemand.categoryDataOnDemand;
     
-    @Autowired
-    private RecordTypeDataOnDemand DefinitionDataOnDemand.recordTypeDataOnDemand;
-    
     public Definition DefinitionDataOnDemand.getNewTransientDefinition(int index) {
         Definition obj = new Definition();
+        setApplicability(obj, index);
         setCategory(obj, index);
         setDataType(obj, index);
         setKeyValueGenerator(obj, index);
         setName(obj, index);
-        setRecordType(obj, index);
         return obj;
+    }
+    
+    public void DefinitionDataOnDemand.setApplicability(Definition obj, int index) {
+        Applicability applicability = Applicability.class.getEnumConstants()[0];
+        obj.setApplicability(applicability);
     }
     
     public void DefinitionDataOnDemand.setCategory(Definition obj, int index) {
@@ -66,11 +67,6 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
             name = new Random().nextInt(10) + name.substring(1, 100);
         }
         obj.setName(name);
-    }
-    
-    public void DefinitionDataOnDemand.setRecordType(Definition obj, int index) {
-        RecordType recordType = recordTypeDataOnDemand.getRandomRecordType();
-        obj.setRecordType(recordType);
     }
     
     public Definition DefinitionDataOnDemand.getSpecificDefinition(int index) {

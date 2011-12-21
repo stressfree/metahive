@@ -61,42 +61,76 @@ public class KeyValue {
 	private String value;
 	
 	
+	
 	/**
-	 * Find key value by secondary id.
+	 * Find key value by primary id (secondary and tertiary ids are blank).
 	 *
-	 * @param definition the definition
-	 * @param primaryRecordId the primary record id
-	 * @param secondaryRecordId the secondary record id
+	 * @param def the definition
+	 * @param primaryId the primary record id
 	 * @return the key value
 	 */
-	public static KeyValue findKeyValueBySecondaryId(final Definition definition,
-			final String primaryRecordId,
-			final String secondaryRecordId) {
+	public static KeyValue findKeyValueByPrimaryId(final Definition def,
+			final String primaryId) {
 		
 		KeyValue keyValue = null;
 		
-		if (definition == null) {
+		if (def == null) {
 			throw new IllegalArgumentException("A valid defintion is required");
 		}
-        if (StringUtils.isBlank(primaryRecordId)) {
-        	throw new IllegalArgumentException(
-        			"The primaryRecordId argument is required");
-        }
-        if (StringUtils.isBlank(secondaryRecordId)) {
-        	throw new IllegalArgumentException(
-        			"The secondaryRecordId argument is required");
+        if (StringUtils.isBlank(primaryId)) {
+        	throw new IllegalArgumentException("The primaryId argument is required");
         }
         
-        EntityManager em = Definition.entityManager();
-        TypedQuery<KeyValue> q = em.createQuery(
+        TypedQuery<KeyValue> q = entityManager().createQuery(
+        		"SELECT k FROM KeyValue AS k JOIN k.definition d"
+        		+ " WHERE d.id = :definitionId AND"
+        	    + " LOWER(k.primaryRecordId) = LOWER(:primaryRecordId)"
+        		+ " AND (k.secondaryRecordId IS NULL OR k.secondaryRecordId = '')"
+        	    + " AND (k.tertiaryRecordId IS NULL OR k.tertiaryRecordId = '')", 
+        		KeyValue.class);
+        q.setParameter("definitionId", def.getId());
+        q.setParameter("primaryRecordId", primaryId);
+        
+        List<KeyValue> keyValues = q.getResultList();
+        
+        if (keyValues != null && keyValues.size() > 0) {
+        	keyValue = keyValues.get(0);
+        }        
+        return keyValue;
+    }
+	
+	/**
+	 * Find key value by secondary id.
+	 *
+	 * @param def the definition
+	 * @param primaryId the primary record id
+	 * @param secondaryId the secondary record id
+	 * @return the key value
+	 */
+	public static KeyValue findKeyValueBySecondaryId(final Definition def,
+			final String primaryId, final String secondaryId) {
+		
+		KeyValue keyValue = null;
+		
+		if (def == null) {
+			throw new IllegalArgumentException("A valid defintion is required");
+		}
+        if (StringUtils.isBlank(primaryId)) {
+        	throw new IllegalArgumentException("The primaryId argument is required");
+        }
+        if (StringUtils.isBlank(secondaryId)) {
+        	throw new IllegalArgumentException("The secondaryId argument is required");
+        }
+        
+        TypedQuery<KeyValue> q = entityManager().createQuery(
         		"SELECT k FROM KeyValue AS k JOIN k.definition d"
         		+ " WHERE d.id = :definitionId AND"
         	    + " LOWER(k.primaryRecordId) = LOWER(:primaryRecordId)"
         		+ " AND LOWER(k.secondaryRecordId) = LOWER(:secondaryRecordId)", 
         		KeyValue.class);
-        q.setParameter("definitionId", definition.getId());
-        q.setParameter("primaryRecordId", primaryRecordId);
-        q.setParameter("secondaryRecordId", primaryRecordId);
+        q.setParameter("definitionId", def.getId());
+        q.setParameter("primaryRecordId", primaryId);
+        q.setParameter("secondaryRecordId", primaryId);
         
         List<KeyValue> keyValues = q.getResultList();
         
@@ -109,39 +143,35 @@ public class KeyValue {
 	/**
 	 * Find key value by tertiary id.
 	 *
-	 * @param definition the definition
-	 * @param primaryRecordId the primary record id
-	 * @param tertiaryRecordId the tertiary record id
+	 * @param def the definition
+	 * @param primaryId the primary record id
+	 * @param tertiaryId the tertiary record id
 	 * @return the key value
 	 */
-	public static KeyValue findKeyValueByTertiaryId(final Definition definition,
-			final String primaryRecordId,
-			final String tertiaryRecordId) {
+	public static KeyValue findKeyValueByTertiaryId(final Definition def,
+			final String primaryId, final String tertiaryId) {
 		
 		KeyValue keyValue = null;
 		
-		if (definition == null) {
+		if (def == null) {
 			throw new IllegalArgumentException("A valid defintion is required");
 		}
-        if (StringUtils.isBlank(primaryRecordId)) {
-        	throw new IllegalArgumentException(
-        			"The primaryRecordId argument is required");
+        if (StringUtils.isBlank(primaryId)) {
+        	throw new IllegalArgumentException("The primaryId argument is required");
         }
-        if (StringUtils.isBlank(tertiaryRecordId)) {
-        	throw new IllegalArgumentException(
-        			"The tertiaryRecordId argument is required");
+        if (StringUtils.isBlank(tertiaryId)) {
+        	throw new IllegalArgumentException("The tertiaryId argument is required");
         }
         
-        EntityManager em = Definition.entityManager();
-        TypedQuery<KeyValue> q = em.createQuery(
+        TypedQuery<KeyValue> q = entityManager().createQuery(
         		"SELECT k FROM KeyValue AS k JOIN k.definition d"
         		+ " WHERE d.id = :definitionId AND"
         	    + " LOWER(k.primaryRecordId) = LOWER(:primaryRecordId)"
         		+ " AND LOWER(k.tertiaryRecordId) = LOWER(:tertiaryRecordId)", 
         		KeyValue.class);
-        q.setParameter("definitionId", definition.getId());
-        q.setParameter("primaryRecordId", primaryRecordId);
-        q.setParameter("tertiaryRecordId", primaryRecordId);
+        q.setParameter("definitionId", def.getId());
+        q.setParameter("primaryRecordId", primaryId);
+        q.setParameter("tertiaryRecordId", primaryId);
         
         List<KeyValue> keyValues = q.getResultList();
         
@@ -149,5 +179,91 @@ public class KeyValue {
         	keyValue = keyValues.get(0);
         }        
         return keyValue;
+    }
+
+    /**
+     * Calculate the key value.
+     *
+     * @param def the def
+     * @param primaryId the primary id
+     * @param secondaryId the secondary id
+     * @param tertiaryId the tertiary id
+     */
+    public static void calculate(final Definition def, final String primaryId,
+    		final String secondaryId, final String tertiaryId) {
+    	
+    	if (def == null) {
+    		throw new IllegalArgumentException("A valid definition is required");
+    	}
+    	if (StringUtils.isBlank(primaryId)) {
+    		throw new IllegalArgumentException("A valid primaryId is required");
+    	}    	
+    	// Check that the record exists
+    	Record record = Record.findRecordByRecordIdEquals(primaryId);
+    	if (record == null) {
+    		throw new IllegalArgumentException("A valid primaryId is required,"
+    				+ " no record exists in the Metahive");
+    	}
+    	
+    	KeyValue kv = prepareKeyValue(def, primaryId, secondaryId, tertiaryId);
+    	    	
+    	// If the key value is overridden then there's no need to recalculate it
+    	if (kv.getKeyValueType() != KeyValueType.OVERRIDDEN) {
+    		// Load all of the contributed values for this definition/record combination
+    		
+    	}
+    	
+    }
+    
+    /**
+     * Get the existing key value, or prepare a new key value for calculating.
+     *
+     * @param def the def
+     * @param primaryId the primary id
+     * @param secondaryId the secondary id
+     * @param tertiaryId the tertiary id
+     * @return the key value
+     */
+    private static KeyValue prepareKeyValue(final Definition def, final String primaryId,
+    		final String secondaryId, final String tertiaryId) {
+    	
+    	KeyValue kv = null;
+    	
+    	if (def.getApplicability() == Applicability.RECORD_PRIMARY) {
+    		kv = KeyValue.findKeyValueByPrimaryId(def, primaryId);
+    	}
+    	if (def.getApplicability() == Applicability.RECORD_SECONDARY) {
+    		if (StringUtils.isNotBlank(secondaryId)) {
+    			kv = KeyValue.findKeyValueBySecondaryId(def, primaryId, secondaryId);
+    		} else {
+    			kv = KeyValue.findKeyValueByPrimaryId(def, primaryId);
+    		}
+    	}
+    	if (def.getApplicability() == Applicability.RECORD_TERTIARY) {
+    		if (StringUtils.isNotBlank(tertiaryId)) {
+    			kv = KeyValue.findKeyValueByTertiaryId(def, primaryId, tertiaryId);
+    		} else {
+    			kv = KeyValue.findKeyValueByPrimaryId(def, primaryId);
+    		}
+    	}
+    	
+    	// If the key value is still null then this is a new record
+    	if (kv == null) {
+    		kv = new KeyValue();
+    		kv.setDefinition(def);
+    		kv.setKeyValueType(KeyValueType.CALCULATED);
+    		kv.setPrimaryRecordId(primaryId);
+    		
+    		if (def.getApplicability() == Applicability.RECORD_SECONDARY
+    				&& StringUtils.isNotBlank(secondaryId)) {
+    			kv.setSecondaryRecordId(secondaryId);
+    		}
+    		if (def.getApplicability() == Applicability.RECORD_TERTIARY
+    				&& StringUtils.isNotBlank(tertiaryId)) {
+    			kv.setTertiaryRecordId(tertiaryId);
+    		}    		
+    	}
+    	
+    	return kv;
     }
 }

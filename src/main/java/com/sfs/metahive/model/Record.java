@@ -246,8 +246,7 @@ public class Record {
         	throw new IllegalArgumentException("The recordId argument is required");
         }
         
-        EntityManager em = Definition.entityManager();
-        TypedQuery<Record> q = em.createQuery(
+        TypedQuery<Record> q = entityManager().createQuery(
         		"SELECT r FROM Record AS r WHERE LOWER(r.recordId) = LOWER(:recordId)", 
         		Record.class);
         q.setParameter("recordId", recordId);

@@ -76,22 +76,6 @@
         
         loadGrid(organisationDataGrid, "${organisations_datasource}");
     });
-
-    function loadGrid(dataGrid, datasource) {
-        dojo.xhrGet({
-            url: datasource,
-            handleAs: "json", 
-            load: function(inputJson, ioArgs) {
-            	dataGrid.setStore(
-                        new dojo.data.ItemFileReadStore(
-                            {data: {items :inputJson} })
-                );
-            },
-            error: function(error) {
-                console.log("loading of grid data failed. Exception...", error);
-            }
-        });
-    }
     ]]>
     </script>
     

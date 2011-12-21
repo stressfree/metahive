@@ -13,7 +13,7 @@ import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.Person;
-import com.sfs.metahive.model.RecordType;
+import com.sfs.metahive.model.Applicability;
 
 /**
  * The Class DefinitionForm.
@@ -44,9 +44,9 @@ public class DefinitionForm extends BackingForm {
 	@NotNull
 	private Category category;
 	
-	/** The record type. */
+	/** The applicability. */
 	@NotNull
-	private RecordType recordType;
+	private Applicability applicability;
 	
 	/** The unit of measure. */
 	private String unitOfMeasure;
@@ -102,7 +102,7 @@ public class DefinitionForm extends BackingForm {
 			definitionForm.setId(definition.getId());
 			definitionForm.setName(trim(definition.getName()));
 			definitionForm.setCategory(definition.getCategory());
-			definitionForm.setRecordType(definition.getRecordType());
+			definitionForm.setApplicability(definition.getApplicability());
 			definitionForm.setDataType(definition.getDataType());
 			definitionForm.setKeyValueGenerator(definition.getKeyValueGenerator());
 			
@@ -160,7 +160,7 @@ public class DefinitionForm extends BackingForm {
 	        definition.setDataType(this.getDataType());
 	        definition.setCategory(this.getCategory());
 	        definition.setKeyValueGenerator(this.getKeyValueGenerator());
-	        definition.setRecordType(this.getRecordType());
+	        definition.setApplicability(this.getApplicability());
 
 	        description.setUnitOfMeasure(this.getUnitOfMeasure());
 	        description.setDescription(trim(this.getDescription()));

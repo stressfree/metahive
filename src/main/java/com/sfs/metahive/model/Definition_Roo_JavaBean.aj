@@ -3,13 +3,13 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.Applicability;
 import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.KeyValueGenerator;
-import com.sfs.metahive.model.RecordType;
 import java.lang.String;
 import java.util.Set;
 
@@ -63,12 +63,12 @@ privileged aspect Definition_Roo_JavaBean {
         this.category = category;
     }
     
-    public RecordType Definition.getRecordType() {
-        return this.recordType;
+    public Applicability Definition.getApplicability() {
+        return this.applicability;
     }
     
-    public void Definition.setRecordType(RecordType recordType) {
-        this.recordType = recordType;
+    public void Definition.setApplicability(Applicability applicability) {
+        this.applicability = applicability;
     }
     
     public Set<Comment> Definition.getComments() {
