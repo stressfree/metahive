@@ -58,6 +58,7 @@ public class CommentController extends BaseController {
         	Comment comment = commentForm.newComment(user);
         	definition.addComment(comment);
         	comment.persist();
+        	comment.flush();
         
         	FlashScope.appendMessage(
         			getMessage("metahive_create_complete", Comment.class), request);

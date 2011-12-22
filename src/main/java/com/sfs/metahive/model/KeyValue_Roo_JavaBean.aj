@@ -58,12 +58,20 @@ privileged aspect KeyValue_Roo_JavaBean {
         this.tertiaryRecordId = tertiaryRecordId;
     }
     
-    public String KeyValue.getValue() {
-        return this.value;
+    public String KeyValue.getStringValue() {
+        return this.stringValue;
     }
     
-    public void KeyValue.setValue(String value) {
-        this.value = value;
+    public void KeyValue.setStringValue(String stringValue) {
+        this.stringValue = stringValue;
+    }
+    
+    public double KeyValue.getDoubleValue() {
+        return this.doubleValue;
+    }
+    
+    public void KeyValue.setDoubleValue(double doubleValue) {
+        this.doubleValue = doubleValue;
     }
     
 }

@@ -36,6 +36,7 @@ public class ConditionOfUseController extends BaseController {
         }
         uiModel.asMap().clear();
         conditionOfUse.persist();
+        conditionOfUse.flush();
 
         FlashScope.appendMessage(
         		getMessage("metahive_create_complete", ConditionOfUse.class), request);

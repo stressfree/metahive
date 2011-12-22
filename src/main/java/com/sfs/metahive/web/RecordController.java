@@ -45,6 +45,7 @@ public class RecordController extends BaseController {
         if (StringUtils.isNotBlank(record.getRecordId())) {
         	Record newRecord = record.newRecord(loadPreferences());    
         	newRecord.persist();
+        	newRecord.flush();
         }
         
         if (StringUtils.isNotBlank(record.getRecordIds())) {
@@ -54,6 +55,7 @@ public class RecordController extends BaseController {
         	for (Record newRecord : records) {
             	System.out.println("Record Id: " + newRecord.getRecordId());
         		newRecord.persist();
+        		newRecord.flush();
         	}
         }
         

@@ -1,5 +1,10 @@
 package com.sfs.metahive.messaging;
 
+import org.apache.log4j.Logger;
+
+import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.KeyValue;
+
 
 /**
  * The listener interface for receiving jmsKeyValueGeneration events.
@@ -13,23 +18,30 @@ package com.sfs.metahive.messaging;
  * @see JmsKeyValueGenerationEvent
  */
 public class JmsKeyValueGenerationListener {
-
+	
+	private static Logger logger = 
+    		Logger.getLogger(JmsKeyValueGenerationListener.class);
     /**
      * On message.
      *
      * @param message the message
      */
     public void onMessage(Object message) {
-        System.out.println("JMS message received: " + message);
+    	
+        logger.debug("JMS message received: " + message);
         
         if (message instanceof JmsRecalculateRequest) {
         	JmsRecalculateRequest req = (JmsRecalculateRequest) message;
+        	        	        	
+        	logger.info("Primary Id: " + req.getPrimaryRecordId());
+        	logger.info("Secondary Id: " + req.getSecondaryRecordId());
+        	logger.info("Tertiary Id: " + req.getTertiaryRecordId());
+        	logger.info("Definition Id: " + req.getDefinitionId());
         	
-        	        	
-        	System.out.println("Primary Id: " + req.getPrimaryRecordId());
-        	System.out.println("Secondary Id: " + req.getSecondaryRecordId());
-        	System.out.println("Tertiary Id: " + req.getTertiaryRecordId());
-        	System.out.println("Definition Id: " + req.getDefinitionId());
+        	Definition definition = Definition.findDefinition(req.getDefinitionId());
+        	
+        	KeyValue.calculate(definition, req.getPrimaryRecordId(), 
+        			req.getSecondaryRecordId(), req.getTertiaryRecordId());
         }
     }
 }

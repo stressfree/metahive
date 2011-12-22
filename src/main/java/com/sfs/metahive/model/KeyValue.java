@@ -2,15 +2,14 @@ package com.sfs.metahive.model;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Index;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -24,7 +23,10 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooEntity
 public class KeyValue {
-
+	
+	/** The logger. */
+	private static Logger logger = Logger.getLogger(KeyValue.class);
+	
 	/** The key value type. */
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -54,12 +56,34 @@ public class KeyValue {
 	@Index(name="indexTertiaryRecordId")
 	private String tertiaryRecordId;
 	
-	/** The value. */
-	@NotNull
-	@Size(min = 1, max = 255)
-	@Index(name="indexValue")
-	private String value;
+	/** The string value. */
+	@Index(name="indexStringValue")
+	private String stringValue;
 	
+	/** The double value. */
+	@Index(name="indexDoubleValue")
+	private double doubleValue;
+	
+	
+	/**
+	 * Sets the value.
+	 *
+	 * @param value the new value as an object
+	 */
+	public void setValue(final Object value) {
+		if (value != null && value instanceof String) {
+			this.setStringValue((String) value);
+			this.setDoubleValue(0);
+		}
+		if (value != null && value instanceof Double) {
+			this.setDoubleValue((Double) value);
+			this.setStringValue("");
+		}
+		if (value == null) {
+			this.setDoubleValue(0);
+			this.setStringValue("");
+		}
+ 	}
 	
 	
 	/**
@@ -210,7 +234,24 @@ public class KeyValue {
     	// If the key value is overridden then there's no need to recalculate it
     	if (kv.getKeyValueType() != KeyValueType.OVERRIDDEN) {
     		// Load all of the contributed values for this definition/record combination
+    		List<String> values = SubmittedField.findSubmittedValues(def, 
+    				kv.getPrimaryRecordId(), kv.getSecondaryRecordId(),
+    				kv.getTertiaryRecordId());
+    	
+    		kv.setValue(KeyValueGenerator.calculate(def, values));
+    		logger.info("Calculated string value: " + kv.getStringValue());
+    		logger.info("Calculated double value: " + kv.getDoubleValue());
     		
+    		try {
+    			if (kv.getId() == null) {
+    				kv.persist();
+    				kv.flush();
+    			} else {
+    				kv.merge();
+    			}
+    		} catch (Exception e) {
+    			logger.error("Error saving key value: " + e.getMessage(), e);
+    		}
     	}
     	
     }
@@ -228,6 +269,12 @@ public class KeyValue {
     		final String secondaryId, final String tertiaryId) {
     	
     	KeyValue kv = null;
+    	
+    	Record recd = Record.findRecordByRecordIdEquals(primaryId);
+    	
+    	if (recd == null) {
+    		throw new IllegalArgumentException("A valid primaryRecordId is required");
+    	}
     	
     	if (def.getApplicability() == Applicability.RECORD_PRIMARY) {
     		kv = KeyValue.findKeyValueByPrimaryId(def, primaryId);
@@ -251,6 +298,7 @@ public class KeyValue {
     	if (kv == null) {
     		kv = new KeyValue();
     		kv.setDefinition(def);
+    		kv.setRecord(recd);
     		kv.setKeyValueType(KeyValueType.CALCULATED);
     		kv.setPrimaryRecordId(primaryId);
     		
@@ -263,7 +311,6 @@ public class KeyValue {
     			kv.setTertiaryRecordId(tertiaryId);
     		}    		
     	}
-    	
     	return kv;
     }
 }

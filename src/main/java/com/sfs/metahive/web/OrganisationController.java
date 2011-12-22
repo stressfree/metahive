@@ -40,6 +40,7 @@ public class OrganisationController extends BaseController {
         }
         uiModel.asMap().clear();
         organisation.persist();
+        organisation.flush();
         
         FlashScope.appendMessage(
         		getMessage("metahive_create_complete", Organisation.class), request);

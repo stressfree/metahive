@@ -75,6 +75,7 @@ public class DefinitionController extends BaseController {
         
         Definition definition = definitionForm.newDefinition(user);        
         definition.persist();
+        definition.flush();
 
         Comment comment = definitionForm.newComment(CommentType.CREATE, definition, user);
         comment.persist();

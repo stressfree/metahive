@@ -37,7 +37,8 @@ public class PreferencesController extends BaseController {
     		metahivePreferences.merge();
     	} else {
     		// No preferences exist yet
-    		metahivePreferences.persist();        	
+    		metahivePreferences.persist();
+    		metahivePreferences.flush();
     	}
     	FlashScope.appendMessage(getMessage("metahive_preferences_edited"), request);
     	

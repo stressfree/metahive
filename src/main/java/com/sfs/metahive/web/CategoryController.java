@@ -34,6 +34,7 @@ public class CategoryController extends BaseController {
         }
         uiModel.asMap().clear();
         category.persist();
+        category.flush();
         
         FlashScope.appendMessage(
         		getMessage("metahive_create_complete", Category.class), request);

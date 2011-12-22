@@ -66,6 +66,7 @@ public class DataSourceController extends BaseController {
         organisation.addDataSource(dataSource);
         
         dataSource.persist();
+        dataSource.flush();
 
         Comment comment = dataSourceForm.newComment(CommentType.CREATE, dataSource, user);
         comment.persist();
