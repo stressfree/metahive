@@ -4,8 +4,10 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.KeyValueBoolean;
 import com.sfs.metahive.model.KeyValueType;
 import com.sfs.metahive.model.Record;
+import java.lang.Double;
 import java.lang.String;
 
 privileged aspect KeyValue_Roo_JavaBean {
@@ -66,12 +68,20 @@ privileged aspect KeyValue_Roo_JavaBean {
         this.stringValue = stringValue;
     }
     
-    public double KeyValue.getDoubleValue() {
+    public Double KeyValue.getDoubleValue() {
         return this.doubleValue;
     }
     
-    public void KeyValue.setDoubleValue(double doubleValue) {
+    public void KeyValue.setDoubleValue(Double doubleValue) {
         this.doubleValue = doubleValue;
+    }
+    
+    public KeyValueBoolean KeyValue.getBooleanValue() {
+        return this.booleanValue;
+    }
+    
+    public void KeyValue.setBooleanValue(KeyValueBoolean booleanValue) {
+        this.booleanValue = booleanValue;
     }
     
 }

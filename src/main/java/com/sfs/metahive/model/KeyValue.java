@@ -62,7 +62,12 @@ public class KeyValue {
 	
 	/** The double value. */
 	@Index(name="indexDoubleValue")
-	private double doubleValue;
+	private Double doubleValue;
+	
+	/** The boolean value. */
+	@Index(name="indexBooleanValue")
+	@Enumerated(EnumType.STRING)
+	private KeyValueBoolean booleanValue;
 	
 	
 	/**
@@ -71,17 +76,20 @@ public class KeyValue {
 	 * @param value the new value as an object
 	 */
 	public void setValue(final Object value) {
+		
+		// Reset the values
+		this.doubleValue = null;
+		this.stringValue = null;
+		this.booleanValue = null;
+		
 		if (value != null && value instanceof String) {
 			this.setStringValue((String) value);
-			this.setDoubleValue(0);
 		}
 		if (value != null && value instanceof Double) {
 			this.setDoubleValue((Double) value);
-			this.setStringValue("");
 		}
-		if (value == null) {
-			this.setDoubleValue(0);
-			this.setStringValue("");
+		if (value != null && value instanceof KeyValueBoolean) {
+			this.setBooleanValue((KeyValueBoolean) value);
 		}
  	}
 	
