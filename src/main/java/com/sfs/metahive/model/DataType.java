@@ -50,8 +50,10 @@ public enum DataType {
     	if (this == DataType.TYPE_BOOLEAN) {
     		keyValueGens.add(KeyValueGenerator.NEWEST);
     		keyValueGens.add(KeyValueGenerator.OLDEST);
-    		keyValueGens.add(KeyValueGenerator.MEDIAN);
     		keyValueGens.add(KeyValueGenerator.UNCLEAR);
+    		keyValueGens.add(KeyValueGenerator.MEDIAN);
+    		keyValueGens.add(KeyValueGenerator.QUARTILE_LOWER);
+    		keyValueGens.add(KeyValueGenerator.QUARTILE_UPPER);
     	}
     	return keyValueGens;
     }

@@ -76,9 +76,30 @@ public enum KeyValueGenerator {
     		if (def.getKeyValueGenerator() == KeyValueGenerator.FREQUENT_DEFAULT_OLD) {
     			keyValue = KeyValueCalculator.frequentDefaultOldest(parsedValues);
     		}
+    		// This assumes a boolean set of values.
     		if (def.getKeyValueGenerator() == KeyValueGenerator.UNCLEAR) {
     			keyValue = KeyValueCalculator.unclear(parsedValues);
     		}
+    		// This assumes a boolean or numeric set of values.
+    		if (def.getKeyValueGenerator() == KeyValueGenerator.MEDIAN) {
+    			keyValue = KeyValueCalculator.median(parsedValues);
+    		}
+    		if (def.getKeyValueGenerator() == KeyValueGenerator.QUARTILE_LOWER) {
+    			keyValue = KeyValueCalculator.quartileLower(parsedValues);
+    		}
+    		if (def.getKeyValueGenerator() == KeyValueGenerator.QUARTILE_UPPER) {
+    			keyValue = KeyValueCalculator.quartileUpper(parsedValues);
+    		}
+    	    // This assumes numeric (Double) set of values
+    		if (def.getKeyValueGenerator() == KeyValueGenerator.AVERAGE) {
+    			keyValue = KeyValueCalculator.average(parsedValues);
+    		}
+    		if (def.getKeyValueGenerator() == KeyValueGenerator.HIGHEST) {
+    			keyValue = KeyValueCalculator.highest(parsedValues);
+    		}
+    		if (def.getKeyValueGenerator() == KeyValueGenerator.LOWEST) {
+    			keyValue = KeyValueCalculator.lowest(parsedValues);
+    		}    		
     	}
     	return keyValue;
     }

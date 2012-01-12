@@ -162,12 +162,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>3.6.1.Final</version>
+            <version>3.6.4.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>3.6.1.Final</version>
+            <version>3.6.4.Final</version>
             <exclusions>
                 <exclusion>
                     <groupId>cglib</groupId>
@@ -402,18 +402,13 @@
             <version>2.6</version>
         </dependency>
         <!--  Persistence setup -->
-    	<dependency>
+        <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <version>1.8.0.10</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.13</version>
-        </dependency>
-    <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
@@ -428,13 +423,13 @@
             <artifactId>activation</artifactId>
             <version>1.1.1</version>
         </dependency>
-        <!-- Excel library --> 
-   		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.7</version>
-   		</dependency>
-    <dependency>
+        <!-- Excel library -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.7</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <version>${spring.version}</version>
@@ -493,8 +488,10 @@
 						<configuration>
 							<tasks>
 								<copy file="${project.build.outputDirectory}/META-INF/persistence.xml" tofile="${project.build.outputDirectory}/META-INF/persistence.xml.proper"/>
+								<copy file="${project.build.outputDirectory}/META-INF/spring/applicationContext.xml" tofile="${project.build.outputDirectory}/META-INF/spring/applicationContext.xml.proper"/>
 								<copy file="${project.build.outputDirectory}/META-INF/spring/database.properties" tofile="${project.build.outputDirectory}/META-INF/spring/database.properties.proper"/>
 								<copy file="${project.build.testOutputDirectory}/META-INF/persistence.xml" overWrite="true" tofile="${project.build.outputDirectory}/META-INF/persistence.xml"/>
+								<copy file="${project.build.testOutputDirectory}/META-INF/spring/applicationContext.xml" overWrite="true" tofile="${project.build.outputDirectory}/META-INF/spring/applicationContext.xml"/>
 								<copy file="${project.build.testOutputDirectory}/META-INF/spring/database.properties" overWrite="true" tofile="${project.build.outputDirectory}/META-INF/spring/database.properties"/>
 							</tasks>
 						</configuration>
@@ -508,8 +505,10 @@
 						<configuration>
 							<tasks>
 								<copy file="${project.build.outputDirectory}/META-INF/persistence.xml.proper" overWrite="true" tofile="${project.build.outputDirectory}/META-INF/persistence.xml"/>
+								<copy file="${project.build.outputDirectory}/META-INF/spring/applicationContext.xml.proper" overWrite="true" tofile="${project.build.outputDirectory}/META-INF/spring/applicationContext.xml"/>
 								<copy file="${project.build.outputDirectory}/META-INF/spring/database.properties.proper" overWrite="true" tofile="${project.build.outputDirectory}/META-INF/spring/database.properties"/>
 								<delete file="${project.build.outputDirectory}/META-INF/persistence.xml.proper"/>
+								<delete file="${project.build.outputDirectory}/META-INF/spring/applicationContext.xml.proper"/>
 								<delete file="${project.build.outputDirectory}/META-INF/spring/database.properties.proper"/>
 							</tasks>
 						</configuration>
