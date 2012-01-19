@@ -1,5 +1,6 @@
 package com.sfs.metahive.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EnumType;
@@ -93,6 +94,35 @@ public class KeyValue {
 		}
  	}
 	
+	
+	/**
+	 * Find key values for the supplied Record.
+	 *
+	 * @param record the record
+	 * @param definitions the list of definitions to lookup
+	 * @return the key value
+	 */
+	public static List<KeyValue> findKeyValues(final Record record,
+			final List<Definition> defintions) {
+		
+		List<KeyValue> keyValues = new ArrayList<KeyValue>();
+		
+		if (record == null) {
+			throw new IllegalArgumentException("A valid record is required");
+		}
+        
+        TypedQuery<KeyValue> q = entityManager().createQuery(
+        		"SELECT k FROM KeyValue AS k JOIN k.record r WHERE r.id = :recordId", 
+        		KeyValue.class);
+        q.setParameter("recordId", record.getId());
+        
+        keyValues = q.getResultList();
+        
+        if (q.getResultList() != null) {
+        	keyValues = q.getResultList();
+        }        
+        return keyValues;
+    }
 	
 	/**
 	 * Find key value by primary id (secondary and tertiary ids are blank).

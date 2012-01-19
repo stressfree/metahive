@@ -1,12 +1,15 @@
 package com.sfs.metahive.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -59,6 +62,10 @@ public class MetahivePreferences {
     
     /** The tertiary record regex. */
     private String tertiaryRecordRegex;
+
+	/** The default definitions for the preference. */
+	@ManyToMany
+	private Set<Definition> defaultDefinitions = new HashSet<Definition>();
     
 
     /**

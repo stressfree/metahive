@@ -18,7 +18,7 @@
 			<field:editor field="logMessage" id="c_com_sfs_metahive_web_model_DataSourceForm_logMessage" z="user-managed"/>
 		</div>        
         <div class="yui-u">
-        	<field:select field="pointsOfContact" id="c_com_sfs_metahive_web_model_DataSourceForm_pointsOfContact" items="${dataSource.organisation.people}" path="people" itemValue="id" itemLabel="formattedName" required="true" multiple="true" />
+        	<field:multiselect field="pointsOfContact" id="c_com_sfs_metahive_web_model_DataSourceForm_pointsOfContact" items="${dataSource.organisation.people}" path="/people" itemValue="id" itemLabel="formattedName" required="true" />
         </div>
     </form:update>
 </div>

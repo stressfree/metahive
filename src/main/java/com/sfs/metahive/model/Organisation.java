@@ -32,7 +32,7 @@ public class Organisation {
 	@Size(min = 1, max = 100)
 	private String name;
 
-	/** The definitions. */
+	/** The people associated with the organisation. */
 	@ManyToMany
 	private Set<Person> people = new HashSet<Person>();
 	

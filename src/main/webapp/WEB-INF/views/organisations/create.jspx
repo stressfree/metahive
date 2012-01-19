@@ -8,7 +8,7 @@
     <spring:url value="/organisations" var="cancelAction" />
     <form:create id="fc_com_sfs_metahive_model_Organisation" modelAttribute="organisation" path="/organisations" render="${empty dependencies}" z="user-managed" cancelAction="${cancelAction}">
         <field:input field="name" id="c_com_sfs_metahive_model_Organisation_name" required="true" z="user-managed"/>
-        <field:select field="people" id="c_com_sfs_metahive_model_Organisation_people" items="${people}" path="people" itemValue="id" itemLabel="formattedName" multiple="true" />
+        <field:multiselect field="people" id="c_com_sfs_metahive_model_Organisation_people" items="${people}" path="/people" itemValue="id" itemLabel="formattedName" cssClass="multiselectThreeColumn" />
     </form:create>
     
 </div>

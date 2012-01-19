@@ -115,7 +115,7 @@
             <c:when test="${multiple == false}">
               <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id', widgetType: 'dijit.form.Select' })); </script>
             </c:when>
-            <c:otherwise><script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${field}_id', widgetType: 'dojox.form.CheckedMultiSelect', widgetAttrs : {multiple: true}}));</script></c:otherwise>
+            <c:otherwise><script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${field}_id', widgetType: 'dojox.form.MultiSelect', widgetAttrs : {multiple: true}}));</script></c:otherwise>
           </c:choose>
         </c:when>
         <c:otherwise>

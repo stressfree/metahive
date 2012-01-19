@@ -10,6 +10,7 @@ privileged aspect MetahivePreferences_Roo_ToString {
     public String MetahivePreferences.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("AdminEmail: ").append(getAdminEmail()).append(", ");
+        sb.append("DefaultDefinitions: ").append(getDefaultDefinitions() == null ? "null" : getDefaultDefinitions().size()).append(", ");
         sb.append("FromEmail: ").append(getFromEmail()).append(", ");
         sb.append("HomepageContent: ").append(getHomepageContent()).append(", ");
         sb.append("HomepageTitle: ").append(getHomepageTitle()).append(", ");

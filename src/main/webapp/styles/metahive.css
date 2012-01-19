@@ -138,7 +138,7 @@ a:hover {
 }
 
 .definitions ul {
-	margin: 0;
+	margin: 2em 0 0 0;
 	padding: 0;
 }
 .definitions li {
@@ -161,8 +161,6 @@ a:hover {
 .definition-title span, .record-title span {
 	font-size: 0.6em;	
 }
-
-
 
 .definition .keyvalue {
 	margin: 1em 0;
@@ -257,6 +255,9 @@ a:hover {
 	list-style: none;
 }
 
+.records ul {
+	margin: 2em 0 0 0;	
+}
 
 #filterform, #administrationmenu {
 	clear: both;
@@ -448,4 +449,37 @@ ul.checkall li {
 #_c_com_sfs_metahive_web_model_RecordForm_recordids_id textarea {
 	width: 400px;
 	height: 300px;
+}
+
+
+.field-multiselect .multiselectItems {
+	float: left;
+	margin: 0 0 1em 15px;	
+}
+.field-multiselect .multiselectItems span {
+	display: block;
+	clear: left;
+}
+.field-multiselect .multiselectItems label {
+	display: inline;
+	text-align: left;
+	font-size: 0.9em;
+}
+.field-multiselect .multiselectItems .dijitCheckBox {
+	float: left;
+	margin: 0.3em 0.5em 0 0;
+}
+.field-multiselect .multiselectTwoColumn, .field-multiselect .multiselectThreeColumn {
+	width: 700px;
+}
+.field-multiselect .multiselectTwoColumn span, 
+.field-multiselect .multiselectThreeColumn span {
+	float: left;
+	clear: none;
+}
+.field-multiselect .multiselectTwoColumn span {
+	width: 340px;
+}
+.field-multiselect .multiselectThreeColumn span {
+	width: 230px;
 }

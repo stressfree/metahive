@@ -5,10 +5,10 @@
     <spring:url value="/definitions" var="cancelAction" />
     <form:create id="fc_com_sfs_metahive_web_model_DefinitionForm" modelAttribute="definition" path="/definitions" render="${empty dependencies}" cancelAction="${cancelAction}" z="user-managed">
    		<field:input field="name" id="c_com_sfs_metahive_web_model_DefinitionForm_name" required="true" z="user-managed"/>
-       	<field:select field="dataType" id="c_com_sfs_metahive_web_model_DefinitionForm_dataType" path="dataType" items="${datatypes}" required="true" z="user-managed"/>
-       	<field:select field="keyValueGenerator" id="c_com_sfs_metahive_web_model_DefinitionForm_keyValueGenerator" path="keyValueGenerator" items="${definition.dataType.keyValueGenerators}" required="true" z="user-managed"/>
-       	<field:select field="category" id="c_com_sfs_metahive_web_model_DefinitionForm_category" path="category" itemValue="id" itemLabel="name" items="${categories}" required="true" z="user-managed"/>
-       	<field:select field="applicability" id="c_com_sfs_metahive_web_model_DefinitionForm_applicability" path="applicability" items="${applicabilities}" required="true" z="user-managed"/>
+       	<field:select field="dataType" id="c_com_sfs_metahive_web_model_DefinitionForm_dataType" path="/dataType" items="${datatypes}" required="true" z="user-managed"/>
+       	<field:select field="keyValueGenerator" id="c_com_sfs_metahive_web_model_DefinitionForm_keyValueGenerator" path="/keyValueGenerator" items="${definition.dataType.keyValueGenerators}" required="true" z="user-managed"/>
+       	<field:select field="category" id="c_com_sfs_metahive_web_model_DefinitionForm_category" path="/category" itemValue="id" itemLabel="name" items="${categories}" required="true" z="user-managed"/>
+       	<field:select field="applicability" id="c_com_sfs_metahive_web_model_DefinitionForm_applicability" path="/applicability" items="${applicabilities}" required="true" z="user-managed"/>
        	<field:input field="unitOfMeasure" id="c_com_sfs_metahive_web_model_DefinitionForm_unitofmeasure" z="user-managed"/>
        	<field:input field="exampleValues" id="c_com_sfs_metahive_web_model_DefinitionForm_examplevalues" z="user-managed"/>
        	<field:editor field="description" id="c_com_sfs_metahive_web_model_DefinitionForm_description" z="user-managed"/>

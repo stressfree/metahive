@@ -51,6 +51,7 @@ this.readOnly=_2;
 dojo.declare("dojox.form.CheckedMultiSelect",dijit.form._FormSelectWidget,{templateString:dojo.cache("dojox.form","resources/CheckedMultiSelect.html","<div class=\"dijit dijitReset dijitInline\" dojoAttachEvent=\"onmousedown:_onMouseDown,onclick:focus\"\n\t><input dojoAttachPoint=\"containerNode,focusNode,valueNode\" type=\"hidden\" ${!nameAttrSetting}	/><div dojoAttachPoint=\"wrapperDiv\"></div></div>\n"),baseClass:"dojoxMultiSelect",_onMouseDown:function(e){
 dojo.stopEvent(e);
 },_addOptionItem:function(_3){
+	alert(xinspect(_3));
 this.wrapperDiv.appendChild(new dojox.form._CheckedMultiSelectItem({option:_3,parent:this}).domNode);
 },_updateSelection:function(){
 this.inherited(arguments);
@@ -91,4 +92,15 @@ _9.destroyRecursive();
 });
 this.inherited(arguments);
 }});
+}
+
+function xinspect(o,i){
+    if(typeof i=='undefined')i='';
+    if(i.length>50)return '[MAX ITERATIONS]';
+    var r=[];
+    for(var p in o){
+        var t=typeof o[p];
+        r.push(i+'"'+p+'" ('+t+') => '+(t=='object' ? 'object:'+xinspect(o[p],i+'  ') : o[p]+''));
+    }
+    return r.join(i+'\n');
 }
