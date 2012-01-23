@@ -45,6 +45,11 @@ public class Definition {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private KeyValueGenerator keyValueGenerator;
+	
+	/** The key value access. */
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private UserRole keyValueAccess;
 
 	/** The definition descriptions. */
 	@OrderBy("created DESC")

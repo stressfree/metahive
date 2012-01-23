@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.sfs.metahive.web.model;
 
 import javax.validation.constraints.NotNull;
@@ -14,6 +17,7 @@ import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Applicability;
+import com.sfs.metahive.model.UserRole;
 
 /**
  * The Class DefinitionForm.
@@ -39,6 +43,10 @@ public class DefinitionForm extends BackingForm {
 	/** The key value generator. */
 	@NotNull
 	private KeyValueGenerator keyValueGenerator = KeyValueGenerator.NEWEST;
+	
+	/** The key value access. */
+	@NotNull
+	private UserRole keyValueAccess = UserRole.ANONYMOUS;
 
 	/** The category. */
 	@NotNull
@@ -105,6 +113,7 @@ public class DefinitionForm extends BackingForm {
 			definitionForm.setApplicability(definition.getApplicability());
 			definitionForm.setDataType(definition.getDataType());
 			definitionForm.setKeyValueGenerator(definition.getKeyValueGenerator());
+			definitionForm.setKeyValueAccess(definition.getKeyValueAccess());
 			
 			if (definition.getDescription() != null) {
 				Description dsc = definition.getDescription();
@@ -160,6 +169,7 @@ public class DefinitionForm extends BackingForm {
 	        definition.setDataType(this.getDataType());
 	        definition.setCategory(this.getCategory());
 	        definition.setKeyValueGenerator(this.getKeyValueGenerator());
+	        definition.setKeyValueAccess(this.getKeyValueAccess());
 	        definition.setApplicability(this.getApplicability());
 
 	        description.setUnitOfMeasure(this.getUnitOfMeasure());

@@ -9,8 +9,12 @@ privileged aspect Record_Roo_ToString {
     
     public String Record.toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("FirstKeyValueCollection: ").append(getFirstKeyValueCollection()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
+        sb.append("KeyValueMap: ").append(getKeyValueMap() == null ? "null" : getKeyValueMap().size()).append(", ");
+        sb.append("KeyValueMapSize: ").append(getKeyValueMapSize()).append(", ");
         sb.append("RecordId: ").append(getRecordId()).append(", ");
+        sb.append("RemainingKeyValueMap: ").append(getRemainingKeyValueMap() == null ? "null" : getRemainingKeyValueMap().size()).append(", ");
         sb.append("SecondaryRecordCount: ").append(getSecondaryRecordCount()).append(", ");
         sb.append("SecondaryRecordSet: ").append(getSecondaryRecordSet()).append(", ");
         sb.append("SecondaryRecords: ").append(getSecondaryRecords()).append(", ");

@@ -138,7 +138,7 @@ a:hover {
 }
 
 .definitions ul {
-	margin: 2em 0 0 0;
+	margin: 0.5em 0 0 0;
 	padding: 0;
 }
 .definitions li {
@@ -164,6 +164,9 @@ a:hover {
 
 .definition .keyvalue {
 	margin: 1em 0;
+}
+.definition .keyvalue p {
+	margin: 0.1em 0;	
 }
 
 .definition .datasources {
@@ -417,6 +420,24 @@ ul.checkall li {
 	font-size: 1.2em;
 	margin: 0 0 1em 0;	
 }
+
+
+div.keyValueData table {
+	width: 100%;
+}
+div.keyValueData td.keyValueNumber, 
+div.keyValueData td.keyValueCurrency,
+div.keyValueData td.keyValuePercentage {
+	text-align: right;	
+}
+div.keyValueData td.keyValueBoolean {
+	text-align: center;
+}
+div.keyValueData td.keyValueString {
+	text-align: left;
+}
+
+
 .nihilo .dijitDialog {
 	background: #fff;	
 }

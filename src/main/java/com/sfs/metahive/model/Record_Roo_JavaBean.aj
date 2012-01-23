@@ -3,7 +3,9 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.KeyValueCollection;
 import java.lang.String;
+import java.util.Map;
 
 privileged aspect Record_Roo_JavaBean {
     
@@ -45,6 +47,14 @@ privileged aspect Record_Roo_JavaBean {
     
     public void Record.setTertiaryRecords(String tertiaryRecords) {
         this.tertiaryRecords = tertiaryRecords;
+    }
+    
+    public Map<String, KeyValueCollection> Record.getKeyValueMap() {
+        return this.keyValueMap;
+    }
+    
+    public void Record.setKeyValueMap(Map<String, KeyValueCollection> keyValueMap) {
+        this.keyValueMap = keyValueMap;
     }
     
 }

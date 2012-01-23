@@ -1,17 +1,22 @@
 package com.sfs.metahive.model;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Index;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -70,6 +75,28 @@ public class KeyValue {
 	@Enumerated(EnumType.STRING)
 	private KeyValueBoolean booleanValue;
 	
+	/** The user role. */
+	@Transient
+	private UserRole userRole;
+	
+	/** The application context. */
+	@Transient
+	private ApplicationContext context;
+	
+	
+	/**
+	 * Gets the css class.
+	 *
+	 * @return the css class
+	 */
+	public String getCssClass() {
+		String value = "keyValueNumber";
+		
+		if (this.getDefinition() != null && this.getDefinition().getDataType() != null) {
+			value = this.getDefinition().getDataType().getCssClass();
+		}
+		return value;
+	}
 	
 	/**
 	 * Sets the value.
@@ -92,8 +119,68 @@ public class KeyValue {
 		if (value != null && value instanceof KeyValueBoolean) {
 			this.setBooleanValue((KeyValueBoolean) value);
 		}
- 	}
+ 	}	
 	
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
+	public String getValue() {
+		
+		if (this.getDefinition() == null) {
+			throw new NullPointerException("A valid definition is required");
+		}
+		if (this.getContext() == null) {
+			throw new NullPointerException("A valid application context is required");
+		}
+		
+		// The default value is authorisation required
+		String value = context.getMessage(
+				"label_com_sfs_metahive_model_keyvalue_access_restricted", 
+				null, LocaleContextHolder.getLocale());
+		
+		if (UserRole.allowAccess(this.getUserRole(), definition.getKeyValueAccess())) {
+			value = context.getMessage("label_com_sfs_metahive_model_keyvalue_no_data", 
+					null, LocaleContextHolder.getLocale());
+			
+			if (this.getDefinition().getDataType() == DataType.TYPE_STRING) {
+				if (this.getStringValue() != null) {
+					value = this.getStringValue() + appendUnitOfMeasure();
+				}
+			}
+			if (this.getDefinition().getDataType() == DataType.TYPE_BOOLEAN) {
+				if (this.getBooleanValue() != null && this.getContext() != null) {
+					value = context.getMessage(this.getBooleanValue().getMessageKey(), 
+							null, LocaleContextHolder.getLocale());
+				}
+			}
+			if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER) {
+				if (this.getDoubleValue() != null) {
+					value = String.valueOf(this.getDoubleValue());
+					if (StringUtils.endsWithIgnoreCase(value, ".0")) {
+						value = StringUtils.substring(value, 0, value.length() -2);
+					}
+					value += appendUnitOfMeasure();
+				}
+			}
+			if (this.getDefinition().getDataType() == DataType.TYPE_CURRENCY) {
+				if (this.getDoubleValue() != null) {
+					DecimalFormat df = new java.text.DecimalFormat("$###,###,###,##0.00");
+					value = df.format(this.getDoubleValue()) + appendUnitOfMeasure();
+				}
+			}			
+			if (this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
+				if (this.getDoubleValue() != null) {					
+					NumberFormat percentFormatter = NumberFormat.getPercentInstance(
+							LocaleContextHolder.getLocale());
+					value = percentFormatter.format(this.getDoubleValue()) +
+							appendUnitOfMeasure();
+				}
+			}
+		}	
+		return value;
+	}
 	
 	/**
 	 * Find key values for the supplied Record.
@@ -103,24 +190,44 @@ public class KeyValue {
 	 * @return the key value
 	 */
 	public static List<KeyValue> findKeyValues(final Record record,
-			final List<Definition> defintions) {
-		
+			final List<Definition> definitions) {
+				
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 		
 		if (record == null) {
 			throw new IllegalArgumentException("A valid record is required");
 		}
         
-        TypedQuery<KeyValue> q = entityManager().createQuery(
-        		"SELECT k FROM KeyValue AS k JOIN k.record r WHERE r.id = :recordId", 
-        		KeyValue.class);
-        q.setParameter("recordId", record.getId());
-        
-        keyValues = q.getResultList();
-        
-        if (q.getResultList() != null) {
-        	keyValues = q.getResultList();
-        }        
+		if (definitions != null && definitions.size() > 0) {
+			
+			StringBuilder sql = new StringBuilder();
+			StringBuilder where = new StringBuilder();
+			
+			sql.append("SELECT k FROM KeyValue AS k JOIN k.record r");
+			sql.append(" LEFT JOIN k.definition d WHERE r.id = :recordId");
+				
+			sql.append(" AND (");
+			for (Definition definition : definitions) {
+				if (where.length() > 0) {
+					where.append(" OR ");
+				}
+				where.append("d.id = ");
+				where.append(definition.getId());
+			}
+			sql.append(where.toString());
+			sql.append(")");
+		
+			TypedQuery<KeyValue> q = entityManager().createQuery(
+					sql.toString(), KeyValue.class);
+                
+			q.setParameter("recordId", record.getId());
+                
+			if (q.getResultList() != null) {
+				for (KeyValue keyValue : q.getResultList()) {
+					keyValues.add(keyValue);
+				}
+			}
+		}
         return keyValues;
     }
 	
@@ -350,5 +457,27 @@ public class KeyValue {
     		}    		
     	}
     	return kv;
+    }
+    
+    /**
+     * Append unit of measure.
+     *
+     * @return the string
+     */
+    private String appendUnitOfMeasure() {
+    	
+    	String value = "";
+    	
+    	if (this.getDefinition() != null 
+    			&& this.getDefinition().getDescription() != null) {
+
+        	String unitOfMeasure = this.getDefinition().getDescription()
+    				.getUnitOfMeasure();
+    		
+    		if (StringUtils.isNotBlank(unitOfMeasure)) {
+    			value += " " + StringUtils.trim(unitOfMeasure);
+    		}
+    	}
+    	return value;
     }
 }

@@ -10,6 +10,7 @@ import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.KeyValueGenerator;
+import com.sfs.metahive.model.UserRole;
 import java.lang.String;
 import java.util.Set;
 
@@ -37,6 +38,14 @@ privileged aspect Definition_Roo_JavaBean {
     
     public void Definition.setKeyValueGenerator(KeyValueGenerator keyValueGenerator) {
         this.keyValueGenerator = keyValueGenerator;
+    }
+    
+    public UserRole Definition.getKeyValueAccess() {
+        return this.keyValueAccess;
+    }
+    
+    public void Definition.setKeyValueAccess(UserRole keyValueAccess) {
+        this.keyValueAccess = keyValueAccess;
     }
     
     public Set<Description> Definition.getDescriptions() {

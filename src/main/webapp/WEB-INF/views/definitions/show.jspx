@@ -34,8 +34,14 @@
     
     <div class="details">
     	<div class="keyvalue">
+    		<p>
     		<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvaluegenerator" />:</strong>
     		<c:out value=" " /><spring:message code="${definition.keyValueGenerator.messageKey}" />
+			</p>
+			<p>
+    		<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvalueaccess" />:</strong>
+    		<c:out value=" " /><spring:message code="${definition.keyValueAccess.messageKey}" />
+    		</p>
     	</div>
     	<div class="description"><c:out value="${definition.description.description}" escapeXml="false" /></div>
     </div>

@@ -5,7 +5,7 @@ package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Definition;
 import java.lang.String;
-import java.util.Set;
+import java.util.List;
 
 privileged aspect MetahivePreferences_Roo_JavaBean {
     
@@ -97,11 +97,11 @@ privileged aspect MetahivePreferences_Roo_JavaBean {
         this.tertiaryRecordRegex = tertiaryRecordRegex;
     }
     
-    public Set<Definition> MetahivePreferences.getDefaultDefinitions() {
+    public List<Definition> MetahivePreferences.getDefaultDefinitions() {
         return this.defaultDefinitions;
     }
     
-    public void MetahivePreferences.setDefaultDefinitions(Set<Definition> defaultDefinitions) {
+    public void MetahivePreferences.setDefaultDefinitions(List<Definition> defaultDefinitions) {
         this.defaultDefinitions = defaultDefinitions;
     }
     

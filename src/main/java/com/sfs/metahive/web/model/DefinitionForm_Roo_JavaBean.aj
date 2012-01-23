@@ -7,6 +7,7 @@ import com.sfs.metahive.model.Applicability;
 import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.KeyValueGenerator;
+import com.sfs.metahive.model.UserRole;
 import java.lang.String;
 
 privileged aspect DefinitionForm_Roo_JavaBean {
@@ -49,6 +50,14 @@ privileged aspect DefinitionForm_Roo_JavaBean {
     
     public void DefinitionForm.setKeyValueGenerator(KeyValueGenerator keyValueGenerator) {
         this.keyValueGenerator = keyValueGenerator;
+    }
+    
+    public UserRole DefinitionForm.getKeyValueAccess() {
+        return this.keyValueAccess;
+    }
+    
+    public void DefinitionForm.setKeyValueAccess(UserRole keyValueAccess) {
+        this.keyValueAccess = keyValueAccess;
     }
     
     public Category DefinitionForm.getCategory() {

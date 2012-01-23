@@ -1,20 +1,25 @@
 package com.sfs.metahive.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javax.persistence.Column;
+import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -50,6 +55,47 @@ public class Record {
 	/** The tertiary record array. */
 	private String tertiaryRecords;
 	
+	/** The key values (specific to the list of requested values). */
+	@Transient
+	private Map<String, KeyValueCollection> keyValueMap;
+	
+	
+	/**
+	 * A helper function to get the first key value.
+	 *
+	 * @return the key value
+	 */
+	public KeyValueCollection getFirstKeyValueCollection() {
+		KeyValueCollection keyValueCollection = new KeyValueCollection();
+		
+		if (this.getKeyValueMap() != null && this.getKeyValueMap().size() > 0) {
+			String firstKey = this.getKeyValueMap().keySet().iterator().next();
+			keyValueCollection = this.getKeyValueMap().get(firstKey);
+		}
+		return keyValueCollection;
+	}
+	
+	/**
+	 * A helper function to get the key value map excluding the first KeyValueCollection.
+	 *
+	 * @return the remaining key value map
+	 */
+	public Map<String, KeyValueCollection> getRemainingKeyValueMap() {
+		Map<String, KeyValueCollection> remainingMap = 
+				new TreeMap<String, KeyValueCollection>();
+		
+		if (this.getKeyValueMap() != null && this.getKeyValueMap().size() > 1) {
+			int x = 0;
+			for (String key : this.getKeyValueMap().keySet()) {
+				if (x != 0) {
+					KeyValueCollection collection = this.getKeyValueMap().get(key);
+					remainingMap.put(key, collection);
+				}
+				x++;
+			}
+		}
+		return remainingMap;
+	}
 	
 	/**
 	 * Contains the supplied secondary record.
@@ -119,6 +165,19 @@ public class Record {
 	 */
 	public TreeSet<String> getTertiaryRecordSet() {
 		return buildRecordSet(this.tertiaryRecords);	
+	}
+	
+	/**
+	 * Gets the key value map size.
+	 *
+	 * @return the key value map size
+	 */
+	public int getKeyValueMapSize() {
+		int size = 0;
+		if (this.getKeyValueMap() != null) {
+			size = this.getKeyValueMap().size();
+		}
+		return size;
 	}
 	
 	/**
@@ -279,7 +338,11 @@ public class Record {
      * @return the list
      */
     public static List<Record> findRecordEntries(final RecordFilter filter,
+    		final List<Definition> definitions, final UserRole userRole,
+    		final ApplicationContext context,
     		final int firstResult, final int maxResults) {
+    	
+    	List<Record> records = new ArrayList<Record>();
     	
     	StringBuffer sql = new StringBuffer("SELECT r FROM Record r");    	
     	sql.append(buildWhere(filter));
@@ -294,7 +357,13 @@ public class Record {
     		q.setParameter(variable, variables.get(variable));
     	}
     	
-    	return q.getResultList();
+    	for (Record record : q.getResultList()) {
+    		record.setKeyValues(
+    				KeyValue.findKeyValues(record, definitions),
+    				definitions, userRole, context);
+    		records.add(record);
+    	}    	
+    	return records;
     }
 
     /**
@@ -401,6 +470,60 @@ public class Record {
 			}
 		}	
 		return records;
+	}
+	
+	/**
+	 * Builds the key values map based on the list of key values and definitions.
+	 *
+	 * @param keyValues the key values
+	 * @param definitions the definitions
+	 * @param userRole the user role
+	 * @param context the context
+	 */
+	private void setKeyValues(final List<KeyValue> keyValues, 
+			final List<Definition> definitions, 
+			final UserRole userRole, final ApplicationContext context) {
+		
+		Map<String, KeyValueCollection> map = 
+				new TreeMap<String, KeyValueCollection>();
+		
+		for (KeyValue keyValue : keyValues) {
+			String id = keyValue.getPrimaryRecordId() + "_" 
+					+ keyValue.getSecondaryRecordId() + "_" 
+					+ keyValue.getTertiaryRecordId();
+			
+			keyValue.setUserRole(userRole);
+			keyValue.setContext(context);
+			
+			KeyValueCollection keyValueCollection = new KeyValueCollection();
+			
+			if (map.containsKey(id)) {
+				// Get the existing row of data
+				keyValueCollection = map.get(id);
+			} else {
+				// Pre-populate the row with the definition names
+				Map<String, KeyValue> values = new TreeMap<String, KeyValue>();				
+				for (Definition definition : definitions) {
+					KeyValue kv = new KeyValue();
+					kv.setDefinition(definition);
+					kv.setUserRole(userRole);
+					kv.setContext(context);
+					
+					values.put(definition.getName(), kv);
+				}
+				keyValueCollection.setId(keyValue.getRecord().getId());
+				keyValueCollection.setRecordId(keyValue.getPrimaryRecordId());
+				keyValueCollection.setSecondaryRecordId(keyValue.getSecondaryRecordId());
+				keyValueCollection.setTertiaryRecordId(keyValue.getTertiaryRecordId());
+				keyValueCollection.setKeyValueMap(values);
+			}
+			
+			keyValueCollection.getKeyValueMap().put(
+					keyValue.getDefinition().getName(), keyValue);
+			
+			map.put(id, keyValueCollection);
+		}
+		this.keyValueMap = map;
 	}
 	
 	/**

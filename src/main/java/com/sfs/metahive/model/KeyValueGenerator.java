@@ -123,6 +123,7 @@ public enum KeyValueGenerator {
     	
     	if (values != null) {
     		if (dataType == DataType.TYPE_NUMBER 
+    				|| dataType == DataType.TYPE_CURRENCY
     				|| dataType == DataType.TYPE_PERCENTAGE) {
     			// Cast to doubles
     			for (String value : values) {

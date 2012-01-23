@@ -1,6 +1,7 @@
 package com.sfs.metahive.web;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sfs.metahive.FlashScope;
+import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.MetahivePreferences;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Record;
+import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.web.model.RecordFilter;
 import com.sfs.metahive.web.model.RecordForm;
 
@@ -136,6 +140,14 @@ public class RecordController extends BaseController {
     		@RequestParam(value = "size", required = false) Integer size,
     		Model uiModel, HttpServletRequest request) {
 		
+		Person user = loadUser(request);
+		
+		UserRole userRole = UserRole.ANONYMOUS;
+		if (user != null && user.getUserRole() != null) {
+			userRole = user.getUserRole();
+		}
+		
+		
 		int sizeNo = size == null ? DEFAULT_PAGE_SIZE : size.intValue();
 		int pageNo = page == null ? 0 : page.intValue() - 1;
 		
@@ -146,8 +158,15 @@ public class RecordController extends BaseController {
 			filter.setRecordId(recordId);
 		}
 		
+		MetahivePreferences preferences = MetahivePreferences.load();
+		List<Definition> definitions = preferences.getDefaultDefinitions();
+		
+		uiModel.addAttribute("definitions", definitions);
+				
+		
         uiModel.addAttribute("records", Record.findRecordEntries(
-        		filter, pageNo * sizeNo, sizeNo));
+        		filter, definitions, userRole, this.getContext(),
+        		pageNo * sizeNo, sizeNo));
             
         float nrOfPages = (float) Record.countRecords(filter) / sizeNo;
 

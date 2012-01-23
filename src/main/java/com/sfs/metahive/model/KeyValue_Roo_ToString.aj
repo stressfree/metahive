@@ -10,6 +10,8 @@ privileged aspect KeyValue_Roo_ToString {
     public String KeyValue.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("BooleanValue: ").append(getBooleanValue()).append(", ");
+        sb.append("Context: ").append(getContext()).append(", ");
+        sb.append("CssClass: ").append(getCssClass()).append(", ");
         sb.append("Definition: ").append(getDefinition()).append(", ");
         sb.append("DoubleValue: ").append(getDoubleValue()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
@@ -19,6 +21,8 @@ privileged aspect KeyValue_Roo_ToString {
         sb.append("SecondaryRecordId: ").append(getSecondaryRecordId()).append(", ");
         sb.append("StringValue: ").append(getStringValue()).append(", ");
         sb.append("TertiaryRecordId: ").append(getTertiaryRecordId()).append(", ");
+        sb.append("UserRole: ").append(getUserRole()).append(", ");
+        sb.append("Value: ").append(getValue()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }

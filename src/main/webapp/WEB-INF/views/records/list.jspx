@@ -4,17 +4,85 @@
     <jsp:output omit-xml-declaration="yes"/>
     
 	<metahive:record />
-	
+		
 	<c:choose>
 		<c:when test="${not empty records}">
-			<ul class="records">
-	    	<c:forEach items="${records}" var="record">
-	    	    <spring:url value="/records/${record.id}" var="recordlink"/>
-				<li>
-					<h3><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></h3>
-				</li>
-			</c:forEach>
-			</ul>			
+			<div class="resultsKey">
+				<p><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></strong>:
+				   <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data_description" />
+				</p>
+				<p><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted" /></strong>:
+				   <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted_description" />
+				</p>
+			</div>
+			
+			
+			<div class="keyValueData">
+				<table>
+					<thead>
+						<tr>
+							<th><!-- --></th>
+							<th><c:out value="${preferences.secondaryRecordName}" /></th>
+							<th><c:out value="${preferences.tertiaryRecordName}" /></th>
+							<c:if test="${not empty definitions}">
+								<c:forEach items="${definitions}" var="definition">
+									<th><c:out value="${definition.name}" escapeXml="true" /></th>
+								</c:forEach>
+							</c:if>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${records}" var="record">
+							<c:choose>
+								<c:when test="${record.keyValueMapSize lt 2}">
+									<tr>
+		    	    					<spring:url value="/records/${record.id}" var="recordlink"/>
+										<td class="recordCell"><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></td>
+										<c:choose>
+											<c:when test="${record.keyValueMapSize eq 0}">
+												<td class="recordCell secondaryRecord"><!-- --></td>
+												<td class="recordCell tertiaryRecord"><!-- --></td>
+												<c:forEach items="${definitions}" var="definition">
+													<td class="${definition.dataType.cssClass}"><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></td>
+												</c:forEach>
+											</c:when>
+											<c:otherwise>
+												<td><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
+												<td><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
+												<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
+	 												<td class="${keyValue.value.cssClass}"><c:out value="${keyValue.value.value}" /></td>
+	 											</c:forEach>
+											</c:otherwise>
+										</c:choose>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<tr>
+		    	    					<spring:url value="/records/${record.id}" var="recordlink"/>
+										<td rowspan="${record.keyValueMapSize}"><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></td>
+										<td class="recordCell secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
+										<td class="recordCell tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
+										<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
+	 										<td class="${keyValue.value.cssClass}"><c:out value="${keyValue.value.value}" /></td>
+	 									</c:forEach>
+									</tr>
+									<c:forEach var="keyValueCollection" items="${record.remainingKeyValueMap}">
+										<tr>
+											<td class="recordCell secondaryRecord"><c:out value="${keyValueCollection.value.secondaryRecordId}" /></td>
+											<td class="recordCell tertiaryRecord"><c:out value="${keyValueCollection.value.tertiaryRecordId}" /></td>
+											<c:forEach var="keyValue" items="${keyValueCollection.value.keyValueMap}">
+	 											<td class="${keyValue.value.cssClass}"><c:out value="${keyValue.value.value}" /></td>
+	 										</c:forEach>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+							
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+				
 			<c:if test="${not empty maxPages}">
             	<util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
           	</c:if>

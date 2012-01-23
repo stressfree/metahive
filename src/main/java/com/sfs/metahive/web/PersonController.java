@@ -94,7 +94,9 @@ public class PersonController extends BaseController {
     public Collection<UserRole> populateUserRoles() {
     	Collection<UserRole> userRoles = new ArrayList<UserRole>();
     	for (UserRole userRole : UserRole.values()) {
-    		userRoles.add(userRole);
+    		if (StringUtils.startsWithIgnoreCase(userRole.name(), "ROLE")) {
+    			userRoles.add(userRole);
+    		}
     	}        
         return userRoles;
     }

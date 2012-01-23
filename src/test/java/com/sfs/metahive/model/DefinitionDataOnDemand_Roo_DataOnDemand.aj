@@ -9,6 +9,7 @@ import com.sfs.metahive.model.CategoryDataOnDemand;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.KeyValueGenerator;
+import com.sfs.metahive.model.UserRole;
 import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
         setApplicability(obj, index);
         setCategory(obj, index);
         setDataType(obj, index);
+        setKeyValueAccess(obj, index);
         setKeyValueGenerator(obj, index);
         setName(obj, index);
         return obj;
@@ -54,6 +56,11 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     public void DefinitionDataOnDemand.setDataType(Definition obj, int index) {
         DataType dataType = DataType.class.getEnumConstants()[0];
         obj.setDataType(dataType);
+    }
+    
+    public void DefinitionDataOnDemand.setKeyValueAccess(Definition obj, int index) {
+        UserRole keyValueAccess = UserRole.class.getEnumConstants()[0];
+        obj.setKeyValueAccess(keyValueAccess);
     }
     
     public void DefinitionDataOnDemand.setKeyValueGenerator(Definition obj, int index) {

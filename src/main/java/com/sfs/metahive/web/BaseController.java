@@ -22,6 +22,16 @@ public abstract class BaseController {
 	@Autowired
 	private ApplicationContext context;
 
+	
+	/**
+	 * Gets the application context.
+	 *
+	 * @return the context
+	 */
+	protected final ApplicationContext getContext() {
+		return context;
+	}
+	
 	/**
 	 * Gets the translated message.
 	 *

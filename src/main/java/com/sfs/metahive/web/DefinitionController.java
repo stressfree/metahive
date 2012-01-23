@@ -328,5 +328,14 @@ public class DefinitionController extends BaseController {
     	}
         return dataTypes;
     }
+
+    @ModelAttribute("userroles")
+    public Collection<UserRole> populateUserRoles() {
+    	Collection<UserRole> userRoles = new ArrayList<UserRole>();
+    	for (UserRole userRole : UserRole.values()) {
+    		userRoles.add(userRole);
+    	}        
+        return userRoles;
+    }
     
 }
