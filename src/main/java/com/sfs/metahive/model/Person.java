@@ -20,10 +20,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * The Class Person.
@@ -72,26 +71,31 @@ public class Person implements UserDetails {
     
 	/** The descriptions this user has created. */
 	@OneToMany(mappedBy = "person")
-	private Set<Description> descriptions = new HashSet<Description>();
+	private List<Description> descriptions = new ArrayList<Description>();
 	
 	/** The organisations. */
 	@ManyToMany(mappedBy = "people")
 	@OrderBy("name ASC")
-	private Set<Organisation> organisations = new HashSet<Organisation>();
+	private List<Organisation> organisations = new ArrayList<Organisation>();
 	
 	/** The related data sources. */
 	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "pointsOfContact")
-	private Set<DataSource> dataSources = new HashSet<DataSource>();
+	private List<DataSource> dataSources = new ArrayList<DataSource>();
 
 	/** The related comments. */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
 	@OrderBy("created ASC")
-	private Set<Comment> comments = new HashSet<Comment>();
+	private List<Comment> comments = new ArrayList<Comment>();
 	
 	/** The related submissions. */
 	@OneToMany(mappedBy = "person")
 	@OrderBy("created ASC")
-	private Set<Submission> submissions = new HashSet<Submission>();
+	private List<Submission> submissions = new ArrayList<Submission>();
+
+	/** The definitions to be included in a record search. */
+	@ManyToMany
+	@OrderBy("name ASC")
+	private List<Definition> searchDefinitions = new ArrayList<Definition>();
     
 	
 	/** 
@@ -173,7 +177,8 @@ public class Person implements UserDetails {
      */
     @Override
 	public final Collection<GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
+        Collection<GrantedAuthority> grantedAuthorities = 
+        		new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(
                 new GrantedAuthorityImpl(this.userRole.name()));
         return grantedAuthorities;

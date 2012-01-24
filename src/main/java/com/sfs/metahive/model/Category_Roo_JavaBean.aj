@@ -5,7 +5,7 @@ package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Definition;
 import java.lang.String;
-import java.util.Set;
+import java.util.List;
 
 privileged aspect Category_Roo_JavaBean {
     
@@ -17,11 +17,11 @@ privileged aspect Category_Roo_JavaBean {
         this.name = name;
     }
     
-    public Set<Definition> Category.getDefinitions() {
+    public List<Definition> Category.getDefinitions() {
         return this.definitions;
     }
     
-    public void Category.setDefinitions(Set<Definition> definitions) {
+    public void Category.setDefinitions(List<Definition> definitions) {
         this.definitions = definitions;
     }
     

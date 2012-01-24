@@ -1,5 +1,6 @@
 package com.sfs.metahive.web;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -141,12 +142,31 @@ public class RecordController extends BaseController {
     		Model uiModel, HttpServletRequest request) {
 		
 		Person user = loadUser(request);
+			
+		List<Definition> definitions = new ArrayList<Definition>();
+		if (user == null) {
+			// Load the default definition list
+			MetahivePreferences preferences = MetahivePreferences.load();
+			definitions = preferences.getDefaultDefinitions();
+		} else {
+			if (user.getSearchDefinitions().size() == 0) {
+				// Set the default definitions for the user
+				MetahivePreferences preferences = MetahivePreferences.load();
+								
+				for (Definition def : preferences.getDefaultDefinitions()) {
+					definitions.add(def);
+				}
+				user.setSearchDefinitions(definitions);
+				user.persist();
+			} else {
+				definitions = user.getSearchDefinitions();
+			}
+		}
 		
 		UserRole userRole = UserRole.ANONYMOUS;
 		if (user != null && user.getUserRole() != null) {
 			userRole = user.getUserRole();
-		}
-		
+		}		
 		
 		int sizeNo = size == null ? DEFAULT_PAGE_SIZE : size.intValue();
 		int pageNo = page == null ? 0 : page.intValue() - 1;
@@ -157,12 +177,8 @@ public class RecordController extends BaseController {
 		if (StringUtils.isNotBlank(recordId)) {
 			filter.setRecordId(recordId);
 		}
-		
-		MetahivePreferences preferences = MetahivePreferences.load();
-		List<Definition> definitions = preferences.getDefaultDefinitions();
-		
-		uiModel.addAttribute("definitions", definitions);
 				
+		uiModel.addAttribute("definitions", definitions);				
 		
         uiModel.addAttribute("records", Record.findRecordEntries(
         		filter, definitions, userRole, this.getContext(),

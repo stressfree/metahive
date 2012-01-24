@@ -1,8 +1,8 @@
 package com.sfs.metahive.web.model;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -51,7 +51,7 @@ public class DataSourceForm extends BackingForm {
 	private Date collectionDate;
     
 	/** The people. */
-	private Set<Person> pointsOfContact = new HashSet<Person>();
+	private List<Person> pointsOfContact = new ArrayList<Person>();
 	
 	/** The log message. */
 	private String logMessage;

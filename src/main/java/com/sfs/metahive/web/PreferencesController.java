@@ -1,6 +1,7 @@
 package com.sfs.metahive.web;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -57,8 +58,8 @@ public class PreferencesController extends BaseController {
     }
 	
     @ModelAttribute("definitions")
-    public Collection<Definition> populateDefinitions() {    	
-    	return Definition.findAllDefinitions();
+    public Map<String, List<Definition>> populateDefinitions() {    	
+    	return Definition.findGroupedDefinitions();
     }
 
 }

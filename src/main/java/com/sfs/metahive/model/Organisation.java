@@ -1,8 +1,7 @@
 package com.sfs.metahive.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,15 +33,15 @@ public class Organisation {
 
 	/** The people associated with the organisation. */
 	@ManyToMany
-	private Set<Person> people = new HashSet<Person>();
+	private List<Person> people = new ArrayList<Person>();
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "organisation")
-	private Set<DataSource> dataSources = new HashSet<DataSource>();
+	private List<DataSource> dataSources = new ArrayList<DataSource>();
 
 	/** The related submissions. */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "organisation")
 	@OrderBy("created ASC")
-	private Set<Submission> submissions = new HashSet<Submission>();
+	private List<Submission> submissions = new ArrayList<Submission>();
 	
 	
 	/**

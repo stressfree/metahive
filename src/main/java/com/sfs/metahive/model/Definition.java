@@ -2,9 +2,9 @@ package com.sfs.metahive.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -54,12 +54,12 @@ public class Definition {
 	/** The definition descriptions. */
 	@OrderBy("created DESC")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
-	private Set<Description> descriptions = new HashSet<Description>();
+	private List<Description> descriptions = new ArrayList<Description>();
 
 	/** The data sources. */
 	@OrderBy("organisation ASC")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
-	private Set<DataSource> dataSources = new HashSet<DataSource>();
+	private List<DataSource> dataSources = new ArrayList<DataSource>();
 
 	/** The category. */
 	@ManyToOne
@@ -74,7 +74,7 @@ public class Definition {
 	/** The comments. */
 	@OrderBy("created ASC")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
-	private Set<Comment> comments = new HashSet<Comment>();
+	private List<Comment> comments = new ArrayList<Comment>();
 
 	/**
 	 * Gets the description.
@@ -85,7 +85,7 @@ public class Definition {
 		Description description = null;
 
 		if (getDescriptions() != null && getDescriptions().size() > 0) {
-			description = getDescriptions().iterator().next();
+			description = getDescriptions().get(0);
 		}
 		return description;
 	}
@@ -138,6 +138,36 @@ public class Definition {
 				Definition.class).getResultList();
 	}
 
+	/**
+	 * A helper function to load the definitions grouped by their category.
+	 * The resulting map excludes the unique identifier definition(s).
+	 *
+	 * @return the map
+	 */
+	public static Map<String, List<Definition>> findGroupedDefinitions() {
+		
+		Map<String, List<Definition>> groupedDefinitions = 
+				new TreeMap<String, List<Definition>>();
+		
+		List<Definition> definitions = Definition.findAllDefinitions();
+		
+		for (Definition definition : definitions) {
+			if (definition.getDataType() != DataType.TYPE_UNIQUEID) {
+				String name = definition.getCategory().getName();
+				
+				List<Definition> subGroup = new ArrayList<Definition>();
+				
+				if (groupedDefinitions.containsKey(name)) {
+					subGroup = groupedDefinitions.get(name);
+				}
+				subGroup.add(definition);
+				
+				groupedDefinitions.put(name, subGroup);
+			}
+		}		
+		return groupedDefinitions;
+	}
+	
 	/**
 	 * Find the definition going by the supplied name.
 	 * 

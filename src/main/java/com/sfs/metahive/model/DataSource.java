@@ -1,8 +1,8 @@
 package com.sfs.metahive.model;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
@@ -50,7 +50,7 @@ public class DataSource {
     
 	/** The points of contact within the organisation. */
 	@ManyToMany
-	private Set<Person> pointsOfContact = new HashSet<Person>();
+	private List<Person> pointsOfContact = new ArrayList<Person>();
 	
 
 	/**

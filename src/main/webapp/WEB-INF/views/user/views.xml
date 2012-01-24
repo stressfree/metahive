@@ -4,4 +4,7 @@
 	<definition extends="default" name="user/update">
         <put-attribute name="body" value="/WEB-INF/views/user/update.jspx"/>
     </definition>
+    <definition extends="default" name="user/definitions">
+        <put-attribute name="body" value="/WEB-INF/views/user/definitions.jspx"/>
+    </definition>
 </tiles-definitions>

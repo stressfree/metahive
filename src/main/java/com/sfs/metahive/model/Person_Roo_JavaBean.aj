@@ -5,13 +5,14 @@ package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.DataSource;
+import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Submission;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.model.UserStatus;
 import java.lang.String;
-import java.util.Set;
+import java.util.List;
 
 privileged aspect Person_Roo_JavaBean {
     
@@ -63,44 +64,52 @@ privileged aspect Person_Roo_JavaBean {
         this.emailAddress = emailAddress;
     }
     
-    public Set<Description> Person.getDescriptions() {
+    public List<Description> Person.getDescriptions() {
         return this.descriptions;
     }
     
-    public void Person.setDescriptions(Set<Description> descriptions) {
+    public void Person.setDescriptions(List<Description> descriptions) {
         this.descriptions = descriptions;
     }
     
-    public Set<Organisation> Person.getOrganisations() {
+    public List<Organisation> Person.getOrganisations() {
         return this.organisations;
     }
     
-    public void Person.setOrganisations(Set<Organisation> organisations) {
+    public void Person.setOrganisations(List<Organisation> organisations) {
         this.organisations = organisations;
     }
     
-    public Set<DataSource> Person.getDataSources() {
+    public List<DataSource> Person.getDataSources() {
         return this.dataSources;
     }
     
-    public void Person.setDataSources(Set<DataSource> dataSources) {
+    public void Person.setDataSources(List<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
     
-    public Set<Comment> Person.getComments() {
+    public List<Comment> Person.getComments() {
         return this.comments;
     }
     
-    public void Person.setComments(Set<Comment> comments) {
+    public void Person.setComments(List<Comment> comments) {
         this.comments = comments;
     }
     
-    public Set<Submission> Person.getSubmissions() {
+    public List<Submission> Person.getSubmissions() {
         return this.submissions;
     }
     
-    public void Person.setSubmissions(Set<Submission> submissions) {
+    public void Person.setSubmissions(List<Submission> submissions) {
         this.submissions = submissions;
+    }
+    
+    public List<Definition> Person.getSearchDefinitions() {
+        return this.searchDefinitions;
+    }
+    
+    public void Person.setSearchDefinitions(List<Definition> searchDefinitions) {
+        this.searchDefinitions = searchDefinitions;
     }
     
 }

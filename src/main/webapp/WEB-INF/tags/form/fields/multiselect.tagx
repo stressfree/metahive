@@ -53,7 +53,7 @@
             <c:out value="${fn:escapeXml(label)}" />:
           </label>
           <div class="multiselectItems ${sec_cssClass}">
-          	<form:checkboxes path="${sec_field}" items="${items}" itemLabel="${sec_itemLabel}" itemValue="${fn:escapeXml(itemValue)}" cssClass="multiselectItem" />
+          	<form:checkboxes id="${div_id}_checkbox" path="${sec_field}" items="${items}" itemLabel="${sec_itemLabel}" itemValue="${fn:escapeXml(itemValue)}" cssClass="multiselectItem" />
           	<div class="clear"><!-- --></div>
           	
           	<script type="text/javascript">

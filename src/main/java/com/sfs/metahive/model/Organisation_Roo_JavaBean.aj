@@ -7,7 +7,7 @@ import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Submission;
 import java.lang.String;
-import java.util.Set;
+import java.util.List;
 
 privileged aspect Organisation_Roo_JavaBean {
     
@@ -19,27 +19,27 @@ privileged aspect Organisation_Roo_JavaBean {
         this.name = name;
     }
     
-    public Set<Person> Organisation.getPeople() {
+    public List<Person> Organisation.getPeople() {
         return this.people;
     }
     
-    public void Organisation.setPeople(Set<Person> people) {
+    public void Organisation.setPeople(List<Person> people) {
         this.people = people;
     }
     
-    public Set<DataSource> Organisation.getDataSources() {
+    public List<DataSource> Organisation.getDataSources() {
         return this.dataSources;
     }
     
-    public void Organisation.setDataSources(Set<DataSource> dataSources) {
+    public void Organisation.setDataSources(List<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
     
-    public Set<Submission> Organisation.getSubmissions() {
+    public List<Submission> Organisation.getSubmissions() {
         return this.submissions;
     }
     
-    public void Organisation.setSubmissions(Set<Submission> submissions) {
+    public void Organisation.setSubmissions(List<Submission> submissions) {
         this.submissions = submissions;
     }
     

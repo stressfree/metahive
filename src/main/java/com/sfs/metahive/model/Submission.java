@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.text.SimpleDateFormat;
 
 import javax.persistence.Column;
@@ -172,7 +171,7 @@ public class Submission {
 	 * 
 	 * @return an ordered list of submissions
 	 */
-	public static List<Submission> findAllSubmissions(Set<Organisation> organisations) {
+	public static List<Submission> findAllSubmissions(List<Organisation> organisations) {
 		
 		List<Submission> submissions = new ArrayList<Submission>();
 		

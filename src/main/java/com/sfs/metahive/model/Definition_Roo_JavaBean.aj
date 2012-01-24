@@ -12,7 +12,7 @@ import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.UserRole;
 import java.lang.String;
-import java.util.Set;
+import java.util.List;
 
 privileged aspect Definition_Roo_JavaBean {
     
@@ -48,19 +48,19 @@ privileged aspect Definition_Roo_JavaBean {
         this.keyValueAccess = keyValueAccess;
     }
     
-    public Set<Description> Definition.getDescriptions() {
+    public List<Description> Definition.getDescriptions() {
         return this.descriptions;
     }
     
-    public void Definition.setDescriptions(Set<Description> descriptions) {
+    public void Definition.setDescriptions(List<Description> descriptions) {
         this.descriptions = descriptions;
     }
     
-    public Set<DataSource> Definition.getDataSources() {
+    public List<DataSource> Definition.getDataSources() {
         return this.dataSources;
     }
     
-    public void Definition.setDataSources(Set<DataSource> dataSources) {
+    public void Definition.setDataSources(List<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
     
@@ -80,11 +80,11 @@ privileged aspect Definition_Roo_JavaBean {
         this.applicability = applicability;
     }
     
-    public Set<Comment> Definition.getComments() {
+    public List<Comment> Definition.getComments() {
         return this.comments;
     }
     
-    public void Definition.setComments(Set<Comment> comments) {
+    public void Definition.setComments(List<Comment> comments) {
         this.comments = comments;
     }
     

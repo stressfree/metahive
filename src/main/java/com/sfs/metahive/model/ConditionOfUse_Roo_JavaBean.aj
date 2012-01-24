@@ -5,7 +5,7 @@ package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.DataSource;
 import java.lang.String;
-import java.util.Set;
+import java.util.List;
 
 privileged aspect ConditionOfUse_Roo_JavaBean {
     
@@ -25,11 +25,11 @@ privileged aspect ConditionOfUse_Roo_JavaBean {
         this.details = details;
     }
     
-    public Set<DataSource> ConditionOfUse.getDataSources() {
+    public List<DataSource> ConditionOfUse.getDataSources() {
         return this.dataSources;
     }
     
-    public void ConditionOfUse.setDataSources(Set<DataSource> dataSources) {
+    public void ConditionOfUse.setDataSources(List<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
     

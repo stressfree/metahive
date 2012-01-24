@@ -1,8 +1,7 @@
 package com.sfs.metahive.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,7 +31,7 @@ public class Category {
 
 	/** The definitions. */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
-	private Set<Definition> definitions = new HashSet<Definition>();
+	private List<Definition> definitions = new ArrayList<Definition>();
 
 	
 	/**

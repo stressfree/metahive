@@ -124,7 +124,8 @@ a:hover {
 .definition .metadata {
 	width: 280px;
 	float: right;
-	border: 1px solid #ccc;
+	border: 1px solid #eee;
+	background: #f7fbfe;
 	padding: 10px 15px;
 }
 
@@ -262,18 +263,18 @@ a:hover {
 	margin: 2em 0 0 0;	
 }
 
-#filterform, #administrationmenu {
+#filterform, #administrationmenu, #usermenu {
 	clear: both;
 	padding: 0.4em 20px 0.3em 20px;
 	margin: 1em 0;
 	vertical-align: middle;
 	background: #eee;
 }
-#filterform h3, #filterform .filterfield, #administrationmenu h3 {
+#filterform h3, #filterform .filterfield, #administrationmenu h3, #usermenu h3 {
 	float: left;
 	margin: 0;
 }
-#filterform h3, #administrationmenu h3 {
+#filterform h3, #administrationmenu h3, #usermenu h3 {
 	font-size: 1em;
 	line-height: 1.9em;
 	font-weight: 600!important;
@@ -286,15 +287,16 @@ a:hover {
 	padding-left: 20px;
 	font-weight: 300!important;
 }
-#administrationmenu ul {
+#administrationmenu ul, #usermenu ul {
 	margin: 0.3em 0 0.3em 0;
 	padding: 0;	
 }
-#administrationmenu li {
+#administrationmenu li, #usermenu li {
 	display: inline;
 	padding: 0 1em 0 0;
 	list-style: none;
 }
+
 
 .paginationGrouping, .paginationActions {
 	clear: left;	
@@ -422,8 +424,67 @@ ul.checkall li {
 }
 
 
+div.keyValueDataKey {
+	background: #eee;
+	width: 40%;
+	margin: 1em 0 0 0;
+	padding: 0.2em 0;
+}
+div.keyValueDataKey p {
+	margin: 0.2em 1em 0.2em 20px;	
+}
+
+div.keyValueDataMaximised {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: #fff;
+}
+
+div.keyValueData a.viewControl {
+	float: right;
+}
+
 div.keyValueData table {
 	width: 100%;
+	clear: both;
+}
+div.keyValueData tbody {
+	border: 1px solid #ccc;
+}
+div.keyValueData th {
+	font-size: 0.9em;
+	background: url('../images/table-header.png') bottom left repeat-x #e6ebf2;
+	border: 1px solid #ccc;
+}
+div.keyValueData th.empty {
+	border: none;
+	background: none;
+}
+div.keyValueData tr.even {
+	background: #fff;
+}
+div.keyValueData tr.odd {
+	background: #f7fbfe;
+}
+div.keyValueData td {
+	border: 0px none;
+}
+div.keyValueData tr.primaryRow td {
+	border-top: 1px solid #ccc;	
+}
+div.keyValueData tr.secondaryRow td {
+	border-top: 1px solid #eee;	
+}
+div.keyValueData tr:hover td {
+	background: #dcedfc;
+}
+div.keyValueData td.primaryRecord {
+	background: url('../images/table-header.png') bottom left repeat-x #e6ebf2!important;
+}
+div.keyValueData td.secondaryRecord {
+	border-left: 1px solid #eee;
 }
 div.keyValueData td.keyValueNumber, 
 div.keyValueData td.keyValueCurrency,
@@ -435,6 +496,14 @@ div.keyValueData td.keyValueBoolean {
 }
 div.keyValueData td.keyValueString {
 	text-align: left;
+}
+
+div.keyValueDataMaximised a.viewControl {
+	padding: 0 15px 0 0;
+}
+div.keyValueDataMaximised table {
+	width: 99%;
+	margin: 0 0px 5px 5px;
 }
 
 

@@ -1,0 +1,11 @@
+<jsp:root xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+	
+	<div id="usermenu">
+		<h3><spring:message code="menu_item_user_preferences_label" /></h3>
+		<ul>
+			<menu:item id="i_user_details" url="/user" z="user-managed"/>
+			<menu:item id="i_user_definitions" url="/user/definitions" z="user-managed"/>
+		</ul>
+	</div>
+</jsp:root>

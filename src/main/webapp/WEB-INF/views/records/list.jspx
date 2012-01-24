@@ -7,7 +7,7 @@
 		
 	<c:choose>
 		<c:when test="${not empty records}">
-			<div class="resultsKey">
+			<div class="keyValueDataKey">
 				<p><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></strong>:
 				   <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data_description" />
 				</p>
@@ -15,13 +15,16 @@
 				   <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted_description" />
 				</p>
 			</div>
-			
-			
+						
+          			
+            <spring:message code="metahive_table_maximise" var="maximised" />
+            <spring:message code="metahive_table_minimise" var="minimised" />						
 			<div class="keyValueData">
+				<a class="viewControl"><c:out value="${maximised}" /></a>
 				<table>
 					<thead>
 						<tr>
-							<th><!-- --></th>
+							<th class="empty"><!-- --></th>
 							<th><c:out value="${preferences.secondaryRecordName}" /></th>
 							<th><c:out value="${preferences.tertiaryRecordName}" /></th>
 							<c:if test="${not empty definitions}">
@@ -32,16 +35,25 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${records}" var="record">
+						<c:forEach items="${records}" var="record" varStatus="rowCounter">
+							<c:choose>
+          						<c:when test="${rowCounter.count % 2 == 0}">
+            						<c:set var="rowStyle" scope="page" value="odd"/>
+          						</c:when>
+          						<c:otherwise>
+            						<c:set var="rowStyle" scope="page" value="even"/>
+          						</c:otherwise>
+        					</c:choose>
+        					
 							<c:choose>
 								<c:when test="${record.keyValueMapSize lt 2}">
-									<tr>
+									<tr class="${rowStyle} primaryRow">
 		    	    					<spring:url value="/records/${record.id}" var="recordlink"/>
-										<td class="recordCell"><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></td>
+										<td class="primaryRecord"><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></td>
 										<c:choose>
 											<c:when test="${record.keyValueMapSize eq 0}">
-												<td class="recordCell secondaryRecord"><!-- --></td>
-												<td class="recordCell tertiaryRecord"><!-- --></td>
+												<td class="secondaryRecord"><!-- --></td>
+												<td class="tertiaryRecord"><!-- --></td>
 												<c:forEach items="${definitions}" var="definition">
 													<td class="${definition.dataType.cssClass}"><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></td>
 												</c:forEach>
@@ -57,27 +69,26 @@
 									</tr>
 								</c:when>
 								<c:otherwise>
-									<tr>
+									<tr class="${rowStyle} primaryRow">
 		    	    					<spring:url value="/records/${record.id}" var="recordlink"/>
-										<td rowspan="${record.keyValueMapSize}"><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></td>
-										<td class="recordCell secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
-										<td class="recordCell tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
+										<td class="primaryRecord" rowspan="${record.keyValueMapSize}"><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></td>
+										<td class="secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
+										<td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
 										<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
 	 										<td class="${keyValue.value.cssClass}"><c:out value="${keyValue.value.value}" /></td>
 	 									</c:forEach>
 									</tr>
 									<c:forEach var="keyValueCollection" items="${record.remainingKeyValueMap}">
-										<tr>
-											<td class="recordCell secondaryRecord"><c:out value="${keyValueCollection.value.secondaryRecordId}" /></td>
-											<td class="recordCell tertiaryRecord"><c:out value="${keyValueCollection.value.tertiaryRecordId}" /></td>
+										<tr class="${rowStyle} secondaryRow">
+											<td class="secondaryRecord"><c:out value="${keyValueCollection.value.secondaryRecordId}" /></td>
+											<td class="tertiaryRecord"><c:out value="${keyValueCollection.value.tertiaryRecordId}" /></td>
 											<c:forEach var="keyValue" items="${keyValueCollection.value.keyValueMap}">
 	 											<td class="${keyValue.value.cssClass}"><c:out value="${keyValue.value.value}" /></td>
 	 										</c:forEach>
 										</tr>
 									</c:forEach>
 								</c:otherwise>
-							</c:choose>
-							
+							</c:choose>							
 						</c:forEach>
 					</tbody>
 				</table>
@@ -86,6 +97,26 @@
 			<c:if test="${not empty maxPages}">
             	<util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
           	</c:if>
+            
+			<script type="text/javascript">
+  			<![CDATA[
+			dojo.require("dojo.NodeList-html");
+			dojo.addOnLoad(function() {
+				dojo.query('.viewControl').onclick(function () {
+					dojo.forEach(
+  						dojo.query('.keyValueData'),
+  						function(e) {
+  							dojo.toggleClass(e, 'keyValueDataMaximised');
+  							if (dojo.hasClass(e, 'keyValueDataMaximised')) {
+  								dojo.query('.viewControl').html('${minimised}');
+							} else {
+  								dojo.query('.viewControl').html('${maximised}');
+							}
+  						});
+				});
+			});			
+			]]>
+  			</script>
 		</c:when>
 		<c:otherwise>
 			<p><spring:message code="entity_not_found" arguments="records" /></p>

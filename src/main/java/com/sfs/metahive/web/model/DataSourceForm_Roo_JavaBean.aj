@@ -9,7 +9,7 @@ import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Person;
 import java.lang.String;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 privileged aspect DataSourceForm_Roo_JavaBean {
     
@@ -77,11 +77,11 @@ privileged aspect DataSourceForm_Roo_JavaBean {
         this.collectionDate = collectionDate;
     }
     
-    public Set<Person> DataSourceForm.getPointsOfContact() {
+    public List<Person> DataSourceForm.getPointsOfContact() {
         return this.pointsOfContact;
     }
     
-    public void DataSourceForm.setPointsOfContact(Set<Person> pointsOfContact) {
+    public void DataSourceForm.setPointsOfContact(List<Person> pointsOfContact) {
         this.pointsOfContact = pointsOfContact;
     }
     
