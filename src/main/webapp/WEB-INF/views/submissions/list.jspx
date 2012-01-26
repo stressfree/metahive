@@ -11,6 +11,9 @@
    	  <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_CONTRIBUTOR">
 	  	 <div id="contributeButton" dojoType="dijit.form.Button" jsId="contributeButton"><spring:message code="metahive_button_add" /></div>
 	  </sec:authorize>
+	  <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR">
+	  	 <div id="deleteButton" dojoType="dijit.form.Button" jsId="deleteButton"><spring:message code="metahive_button_delete" /></div>
+	  </sec:authorize>
       <div id="submissionDataGrid" jsId="submissionDataGrid"
          dojoType="dojox.grid.EnhancedGrid"
          structure ="[
@@ -72,6 +75,18 @@
 	dojo.addOnLoad(function() {
 		dojo.connect(contributeButton, "onClick", function() {
             window.location.href="${contribute_url}";
+        });
+	});
+	]]>
+  	</script>
+  	</sec:authorize>
+    <sec:authorize ifAnyGranted="ROLE_ADMIN, ROLE_EDITOR">
+		<spring:url value="/contribute/delete" var="delete_url" />
+  	<script type="text/javascript">
+  	<![CDATA[
+	dojo.addOnLoad(function() {
+		dojo.connect(deleteButton, "onClick", function() {
+            window.location.href="${delete_url}";
         });
 	});
 	]]>
