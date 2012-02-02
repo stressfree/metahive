@@ -4,7 +4,7 @@ body, button, input {
    line-height: 1.5em;
    color: #333;
 }
-b, strong, label {
+b, strong, label, legend {
 	font-weight: 600;
 }
 label {
@@ -14,6 +14,10 @@ label {
 	margin-right: 10px;
 	font-weight: normal;
 	color: #666;
+}
+legend {
+	color: #333;
+	padding-bottom: 0.5em;
 }
 
 a, a:visited {
@@ -137,6 +141,15 @@ a:hover {
 .dictionary-header .actions form, .record-header .actions form {
 	display: inline;
 }
+.record-header ul.options {
+	margin: 0;
+	display: inline;
+}
+.record-header ul.options li {
+	padding: 0 1em;	
+	display: inline;
+	line-height: 1.9em;
+}
 
 .definitions ul {
 	margin: 0.5em 0 0 0;
@@ -155,10 +168,16 @@ a:hover {
 .definitions .description p {
 	margin-bottom: 0.5em;
 }
+.definitions .information {
+	border: 1px solid #eee;
+	background: #f7fbfe;
+	padding: 0 0.5em 0.4em 0.5em;
+}
 .definitions .information li {
 	display: inline;
 	padding: 0 2em 0 0;	
 }
+
 .definition-title span, .record-title span {
 	font-size: 0.6em;	
 }

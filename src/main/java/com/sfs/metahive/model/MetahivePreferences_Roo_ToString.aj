@@ -17,8 +17,10 @@ privileged aspect MetahivePreferences_Roo_ToString {
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("PrimaryRecordName: ").append(getPrimaryRecordName()).append(", ");
         sb.append("PrimaryRecordRegex: ").append(getPrimaryRecordRegex()).append(", ");
+        sb.append("SecondaryRecordDefault: ").append(getSecondaryRecordDefault()).append(", ");
         sb.append("SecondaryRecordName: ").append(getSecondaryRecordName()).append(", ");
         sb.append("SecondaryRecordRegex: ").append(getSecondaryRecordRegex()).append(", ");
+        sb.append("TertiaryRecordDefault: ").append(getTertiaryRecordDefault()).append(", ");
         sb.append("TertiaryRecordName: ").append(getTertiaryRecordName()).append(", ");
         sb.append("TertiaryRecordRegex: ").append(getTertiaryRecordRegex()).append(", ");
         sb.append("Url: ").append(getUrl()).append(", ");

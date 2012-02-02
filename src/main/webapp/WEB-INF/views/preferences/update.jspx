@@ -9,22 +9,38 @@
      
     <form:update title="metahive_preferences" id="fu_com_sfs_metahive_model_MetahivePreferences" modelAttribute="metahivePreferences" path="/preferences" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
         <field:input validationPrompt="metahive_preferences_prompt_url" field="url" id="c_com_sfs_metahive_model_MetahivePreferences_url" required="true" validationRegex="https?://[A-Za-z0-9._%-]+" validationMessageCode="field_invalid_url" z="user-managed"/>
-        <h3><spring:message code="metahive_preferences_emailaddresses" /></h3>
-        <field:input validationPrompt="metahive_preferences_prompt_adminemail" field="adminEmail" id="c_com_sfs_metahive_model_MetahivePreferences_adminEmail" required="true" validationRegex="\\b[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b" validationMessageCode="field_invalid_email" z="user-managed"/>
-        <field:input validationPrompt="metahive_preferences_prompt_fromemail" field="fromEmail" id="c_com_sfs_metahive_model_MetahivePreferences_fromEmail" required="true" validationRegex="\\b[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b" validationMessageCode="field_invalid_email" z="user-managed"/>
-        <h3><spring:message code="metahive_preferences_homepage" /></h3>
-        <field:input validationPrompt="metahive_preferences_prompt_homepagetitle" field="homepageTitle" id="c_com_sfs_metahive_model_MetahivePreferences_homepageTitle" z="user-managed"/>
-        <field:editor field="homepageContent" id="c_com_sfs_metahive_model_MetahivePreferences_homepageContent" z="user-managed"/>
-        <h3><spring:message code="metahive_preferences_records" /></h3>
-        <field:input validationPrompt="metahive_preferences_prompt_primaryrecordname" field="primaryRecordName" id="c_com_sfs_metahive_model_MetahivePreferences_primaryRecordName" required="true"  z="user-managed"/>
-        <field:input validationPrompt="metahive_preferences_prompt_primaryrecordregex" field="primaryRecordRegex" id="c_com_sfs_metahive_model_MetahivePreferences_primaryRecordRegex" z="user-managed"/>
-        <field:input validationPrompt="metahive_preferences_prompt_secondaryrecordname" field="secondaryRecordName" id="c_com_sfs_metahive_model_MetahivePreferences_secondaryRecordName" z="user-managed"/>
-        <field:input validationPrompt="metahive_preferences_prompt_secondaryrecordregex" field="secondaryRecordRegex" id="c_com_sfs_metahive_model_MetahivePreferences_secondaryRecordRegex" z="user-managed"/>
-        <field:input validationPrompt="metahive_preferences_prompt_tertiaryrecordname" field="tertiaryRecordName" id="c_com_sfs_metahive_model_MetahivePreferences_tertiaryRecordName" z="user-managed"/>
-        <field:input validationPrompt="metahive_preferences_prompt_tertiaryrecordregex" field="tertiaryRecordRegex" id="c_com_sfs_metahive_model_MetahivePreferences_tertiaryRecordRegex" z="user-managed"/>
-        <h3><spring:message code="metahive_preferences_search" /></h3>
-        <c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
-        	<field:multiselect label="${definitionGroup.key}" field="defaultDefinitions" id="c_com_sfs_metahive_model_MetahivePreferences_defaultDefinitions_${counter.count}" items="${definitionGroup.value}" path="/definitions" itemValue="id" itemLabel="name" cssClass="multiselectTwoColumn"/>
-        </c:forEach>
+        <fieldset>
+        	<legend><spring:message code="metahive_preferences_emailaddresses" /></legend>
+        	<field:input validationPrompt="metahive_preferences_prompt_adminemail" field="adminEmail" id="c_com_sfs_metahive_model_MetahivePreferences_adminEmail" required="true" validationRegex="\\b[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b" validationMessageCode="field_invalid_email" z="user-managed"/>
+        	<field:input validationPrompt="metahive_preferences_prompt_fromemail" field="fromEmail" id="c_com_sfs_metahive_model_MetahivePreferences_fromEmail" required="true" validationRegex="\\b[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b" validationMessageCode="field_invalid_email" z="user-managed"/>
+        </fieldset>
+        <fieldset>
+        	<legend><spring:message code="metahive_preferences_homepage" /></legend>
+        	<field:input validationPrompt="metahive_preferences_prompt_homepagetitle" field="homepageTitle" id="c_com_sfs_metahive_model_MetahivePreferences_homepageTitle" z="user-managed"/>
+        	<field:editor field="homepageContent" id="c_com_sfs_metahive_model_MetahivePreferences_homepageContent" z="user-managed"/>
+        </fieldset>
+        <fieldset>
+        	<legend><spring:message code="label_com_sfs_metahive_model_metahivepreferences_primaryrecord" /></legend>
+        	<field:input validationPrompt="metahive_preferences_prompt_primaryrecordname" field="primaryRecordName" id="c_com_sfs_metahive_model_MetahivePreferences_primaryRecordName" required="true"  z="user-managed"/>
+        	<field:input validationPrompt="metahive_preferences_prompt_primaryrecordregex" field="primaryRecordRegex" id="c_com_sfs_metahive_model_MetahivePreferences_primaryRecordRegex" z="user-managed"/>
+        </fieldset>
+        <fieldset>        	
+        	<legend><spring:message code="label_com_sfs_metahive_model_metahivepreferences_secondaryrecord" /></legend>
+        	<field:input validationPrompt="metahive_preferences_prompt_secondaryrecordname" field="secondaryRecordName" id="c_com_sfs_metahive_model_MetahivePreferences_secondaryRecordName" z="user-managed"/>
+        	<field:input validationPrompt="metahive_preferences_prompt_secondaryrecordregex" field="secondaryRecordRegex" id="c_com_sfs_metahive_model_MetahivePreferences_secondaryRecordRegex" z="user-managed"/>
+        	<field:input validationPrompt="metahive_preferences_prompt_secondaryrecorddefault" field="secondaryRecordDefault" id="c_com_sfs_metahive_model_MetahivePreferences_secondaryRecordDefault" z="user-managed"/>
+        </fieldset>
+        <fieldset>
+        	<legend><spring:message code="label_com_sfs_metahive_model_metahivepreferences_tertiaryrecord" /></legend>
+        	<field:input validationPrompt="metahive_preferences_prompt_tertiaryrecordname" field="tertiaryRecordName" id="c_com_sfs_metahive_model_MetahivePreferences_tertiaryRecordName" z="user-managed"/>
+        	<field:input validationPrompt="metahive_preferences_prompt_tertiaryrecordregex" field="tertiaryRecordRegex" id="c_com_sfs_metahive_model_MetahivePreferences_tertiaryRecordRegex" z="user-managed"/>
+        	<field:input validationPrompt="metahive_preferences_prompt_tertiaryrecorddefault" field="tertiaryRecordDefault" id="c_com_sfs_metahive_model_MetahivePreferences_tertiaryRecordDefault" z="user-managed"/>
+        </fieldset>
+        <fieldset>
+        	<legend><spring:message code="metahive_preferences_search" /></legend>        	
+        	<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
+        		<field:multiselect label="${definitionGroup.key}" field="defaultDefinitions" id="c_com_sfs_metahive_model_MetahivePreferences_defaultDefinitions_${counter.count}" items="${definitionGroup.value}" path="/definitions" itemValue="id" itemLabel="name" cssClass="multiselectTwoColumn"/>
+        	</c:forEach>
+        </fieldset>
     </form:update>
 </div>

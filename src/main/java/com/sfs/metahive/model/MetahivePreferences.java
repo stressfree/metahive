@@ -57,11 +57,17 @@ public class MetahivePreferences {
     /** The secondary record regex. */
     private String secondaryRecordRegex;
     
+    /** The default secondary record value. */
+    private String secondaryRecordDefault;
+    
     /** The tertiary record name. */
     private String tertiaryRecordName;
     
     /** The tertiary record regex. */
     private String tertiaryRecordRegex;
+    
+    /** The default tertiary record value. */
+    private String tertiaryRecordDefault;
 
 	/** The default definitions for the preference. */
 	@ManyToMany

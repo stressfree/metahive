@@ -81,6 +81,14 @@ privileged aspect MetahivePreferences_Roo_JavaBean {
         this.secondaryRecordRegex = secondaryRecordRegex;
     }
     
+    public String MetahivePreferences.getSecondaryRecordDefault() {
+        return this.secondaryRecordDefault;
+    }
+    
+    public void MetahivePreferences.setSecondaryRecordDefault(String secondaryRecordDefault) {
+        this.secondaryRecordDefault = secondaryRecordDefault;
+    }
+    
     public String MetahivePreferences.getTertiaryRecordName() {
         return this.tertiaryRecordName;
     }
@@ -95,6 +103,14 @@ privileged aspect MetahivePreferences_Roo_JavaBean {
     
     public void MetahivePreferences.setTertiaryRecordRegex(String tertiaryRecordRegex) {
         this.tertiaryRecordRegex = tertiaryRecordRegex;
+    }
+    
+    public String MetahivePreferences.getTertiaryRecordDefault() {
+        return this.tertiaryRecordDefault;
+    }
+    
+    public void MetahivePreferences.setTertiaryRecordDefault(String tertiaryRecordDefault) {
+        this.tertiaryRecordDefault = tertiaryRecordDefault;
     }
     
     public List<Definition> MetahivePreferences.getDefaultDefinitions() {
