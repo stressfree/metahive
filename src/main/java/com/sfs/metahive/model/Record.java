@@ -268,6 +268,12 @@ public class Record {
 				&& StringUtils.isNotBlank(prefs.getSecondaryRecordRegex())) {
 			secondaryRecordId = regex(recordId, prefs.getSecondaryRecordRegex());
 		}
+		
+		if (StringUtils.isBlank(secondaryRecordId) 
+				&& StringUtils.isNotBlank(prefs.getSecondaryRecordDefault())) {
+			secondaryRecordId = prefs.getSecondaryRecordDefault();
+		}
+		
 		return secondaryRecordId;
 	}
 	
@@ -287,6 +293,12 @@ public class Record {
 				&& StringUtils.isNotBlank(prefs.getTertiaryRecordRegex())) {
 			tertiaryRecordId = regex(recordId, prefs.getTertiaryRecordRegex());
 		}
+
+		if (StringUtils.isBlank(tertiaryRecordId) 
+				&& StringUtils.isNotBlank(prefs.getTertiaryRecordDefault())) {
+			tertiaryRecordId = prefs.getTertiaryRecordDefault();
+		}
+		
 		return tertiaryRecordId;
 	}	
     

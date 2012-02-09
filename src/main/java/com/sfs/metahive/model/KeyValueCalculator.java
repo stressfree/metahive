@@ -54,8 +54,8 @@ public class KeyValueCalculator {
     	
     	if (keyValue == null) {
     		keyValue = newest(values);
-    	} else {
-    		if (StringUtils.isBlank((String) keyValue)) {
+    	} else {    		
+    		if (keyValue instanceof String && StringUtils.isBlank((String) keyValue)) {
     			keyValue = newest(values);
     		}
     	}
@@ -74,7 +74,7 @@ public class KeyValueCalculator {
     	if (keyValue == null) {
     		keyValue = oldest(values);
     	} else {
-    		if (StringUtils.isBlank((String) keyValue)) {
+    		if (keyValue instanceof String && StringUtils.isBlank((String) keyValue)) {
     			keyValue = oldest(values);
     		}
     	}

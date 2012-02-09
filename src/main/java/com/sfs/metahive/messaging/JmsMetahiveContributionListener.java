@@ -96,6 +96,16 @@ public class JmsMetahiveContributionListener {
 				String secondaryRecord = Record.parseSecondaryRecordId(recordId, prefs);
 				String tertiaryRecord = Record.parseTertiaryRecordId(recordId, prefs);
 				
+				if (StringUtils.isBlank(secondaryRecord) 
+						&& StringUtils.isNotBlank(prefs.getSecondaryRecordDefault())) {
+					secondaryRecord = prefs.getSecondaryRecordDefault();
+				}
+				
+				if (StringUtils.isBlank(tertiaryRecord) 
+						&& StringUtils.isNotBlank(prefs.getTertiaryRecordDefault())) {
+					tertiaryRecord = prefs.getTertiaryRecordDefault();
+				}
+				
 				Record record = Record.findRecordByRecordIdEquals(primaryRecord);
 				
 				boolean fieldCreated = false;
@@ -114,7 +124,7 @@ public class JmsMetahiveContributionListener {
 							field.setPrimaryRecordId(primaryRecord);
 							field.setSecondaryRecordId(secondaryRecord);
 							field.setTertiaryRecordId(tertiaryRecord);
-							
+														
 							field.setValue(cell.getValue().trim());
 							
 							field.persist();

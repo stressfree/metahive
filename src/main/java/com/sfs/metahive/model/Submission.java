@@ -8,9 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.text.SimpleDateFormat;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,11 +49,15 @@ public class Submission {
 	/** The raw data. */
 	@Lob
 	private String rawData;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "submission")
+	private List<SubmittedField> submittedFields = new ArrayList<SubmittedField>();	
 	
 	/** The created timestamp. */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false)
     private Date created;
+    
     
     /**
      * The on create actions.

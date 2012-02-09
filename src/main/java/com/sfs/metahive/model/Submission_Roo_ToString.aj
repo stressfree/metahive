@@ -18,6 +18,7 @@ privileged aspect Submission_Roo_ToString {
         sb.append("PersonName: ").append(getPersonName()).append(", ");
         sb.append("RawData: ").append(getRawData()).append(", ");
         sb.append("RawDataGrid: ").append(getRawDataGrid()).append(", ");
+        sb.append("SubmittedFields: ").append(getSubmittedFields() == null ? "null" : getSubmittedFields().size()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }

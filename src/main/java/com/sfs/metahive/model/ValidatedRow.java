@@ -20,11 +20,11 @@ public class ValidatedRow {
 	private String comment;
 
 	/**
-	 * Gets the valid boolean as a string.
+	 * Gets the CSS classes.
 	 *
-	 * @return the valid string
+	 * @return the CSS class string
 	 */
-	public String getValidString() {
+	public String getCssClasses() {
 		String value = "valid";
 		if (!valid) {
 			value = "invalid";

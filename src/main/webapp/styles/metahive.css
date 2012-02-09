@@ -415,6 +415,12 @@ ul.checkall li {
 #submissionPreview table td.invalid, #submissionPreview li.invalidcell {
 	background: #FAD9D2;
 }
+#submissionPreview table td.notapplicable, #submissionPreview li.notapplicablecell {
+	background: #c1e7ee;
+}
+#submissionPreview table td.idfield {
+	background: #eee;
+}
 #submissionPreview ul {
 	margin: 0;
 	padding: 0;

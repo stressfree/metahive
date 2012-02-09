@@ -5,8 +5,10 @@ package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Person;
+import com.sfs.metahive.model.SubmittedField;
 import java.lang.String;
 import java.util.Date;
+import java.util.List;
 
 privileged aspect Submission_Roo_JavaBean {
     
@@ -20,6 +22,14 @@ privileged aspect Submission_Roo_JavaBean {
     
     public void Submission.setRawData(String rawData) {
         this.rawData = rawData;
+    }
+    
+    public List<SubmittedField> Submission.getSubmittedFields() {
+        return this.submittedFields;
+    }
+    
+    public void Submission.setSubmittedFields(List<SubmittedField> submittedFields) {
+        this.submittedFields = submittedFields;
     }
     
     public void Submission.setCreated(Date created) {

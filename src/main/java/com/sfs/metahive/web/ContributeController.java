@@ -1,5 +1,6 @@
 package com.sfs.metahive.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,17 +11,20 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sfs.metahive.FlashScope;
+import com.sfs.metahive.messaging.JmsRecalculateRequest;
 import com.sfs.metahive.model.DataGrid;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Submission;
+import com.sfs.metahive.model.SubmittedField;
 import com.sfs.metahive.model.ValidatedDataGrid;
 
 @RequestMapping("/contribute")
@@ -29,6 +33,9 @@ public class ContributeController extends BaseController {
 
 	@Autowired
 	private transient JmsTemplate metahiveContributionTemplate;
+	
+	@Autowired
+	private transient JmsTemplate keyValueGenerationTemplate;
 	
 	/**
 	 * Begin the contribute data process.
@@ -142,6 +149,41 @@ public class ContributeController extends BaseController {
 		}		
 		return page;
 	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("hasRole('ROLE_ADMIN','ROLE_EDITOR')")
+    public String delete(@PathVariable("id") Long id, Model uiModel,
+    		HttpServletRequest request) {
+		
+		Submission submission = Submission.findSubmission(id);
+				
+		List<JmsRecalculateRequest> toProcess = new ArrayList<JmsRecalculateRequest>();
+		
+		if (submission != null) {
+			for (SubmittedField submittedField : submission.getSubmittedFields()) {
+				// Build a list of JMS requests to process following the delete
+				JmsRecalculateRequest req = new JmsRecalculateRequest();
+	        	req.setPrimaryRecordId(submittedField.getPrimaryRecordId());
+	        	req.setSecondaryRecordId(submittedField.getSecondaryRecordId());
+	        	req.setTertiaryRecordId(submittedField.getTertiaryRecordId());
+	        	req.setDefinitionId(submittedField.getDefinition().getId());
+	        	
+	        	toProcess.add(req);
+			}
+			submission.remove();			
+		}
+		
+		for (JmsRecalculateRequest req : toProcess) {
+			keyValueGenerationTemplate.convertAndSend(req);
+		}
+		
+        uiModel.asMap().clear();
+
+        FlashScope.appendMessage(
+        		getMessage("metahive_delete_complete", Submission.class), request);
+        
+        return "redirect:/submissions";
+    }
 	
 	@RequestMapping(value = "/template.xls", method = RequestMethod.POST)
 	public ModelAndView buildTemplate(

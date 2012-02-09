@@ -15,6 +15,22 @@ privileged aspect ValidatedField_Roo_JavaBean {
         this.valid = valid;
     }
     
+    public boolean ValidatedField.isNotApplicable() {
+        return this.notApplicable;
+    }
+    
+    public void ValidatedField.setNotApplicable(boolean notApplicable) {
+        this.notApplicable = notApplicable;
+    }
+    
+    public boolean ValidatedField.isIdField() {
+        return this.idField;
+    }
+    
+    public void ValidatedField.setIdField(boolean idField) {
+        this.idField = idField;
+    }
+    
     public String ValidatedField.getValue() {
         return this.value;
     }

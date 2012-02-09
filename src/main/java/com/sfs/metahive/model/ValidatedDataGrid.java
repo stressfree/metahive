@@ -74,28 +74,47 @@ public class ValidatedDataGrid {
 				
 		// Check that each header is a valid definition
 		int columnCounter = 0;
-		HashMap<Integer, Integer> validColumns = new HashMap<Integer, Integer>();
+		
+		ValidatedField primaryHeader = new ValidatedField();
+		primaryHeader.setValue(prefs.getPrimaryRecordName());
+		primaryHeader.setValid(true);
+		validatedHeaderFields.add(primaryHeader);
+		
+		if (StringUtils.isNotBlank(prefs.getSecondaryRecordName())) {
+			ValidatedField secondaryHeader = new ValidatedField();
+			secondaryHeader.setValue(prefs.getSecondaryRecordName());
+			secondaryHeader.setValid(true);
+			validatedHeaderFields.add(secondaryHeader);
+		}
+		if (StringUtils.isNotBlank(prefs.getTertiaryRecordName())) {
+			ValidatedField tertiaryHeader = new ValidatedField();
+			tertiaryHeader.setValue(prefs.getTertiaryRecordName());
+			tertiaryHeader.setValid(true);
+			validatedHeaderFields.add(tertiaryHeader);
+		}
+		
+		HashMap<Integer, Definition> definitions = new HashMap<Integer, Definition>();
 		
 		for (String header : dataGrid.getHeaderFields()) {
 			
 			if (StringUtils.equalsIgnoreCase(primaryRecordName, header)) {
+				// Note down the primary record column id, but don't add it to the array
 				primaryColumnId = columnCounter;
+			} else {
+				ValidatedField validatedHeader = new ValidatedField();
+				validatedHeader.setValue(header);
+				
+				try {
+					Definition definition = Definition.findDefinitionByNameEquals(header);
+					if (definition != null) {
+						validatedHeader.setValid(true);
+						definitions.put(columnCounter, definition);
+					}
+				} catch (Exception e) {
+					// Error loading definition
+				}			
+				validatedHeaderFields.add(validatedHeader);	
 			}
-
-			ValidatedField validatedHeader = new ValidatedField();
-			validatedHeader.setValue(header);
-			
-			try {
-				Definition definition = Definition.findDefinitionByNameEquals(header);
-				if (definition != null) {
-					validatedHeader.setValid(true);
-					validColumns.put(columnCounter, columnCounter);
-				}
-			} catch (Exception e) {
-				// Error loading definition
-			}			
-			validatedHeaderFields.add(validatedHeader);			
-			
 			columnCounter++;
 		}
 		
@@ -104,36 +123,94 @@ public class ValidatedDataGrid {
 			
 			ValidatedRow validatedRow = new ValidatedRow();
 			
+			String primaryRecordId = "";
+			String secondaryRecordId = "";
+			String tertiaryRecordId = "";
+			
 			try {				
 				String recordId = row.get(primaryColumnId);
-				String primaryRecordId = Record.parsePrimaryRecordId(recordId, prefs);
+				primaryRecordId = Record.parsePrimaryRecordId(recordId, prefs);
+				secondaryRecordId = Record.parseSecondaryRecordId(recordId, prefs);
+				tertiaryRecordId = Record.parseTertiaryRecordId(recordId, prefs);
 				
 				Record record = Record.findRecordByRecordIdEquals(primaryRecordId);
 				if (record != null && StringUtils.isNotBlank(record.getRecordId())) {
 					validatedRow.setValid(true);
-				}	
+				}
 			} catch (Exception e) {
 				// Error verifying record id
 			}
 			
 			List<ValidatedField> validatedFields = new ArrayList<ValidatedField>();
 			
+			// Add the primary, secondary and tertiary ids if applicable
+			ValidatedField primaryField = new ValidatedField();
+			primaryField.setValue(primaryRecordId);
+			primaryField.setValid(true);
+			primaryField.setIdField(true);
+			validatedFields.add(primaryField);
+
+			if (StringUtils.isNotBlank(prefs.getSecondaryRecordName())) {
+				ValidatedField secondaryField = new ValidatedField();
+				secondaryField.setValue(secondaryRecordId);
+				secondaryField.setValid(true);
+				secondaryField.setIdField(true);
+				validatedFields.add(secondaryField);
+			}
+			if (StringUtils.isNotBlank(prefs.getTertiaryRecordName())) {
+				ValidatedField tertiaryField = new ValidatedField();
+				tertiaryField.setValue(tertiaryRecordId);
+				tertiaryField.setValid(true);
+				tertiaryField.setIdField(true);
+				validatedFields.add(tertiaryField);
+			}
+			
 			columnCounter = 0;
 			
 			for (String field : row) {
-				ValidatedField validatedField = new ValidatedField();
-				validatedField.setValue(field);
-				if (validColumns.containsKey(columnCounter)) {
-					validatedField.setValid(true);					
-				}				
-				validatedFields.add(validatedField);
-				
+				if (columnCounter != primaryColumnId) {
+					ValidatedField validatedField = new ValidatedField();
+					validatedField.setValue(field);
+					if (definitions.containsKey(columnCounter)) {
+						Definition definition = definitions.get(columnCounter);
+						if (definition != null) {
+							validatedField.setValid(true);						
+							validatedField.setNotApplicable(checkNotApplicable(
+									definition, secondaryRecordId, tertiaryRecordId));
+						}
+					}
+					validatedFields.add(validatedField);
+				}
 				columnCounter++;
 			}
 			validatedRow.setFields(validatedFields);
 			
 			validatedRows.add(validatedRow);
 		}		
+	}
+		
+	/**
+	 * Check whether this field is not applicable.
+	 *
+	 * @param definition the definition
+	 * @param secondaryRecordId the secondary record id
+	 * @param tertiaryRecordId the tertiary record id
+	 * @return true, if successful
+	 */
+	private boolean checkNotApplicable(final Definition definition, 
+			final String secondaryRecordId, final String tertiaryRecordId) {
+		
+		boolean notApplicable = false;
+		
+		if (definition.getApplicability() == Applicability.RECORD_SECONDARY 
+				&& StringUtils.isBlank(secondaryRecordId)) {
+			notApplicable = true;
+		}
+		if (definition.getApplicability() == Applicability.RECORD_TERTIARY 
+				&& StringUtils.isBlank(tertiaryRecordId)) {
+			notApplicable = true;
+		}
+		return notApplicable;
 	}
 	
 }
