@@ -144,28 +144,20 @@ public class Definition {
 	 *
 	 * @return the map
 	 */
-	public static Map<String, List<Definition>> findGroupedDefinitions() {
-		
-		Map<String, List<Definition>> groupedDefinitions = 
-				new TreeMap<String, List<Definition>>();
-		
-		List<Definition> definitions = Definition.findAllDefinitions();
-		
-		for (Definition definition : definitions) {
-			if (definition.getDataType() != DataType.TYPE_UNIQUEID) {
-				String name = definition.getCategory().getName();
-				
-				List<Definition> subGroup = new ArrayList<Definition>();
-				
-				if (groupedDefinitions.containsKey(name)) {
-					subGroup = groupedDefinitions.get(name);
-				}
-				subGroup.add(definition);
-				
-				groupedDefinitions.put(name, subGroup);
-			}
-		}		
-		return groupedDefinitions;
+	public static Map<String, List<Definition>> findGroupedDefinitions() {			
+		return groupDefinitions(Definition.findAllDefinitions());
+	}	
+
+	/**
+	 * A helper function to load the definitions that an organisation 
+	 * has contributed data for, grouped by their category. 
+	 * The resulting map excludes the unique identifier definition(s).
+	 *
+	 * @return the map
+	 */
+	public static Map<String, List<Definition>> findGroupedDefinitions(
+			final Organisation organisation) {		
+		return groupDefinitions(Definition.findDefinitionEntries(organisation));
 	}
 	
 	/**
@@ -223,8 +215,7 @@ public class Definition {
 	/**
 	 * Find definitions that have data supplied by the supplied organisation.
 	 * 
-	 * @param organisation
-	 *            the organisation to filter by
+	 * @param organisation the organisation to filter by
 	 * @return the list of definitions
 	 */
 	public static List<Definition> findDefinitionEntries(
@@ -236,14 +227,11 @@ public class Definition {
 
 			String sql = "SELECT d FROM Definition d"
 					+ " JOIN d.dataSources ds JOIN ds.organisation o"
-					+ " WHERE o.id = :organisationId AND d.dataType != :dataType"
-					+ " ORDER BY d.name ASC";
+					+ " WHERE o.id = :organisationId ORDER BY d.name ASC";
 
 			TypedQuery<Definition> q = entityManager().createQuery(sql,
 					Definition.class);
 			q.setParameter("organisationId", organisation.getId());
-			// Do not include the unique id data type as it is assumed this is known.
-			q.setParameter("dataType", DataType.TYPE_UNIQUEID);
 
 			definitions = q.getResultList();
 		}
@@ -393,4 +381,34 @@ public class Definition {
 		return variables;
 	}
 
+	
+	/**
+	 * Group the supplied definitions.
+	 *
+	 * @param definitions the definitions
+	 * @return the map
+	 */
+	private static Map<String, List<Definition>> groupDefinitions(
+			final List<Definition> definitions) {
+		
+		Map<String, List<Definition>> groupedDefinitions = 
+				new TreeMap<String, List<Definition>>();
+		
+		for (Definition definition : definitions) {
+			if (definition.getDataType() != DataType.TYPE_UNIQUEID) {
+				String name = definition.getCategory().getName();
+				
+				List<Definition> subGroup = new ArrayList<Definition>();
+				
+				if (groupedDefinitions.containsKey(name)) {
+					subGroup = groupedDefinitions.get(name);
+				}
+				subGroup.add(definition);
+				
+				groupedDefinitions.put(name, subGroup);
+			}
+		}		
+		return groupedDefinitions;		
+	}
+	
 }

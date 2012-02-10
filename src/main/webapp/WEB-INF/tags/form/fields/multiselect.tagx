@@ -49,7 +49,7 @@
     <div id="${div_id}" class="field field-multiselect">
       <c:choose>
         <c:when test="${not empty items}">
-          <label for="_${sec_field}_id">
+          <label>
             <c:out value="${fn:escapeXml(label)}" />:
           </label>
           <div class="multiselectItems ${sec_cssClass}">

@@ -71,13 +71,31 @@ public class JmsMetahiveContributionListener {
 		
 		TreeMap<Integer, Definition> definitions = new TreeMap<Integer, Definition>();		
 		int columnIndex = 0;
-		int recordIndex = 0;
+		int primaryIndex = 0;
+		int secondaryIndex = 0;
+		int tertiaryIndex = 0;
 		
 		for (ValidatedField field : dataGrid.getHeaderFields()) {
+			
+			logger.info("Field valid: " + field.isValid());
+			logger.info("Id field: " + field.isIdField());
+			logger.info("Field value: " + field.getValue());
+			logger.info("Column index: " + columnIndex);
+			
 			if (field.isValid()) {
-				if (StringUtils.equalsIgnoreCase(prefs.getPrimaryRecordName(),
-						field.getValue())) {
-					recordIndex = columnIndex;
+				if (field.isIdField()) {
+					if (StringUtils.equalsIgnoreCase(prefs.getPrimaryRecordName(),
+							field.getValue())) {
+						primaryIndex = columnIndex;
+					}
+					if (StringUtils.equalsIgnoreCase(prefs.getSecondaryRecordName(),
+							field.getValue())) {
+						secondaryIndex = columnIndex;
+					}
+					if (StringUtils.equalsIgnoreCase(prefs.getTertiaryRecordName(),
+							field.getValue())) {
+						tertiaryIndex = columnIndex;
+					}	
 				} else {
 					Definition definition = Definition.findDefinitionByNameEquals(
 							field.getValue());
@@ -89,24 +107,36 @@ public class JmsMetahiveContributionListener {
 		
 		for (ValidatedRow row : dataGrid.getRows()) {
 			if (row.isValid()) {
-				// Load the record
-				String recordId = row.getFields().get(recordIndex).getValue();
+				// Load the record				
+				String primaryRecord = "";
+				String secondaryRecord = "";
+				String tertiaryRecord = "";
 				
-				String primaryRecord = Record.parsePrimaryRecordId(recordId, prefs);
-				String secondaryRecord = Record.parseSecondaryRecordId(recordId, prefs);
-				String tertiaryRecord = Record.parseTertiaryRecordId(recordId, prefs);
+				primaryRecord = row.getFields().get(primaryIndex).getValue();
+				
+				if (secondaryIndex > 0) {
+					secondaryRecord = row.getFields().get(secondaryIndex).getValue();
+				}
+				if (tertiaryIndex > 0) {
+					tertiaryRecord = row.getFields().get(tertiaryIndex).getValue();					
+				}
 				
 				if (StringUtils.isBlank(secondaryRecord) 
 						&& StringUtils.isNotBlank(prefs.getSecondaryRecordDefault())) {
 					secondaryRecord = prefs.getSecondaryRecordDefault();
-				}
-				
+				}				
 				if (StringUtils.isBlank(tertiaryRecord) 
 						&& StringUtils.isNotBlank(prefs.getTertiaryRecordDefault())) {
 					tertiaryRecord = prefs.getTertiaryRecordDefault();
 				}
 				
+				logger.info("Primary record: " + primaryRecord);
+				logger.info("Secondary record: " + secondaryRecord);
+				logger.info("Tertiary record: " + tertiaryRecord);
+				
 				Record record = Record.findRecordByRecordIdEquals(primaryRecord);
+				
+				logger.error("Record id: " + record.getId());
 				
 				boolean fieldCreated = false;
 				

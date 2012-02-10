@@ -77,18 +77,21 @@ public class ValidatedDataGrid {
 		
 		ValidatedField primaryHeader = new ValidatedField();
 		primaryHeader.setValue(prefs.getPrimaryRecordName());
+		primaryHeader.setIdField(true);
 		primaryHeader.setValid(true);
 		validatedHeaderFields.add(primaryHeader);
 		
 		if (StringUtils.isNotBlank(prefs.getSecondaryRecordName())) {
 			ValidatedField secondaryHeader = new ValidatedField();
 			secondaryHeader.setValue(prefs.getSecondaryRecordName());
+			secondaryHeader.setIdField(true);
 			secondaryHeader.setValid(true);
 			validatedHeaderFields.add(secondaryHeader);
 		}
 		if (StringUtils.isNotBlank(prefs.getTertiaryRecordName())) {
 			ValidatedField tertiaryHeader = new ValidatedField();
 			tertiaryHeader.setValue(prefs.getTertiaryRecordName());
+			tertiaryHeader.setIdField(true);
 			tertiaryHeader.setValid(true);
 			validatedHeaderFields.add(tertiaryHeader);
 		}

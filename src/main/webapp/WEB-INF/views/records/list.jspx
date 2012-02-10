@@ -59,8 +59,8 @@
 												</c:forEach>
 											</c:when>
 											<c:otherwise>
-												<td><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
-												<td><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
+												<td class="secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
+												<td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
 												<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
 	 												<td class="${keyValue.value.cssClass}"><c:out value="${keyValue.value.value}" /></td>
 	 											</c:forEach>

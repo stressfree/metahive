@@ -362,16 +362,10 @@ a:hover {
 
 .contributefields .checkboxset {
 	clear: left;
-	margin: 0.3em 30px 0.3em 140px;
+	margin: 0.3em 30px 0.3em 0;
 }
-.contributefields .checkboxset label {
-	float: none;
-	color: #333;
-	padding: 0 0 0 5px	
-}
-.contributefields .contributefield {
-	float: left;
-	width: 250px;
+.contributefields .recordfield {
+	display: none;	
 }
 ul.checkall {
 	margin: 0;
@@ -507,6 +501,9 @@ div.keyValueData tr:hover td {
 }
 div.keyValueData td.primaryRecord {
 	background: url('../images/table-header.png') bottom left repeat-x #e6ebf2!important;
+}
+div.keyValueData td.secondaryRecord, div.keyValueData td.tertiaryRecord {
+	text-align: center;
 }
 div.keyValueData td.secondaryRecord {
 	border-left: 1px solid #eee;

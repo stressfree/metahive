@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     	
@@ -23,22 +23,31 @@
 			</script>
 
 			<div class="field contributefields">
-	  			<label for="id"><spring:message code="label_com_sfs_metahive_model_organisation" htmlEscape="true" />: </label>
 				<ul class="checkall">
 	  				<li><a id="checkAllLink"><spring:message code="metahive_check_all" /></a></li>
 	  				<li><a id="uncheckAllLink"><spring:message code="metahive_uncheck_all" /></a></li>
 	  			</ul>
 	  			<div class="checkboxset">
-	  				<div class="contributefield">
+	  				<div class="recordfield">
 	  					<input id="definitions_${uniqueIdDef.id}" name="definitions" dojoType="dijit.form.CheckBox" value="${uniqueIdDef.id}" checked="checked" disabled="true" />
 	  					<label for="definitions_${uniqueIdDef.id}"><c:out value="${uniqueIdDef.name}" /></label>
 	  				</div>
-	  				<c:forEach items="${definitions}" var="definition">
-	  				<div class="contributefield">
-	  					<input id="definitions_${definition.id}" name="definitions" dojoType="dijit.form.CheckBox" value="${definition.id}" />
-	  					<label for="definitions_${definition.id}"><c:out value="${definition.name}" /></label>
-	  				</div>
-	  				</c:forEach>
+	  				<c:forEach items="${definitions}" var="definitionGroup">
+		  				<div class="field field-multiselect">
+		  					<label>
+	            				<c:out value="${fn:escapeXml(definitionGroup.key)}" />:
+	          				</label>
+	          				<div class="multiselectItems multiselectTwoColumn">
+	          					<c:forEach items="${definitionGroup.value}" var="definition">
+	          						<span>
+	          							<input id="definitions_${definition.id}" name="definitions" dojoType="dijit.form.CheckBox" value="${definition.id}" />
+		  								<label for="definitions_${definition.id}"><c:out value="${definition.name}" /></label>
+		  							</span>
+	          					</c:forEach>
+	          					<div class="clear"><!-- --></div>
+	          				</div>
+	          			</div>
+          			</c:forEach>
 	  			</div>
 	  			<div class="clear"><!-- --></div>
 	  		</div>

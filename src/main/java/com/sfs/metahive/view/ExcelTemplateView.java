@@ -6,9 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Font;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import com.sfs.metahive.model.DataGrid;
@@ -32,6 +36,14 @@ public class ExcelTemplateView extends AbstractExcelView {
 		
 		HSSFSheet sheet = workbook.createSheet(sheetName);
 
+		Font font = workbook.createFont();
+		font.setColor(HSSFColor.WHITE.index);
+		
+		HSSFCellStyle style = workbook.createCellStyle();
+		style.setFillForegroundColor(HSSFColor.GREY_50_PERCENT.index);
+		style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		style.setFont(font);
+				
 		int rowNum = 0;
 		int maxColumnCount = 0;
 		
@@ -43,7 +55,10 @@ public class ExcelTemplateView extends AbstractExcelView {
 			
 			int i = 0;
 			for (String field : dataGrid.getHeaderFields()) {
-				header.createCell(i).setCellValue(field);
+								
+				HSSFCell cell = header.createCell(i);
+				cell.setCellValue(field);
+				cell.setCellStyle(style);
 				i++;
 			}		
 		}

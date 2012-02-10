@@ -2,6 +2,7 @@ package com.sfs.metahive.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,14 +80,14 @@ public class ContributeController extends BaseController {
 
 			if (organisation != null) {
 				
-				page = "contribute/nodefinitions";
+				page = "contribute/nodefinitions";				
 				
-				List<Definition> definitions = Definition.findDefinitionEntries(
-						organisation);
+				Map<String, List<Definition>> definitions = 
+						Definition.findGroupedDefinitions(organisation);
 				
 				if (definitions != null && definitions.size() > 0) {
-					uiModel.addAttribute("organisationId", organisation.getId());	
-					uiModel.addAttribute("uniqueIdDef", uniqueIdDef);					
+					uiModel.addAttribute("organisationId", organisation.getId());
+					uiModel.addAttribute("uniqueIdDef", uniqueIdDef);
 					uiModel.addAttribute("definitions", definitions);
 					page = "contribute/begin";
 				}
