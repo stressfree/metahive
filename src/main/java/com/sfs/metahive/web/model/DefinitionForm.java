@@ -3,6 +3,9 @@
  */
 package com.sfs.metahive.web.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -13,6 +16,7 @@ import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.DefinitionType;
 import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.Person;
@@ -36,6 +40,13 @@ public class DefinitionForm extends BackingForm {
 	@Size(min = 1, max = 100)
 	private String name;
 
+	/** The data type. */
+	@NotNull
+	private DefinitionType definitionType = DefinitionType.STANDARD;
+	
+	/** The related definition. */
+	private List<Definition> relatedDefinitions = new ArrayList<Definition>();
+		
 	/** The data type. */
 	@NotNull
 	private DataType dataType = DataType.TYPE_STRING;
@@ -109,6 +120,8 @@ public class DefinitionForm extends BackingForm {
 		if (definition != null) {
 			definitionForm.setId(definition.getId());
 			definitionForm.setName(trim(definition.getName()));
+			definitionForm.setDefinitionType(definition.getDefinitionType());
+			definitionForm.setRelatedDefinitions(definition.getRelatedDefinitions());
 			definitionForm.setCategory(definition.getCategory());
 			definitionForm.setApplicability(definition.getApplicability());
 			definitionForm.setDataType(definition.getDataType());
@@ -166,6 +179,8 @@ public class DefinitionForm extends BackingForm {
 	    	Description description = new Description();
 	        
 			definition.setName(trim(this.getName()));
+	        definition.setDefinitionType(this.getDefinitionType());
+	        definition.setRelatedDefinitions(this.getRelatedDefinitions());
 	        definition.setDataType(this.getDataType());
 	        definition.setCategory(this.getCategory());
 	        definition.setKeyValueGenerator(this.getKeyValueGenerator());

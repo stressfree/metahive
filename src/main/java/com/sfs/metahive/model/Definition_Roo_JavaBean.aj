@@ -8,6 +8,8 @@ import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.DataType;
+import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.DefinitionType;
 import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.UserRole;
@@ -22,6 +24,14 @@ privileged aspect Definition_Roo_JavaBean {
     
     public void Definition.setName(String name) {
         this.name = name;
+    }
+    
+    public DefinitionType Definition.getDefinitionType() {
+        return this.definitionType;
+    }
+    
+    public void Definition.setDefinitionType(DefinitionType definitionType) {
+        this.definitionType = definitionType;
     }
     
     public DataType Definition.getDataType() {
@@ -78,6 +88,10 @@ privileged aspect Definition_Roo_JavaBean {
     
     public void Definition.setApplicability(Applicability applicability) {
         this.applicability = applicability;
+    }
+    
+    public void Definition.setRelatedDefinitions(List<Definition> relatedDefinitions) {
+        this.relatedDefinitions = relatedDefinitions;
     }
     
     public List<Comment> Definition.getComments() {

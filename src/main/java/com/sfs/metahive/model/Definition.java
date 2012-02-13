@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
@@ -30,11 +32,18 @@ import com.sfs.metahive.web.model.DefinitionFilter;
 @RooEntity(finders = { "findDefinitionsByNameLike" })
 public class Definition {
 
+	private static Logger logger = Logger.getLogger(Definition.class);
+	
 	/** The name. */
 	@NotNull
 	@Size(min = 1, max = 100)
 	@Column(unique = true)
 	private String name;
+	
+	/** The definition type. */
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private DefinitionType definitionType = DefinitionType.STANDARD;
 
 	/** The data type. */
 	@NotNull
@@ -70,6 +79,10 @@ public class Definition {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Applicability applicability;
+	
+	/** The related definitions. */
+	@ManyToMany
+	private List<Definition> relatedDefinitions = new ArrayList<Definition>();
 
 	/** The comments. */
 	@OrderBy("created ASC")
@@ -90,6 +103,22 @@ public class Definition {
 		return description;
 	}
 
+	/**
+	 * Gets the related definitions.
+	 *
+	 * @return the related definitions
+	 */
+	public final List<Definition> getRelatedDefinitions() {
+		if (this.relatedDefinitions == null) {
+			this.relatedDefinitions = new ArrayList<Definition>();
+		}
+		if (this.definitionType == DefinitionType.STANDARD 
+				&& this.relatedDefinitions.size() > 0) {
+			this.relatedDefinitions = new ArrayList<Definition>();
+		}
+		return this.relatedDefinitions;
+	}
+	
 	/**
 	 * Adds a data source.
 	 * 
@@ -280,7 +309,7 @@ public class Definition {
 					Definition.class).getResultList();
 		}
 		return definitions;
-	}
+	}	
 
 	/**
 	 * Find definition entries.
@@ -332,6 +361,52 @@ public class Definition {
 		}
 
 		return q.getSingleResult();
+	}
+	
+	/**
+	 * Find the definitions that could be potentially related to the supplied definition.
+	 *
+	 * @param definition the definition
+	 * @return the list
+	 */
+	public static List<Definition> findPotentialRelatedDefinitions(
+			final Definition definition) {
+		
+		List<Definition> relatedDefinitions = new ArrayList<Definition>();
+		
+		StringBuffer sql = new StringBuffer();
+		HashMap<String, Object> variables = new HashMap<String, Object>();
+		
+		if (definition != null) {	
+			logger.error("Definition type: " + definition.getDefinitionType());
+			if (definition.getDefinitionType() == DefinitionType.CALCULATED) {
+				// Load all of the definitions, less the definitions already associated
+				sql.append("SELECT d FROM Definition d");	
+				sql.append(" ORDER BY d.name ASC");
+			}
+			if (definition.getDefinitionType() == DefinitionType.SUMMARY) {
+				// Load only the standard definitions not associated with another summary
+				sql.append("SELECT d FROM Definition d");
+				sql.append(" WHERE d.definitionType = :definitionType");
+				sql.append(" ORDER BY d.name ASC");
+				
+				variables.put("definitionType", DefinitionType.STANDARD);
+			}
+		}
+		
+		if (sql.length() > 0) {
+			logger.error("SQL: " + sql.toString());
+			TypedQuery<Definition> q = entityManager().createQuery(sql.toString(),
+					Definition.class);
+			for (String variable : variables.keySet()) {
+				logger.error("Parameter: " + variable);
+				logger.error("Value: " + variables.get(variable));
+				q.setParameter(variable, variables.get(variable));
+			}			
+			relatedDefinitions = q.getResultList();
+		}
+		
+		return relatedDefinitions;
 	}
 
 	/**

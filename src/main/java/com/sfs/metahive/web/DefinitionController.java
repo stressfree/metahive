@@ -12,6 +12,7 @@ import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.DefinitionType;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.UserRole;
@@ -95,7 +96,9 @@ public class DefinitionController extends BaseController {
 	 */
 	@RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model uiModel) {
-        uiModel.addAttribute("definition", new DefinitionForm());        
+        uiModel.addAttribute("definition", new DefinitionForm());
+        uiModel.addAttribute("relatedDefinitions", 
+        		Definition.findPotentialRelatedDefinitions(new Definition()));
         return "definitions/create";
     }
     
@@ -206,6 +209,8 @@ public class DefinitionController extends BaseController {
 		DefinitionForm definitionForm = DefinitionForm.parseDefinition(definition);
 		
         uiModel.addAttribute("definition", definitionForm);
+		uiModel.addAttribute("relatedDefinitions", 
+				Definition.findPotentialRelatedDefinitions(definition));
                 
         return "definitions/update";
     }
@@ -313,6 +318,20 @@ public class DefinitionController extends BaseController {
     		applicabilities.add(applicability);
     	}
         return applicabilities;
+    }
+    
+    /**
+     * Populate the definition types.
+     *
+     * @return the definition types
+     */
+    @ModelAttribute("definitiontypes")
+    public Collection<DefinitionType> populateDefinitionTypes() {
+    	Collection<DefinitionType> definitionTypes = new ArrayList<DefinitionType>();
+    	for (DefinitionType definitionType : DefinitionType.values()) {
+    		definitionTypes.add(definitionType);
+    	}
+        return definitionTypes;
     }
     
     /**

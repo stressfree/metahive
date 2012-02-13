@@ -5,6 +5,7 @@
     <spring:url value="/definitions" var="cancelAction" />
     <form:create id="fc_com_sfs_metahive_web_model_DefinitionForm" modelAttribute="definition" path="/definitions" render="${empty dependencies}" cancelAction="${cancelAction}" z="user-managed">
    		<field:input field="name" id="c_com_sfs_metahive_web_model_DefinitionForm_name" required="true" z="user-managed"/>
+       	<field:select field="definitionType" id="c_com_sfs_metahive_web_model_DefinitionForm_definitionType" path="/definitionType" items="${definitiontypes}" required="true" z="user-managed"/>
        	<field:select field="dataType" id="c_com_sfs_metahive_web_model_DefinitionForm_dataType" path="/dataType" items="${datatypes}" required="true" z="user-managed"/>
        	<field:select field="keyValueGenerator" id="c_com_sfs_metahive_web_model_DefinitionForm_keyValueGenerator" path="/keyValueGenerator" items="${definition.dataType.keyValueGenerators}" required="true" z="user-managed"/>
        	<field:select field="keyValueAccess" id="c_com_sfs_metahive_web_model_DefinitionForm_keyValueAccess" path="/keyValueAccess" items="${userroles}" required="true" z="user-managed"/>
@@ -19,17 +20,8 @@
     <![CDATA[
     dojo.addOnLoad(function() {
         dojo.parser.parse();
-        dojo.connect(dijit.byId('_dataType_id'), 'onChange', function() {
-        	var selected = keyValueGens[this.attr('value')];
-        	var nids = new Array();
-        	for (var i = 0; i < selected.length; i++) {
-        	    option = {value: selected[i].key, label: selected[i].message};
-    			nids.push(option);        	    
-        	}
-        	var keyValueSelect = dijit.byId('_keyValueGenerator_id');
-        	keyValueSelect.removeOption(keyValueSelect.getOptions());
-        	keyValueSelect.addOption(nids);        	
-        });
+        dojo.connect(dijit.byId('_definitionType_id'), 'onChange', definitionTypeChange);
+        dojo.connect(dijit.byId('_dataType_id'), 'onChange', definitionDataTypeChange);
     });
     ]]>
     var keyValueGens = {

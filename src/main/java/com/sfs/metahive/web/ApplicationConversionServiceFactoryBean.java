@@ -10,10 +10,11 @@ import org.springframework.roo.addon.web.mvc.controller.RooConversionService;
 
 import com.sfs.metahive.model.Applicability;
 import com.sfs.metahive.model.DataType;
+import com.sfs.metahive.model.DefinitionType;
 import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.model.UserStatus;
-        
+
 /**
  * A central place to register application Converters and Formatters. 
  */
@@ -28,12 +29,27 @@ public class ApplicationConversionServiceFactoryBean
 	protected void installFormatters(FormatterRegistry registry) {
 		super.installFormatters(registry);
 		// Register application converters and formatters
+		registry.addConverter(getDefinitionTypeConverter());
 		registry.addConverter(getDataTypeConverter());
 		registry.addConverter(getKeyValueGeneratorConverter());
 		registry.addConverter(getApplicabilityConverter());
 		registry.addConverter(getUserRoleConverter());
 		registry.addConverter(getUserStatusConverter());
 	}
+
+	/**
+	 * Gets the definition type converter.
+	 *
+	 * @return the definition type converter
+	 */
+	Converter<DefinitionType, String> getDefinitionTypeConverter() { 
+        return new Converter<DefinitionType, String>() { 
+            public String convert(DefinitionType definitionType) { 
+                return context.getMessage(definitionType.getMessageKey(), null, 
+                		LocaleContextHolder.getLocale()); 
+            }
+        }; 
+    }
 
 	/**
 	 * Gets the data type converter.

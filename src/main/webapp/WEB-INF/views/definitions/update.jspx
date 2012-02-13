@@ -5,8 +5,42 @@
     <spring:url value="/definitions/${definition.id}" var="cancelAction" />
     <form:update id="fu_com_sfs_metahive_web_model_DefinitionForm" modelAttribute="definition" path="/definitions" versionField="Version" cancelAction="${cancelAction}" z="user-managed">
         <field:input field="name" id="c_com_sfs_metahive_web_model_DefinitionForm_name" required="true" z="user-managed"/>
-		<field:select field="dataType" id="c_com_sfs_metahive_web_model_DefinitionForm_dataType" path="/dataType" items="${datatypes}" required="true" z="user-managed"/>
-       	<field:select field="keyValueGenerator" id="c_com_sfs_metahive_web_model_DefinitionForm_keyValueGenerator" path="/keyValueGenerator" items="${definition.dataType.keyValueGenerators}" required="true" z="user-managed"/>
+		<field:select field="definitionType" id="c_com_sfs_metahive_web_model_DefinitionForm_definitionType" path="/definitionType" items="${definitiontypes}" required="true" z="user-managed"/>
+       	       	       	
+       	<div id="relatedDefinitionsSelector">
+       		<div class="field field-select">
+       			<label for="relatedDefinitionSelector_id">Definitions: </label>
+       			<select id="relatedDefinitionSelector_id" name="relatedDefinitionSelector">
+					<c:forEach items="${relatedDefinitions}" var="relatedDefinition">
+						<option id="${relatedDefinition.id}"><c:out value="${relatedDefinition.name}" /></option>
+					</c:forEach>
+				</select>
+       			<a id="addRelatedDefinition">Add</a>
+       		</div>
+       		<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : 'relatedDefinitionSelector_id', widgetType: 'dijit.form.FilteringSelect' })); </script>
+       		
+       		<ul id="relatedDefinitionsList">
+       			<c:forEach items="${definition.relatedDefinitions}" var="relatedDefinition">
+       				<li id="relatedDefinitionListItem${relatedDefinition.id}"><c:out value="${relatedDefinition.name}" /></li>
+       			</c:forEach>
+       		</ul>
+       	</div>
+       	       	
+       	<c:if test="${definition.definitionType == 'CALCULATED'}">
+       		<c:set var="dataTypeSelectorClass" value="hidden" />
+       		<c:set var="keyValueGeneratorSelectorClass" value="hidden" />
+       	</c:if>
+       	<c:if test="${definition.definitionType == 'SUMMARY'}">
+       		<c:set var="dataTypeSelectorClass" value="hidden" />
+       	</c:if>
+       	       	
+       	<div id="definitionDataTypeSelector" class="${dataTypeSelectorClass}">
+	       	<field:select field="dataType" id="c_com_sfs_metahive_web_model_DefinitionForm_dataType" path="/dataType" items="${datatypes}" required="true" z="user-managed"/>
+       	</div>
+       	<div id="definitionKeyValueGeneratorSelector" class="${keyValueGeneratorSelectorClass}">
+    	   	<field:select field="keyValueGenerator" id="c_com_sfs_metahive_web_model_DefinitionForm_keyValueGenerator" path="/keyValueGenerator" items="${definition.dataType.keyValueGenerators}" required="true" z="user-managed"/>
+       	</div>
+       	
        	<field:select field="keyValueAccess" id="c_com_sfs_metahive_web_model_DefinitionForm_keyValueAccess" path="/keyValueAccess" items="${userroles}" required="true" z="user-managed"/>
        	<field:select field="category" id="c_com_sfs_metahive_web_model_DefinitionForm_category" path="/category" itemValue="id" itemLabel="name" items="${categories}" required="true" z="user-managed"/>
 		<field:select field="applicability" id="c_com_sfs_metahive_web_model_DefinitionForm_applicability" path="/applicability" items="${applicabilities}" required="true" z="user-managed"/>
@@ -19,17 +53,8 @@
     <![CDATA[
     dojo.addOnLoad(function() {
         dojo.parser.parse();
-        dojo.connect(dijit.byId('_dataType_id'), 'onChange', function() {
-        	var selected = keyValueGens[this.attr('value')];
-        	var nids = new Array();
-        	for (var i = 0; i < selected.length; i++) {
-        	    option = {value: selected[i].key, label: selected[i].message};
-    			nids.push(option);        	    
-        	}
-        	var keyValueSelect = dijit.byId('_keyValueGenerator_id');
-        	keyValueSelect.removeOption(keyValueSelect.getOptions());
-        	keyValueSelect.addOption(nids);        	
-        });
+        dojo.connect(dijit.byId('_definitionType_id'), 'onChange', definitionTypeChange);
+        dojo.connect(dijit.byId('_dataType_id'), 'onChange', definitionDataTypeChange);
     });
     ]]>
     var keyValueGens = {

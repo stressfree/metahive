@@ -6,9 +6,12 @@ package com.sfs.metahive.web.model;
 import com.sfs.metahive.model.Applicability;
 import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.DataType;
+import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.DefinitionType;
 import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.UserRole;
 import java.lang.String;
+import java.util.List;
 
 privileged aspect DefinitionForm_Roo_JavaBean {
     
@@ -34,6 +37,22 @@ privileged aspect DefinitionForm_Roo_JavaBean {
     
     public void DefinitionForm.setName(String name) {
         this.name = name;
+    }
+    
+    public DefinitionType DefinitionForm.getDefinitionType() {
+        return this.definitionType;
+    }
+    
+    public void DefinitionForm.setDefinitionType(DefinitionType definitionType) {
+        this.definitionType = definitionType;
+    }
+    
+    public List<Definition> DefinitionForm.getRelatedDefinitions() {
+        return this.relatedDefinitions;
+    }
+    
+    public void DefinitionForm.setRelatedDefinitions(List<Definition> relatedDefinitions) {
+        this.relatedDefinitions = relatedDefinitions;
     }
     
     public DataType DefinitionForm.getDataType() {

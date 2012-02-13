@@ -38,3 +38,31 @@ function displayFlashMessage() {
 		dojo.fx.wipeOut(wipeArgs).play();
 	}, 7000);
 }
+
+function definitionTypeChange() {
+	var selected = this.attr('value');        	
+	if (selected == 'STANDARD') {
+		dojo.removeClass("definitionDataTypeSelector", "hidden");
+    	dojo.removeClass("definitionKeyValueGeneratorSelector", "hidden");
+	}
+	if (selected == 'CALCULATED') {
+		dojo.addClass("definitionDataTypeSelector", "hidden");
+    	dojo.addClass("definitionKeyValueGeneratorSelector", "hidden");
+	}
+	if (selected == 'SUMMARY') {
+		dojo.addClass("definitionDataTypeSelector", "hidden");
+    	dojo.removeClass("definitionKeyValueGeneratorSelector", "hidden");
+	}	
+}
+
+function definitionDataTypeChange() {
+	var selected = keyValueGens[this.attr('value')];
+	var nids = new Array();
+	for (var i = 0; i < selected.length; i++) {
+	    option = {value: selected[i].key, label: selected[i].message};
+		nids.push(option);
+	}
+	var keyValueSelect = dijit.byId('_keyValueGenerator_id');
+	keyValueSelect.removeOption(keyValueSelect.getOptions());
+	keyValueSelect.addOption(nids);	
+}
