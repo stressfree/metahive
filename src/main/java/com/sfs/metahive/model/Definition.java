@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
@@ -31,8 +30,6 @@ import com.sfs.metahive.web.model.DefinitionFilter;
 @RooJavaBean
 @RooEntity(finders = { "findDefinitionsByNameLike" })
 public class Definition {
-
-	private static Logger logger = Logger.getLogger(Definition.class);
 	
 	/** The name. */
 	@NotNull
@@ -83,10 +80,19 @@ public class Definition {
 	@Enumerated(EnumType.STRING)
 	private Applicability applicability;
 	
-	/** The related definitions. */
+	/** The summary definition. */
+	@ManyToOne
+	private Definition summaryDefinition;
+		
+	/** The summarised definitions. */
+	@OrderBy("name ASC")
+	@OneToMany(mappedBy = "summaryDefinition")
+	private List<Definition> summarisedDefinitions = new ArrayList<Definition>();	
+
+	/** The calculated definitions. */
 	@OrderBy("name ASC")
 	@ManyToMany
-	private List<Definition> relatedDefinitions = new ArrayList<Definition>();
+	private List<Definition> calculatedDefinitions = new ArrayList<Definition>();
 		
 	/** The comments. */
 	@OrderBy("created ASC")
@@ -121,19 +127,29 @@ public class Definition {
 	}
 
 	/**
-	 * Gets the related definitions.
+	 * Gets the calculated definitions.
 	 *
-	 * @return the related definitions
+	 * @return the calculated definitions
 	 */
-	public final List<Definition> getRelatedDefinitions() {
-		if (this.relatedDefinitions == null) {
-			this.relatedDefinitions = new ArrayList<Definition>();
+	public final List<Definition> getCalculatedDefinitions() {
+		if (this.calculatedDefinitions == null) {
+			this.calculatedDefinitions = new ArrayList<Definition>();
 		}
-		if (this.definitionType == DefinitionType.STANDARD 
-				&& this.relatedDefinitions.size() > 0) {
-			this.relatedDefinitions = new ArrayList<Definition>();
+		if (this.definitionType != DefinitionType.CALCULATED 
+				&& this.calculatedDefinitions.size() > 0) {
+			this.calculatedDefinitions = new ArrayList<Definition>();
 		}
-		return this.relatedDefinitions;
+		return this.calculatedDefinitions;
+	}
+
+	/**
+	 * Adds a summarised definition.
+	 * 
+	 * @param definition the definition
+	 */
+	public final void addSummarisedDefinition(Definition definition) {
+		definition.setSummaryDefinition(this);
+		getSummarisedDefinitions().add(definition);
 	}
 	
 	/**
@@ -396,33 +412,52 @@ public class Definition {
 		
 		if (definition != null) {
 			StringBuffer where = new StringBuffer();				
-						
-			if (definition.getRelatedDefinitions() != null) {
-				for (Definition def : definition.getRelatedDefinitions()) {
-					if (where.length() > 0) {
-						where.append(" AND ");
-					}
-					where.append("d.id != ");
-					where.append(def.getId());
-				}
-				if (where.length() > 0) {
-					where.insert(0, "(");
-					where.append(")");
-				}
+			
+			List<Definition> defs = new ArrayList<Definition>();
+			
+			if (definition.getDefinitionType() == DefinitionType.CALCULATED) {
+				defs = definition.getCalculatedDefinitions();
 			}
-
-			logger.error("Definition type: " + definition.getDefinitionType());
+			if (definition.getDefinitionType() == DefinitionType.SUMMARY) {
+				defs = definition.getSummarisedDefinitions();
+			}
+			
+			for (Definition def : defs) {
+				if (where.length() > 0) {
+					where.append(" AND ");
+				}
+				where.append("d.id != ");
+				where.append(def.getId());
+			}
+			if (where.length() > 0) {
+				where.insert(0, "(");
+				where.append(")");
+			}
+			
+			if (definition.getDefinitionType() == DefinitionType.CALCULATED) {
+				if (where.length() > 0) {
+					where.append(" AND ");
+				}
+				where.append("(d.dataType = :dataType1 OR d.dataType = :dataType2");
+				where.append(" OR d.dataType = :dataType3)");
+				
+				variables.put("dataType1", DataType.TYPE_CURRENCY);
+				variables.put("dataType2", DataType.TYPE_NUMBER);
+				variables.put("dataType3", DataType.TYPE_PERCENTAGE);					
+			}
+			
+			if (definition.getDefinitionType() == DefinitionType.SUMMARY) {
+				if (where.length() > 0) {
+					where.append(" AND ");
+				}
+				where.append("d.definitionType != :definitionType");
+				where.append(" AND d.summaryDefinition is null");
+				
+				variables.put("definitionType", DefinitionType.SUMMARY);
+			}
+			
 			if (definition.getDefinitionType() == DefinitionType.CALCULATED
 					|| definition.getDefinitionType() == DefinitionType.SUMMARY) {
-				
-				if (definition.getDefinitionType() == DefinitionType.SUMMARY) {
-					if (where.length() > 0) {
-						where.append(" AND ");
-					}
-					where.append("d.definitionType != :definitionType");
-					variables.put("definitionType", DefinitionType.SUMMARY);
-				}
-				
 				// Load all of the definitions, less the definitions already associated
 				sql.append("SELECT d FROM Definition d");
 				
@@ -435,12 +470,9 @@ public class Definition {
 		}
 		
 		if (sql.length() > 0) {
-			logger.error("SQL: " + sql.toString());
 			TypedQuery<Definition> q = entityManager().createQuery(sql.toString(),
 					Definition.class);
 			for (String variable : variables.keySet()) {
-				logger.error("Parameter: " + variable);
-				logger.error("Value: " + variables.get(variable));
 				q.setParameter(variable, variables.get(variable));
 			}			
 			relatedDefinitions = q.getResultList();

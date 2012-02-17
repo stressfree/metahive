@@ -6,25 +6,24 @@
     <form:update id="fu_com_sfs_metahive_web_model_DefinitionForm" modelAttribute="definition" path="/definitions" versionField="Version" cancelAction="${cancelAction}" z="user-managed">
         <field:input field="name" id="c_com_sfs_metahive_web_model_DefinitionForm_name" required="true" z="user-managed"/>
 		<field:select field="definitionType" id="c_com_sfs_metahive_web_model_DefinitionForm_definitionType" path="/definitionType" items="${definitiontypes}" required="true" z="user-managed"/>
+       	<field:select field="dataType" id="c_com_sfs_metahive_web_model_DefinitionForm_dataType" path="/dataType" items="${datatypes}" required="true" z="user-managed"/>
        	       	  
        	<c:if test="${definition.definitionType == 'STANDARD'}">
        		<c:set var="calculationFieldClass" value="hidden" />
        		<c:set var="relatedDefinitionsSelectorClass" value="hidden" />
        	</c:if>     	
        	<c:if test="${definition.definitionType == 'CALCULATED'}">
-       		<c:set var="calculationDefinitionType" value="true" />       	
-       		<c:set var="dataTypeSelectorClass" value="hidden" />
+       		<c:set var="calculationDefinitionType" value="true" />
        		<c:set var="keyValueGeneratorSelectorClass" value="hidden" />
        	</c:if>
        	<c:if test="${definition.definitionType == 'SUMMARY'}">
        		<c:set var="calculationFieldClass" value="hidden" />
-       		<c:set var="dataTypeSelectorClass" value="hidden" />
        	</c:if>
        		       	
        	<div id="relatedDefinitionsSelector" class="${relatedDefinitionsSelectorClass}">
        		<div class="field field-select">
-       			<label for="relatedDefinitionSelector_id">Definitions: </label>
-       			<a id="addRelatedDefinition">Add</a>
+       			<label for="relatedDefinitionSelector_id"><spring:message code="label_com_sfs_metahive_model_definition_plural" />: </label>
+       			<a id="addRelatedDefinition"><spring:message code="metahive_button_add" /></a>
        		</div>
        		<ul id="relatedDefinitionsList">
        			<c:forEach items="${definition.relatedDefinitions}" var="relatedDefinition">
@@ -39,9 +38,6 @@
        		</ul>
        	</div>
        	
-       	<div id="definitionDataTypeSelector" class="${dataTypeSelectorClass}">
-	       	<field:select field="dataType" id="c_com_sfs_metahive_web_model_DefinitionForm_dataType" path="/dataType" items="${datatypes}" required="true" z="user-managed"/>
-       	</div>
        	<div id="definitionCalculationField" class="${calculationFieldClass}">
        		<field:input field="calculation" id="c_com_sfs_metahive_web_model_DefinitionForm_calculation" z="user-managed"/>
        	</div>

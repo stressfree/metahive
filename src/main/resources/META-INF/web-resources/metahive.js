@@ -66,18 +66,15 @@ function definitionTypeChange() {
 	if (selected == 'STANDARD') {
     	dojo.addClass("relatedDefinitionsSelector", "hidden");
     	dojo.addClass("definitionCalculationField", "hidden");
-		dojo.removeClass("definitionDataTypeSelector", "hidden");
     	dojo.removeClass("definitionKeyValueGeneratorSelector", "hidden");
 	}
 	if (selected == 'CALCULATED') {
-		dojo.addClass("definitionDataTypeSelector", "hidden");
     	dojo.addClass("definitionKeyValueGeneratorSelector", "hidden");
     	dojo.removeClass("relatedDefinitionsSelector", "hidden");
     	dojo.removeClass("definitionCalculationField", "hidden");
     	newUrl = jsonUrl + "&type=CALCULATED";
 	}
 	if (selected == 'SUMMARY') {
-		dojo.addClass("definitionDataTypeSelector", "hidden");
     	dojo.addClass("definitionCalculationField", "hidden");
     	dojo.removeClass("definitionKeyValueGeneratorSelector", "hidden");
     	dojo.removeClass("relatedDefinitionsSelector", "hidden");

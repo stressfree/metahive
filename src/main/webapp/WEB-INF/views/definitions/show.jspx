@@ -37,15 +37,26 @@
     </div>
     
     <div class="details">
+    	<c:if test="${not empty definition.summaryDefinition}">
+    		<spring:url value="/definitions/${definition.summaryDefinition.id}" var="definitionLink" />
+    		<div class="summaryDefinition">
+    			<p>
+    				<strong><spring:message code="label_com_sfs_metahive_model_definition_summarydefinition" />:</strong>
+    				<c:out value=" " /><a href="${definitionLink}"><c:out value="${definition.summaryDefinition.name}" /></a>
+    			</p>
+    		</div>
+    	</c:if>
     	<c:if test="${definition.definitionType ne 'STANDARD'}">
     		<div class="relatedDefinitions">
-    			<spring:message code="metahive_relateddefinitions_summary" var="relatedDefinitionTitle" />
+    			<spring:message code="label_com_sfs_metahive_model_definition_summariseddefinitions" var="relatedDefinitionTitle" />
+    			<c:set var="relatedDefinitions" value="${definition.summarisedDefinitions}" />
     			<c:if test="${definition.definitionType eq 'CALCULATED'}">
-    				<spring:message code="metahive_relateddefinitions_calculated" var="relatedDefinitionTitle" />
+    				<spring:message code="label_com_sfs_metahive_model_definition_calculateddefinitions" var="relatedDefinitionTitle" />
+    				<c:set var="relatedDefinitions" value="${definition.calculatedDefinitions}" />
     			</c:if>    			
     			<strong><c:out value="${relatedDefinitionTitle}" />:</strong>
 				<ul>
-    				<c:forEach items="${definition.relatedDefinitions}" var="relatedDefinition">
+    				<c:forEach items="${relatedDefinitions}" var="relatedDefinition">
     					<spring:url value="/definitions/${relatedDefinition.id}" var="definitionLink" />
     					<li>
     						<a href="${definitionLink}"><c:out value="${relatedDefinition.name}" /></a>

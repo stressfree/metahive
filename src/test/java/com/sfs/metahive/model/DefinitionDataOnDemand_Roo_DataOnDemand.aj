@@ -43,6 +43,7 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
         setKeyValueAccess(obj, index);
         setKeyValueGenerator(obj, index);
         setName(obj, index);
+        setSummaryDefinition(obj, index);
         return obj;
     }
     
@@ -87,6 +88,11 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
             name = new Random().nextInt(10) + name.substring(1, 100);
         }
         obj.setName(name);
+    }
+    
+    public void DefinitionDataOnDemand.setSummaryDefinition(Definition obj, int index) {
+        Definition summaryDefinition = obj;
+        obj.setSummaryDefinition(summaryDefinition);
     }
     
     public Definition DefinitionDataOnDemand.getSpecificDefinition(int index) {

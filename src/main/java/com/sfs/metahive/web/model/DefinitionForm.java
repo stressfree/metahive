@@ -124,13 +124,22 @@ public class DefinitionForm extends BackingForm {
 			definitionForm.setId(definition.getId());
 			definitionForm.setName(trim(definition.getName()));
 			definitionForm.setDefinitionType(definition.getDefinitionType());
-			definitionForm.setRelatedDefinitions(definition.getRelatedDefinitions());
 			definitionForm.setCategory(definition.getCategory());
 			definitionForm.setApplicability(definition.getApplicability());
 			definitionForm.setDataType(definition.getDataType());
 			definitionForm.setCalculation(definition.getCalculation());
 			definitionForm.setKeyValueGenerator(definition.getKeyValueGenerator());
 			definitionForm.setKeyValueAccess(definition.getKeyValueAccess());
+			
+			if (definition.getDefinitionType() == DefinitionType.CALCULATED) {
+				definitionForm.setRelatedDefinitions(
+						definition.getCalculatedDefinitions());				
+			}
+			if (definition.getDefinitionType() == DefinitionType.SUMMARY) {
+				definitionForm.setRelatedDefinitions(
+						definition.getSummarisedDefinitions());				
+			}
+			
 			
 			if (definition.getDescription() != null) {
 				Description dsc = definition.getDescription();
@@ -184,14 +193,22 @@ public class DefinitionForm extends BackingForm {
 	        
 			definition.setName(trim(this.getName()));
 	        definition.setDefinitionType(this.getDefinitionType());
-	        definition.setRelatedDefinitions(this.getRelatedDefinitions());
 	        definition.setDataType(this.getDataType());
 	        definition.setCategory(this.getCategory());
 			definition.setCalculation(this.getCalculation());
 	        definition.setKeyValueGenerator(this.getKeyValueGenerator());
 	        definition.setKeyValueAccess(this.getKeyValueAccess());
 	        definition.setApplicability(this.getApplicability());
-
+	        
+	        if (this.getDefinitionType() == DefinitionType.CALCULATED) {
+	        	definition.setCalculatedDefinitions(this.getRelatedDefinitions());
+	        }
+	        if (this.getDefinitionType() == DefinitionType.SUMMARY) {
+	        	for (Definition def : this.getRelatedDefinitions()) {
+	        		definition.addSummarisedDefinition(def);
+	        	}
+	        }
+	        
 	        description.setUnitOfMeasure(this.getUnitOfMeasure());
 	        description.setDescription(trim(this.getDescription()));
 	        description.setExampleValues(trim(this.getExampleValues()));

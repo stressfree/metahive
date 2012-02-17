@@ -94,8 +94,24 @@ privileged aspect Definition_Roo_JavaBean {
         this.applicability = applicability;
     }
     
-    public void Definition.setRelatedDefinitions(List<Definition> relatedDefinitions) {
-        this.relatedDefinitions = relatedDefinitions;
+    public Definition Definition.getSummaryDefinition() {
+        return this.summaryDefinition;
+    }
+    
+    public void Definition.setSummaryDefinition(Definition summaryDefinition) {
+        this.summaryDefinition = summaryDefinition;
+    }
+    
+    public List<Definition> Definition.getSummarisedDefinitions() {
+        return this.summarisedDefinitions;
+    }
+    
+    public void Definition.setSummarisedDefinitions(List<Definition> summarisedDefinitions) {
+        this.summarisedDefinitions = summarisedDefinitions;
+    }
+    
+    public void Definition.setCalculatedDefinitions(List<Definition> calculatedDefinitions) {
+        this.calculatedDefinitions = calculatedDefinitions;
     }
     
     public List<Comment> Definition.getComments() {
