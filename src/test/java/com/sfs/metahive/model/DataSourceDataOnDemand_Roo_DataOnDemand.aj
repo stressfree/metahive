@@ -7,7 +7,6 @@ import com.sfs.metahive.model.ConditionOfUse;
 import com.sfs.metahive.model.ConditionOfUseDataOnDemand;
 import com.sfs.metahive.model.DataSource;
 import com.sfs.metahive.model.Definition;
-import com.sfs.metahive.model.DefinitionDataOnDemand;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.OrganisationDataOnDemand;
 import java.lang.String;
@@ -34,9 +33,6 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     
     @Autowired
     private ConditionOfUseDataOnDemand DataSourceDataOnDemand.conditionOfUseDataOnDemand;
-    
-    @Autowired
-    private DefinitionDataOnDemand DataSourceDataOnDemand.definitionDataOnDemand;
     
     @Autowired
     private OrganisationDataOnDemand DataSourceDataOnDemand.organisationDataOnDemand;
@@ -68,7 +64,7 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     }
     
     public void DataSourceDataOnDemand.setDefinition(DataSource obj, int index) {
-        Definition definition = definitionDataOnDemand.getRandomDefinition();
+        Definition definition = null;
         obj.setDefinition(definition);
     }
     

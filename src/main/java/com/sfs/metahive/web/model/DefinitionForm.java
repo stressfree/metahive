@@ -50,6 +50,9 @@ public class DefinitionForm extends BackingForm {
 	/** The data type. */
 	@NotNull
 	private DataType dataType = DataType.TYPE_STRING;
+
+	/** The calculation. */
+	private String calculation;
 	
 	/** The key value generator. */
 	@NotNull
@@ -125,6 +128,7 @@ public class DefinitionForm extends BackingForm {
 			definitionForm.setCategory(definition.getCategory());
 			definitionForm.setApplicability(definition.getApplicability());
 			definitionForm.setDataType(definition.getDataType());
+			definitionForm.setCalculation(definition.getCalculation());
 			definitionForm.setKeyValueGenerator(definition.getKeyValueGenerator());
 			definitionForm.setKeyValueAccess(definition.getKeyValueAccess());
 			
@@ -183,6 +187,7 @@ public class DefinitionForm extends BackingForm {
 	        definition.setRelatedDefinitions(this.getRelatedDefinitions());
 	        definition.setDataType(this.getDataType());
 	        definition.setCategory(this.getCategory());
+			definition.setCalculation(this.getCalculation());
 	        definition.setKeyValueGenerator(this.getKeyValueGenerator());
 	        definition.setKeyValueAccess(this.getKeyValueAccess());
 	        definition.setApplicability(this.getApplicability());

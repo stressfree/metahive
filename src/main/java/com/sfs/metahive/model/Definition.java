@@ -50,6 +50,9 @@ public class Definition {
 	@Enumerated(EnumType.STRING)
 	private DataType dataType;
 	
+	/** The calculation. */
+	private String calculation;
+	
 	/** The key value generator. */
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -81,14 +84,28 @@ public class Definition {
 	private Applicability applicability;
 	
 	/** The related definitions. */
+	@OrderBy("name ASC")
 	@ManyToMany
 	private List<Definition> relatedDefinitions = new ArrayList<Definition>();
-
+		
 	/** The comments. */
 	@OrderBy("created ASC")
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
 	private List<Comment> comments = new ArrayList<Comment>();
 
+	
+	/**
+	 * Gets the calculation.
+	 *
+	 * @return the calculation
+	 */
+	public final String getCalculation() {
+		if (this.definitionType != DefinitionType.CALCULATED) {
+			this.calculation = "";
+		}
+		return this.calculation;
+	}
+	
 	/**
 	 * Gets the description.
 	 * 
@@ -373,24 +390,47 @@ public class Definition {
 			final Definition definition) {
 		
 		List<Definition> relatedDefinitions = new ArrayList<Definition>();
-		
-		StringBuffer sql = new StringBuffer();
 		HashMap<String, Object> variables = new HashMap<String, Object>();
 		
-		if (definition != null) {	
-			logger.error("Definition type: " + definition.getDefinitionType());
-			if (definition.getDefinitionType() == DefinitionType.CALCULATED) {
-				// Load all of the definitions, less the definitions already associated
-				sql.append("SELECT d FROM Definition d");	
-				sql.append(" ORDER BY d.name ASC");
+		StringBuffer sql = new StringBuffer();
+		
+		if (definition != null) {
+			StringBuffer where = new StringBuffer();				
+						
+			if (definition.getRelatedDefinitions() != null) {
+				for (Definition def : definition.getRelatedDefinitions()) {
+					if (where.length() > 0) {
+						where.append(" AND ");
+					}
+					where.append("d.id != ");
+					where.append(def.getId());
+				}
+				if (where.length() > 0) {
+					where.insert(0, "(");
+					where.append(")");
+				}
 			}
-			if (definition.getDefinitionType() == DefinitionType.SUMMARY) {
-				// Load only the standard definitions not associated with another summary
-				sql.append("SELECT d FROM Definition d");
-				sql.append(" WHERE d.definitionType = :definitionType");
-				sql.append(" ORDER BY d.name ASC");
+
+			logger.error("Definition type: " + definition.getDefinitionType());
+			if (definition.getDefinitionType() == DefinitionType.CALCULATED
+					|| definition.getDefinitionType() == DefinitionType.SUMMARY) {
 				
-				variables.put("definitionType", DefinitionType.STANDARD);
+				if (definition.getDefinitionType() == DefinitionType.SUMMARY) {
+					if (where.length() > 0) {
+						where.append(" AND ");
+					}
+					where.append("d.definitionType != :definitionType");
+					variables.put("definitionType", DefinitionType.SUMMARY);
+				}
+				
+				// Load all of the definitions, less the definitions already associated
+				sql.append("SELECT d FROM Definition d");
+				
+				if (where.length() > 0) {
+					sql.append(" WHERE ");
+					sql.append(where.toString());
+				}
+				sql.append(" ORDER BY d.name ASC");
 			}
 		}
 		

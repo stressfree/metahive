@@ -6,7 +6,6 @@ package com.sfs.metahive.model;
 import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.Definition;
-import com.sfs.metahive.model.DefinitionDataOnDemand;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.PersonDataOnDemand;
 import java.lang.Long;
@@ -31,9 +30,6 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
     private Random CommentDataOnDemand.rnd = new SecureRandom();
     
     private List<Comment> CommentDataOnDemand.data;
-    
-    @Autowired
-    private DefinitionDataOnDemand CommentDataOnDemand.definitionDataOnDemand;
     
     @Autowired
     private PersonDataOnDemand CommentDataOnDemand.personDataOnDemand;
@@ -66,7 +62,7 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
     }
     
     public void CommentDataOnDemand.setDefinition(Comment obj, int index) {
-        Definition definition = definitionDataOnDemand.getRandomDefinition();
+        Definition definition = null;
         obj.setDefinition(definition);
     }
     

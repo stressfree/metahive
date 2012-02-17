@@ -42,6 +42,10 @@ privileged aspect Definition_Roo_JavaBean {
         this.dataType = dataType;
     }
     
+    public void Definition.setCalculation(String calculation) {
+        this.calculation = calculation;
+    }
+    
     public KeyValueGenerator Definition.getKeyValueGenerator() {
         return this.keyValueGenerator;
     }

@@ -4,7 +4,6 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Definition;
-import com.sfs.metahive.model.DefinitionDataOnDemand;
 import com.sfs.metahive.model.Description;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.PersonDataOnDemand;
@@ -31,9 +30,6 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
     private List<Description> DescriptionDataOnDemand.data;
     
     @Autowired
-    private DefinitionDataOnDemand DescriptionDataOnDemand.definitionDataOnDemand;
-    
-    @Autowired
     private PersonDataOnDemand DescriptionDataOnDemand.personDataOnDemand;
     
     public Description DescriptionDataOnDemand.getNewTransientDescription(int index) {
@@ -53,7 +49,7 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
     }
     
     public void DescriptionDataOnDemand.setDefinition(Description obj, int index) {
-        Definition definition = definitionDataOnDemand.getRandomDefinition();
+        Definition definition = null;
         obj.setDefinition(definition);
     }
     

@@ -14,6 +14,10 @@
     </div>
     
     <div class="metadata">
+    	<div class="definitiontype">
+    		<h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_definitiontype" />:</h4>
+    		<spring:message code="${definition.definitionType.messageKey}" />
+    	</div>    	
     	<div class="categories">
 	    	<spring:url value="/definitions?category=${definition.category.name}" var="categoryLink" />
     		<h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_category" />:</h4>
@@ -33,14 +37,43 @@
     </div>
     
     <div class="details">
+    	<c:if test="${definition.definitionType ne 'STANDARD'}">
+    		<div class="relatedDefinitions">
+    			<spring:message code="metahive_relateddefinitions_summary" var="relatedDefinitionTitle" />
+    			<c:if test="${definition.definitionType eq 'CALCULATED'}">
+    				<spring:message code="metahive_relateddefinitions_calculated" var="relatedDefinitionTitle" />
+    			</c:if>    			
+    			<strong><c:out value="${relatedDefinitionTitle}" />:</strong>
+				<ul>
+    				<c:forEach items="${definition.relatedDefinitions}" var="relatedDefinition">
+    					<spring:url value="/definitions/${relatedDefinition.id}" var="definitionLink" />
+    					<li>
+    						<a href="${definitionLink}"><c:out value="${relatedDefinition.name}" /></a>
+    						<c:if test="${definition.definitionType eq 'CALCULATED'}">
+    							<c:out value=" " />
+    							<span class="variable">D<c:out value="${relatedDefinition.id}" /></span>
+    						</c:if>
+    					</li>
+    				</c:forEach>
+    			</ul>
+    		</div>
+    	</c:if>    	
+    	<c:if test="${definition.definitionType eq 'CALCULATED'}">
+    		<div class="calculation">
+    			<p>
+    				<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_calculation" />:</strong>
+    				<c:out value=" " /><c:out value="${definition.calculation}" />
+    			</p>
+    		</div>
+    	</c:if>
     	<div class="keyvalue">
     		<p>
-    		<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvaluegenerator" />:</strong>
-    		<c:out value=" " /><spring:message code="${definition.keyValueGenerator.messageKey}" />
+    			<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvaluegenerator" />:</strong>
+    			<c:out value=" " /><spring:message code="${definition.keyValueGenerator.messageKey}" />
 			</p>
 			<p>
-    		<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvalueaccess" />:</strong>
-    		<c:out value=" " /><spring:message code="${definition.keyValueAccess.messageKey}" />
+    			<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvalueaccess" />:</strong>
+    			<c:out value=" " /><spring:message code="${definition.keyValueAccess.messageKey}" />
     		</p>
     	</div>
     	<div class="description"><c:out value="${definition.description.description}" escapeXml="false" /></div>

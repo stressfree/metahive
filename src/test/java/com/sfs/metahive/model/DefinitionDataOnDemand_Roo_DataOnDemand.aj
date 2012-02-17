@@ -36,6 +36,7 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     public Definition DefinitionDataOnDemand.getNewTransientDefinition(int index) {
         Definition obj = new Definition();
         setApplicability(obj, index);
+        setCalculation(obj, index);
         setCategory(obj, index);
         setDataType(obj, index);
         setDefinitionType(obj, index);
@@ -48,6 +49,11 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     public void DefinitionDataOnDemand.setApplicability(Definition obj, int index) {
         Applicability applicability = Applicability.class.getEnumConstants()[0];
         obj.setApplicability(applicability);
+    }
+    
+    public void DefinitionDataOnDemand.setCalculation(Definition obj, int index) {
+        String calculation = "calculation_" + index;
+        obj.setCalculation(calculation);
     }
     
     public void DefinitionDataOnDemand.setCategory(Definition obj, int index) {

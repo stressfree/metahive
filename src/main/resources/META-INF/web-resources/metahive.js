@@ -39,22 +39,8 @@ function displayFlashMessage() {
 	}, 7000);
 }
 
-function definitionTypeChange() {
-	var selected = this.attr('value');        	
-	if (selected == 'STANDARD') {
-		dojo.removeClass("definitionDataTypeSelector", "hidden");
-    	dojo.removeClass("definitionKeyValueGeneratorSelector", "hidden");
-	}
-	if (selected == 'CALCULATED') {
-		dojo.addClass("definitionDataTypeSelector", "hidden");
-    	dojo.addClass("definitionKeyValueGeneratorSelector", "hidden");
-	}
-	if (selected == 'SUMMARY') {
-		dojo.addClass("definitionDataTypeSelector", "hidden");
-    	dojo.removeClass("definitionKeyValueGeneratorSelector", "hidden");
-	}	
-}
 
+// Definition functions
 function definitionDataTypeChange() {
 	var selected = keyValueGens[this.attr('value')];
 	var nids = new Array();
@@ -65,4 +51,89 @@ function definitionDataTypeChange() {
 	var keyValueSelect = dijit.byId('_keyValueGenerator_id');
 	keyValueSelect.removeOption(keyValueSelect.getOptions());
 	keyValueSelect.addOption(nids);	
+}
+
+
+function removeElement(e) {    	
+	node = dojo.query(e.target).closest('li')[0];
+	node.parentNode.removeChild(node);
+}
+
+function definitionTypeChange() {
+	var selected = this.attr('value');
+	var newUrl = jsonUrl + "&type=STANDARD";
+	
+	if (selected == 'STANDARD') {
+    	dojo.addClass("relatedDefinitionsSelector", "hidden");
+    	dojo.addClass("definitionCalculationField", "hidden");
+		dojo.removeClass("definitionDataTypeSelector", "hidden");
+    	dojo.removeClass("definitionKeyValueGeneratorSelector", "hidden");
+	}
+	if (selected == 'CALCULATED') {
+		dojo.addClass("definitionDataTypeSelector", "hidden");
+    	dojo.addClass("definitionKeyValueGeneratorSelector", "hidden");
+    	dojo.removeClass("relatedDefinitionsSelector", "hidden");
+    	dojo.removeClass("definitionCalculationField", "hidden");
+    	newUrl = jsonUrl + "&type=CALCULATED";
+	}
+	if (selected == 'SUMMARY') {
+		dojo.addClass("definitionDataTypeSelector", "hidden");
+    	dojo.addClass("definitionCalculationField", "hidden");
+    	dojo.removeClass("definitionKeyValueGeneratorSelector", "hidden");
+    	dojo.removeClass("relatedDefinitionsSelector", "hidden");
+    	newUrl = jsonUrl + "&type=SUMMARY";
+	}    	
+	buildFilteringSelect(newUrl);    			
+	dojo.query('#relatedDefinitionsList').empty(); 
+}
+
+function buildFilteringSelect(jsonUrl) {
+	
+	if (dijit.byId("relatedDefinitionSelector_id")) {
+        dijit.byId("relatedDefinitionSelector_id").destroy();
+    }
+	dojo.query('#relatedDefinitionsSelector label').forEach(function(node, index, arr) {
+		dojo.place(dojo.create('div', { id: 'relatedDefinitionSelectorDiv' }), node, 'after');
+	});
+    
+    new dijit.form.FilteringSelect({
+        id: "relatedDefinitionSelector_id",
+        name: "relatedDefinitionSelector",
+        store: new dojo.data.ItemFileWriteStore({ url: jsonUrl })
+	}, "relatedDefinitionSelectorDiv");
+    
+    dijit.byId('relatedDefinitionSelector_id').required = false;    	
+}
+
+function addRelatedDefinition() {
+	var type = dijit.byId('_definitionType_id').get('value');
+	var definitionWidget = dijit.byId('relatedDefinitionSelector_id');
+	var selected = definitionWidget.get('value');
+	var name = definitionWidget.attr('displayedValue');
+	
+	if (selected != '' && name != '') {
+		var innerHtml = "<a class='removeItem'>-</a> " + name;        		
+		if (type == 'CALCULATED') {
+			innerHtml += " <span class='variable'>D";
+			innerHtml += selected + "</span>";
+		}        		
+		innerHtml += "<input type='hidden' name='relatedDefinitions' value='" 
+				+ selected + "' />";
+	
+		dojo.query(dojo.create('li', { innerHTML: innerHtml }))
+			.forEach(function(node, index, arr) {
+				dojo.query('> a', node).onclick(function(e){ removeElement(e); });
+			}).place("#relatedDefinitionsList");
+	
+		var storeData = definitionWidget.store;
+		
+		storeData.fetch({ query: { id: selected }, onComplete: function (items, request) {
+			for (var i = 0; i < items.length; i++) {
+				storeData.deleteItem(items[i]);
+	    	}
+		}});
+
+		definitionWidget.set('value', '');
+		definitionWidget.set('displayedValue', '');
+	}
 }

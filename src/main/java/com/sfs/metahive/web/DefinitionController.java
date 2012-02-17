@@ -2,6 +2,7 @@ package com.sfs.metahive.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,6 +21,10 @@ import com.sfs.metahive.model.Applicability;
 import com.sfs.metahive.web.model.CommentForm;
 import com.sfs.metahive.web.model.DefinitionFilter;
 import com.sfs.metahive.web.model.DefinitionForm;
+import com.sfs.metahive.web.model.DefinitionJson;
+import com.sfs.metahive.web.model.RelatedDefinitionJson;
+
+import flexjson.JSONSerializer;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,6 +36,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -97,8 +103,6 @@ public class DefinitionController extends BaseController {
 	@RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model uiModel) {
         uiModel.addAttribute("definition", new DefinitionForm());
-        uiModel.addAttribute("relatedDefinitions", 
-        		Definition.findPotentialRelatedDefinitions(new Definition()));
         return "definitions/create";
     }
     
@@ -209,8 +213,6 @@ public class DefinitionController extends BaseController {
 		DefinitionForm definitionForm = DefinitionForm.parseDefinition(definition);
 		
         uiModel.addAttribute("definition", definitionForm);
-		uiModel.addAttribute("relatedDefinitions", 
-				Definition.findPotentialRelatedDefinitions(definition));
                 
         return "definitions/update";
     }
@@ -295,6 +297,48 @@ public class DefinitionController extends BaseController {
         
         return "definitions/list";
     }
+
+	@RequestMapping(value = "/relatedDefinitions", method = RequestMethod.GET)
+    public @ResponseBody String relatedDefinitions(
+    		@RequestParam(value= "id", required = false) Long id,
+    		@RequestParam(value = "type", required = false) String type,
+    		Model uiModel, HttpServletRequest request) {
+		
+		Definition definition = new Definition();
+		if (id != null && id > 0l) {
+			definition = Definition.findDefinition(id);
+		}
+		if (definition == null) {
+			definition = new Definition();
+		}
+		
+		if (StringUtils.equalsIgnoreCase(type, "STANDARD")) {
+			definition.setDefinitionType(DefinitionType.STANDARD);
+		}
+		if (StringUtils.equalsIgnoreCase(type, "CALCULATED")) {
+			definition.setDefinitionType(DefinitionType.CALCULATED);
+		}
+		if (StringUtils.equalsIgnoreCase(type, "SUMMARY")) {
+			definition.setDefinitionType(DefinitionType.SUMMARY);
+		}
+		
+		List<Definition> definitions = Definition
+				.findPotentialRelatedDefinitions(definition);
+        
+        RelatedDefinitionJson json = new RelatedDefinitionJson();
+        json.setIdentifier("id");
+        json.setLabel("name");
+        
+        for (Definition def : definitions) {
+        	DefinitionJson defJ = new DefinitionJson();
+        	defJ.setId(def.getId());
+        	defJ.setName(def.getName());
+        	
+        	json.addDefinition(defJ);
+        }
+        
+        return new JSONSerializer().exclude("*.class").include("items").serialize(json);
+	}
 	
 	/**
      * Populate categories.

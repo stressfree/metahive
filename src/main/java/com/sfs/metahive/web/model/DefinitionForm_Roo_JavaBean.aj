@@ -63,6 +63,14 @@ privileged aspect DefinitionForm_Roo_JavaBean {
         this.dataType = dataType;
     }
     
+    public String DefinitionForm.getCalculation() {
+        return this.calculation;
+    }
+    
+    public void DefinitionForm.setCalculation(String calculation) {
+        this.calculation = calculation;
+    }
+    
     public KeyValueGenerator DefinitionForm.getKeyValueGenerator() {
         return this.keyValueGenerator;
     }
