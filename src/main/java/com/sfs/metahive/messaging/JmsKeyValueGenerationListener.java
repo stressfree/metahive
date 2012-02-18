@@ -3,6 +3,7 @@ package com.sfs.metahive.messaging;
 import org.apache.log4j.Logger;
 
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.DefinitionType;
 import com.sfs.metahive.model.KeyValue;
 
 
@@ -40,8 +41,11 @@ public class JmsKeyValueGenerationListener {
         	
         	Definition definition = Definition.findDefinition(req.getDefinitionId());
         	
-        	KeyValue.calculate(definition, req.getPrimaryRecordId(), 
-        			req.getSecondaryRecordId(), req.getTertiaryRecordId());
+        	if (definition != null && definition.getDefinitionType() 
+        			== DefinitionType.STANDARD) {        	
+        		KeyValue.calculate(definition, req.getPrimaryRecordId(), 
+        				req.getSecondaryRecordId(), req.getTertiaryRecordId());
+        	}
         }
     }
 }

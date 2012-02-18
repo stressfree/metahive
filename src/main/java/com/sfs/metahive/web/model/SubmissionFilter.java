@@ -24,7 +24,7 @@ public class SubmissionFilter extends BaseFilter {
      */
     public String getQueryString() {
     	
-        StringBuffer queryString = new StringBuffer();
+        StringBuilder queryString = new StringBuilder();
         
         if (personId != null && personId > 0) {
         	queryString.append("&personId=");

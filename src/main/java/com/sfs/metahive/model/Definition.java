@@ -207,19 +207,19 @@ public class Definition {
 	 * @return the map
 	 */
 	public static Map<String, List<Definition>> findGroupedDefinitions() {			
-		return groupDefinitions(Definition.findAllDefinitions());
+		return groupDefinitions(Definition.findTopLevelDefinitions());
 	}	
 
 	/**
 	 * A helper function to load the definitions that an organisation 
-	 * has contributed data for, grouped by their category. 
-	 * The resulting map excludes the unique identifier definition(s).
+	 * has contributed data for, limited to standard definitions and grouped by
+	 * heir category. The resulting map excludes the unique identifier definition(s).
 	 *
 	 * @return the map
 	 */
-	public static Map<String, List<Definition>> findGroupedDefinitions(
+	public static Map<String, List<Definition>> findGroupedSubmissionDefinitions(
 			final Organisation organisation) {		
-		return groupDefinitions(Definition.findDefinitionEntries(organisation));
+		return groupDefinitions(Definition.findSubmissionDefinitions(organisation));
 	}
 	
 	/**
@@ -275,24 +275,42 @@ public class Definition {
 	}
 
 	/**
+	 * Find the top level definitions (i.e. those that are not summarised.
+	 * 
+	 * @return the list of definitions
+	 */
+	public static List<Definition> findTopLevelDefinitions() {
+
+		StringBuilder sql = new StringBuilder("SELECT d FROM Definition d");
+		sql.append(" WHERE d.summaryDefinition IS NULL ORDER BY d.name ASC");
+
+		TypedQuery<Definition> q = entityManager().createQuery(sql.toString(),
+				Definition.class);
+
+		return q.getResultList();
+	}
+	
+	/**
 	 * Find definitions that have data supplied by the supplied organisation.
 	 * 
 	 * @param organisation the organisation to filter by
 	 * @return the list of definitions
 	 */
-	public static List<Definition> findDefinitionEntries(
+	public static List<Definition> findSubmissionDefinitions(
 			final Organisation organisation) {
 
 		List<Definition> definitions = new ArrayList<Definition>();
 
 		if (organisation != null && organisation.getId() != null) {
 
-			String sql = "SELECT d FROM Definition d"
-					+ " JOIN d.dataSources ds JOIN ds.organisation o"
-					+ " WHERE o.id = :organisationId ORDER BY d.name ASC";
+			StringBuilder sql = new StringBuilder("SELECT d FROM Definition d");
+			sql.append(" JOIN d.dataSources ds JOIN ds.organisation o");
+			sql.append(" WHERE d.definitionType = :definitionType");
+			sql.append(" AND o.id = :organisationId ORDER BY d.name ASC");
 
-			TypedQuery<Definition> q = entityManager().createQuery(sql,
+			TypedQuery<Definition> q = entityManager().createQuery(sql.toString(),
 					Definition.class);
+			q.setParameter("definitionType", DefinitionType.STANDARD);
 			q.setParameter("organisationId", organisation.getId());
 
 			definitions = q.getResultList();
@@ -312,7 +330,7 @@ public class Definition {
 
 		List<Definition> definitions = new ArrayList<Definition>();
 
-		StringBuffer where = new StringBuffer();
+		StringBuilder where = new StringBuilder();
 
 		if (definitionIds != null) {
 			for (String definitionId : definitionIds) {
@@ -333,8 +351,7 @@ public class Definition {
 		}
 
 		if (where.length() > 0) {
-			StringBuffer sql = new StringBuffer(
-					"SELECT d FROM Definition d WHERE ");
+			StringBuilder sql = new StringBuilder("SELECT d FROM Definition d WHERE ");
 			sql.append(where.toString());
 			sql.append(" ORDER BY d.name ASC");
 
@@ -356,7 +373,7 @@ public class Definition {
 			final DefinitionFilter filter, final int firstResult,
 			final int maxResults) {
 
-		StringBuffer sql = new StringBuffer(
+		StringBuilder sql = new StringBuilder(
 				"SELECT d FROM Definition d JOIN d.category c");
 		sql.append(buildWhere(filter));
 		sql.append(" ORDER BY d.name ASC");
@@ -381,7 +398,7 @@ public class Definition {
 	 */
 	public static long countDefinitions(final DefinitionFilter filter) {
 
-		StringBuffer sql = new StringBuffer(
+		StringBuilder sql = new StringBuilder(
 				"SELECT COUNT(d) FROM Definition d JOIN d.category c");
 		sql.append(buildWhere(filter));
 
@@ -408,10 +425,10 @@ public class Definition {
 		List<Definition> relatedDefinitions = new ArrayList<Definition>();
 		HashMap<String, Object> variables = new HashMap<String, Object>();
 		
-		StringBuffer sql = new StringBuffer();
+		StringBuilder sql = new StringBuilder();
 		
 		if (definition != null) {
-			StringBuffer where = new StringBuffer();				
+			StringBuilder where = new StringBuilder();				
 			
 			List<Definition> defs = new ArrayList<Definition>();
 			
@@ -488,7 +505,7 @@ public class Definition {
 	 * @return the string
 	 */
 	private static String buildWhere(final DefinitionFilter filter) {
-		StringBuffer where = new StringBuffer();
+		StringBuilder where = new StringBuilder();
 
 		if (StringUtils.isNotBlank(filter.getName())) {
 			where.append("LOWER(d.name) LIKE LOWER(:name)");

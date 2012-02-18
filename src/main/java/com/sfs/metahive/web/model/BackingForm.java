@@ -15,7 +15,7 @@ public abstract class BackingForm {
 	 */
 	public static final String trim(final String value) {
 				
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
 		if (StringUtils.isNotBlank(value)) {
 			sb.append(StringUtils.strip(value));

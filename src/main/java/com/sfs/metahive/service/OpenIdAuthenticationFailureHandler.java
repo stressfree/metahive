@@ -185,14 +185,14 @@ public class OpenIdAuthenticationFailureHandler implements
 		message.setTo("paintbuoy@gmail.com");
 		message.setFrom("david.harrison@stress-free.co.nz");
 		
-		StringBuffer subject = new StringBuffer();
+		StringBuilder subject = new StringBuilder();
 		subject.append("Metahive: New user '");
 		subject.append(newPerson.getFormattedName());
 		subject.append("' (");
 		subject.append(newPerson.getEmailAddress());
 		subject.append(") registered");
 		
-		StringBuffer body = new StringBuffer();
+		StringBuilder body = new StringBuilder();
 		body.append(newPerson.getFormattedName());
 		body.append(" (");
 		body.append(newPerson.getEmailAddress());

@@ -95,7 +95,7 @@ public class JmsMetahiveContributionListener {
 					if (StringUtils.equalsIgnoreCase(prefs.getTertiaryRecordName(),
 							field.getValue())) {
 						tertiaryIndex = columnIndex;
-					}	
+					}
 				} else {
 					Definition definition = Definition.findDefinitionByNameEquals(
 							field.getValue());

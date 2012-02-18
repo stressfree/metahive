@@ -109,7 +109,8 @@ public class ValidatedDataGrid {
 				
 				try {
 					Definition definition = Definition.findDefinitionByNameEquals(header);
-					if (definition != null) {
+					if (definition != null && definition.getDefinitionType() 
+							== DefinitionType.STANDARD) {
 						validatedHeader.setValid(true);
 						definitions.put(columnCounter, definition);
 					}

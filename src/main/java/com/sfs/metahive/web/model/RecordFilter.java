@@ -21,7 +21,7 @@ public class RecordFilter extends BaseFilter {
      */
     public String getQueryString() {
     	
-        StringBuffer queryString = new StringBuffer();
+        StringBuilder queryString = new StringBuilder();
         
         if (StringUtils.isNotBlank(recordId)) {
         	queryString.append("&recordId=");

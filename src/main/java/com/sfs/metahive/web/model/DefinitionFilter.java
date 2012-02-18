@@ -25,7 +25,7 @@ public class DefinitionFilter extends BaseFilter {
      */
     public String getQueryString() {
     	
-        StringBuffer queryString = new StringBuffer();
+        StringBuilder queryString = new StringBuilder();
         
         if (StringUtils.isNotBlank(name)) {
         	queryString.append("&name=");

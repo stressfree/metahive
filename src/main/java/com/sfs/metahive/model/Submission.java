@@ -214,7 +214,7 @@ public class Submission {
 			final SubmissionFilter filter, final int firstResult,
 			final int maxResults) {
 
-		StringBuffer sql = new StringBuffer("SELECT s FROM Submission s");
+		StringBuilder sql = new StringBuilder("SELECT s FROM Submission s");
 		sql.append(buildWhere(filter));
 		sql.append(" ORDER BY s.created ASC");
 
@@ -238,7 +238,7 @@ public class Submission {
 	 */
 	public static long countSubmissions(final SubmissionFilter filter) {
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(s) FROM Submission s");
+		StringBuilder sql = new StringBuilder("SELECT COUNT(s) FROM Submission s");
 		sql.append(buildWhere(filter));
 
 		TypedQuery<Long> q = entityManager().createQuery(sql.toString(),
@@ -259,7 +259,7 @@ public class Submission {
 	 * @return the string
 	 */
 	private static String buildWhere(final SubmissionFilter filter) {
-		StringBuffer where = new StringBuffer();
+		StringBuilder where = new StringBuilder();
 
 		if (filter.getPersonId() != null && filter.getPersonId() > 0) {
 			where.append("s.person = :personId");

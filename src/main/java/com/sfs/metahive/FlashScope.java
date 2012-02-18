@@ -49,7 +49,7 @@ public final class FlashScope {
 	public static void appendMessage(final String message, 
 			final HttpServletRequest request) {
 		
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
 		HttpSession session = request.getSession();
 		

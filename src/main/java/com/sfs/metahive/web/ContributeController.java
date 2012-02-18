@@ -83,7 +83,7 @@ public class ContributeController extends BaseController {
 				page = "contribute/nodefinitions";				
 				
 				Map<String, List<Definition>> definitions = 
-						Definition.findGroupedDefinitions(organisation);
+						Definition.findGroupedSubmissionDefinitions(organisation);
 				
 				if (definitions != null && definitions.size() > 0) {
 					uiModel.addAttribute("organisationId", organisation.getId());

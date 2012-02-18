@@ -356,7 +356,7 @@ public class Record {
     	
     	List<Record> records = new ArrayList<Record>();
     	
-    	StringBuffer sql = new StringBuffer("SELECT r FROM Record r");    	
+    	StringBuilder sql = new StringBuilder("SELECT r FROM Record r");    	
     	sql.append(buildWhere(filter));
     	sql.append(" ORDER BY r.recordId ASC");
     	
@@ -386,7 +386,7 @@ public class Record {
      */
     public static long countRecords(final RecordFilter filter) {
     	
-    	StringBuffer sql = new StringBuffer("SELECT COUNT(r) FROM Record r");    	
+    	StringBuilder sql = new StringBuilder("SELECT COUNT(r) FROM Record r");    	
     	sql.append(buildWhere(filter));
     	
         TypedQuery<Long> q = entityManager().createQuery(sql.toString(), Long.class);
@@ -407,7 +407,7 @@ public class Record {
      * @return the string
      */
     private static String buildWhere(final RecordFilter filter) {
-    	StringBuffer where = new StringBuffer();
+    	StringBuilder where = new StringBuilder();
     	
     	if (StringUtils.isNotBlank(filter.getRecordId())) {
     		where.append("LOWER(r.recordId) LIKE LOWER(:recordId)");		
@@ -442,7 +442,7 @@ public class Record {
 	 * @param records the new records
 	 */
 	private String buildRecordString(final TreeSet<String> records) {
-		StringBuffer recordString = new StringBuffer();
+		StringBuilder recordString = new StringBuilder();
 		if (records != null) {
 			for (String record : records) {
 				if (recordString.length() > 0) {

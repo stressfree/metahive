@@ -51,8 +51,8 @@ public class ConvertHtmlToText {
      */
     public final String convert(final String source) throws Exception {
 
-        StringBuffer result = new StringBuffer();
-        StringBuffer result2 = new StringBuffer();
+        StringBuilder result = new StringBuilder();
+        StringBuilder result2 = new StringBuilder();
         StringReader input = new StringReader(source);
 
         try {
@@ -93,7 +93,7 @@ public class ConvertHtmlToText {
                         text = "&" + specialchar;
                     }
                 } else if (!pre && Character.isWhitespace((char) c)) {
-                    StringBuffer sb = null;
+                    StringBuilder sb = null;
                     if (bodyFound) {
                         sb = result;
                     } else {
@@ -109,7 +109,7 @@ public class ConvertHtmlToText {
                     text = "" + (char) c;
                 }
 
-                StringBuffer sb = null;
+                StringBuilder sb = null;
                 if (bodyFound) {
                     sb = result;
                 } else {
@@ -124,7 +124,7 @@ public class ConvertHtmlToText {
             throw e;
         }
 
-        StringBuffer sb = null;
+        StringBuilder sb = null;
         if (bodyFound) {
             sb = result;
         } else {
@@ -143,7 +143,7 @@ public class ConvertHtmlToText {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     private String getTag(final Reader r) throws IOException {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         int level = 1;
 
         result.append('<');
@@ -173,7 +173,7 @@ public class ConvertHtmlToText {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     private String getSpecial(final Reader r) throws IOException {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         r.mark(1); // Mark the present position in the stream
         int c = r.read();
 

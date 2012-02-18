@@ -82,7 +82,7 @@ public class SubmittedField {
         
         Map<String, Object> variables = new HashMap<String, Object>();
         
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append("SELECT s FROM SubmittedField AS s JOIN s.definition d");
         sql.append(" JOIN s.submission sub WHERE d.id = :definitionId");
         variables.put("definitionId", def.getId());
