@@ -1,0 +1,45 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" description="The id to apply for the definition set" />
+  	<jsp:directive.attribute name="category" type="java.lang.String" required="true" rtexprvalue="true" description="The definition category" />
+  	<jsp:directive.attribute name="definitions" type="java.util.List" required="true" rtexprvalue="true" description="The definitions" />
+  	<jsp:directive.attribute name="count" type="java.lang.Integer" required="true" rtexprvalue="true" description="The list count" />
+  	<jsp:directive.attribute name="field" type="java.lang.String" required="true" rtexprvalue="true" description="The field to check against" />
+  	
+  	
+	<jsp:output omit-xml-declaration="yes"/>
+	
+	<field:multiselect label="${category}" field="${field}" id="${id}_${count}" items="${definitions}" path="/definitions" itemValue="id" itemLabel="name" />
+	<c:forEach var="summary" items="${definitions}" varStatus="summaryCounter">
+		<c:if test="${not empty summary.summarisedDefinitions}">
+			<c:set var="div_id" value="_${id}_${count}_${summaryCounter.count}_id" />
+			<c:set var="parent_id" value="_${id}_${count}_id_checkbox${summaryCounter.count}" />
+			<div id="${div_id}" class="field field-multiselect hidden">
+				<div class="multiselectItems summarisedDefinitions">
+					<form:checkboxes id="${div_id}_checkbox" path="${field}" items="${summary.summarisedDefinitions}" itemLabel="name" itemValue="id" cssClass="multiselectItem" />
+					<div class="clear"><!-- --></div>
+	
+					<script type="text/javascript">
+						dojo.query("#${div_id} input[type='checkbox']").forEach(function(element) {
+      						Spring.addDecoration(new Spring.ElementDecoration({
+          						elementId: element.id,
+          						widgetType : "dijit.form.CheckBox",
+          						widgetAttrs : { checked : element.checked }
+      						}));
+  						});
+						dojo.addOnLoad(function() {
+							var node = dojo.query('#${parent_id}').closest('span')[0];
+							dojo.addClass(node, 'hasSummarisedDefinitions');
+							dojo.place(dojo.byId('${div_id}'), node);
+							dojo.place(dojo.create('a', { class: 'expandIcon expandIconHidden' }), 
+									dojo.query('> label', node)[0], 'before');
+							dojo.query('> a', node).onclick(function(e){ 
+								node = dojo.query(e.target).toggleClass('expandIconHidden').closest('span')[0];
+								dojo.query('> div.field-multiselect', node).toggleClass('hidden');
+							});
+						});
+					</script>
+				</div>
+			</div>
+		</c:if>        		
+	</c:forEach> 
+</jsp:root>

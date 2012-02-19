@@ -9,8 +9,19 @@
      
     <form:update title="metahive_user_definitions" id="fu_com_sfs_metahive_model_Person" modelAttribute="person" path="/user/definitions" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
         <c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
-        	<field:multiselect label="${definitionGroup.key}" field="searchDefinitions" id="c_com_sfs_metahive_model_Person_searchDefinitions_${counter.count}" items="${definitionGroup.value}" path="/definitions" itemValue="id" itemLabel="name" cssClass="multiselectTwoColumn"/>
-        </c:forEach>
+       		<c:if test="${counter.index % 2 eq 0}">
+       			<div class="firstDefinitionColumn">
+       				<metahive:definitionchecklist id="c_com_sfs_metahive_model_Person_searchDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="searchDefinitions" />
+       			</div> 
+       		</c:if>      		
+       	</c:forEach>
+       	<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
+       		<c:if test="${counter.index % 2 ne 0}">
+       			<div class="secondDefinitionColumn">
+       				<metahive:definitionchecklist id="c_com_sfs_metahive_model_Person_searchDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="searchDefinitions" />
+       			</div> 
+       		</c:if>   		
+       	</c:forEach>
         
         <springform:hidden path="firstName" />
         <springform:hidden path="lastName" />
@@ -19,4 +30,7 @@
         <input id="userRole" name="userRole" type="hidden" value="ROLE_USER"/>
         <input id="userStatus" name="userStatus" type="hidden" value="ACTIVE"/>
     </form:update>
+    <script type="text/javascript">
+    	dojo.require('dojo.NodeList-traverse');
+    </script>
 </div>

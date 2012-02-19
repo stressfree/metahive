@@ -39,8 +39,22 @@
         <fieldset>
         	<legend><spring:message code="metahive_preferences_search" /></legend>        	
         	<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
-        		<field:multiselect label="${definitionGroup.key}" field="defaultDefinitions" id="c_com_sfs_metahive_model_MetahivePreferences_defaultDefinitions_${counter.count}" items="${definitionGroup.value}" path="/definitions" itemValue="id" itemLabel="name" cssClass="multiselectTwoColumn"/>
+        		<c:if test="${counter.index % 2 eq 0}">
+        			<div class="firstDefinitionColumn">
+        				<metahive:definitionchecklist id="c_com_sfs_metahive_model_MetahivePreferences_defaultDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="defaultDefinitions" />
+        			</div> 
+        		</c:if>      		
+        	</c:forEach>
+        	<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
+        		<c:if test="${counter.index % 2 ne 0}">
+        			<div class="secondDefinitionColumn">
+        				<metahive:definitionchecklist id="c_com_sfs_metahive_model_MetahivePreferences_defaultDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="defaultDefinitions" />
+        			</div> 
+        		</c:if>   		
         	</c:forEach>
         </fieldset>
     </form:update>
+    <script type="text/javascript">
+    	dojo.require('dojo.NodeList-traverse');
+    </script>
 </div>

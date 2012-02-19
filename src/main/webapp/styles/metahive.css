@@ -299,6 +299,35 @@ a:hover {
 	margin-left: 0.5em;
 }
 
+a.expandIcon {
+	margin: 0.3em 0.5em 0 0;
+	width: 16px;
+	height: 16px;
+	float: left;
+	background: url('../images/expand.png') top left no-repeat;
+}
+a.expandIconHidden {
+	background-position: -22px 0px;
+}
+a.expandIcon:hover {	
+	cursor: pointer;
+}
+.field-multiselect .multiselectItems .hasSummarisedDefinitions .dijitCheckBox {
+	margin-right: 0;	
+}
+.field-multiselect .multiselectItems .hasSummarisedDefinitions .multiselectItems .dijitCheckBox {
+	margin-right: 0.3em;
+}
+
+.firstDefinitionColumn, .secondDefinitionColumn {
+	width: 450px;
+	float: left;
+}
+.summarisedDefinitions {
+	clear: left;
+	margin: 0 0 0.2em 17px!important;
+}
+
 .recordOptions {
 	margin: 0 0 1em 0;
 }
