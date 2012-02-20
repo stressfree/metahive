@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
+import com.sfs.metahive.CalculationParser;
 import com.sfs.metahive.model.Category;
 import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.CommentType;
@@ -91,7 +92,7 @@ public class DefinitionForm extends BackingForm {
 	public final String getTestCalculation() {
 		Definition definition = new Definition();
 		definition.setDefinitionType(DefinitionType.CALCULATED);
-		definition.setCalculation(calculation);
+		definition.setCalculation(CalculationParser.maredUpCalculation(calculation));
 		
 		return definition.testCalculation();
 	}
@@ -140,7 +141,7 @@ public class DefinitionForm extends BackingForm {
 			definitionForm.setCategory(definition.getCategory());
 			definitionForm.setApplicability(definition.getApplicability());
 			definitionForm.setDataType(definition.getDataType());
-			definitionForm.setCalculation(definition.getCalculation());
+			definitionForm.setCalculation(definition.getPlainTextCalculation());
 			definitionForm.setKeyValueGenerator(definition.getKeyValueGenerator());
 			definitionForm.setKeyValueAccess(definition.getKeyValueAccess());
 			
@@ -208,7 +209,8 @@ public class DefinitionForm extends BackingForm {
 	        definition.setDefinitionType(this.getDefinitionType());
 	        definition.setDataType(this.getDataType());
 	        definition.setCategory(this.getCategory());
-			definition.setCalculation(this.getCalculation());
+			definition.setCalculation(
+					CalculationParser.maredUpCalculation(this.getCalculation()));
 	        definition.setKeyValueGenerator(this.getKeyValueGenerator());
 	        definition.setKeyValueAccess(this.getKeyValueAccess());
 	        definition.setApplicability(this.getApplicability());

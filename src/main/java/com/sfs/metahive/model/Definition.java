@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -51,6 +52,7 @@ public class Definition {
 	private DataType dataType;
 	
 	/** The calculation. */
+	@Lob
 	private String calculation;
 	
 	/** The key value generator. */
@@ -143,8 +145,9 @@ public class Definition {
 	 *
 	 * @return the marked up calculation
 	 */
-	public final String getMarkedUpCalculation() {
-		return CalculationParser.maredUpCalculation(this.getCalculation());
+	public final String getPlainTextCalculation() {
+		String plainText = StringUtils.replace(this.getCalculation(), "</span>", "");		
+		return StringUtils.replace(plainText, "<span class=\"variable\">", "");
 	}
 	
 	/**
@@ -156,9 +159,10 @@ public class Definition {
 		
 		StringBuilder result = new StringBuilder();
 		
+		String calc = this.getPlainTextCalculation();
+		
 		if (StringUtils.isNotBlank(this.getCalculation())) {
-			Set<Long> variableIds = CalculationParser.parseVariableIds(
-					this.getCalculation());
+			Set<Long> variableIds = CalculationParser.parseVariableIds(calc);
 		
 			Map<Long, Double> values = new HashMap<Long, Double>();
 			
@@ -167,11 +171,9 @@ public class Definition {
 				values.put(id, 2d);
 			}
 			
-			result.append(CalculationParser.buildCalculation(
-					this.getCalculation(), values));
+			result.append(CalculationParser.buildCalculation(calc, values));
 			result.append(" = ");
-			result.append(CalculationParser.performCalculation(
-					this.getCalculation(), values));
+			result.append(CalculationParser.performCalculation(calc, values));
 		}
 		return result.toString();
 	}

@@ -44,61 +44,75 @@ public enum KeyValueGenerator {
         return messageKey; 
     }
     
-    
     /**
-     * Calculate the key value for the supplied definition and list of values.
+     * Calculate the key value for the supplied definition and list of raw string values.
      *
      * @param def the def
      * @param values the values
      * @return the object
      */
-    public static Object calculate(final Definition def, 
+    public static Object calculateFromRawStrings(final Definition def, 
     		final List<String> values) {
     	
     	if (def == null) {
     		throw new IllegalArgumentException("A valid definition is required");
     	}
     	
-    	Object keyValue = null;
+    	return calculateFromObjects(def, parseValues(def.getDataType(), values));
+    }
+    
+    /**
+     * Calculate the key value for the supplied definition and list of value objects.
+     *
+     * @param def the def
+     * @param values the list of value objects
+     * @return the object
+     */
+    public static Object calculateFromObjects(final Definition def, 
+    		final List<Object> values) {
     	
-    	List<Object> parsedValues = parseValues(def.getDataType(), values);
+    	if (def == null) {
+    		throw new IllegalArgumentException("A valid definition is required");
+    	}
+    	
+    	Object keyValue = null;
     	    	
     	if (def != null && def.getKeyValueGenerator() != null) {
     		if (def.getKeyValueGenerator() == KeyValueGenerator.NEWEST) {
-    			keyValue = KeyValueCalculator.newest(parsedValues);
+    			keyValue = KeyValueCalculator.newest(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.OLDEST) {
-    			keyValue = KeyValueCalculator.oldest(parsedValues);
+    			keyValue = KeyValueCalculator.oldest(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.FREQUENT_DEFAULT_NEW) {
-    			keyValue = KeyValueCalculator.frequentDefaultNewest(parsedValues);
+    			keyValue = KeyValueCalculator.frequentDefaultNewest(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.FREQUENT_DEFAULT_OLD) {
-    			keyValue = KeyValueCalculator.frequentDefaultOldest(parsedValues);
+    			keyValue = KeyValueCalculator.frequentDefaultOldest(values);
     		}
     		// This assumes a boolean set of values.
     		if (def.getKeyValueGenerator() == KeyValueGenerator.UNCLEAR) {
-    			keyValue = KeyValueCalculator.unclear(parsedValues);
+    			keyValue = KeyValueCalculator.unclear(values);
     		}
     		// This assumes a boolean or numeric set of values.
     		if (def.getKeyValueGenerator() == KeyValueGenerator.MEDIAN) {
-    			keyValue = KeyValueCalculator.median(parsedValues);
+    			keyValue = KeyValueCalculator.median(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.QUARTILE_LOWER) {
-    			keyValue = KeyValueCalculator.quartileLower(parsedValues);
+    			keyValue = KeyValueCalculator.quartileLower(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.QUARTILE_UPPER) {
-    			keyValue = KeyValueCalculator.quartileUpper(parsedValues);
+    			keyValue = KeyValueCalculator.quartileUpper(values);
     		}
     	    // This assumes numeric (Double) set of values
     		if (def.getKeyValueGenerator() == KeyValueGenerator.AVERAGE) {
-    			keyValue = KeyValueCalculator.average(parsedValues);
+    			keyValue = KeyValueCalculator.average(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.HIGHEST) {
-    			keyValue = KeyValueCalculator.highest(parsedValues);
+    			keyValue = KeyValueCalculator.highest(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.LOWEST) {
-    			keyValue = KeyValueCalculator.lowest(parsedValues);
+    			keyValue = KeyValueCalculator.lowest(values);
     		}    		
     	}
     	return keyValue;

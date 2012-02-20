@@ -13,7 +13,6 @@ import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.hibernate.annotations.Index;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -29,9 +28,6 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooEntity
 public class KeyValue {
-	
-	/** The logger. */
-	private static Logger logger = Logger.getLogger(KeyValue.class);
 	
 	/** The key value type. */
 	@NotNull
@@ -270,149 +266,6 @@ public class KeyValue {
         	keyValue = keyValues.get(0);
         }
         return keyValue;
-    }
-
-    /**
-     * Calculate the key value.
-     *
-     * @param def the def
-     * @param primaryId the primary id
-     * @param secondaryId the secondary id
-     * @param tertiaryId the tertiary id
-     */
-    public static void calculate(final Definition def, final String primaryId,
-    		final String secondaryId, final String tertiaryId) {
-    	
-    	if (def == null) {
-    		throw new IllegalArgumentException("A valid definition is required");
-    	}
-    	if (StringUtils.isBlank(primaryId)) {
-    		throw new IllegalArgumentException("A valid primaryId is required");
-    	}    	
-    	// Check that the record exists
-    	Record record = Record.findRecordByRecordIdEquals(primaryId);
-    	if (record == null) {
-    		throw new IllegalArgumentException("A valid primaryId is required,"
-    				+ " no record exists in the Metahive");
-    	}
-    	
-    	KeyValue kv = prepareKeyValue(def, primaryId, secondaryId, tertiaryId);
-    	    	
-    	// If the key value is overridden then there's no need to recalculate it
-    	if (kv.getKeyValueType() != KeyValueType.OVERRIDDEN) {
-    		// Load all of the contributed values for this definition/record combination
-    		List<String> values = SubmittedField.findSubmittedValues(def, 
-    				kv.getPrimaryRecordId(), kv.getSecondaryRecordId(),
-    				kv.getTertiaryRecordId());
-    		
-    		logger.info("Number of values: " + values.size());
-    		logger.info("Key value id: " + kv.getId());
-    		
-    		if (values.size() == 0) {
-    			// No submitted values exist - delete the key value if one exists
-    			if (kv.getId() != null && kv.getId() > 0) {
-    				try {
-    					kv.remove();
-    				} catch (Exception e) {
-    					logger.error("Error deleting old key value: " + e.getMessage());
-    				}
-    			}    			
-    		} else {    			
-    			// Check to see if the definition is applicable to the key value
-    			boolean applicable = true;
-    			
-    			if (def.getApplicability() == Applicability.RECORD_SECONDARY
-    					&& StringUtils.isBlank(kv.getSecondaryRecordId())) {
-    				// Not applicable as no secondary record id is defined
-    				applicable = false;
-    			}
-    			
-    			if (def.getApplicability() == Applicability.RECORD_SECONDARY
-    					&& StringUtils.isBlank(kv.getTertiaryRecordId())) {
-    				// Not applicable as no tertiary record id is defined
-    				applicable = false;
-    			}
-    			
-    			if (applicable) {
-    				kv.setValue(KeyValueGenerator.calculate(def, values));
-    				logger.info("Calculated string value: " + kv.getStringValue());
-    				logger.info("Calculated double value: " + kv.getDoubleValue());
-	    		
-    				try {
-    					if (kv.getId() == null) {
-    						kv.persist();
-    						kv.flush();
-    					} else {
-    						kv.merge();
-    					}
-    				} catch (Exception e) {
-    					logger.error("Error saving key value: " + e.getMessage(), e);
-    				}
-    			} else {
-    				logger.error("This key value " + kv.getPrimaryRecordId() + ":" 
-    						+ kv.getSecondaryRecordId() + ":" + kv.getTertiaryRecordId() 
-    						+ " is not applicable to this definition: "
-    						+ def.getName());    						
-    			}
-    		}
-    	}
-    }
-    
-    /**
-     * Get the existing key value, or prepare a new key value for calculating.
-     *
-     * @param def the def
-     * @param primaryRecordId the primary record id
-     * @param secondaryRecordId the secondary record id
-     * @param tertiaryRecordId the tertiary record id
-     * @return the key value
-     */
-    private static KeyValue prepareKeyValue(final Definition def, 
-    		final String primaryRecordId, final String secondaryRecordId,
-    		final String tertiaryRecordId) {
-    	    	    	
-    	MetahivePreferences preferences = MetahivePreferences.load();
-    	
-    	String primaryId = primaryRecordId;
-    	String secondaryId = "";
-    	String tertiaryId = "";
-    	
-    	if (StringUtils.isNotBlank(secondaryRecordId)) {
-    		secondaryId = secondaryRecordId;
-    	}
-    	if (StringUtils.isNotBlank(tertiaryRecordId)) {
-    		tertiaryId = tertiaryRecordId;
-    	}
-    	
-    	if (StringUtils.isBlank(secondaryId) && StringUtils.isNotBlank(
-    			preferences.getSecondaryRecordDefault())) {
-    		secondaryId = preferences.getSecondaryRecordDefault();
-    	}
-
-    	if (StringUtils.isBlank(tertiaryId) && StringUtils.isNotBlank(
-    			preferences.getTertiaryRecordDefault())) {
-    		tertiaryId = preferences.getTertiaryRecordDefault();
-    	}
-    	    	
-    	Record recd = Record.findRecordByRecordIdEquals(primaryId);
-    	
-    	if (recd == null) {
-    		throw new IllegalArgumentException("A valid primaryRecordId is required");
-    	}
-    	
-    	KeyValue kv = KeyValue.findKeyValue(def, primaryId, secondaryId, tertiaryId);
-    	    	
-    	// If the key value is still null then this is a new record
-    	if (kv == null) {
-    		kv = new KeyValue();
-    		kv.setDefinition(def);
-    		kv.setRecord(recd);
-    		kv.setKeyValueType(KeyValueType.CALCULATED);
-    		kv.setPrimaryRecordId(primaryId);
-    		kv.setSecondaryRecordId(secondaryId);
-    		kv.setTertiaryRecordId(tertiaryId);
-    	}
-    	return kv;
     }
     
     /**
