@@ -38,7 +38,7 @@
 	  	 <div class="actions">
 		   	<div id="definitionNewButton" dojoType="dijit.form.Button" jsId="definitionNewButton"><spring:message code="metahive_button_new_definition" /></div>
 		   	<c:if test="${not empty definition}">
-		   		<div id="definitionEditButton" dojoType="dijit.form.Button" jsId="definitionEditButton"><spring:message code="metahive_button_edit_definition" /></div>
+		   		<div id="definitionEditButton" dojoType="dijit.form.Button" jsId="definitionEditButton"><spring:message code="metahive_button_edit" /></div>
 		        <sec:authorize ifAllGranted="ROLE_ADMIN">
 					<spring:url value="/definitions/${definition.id}" var="delete_definition_url" />
 					<form:form action="${fn:escapeXml(delete_definition_url)}" method="DELETE">
@@ -46,7 +46,7 @@
 		           		<c:set var="delete_confirm_msg">
 		            		<spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
 		           		</c:set>
-		           		<button dojoType="dijit.form.Button" onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete_definition" /></button>
+		           		<button dojoType="dijit.form.Button" onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
 		         	</form:form>
 		        </sec:authorize>
 		   	</c:if>	   	

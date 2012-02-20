@@ -550,7 +550,7 @@ public class Record {
 		String result = ""; 
 		
 		try {
-	         Pattern p = Pattern.compile (regEx);
+	         Pattern p = Pattern.compile(regEx);
 	         Matcher m = p.matcher(record);
 	         if (m.find ()) {
 	        	 result = m.group();

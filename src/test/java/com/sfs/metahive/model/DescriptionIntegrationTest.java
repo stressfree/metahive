@@ -27,6 +27,7 @@ public class DescriptionIntegrationTest {
 	public void addAndFetchDescription() {
 		DefinitionDataOnDemand definitionDod = new DefinitionDataOnDemand();
 		Definition definition = definitionDod.getRandomDefinition();
+		definition.persist();
 		
 		DescriptionDataOnDemand descriptionDod = new DescriptionDataOnDemand();
 		Description description = descriptionDod.getRandomDescription();

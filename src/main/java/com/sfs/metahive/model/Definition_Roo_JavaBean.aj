@@ -102,10 +102,6 @@ privileged aspect Definition_Roo_JavaBean {
         this.summaryDefinition = summaryDefinition;
     }
     
-    public List<Definition> Definition.getSummarisedDefinitions() {
-        return this.summarisedDefinitions;
-    }
-    
     public void Definition.setSummarisedDefinitions(List<Definition> summarisedDefinitions) {
         this.summarisedDefinitions = summarisedDefinitions;
     }

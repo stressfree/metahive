@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PreUpdate;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
+import com.sfs.metahive.CalculationParser;
 import com.sfs.metahive.web.model.DefinitionFilter;
 
 /**
@@ -101,6 +104,29 @@ public class Definition {
 
 	
 	/**
+	 *The pre-update method.
+	 */
+	@PreUpdate
+	public final void preUpdate() {
+		if (this.definitionType != DefinitionType.SUMMARY) {
+			if (this.summarisedDefinitions != null) {
+				for (Definition def : this.summarisedDefinitions) {
+					def.setSummaryDefinition(null);
+					def.persist();
+				}
+			}
+		}
+		
+		if (this.definitionType != DefinitionType.STANDARD) {
+			if (this.dataSources != null) {
+				for (DataSource ds : this.dataSources) {
+					ds.remove();
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Gets the calculation.
 	 *
 	 * @return the calculation
@@ -110,6 +136,44 @@ public class Definition {
 			this.calculation = "";
 		}
 		return this.calculation;
+	}
+	
+	/**
+	 * Gets the marked up calculation.
+	 *
+	 * @return the marked up calculation
+	 */
+	public final String getMarkedUpCalculation() {
+		return CalculationParser.maredUpCalculation(this.getCalculation());
+	}
+	
+	/**
+	 * Test calculation.
+	 *
+	 * @return the string
+	 */
+	public final String testCalculation() {
+		
+		StringBuilder result = new StringBuilder();
+		
+		if (StringUtils.isNotBlank(this.getCalculation())) {
+			Set<Long> variableIds = CalculationParser.parseVariableIds(
+					this.getCalculation());
+		
+			Map<Long, Double> values = new HashMap<Long, Double>();
+			
+			for (Long id : variableIds) {
+				// Assume a value of 2 for all variable ids
+				values.put(id, 2d);
+			}
+			
+			result.append(CalculationParser.buildCalculation(
+					this.getCalculation(), values));
+			result.append(" = ");
+			result.append(CalculationParser.performCalculation(
+					this.getCalculation(), values));
+		}
+		return result.toString();
 	}
 	
 	/**
@@ -140,6 +204,22 @@ public class Definition {
 			this.calculatedDefinitions = new ArrayList<Definition>();
 		}
 		return this.calculatedDefinitions;
+	}
+	
+	/**
+	 * Gets the summarised definitions.
+	 *
+	 * @return the summarised definitions
+	 */
+	public final List<Definition> getSummarisedDefinitions() {
+		if (this.summarisedDefinitions == null) {
+			this.summarisedDefinitions = new ArrayList<Definition>();
+		}
+		if (this.definitionType != DefinitionType.SUMMARY 
+				&& this.summarisedDefinitions.size() > 0) {			
+			this.summarisedDefinitions = new ArrayList<Definition>();
+		}
+		return this.summarisedDefinitions;
 	}
 
 	/**

@@ -134,3 +134,15 @@ function addRelatedDefinition() {
 		definitionWidget.set('displayedValue', '');
 	}
 }
+
+function testCalculation(url) {
+	var parameter = "calculation=" + encodeURIComponent(dijit.byId('_calculation_id').get("value"));
+	dojo.xhrPost({
+	    url: url,
+	    postData: parameter,
+	    handleAs: "text",
+	    load: function(data){
+	        dojo.byId("testCalculationResult").innerHTML = data;
+	    }
+	});
+}

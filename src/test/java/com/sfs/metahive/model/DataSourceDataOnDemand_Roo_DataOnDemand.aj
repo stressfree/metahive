@@ -6,7 +6,6 @@ package com.sfs.metahive.model;
 import com.sfs.metahive.model.ConditionOfUse;
 import com.sfs.metahive.model.ConditionOfUseDataOnDemand;
 import com.sfs.metahive.model.DataSource;
-import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.DefinitionDataOnDemand;
 import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.OrganisationDataOnDemand;
@@ -65,11 +64,6 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     public void DataSourceDataOnDemand.setConditionOfUse(DataSource obj, int index) {
         ConditionOfUse conditionOfUse = conditionOfUseDataOnDemand.getRandomConditionOfUse();
         obj.setConditionOfUse(conditionOfUse);
-    }
-    
-    public void DataSourceDataOnDemand.setDefinition(DataSource obj, int index) {
-        Definition definition = definitionDataOnDemand.getRandomDefinition();
-        obj.setDefinition(definition);
     }
     
     public void DataSourceDataOnDemand.setDetails(DataSource obj, int index) {

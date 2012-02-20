@@ -341,6 +341,23 @@ public class DefinitionController extends BaseController {
 	}
 	
 	/**
+	 * Test calculation for AJAX purposes.
+	 *
+	 * @param calculation the calculation
+	 * @return the string
+	 */
+	@RequestMapping(value = "/testCalculation", method = RequestMethod.POST)
+    public @ResponseBody String testCalculation(
+    		String calculation) {
+			
+		Definition definition = new Definition();
+		definition.setCalculation(calculation);
+		definition.setDefinitionType(DefinitionType.CALCULATED);		
+		
+		return definition.testCalculation();
+	}
+	
+	/**
      * Populate categories.
      *
      * @return the collection

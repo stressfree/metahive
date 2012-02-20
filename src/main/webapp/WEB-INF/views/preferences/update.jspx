@@ -37,21 +37,21 @@
         	<field:input validationPrompt="metahive_preferences_prompt_tertiaryrecorddefault" field="tertiaryRecordDefault" id="c_com_sfs_metahive_model_MetahivePreferences_tertiaryRecordDefault" z="user-managed"/>
         </fieldset>
         <fieldset>
-        	<legend><spring:message code="metahive_preferences_search" /></legend>        	
-        	<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
-        		<c:if test="${counter.index % 2 eq 0}">
-        			<div class="firstDefinitionColumn">
+        	<legend><spring:message code="metahive_preferences_search" /></legend> 
+        	<div class="firstDefinitionColumn">       	
+        		<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
+        			<c:if test="${counter.index % 2 eq 0}">
         				<metahive:definitionchecklist id="c_com_sfs_metahive_model_MetahivePreferences_defaultDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="defaultDefinitions" />
-        			</div> 
-        		</c:if>      		
-        	</c:forEach>
-        	<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
-        		<c:if test="${counter.index % 2 ne 0}">
-        			<div class="secondDefinitionColumn">
+        			</c:if>      		
+        		</c:forEach>
+        	</div> 
+        	<div class="secondDefinitionColumn">
+        		<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
+        			<c:if test="${counter.index % 2 ne 0}">
         				<metahive:definitionchecklist id="c_com_sfs_metahive_model_MetahivePreferences_defaultDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="defaultDefinitions" />
-        			</div> 
-        		</c:if>   		
-        	</c:forEach>
+        			</c:if>   		
+        		</c:forEach>
+        	</div>
         </fieldset>
     </form:update>
     <script type="text/javascript">

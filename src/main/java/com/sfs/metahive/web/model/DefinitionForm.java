@@ -84,6 +84,19 @@ public class DefinitionForm extends BackingForm {
 
 	
 	/**
+	 * A helper function to get the test calculation.
+	 *
+	 * @return the test calculation
+	 */
+	public final String getTestCalculation() {
+		Definition definition = new Definition();
+		definition.setDefinitionType(DefinitionType.CALCULATED);
+		definition.setCalculation(calculation);
+		
+		return definition.testCalculation();
+	}
+	
+	/**
 	 * Creates a new definition object from the form data.
 	 *
 	 * @param user the user
@@ -91,7 +104,7 @@ public class DefinitionForm extends BackingForm {
 	 */
 	public final Definition newDefinition(Person user) {        
 		return buildDefinition(new Definition(), user);
-	}
+	}	
 	
 	/**
 	 * Merge the form data with the existing definition object.

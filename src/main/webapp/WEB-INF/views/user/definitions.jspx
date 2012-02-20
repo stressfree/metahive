@@ -8,20 +8,20 @@
     <spring:url value="/records" var="cancelAction" />
      
     <form:update title="metahive_user_definitions" id="fu_com_sfs_metahive_model_Person" modelAttribute="person" path="/user/definitions" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
-        <c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
-       		<c:if test="${counter.index % 2 eq 0}">
-       			<div class="firstDefinitionColumn">
+        <div class="firstDefinitionColumn">
+        	<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
+       			<c:if test="${counter.index % 2 eq 0}">
        				<metahive:definitionchecklist id="c_com_sfs_metahive_model_Person_searchDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="searchDefinitions" />
-       			</div> 
-       		</c:if>      		
-       	</c:forEach>
-       	<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
-       		<c:if test="${counter.index % 2 ne 0}">
-       			<div class="secondDefinitionColumn">
+       			</c:if>      		
+       		</c:forEach>
+       	</div>
+       	<div class="secondDefinitionColumn">
+       		<c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
+       			<c:if test="${counter.index % 2 ne 0}">
        				<metahive:definitionchecklist id="c_com_sfs_metahive_model_Person_searchDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="searchDefinitions" />
-       			</div> 
-       		</c:if>   		
-       	</c:forEach>
+       			</c:if>   		
+       		</c:forEach>
+       	</div>
         
         <springform:hidden path="firstName" />
         <springform:hidden path="lastName" />

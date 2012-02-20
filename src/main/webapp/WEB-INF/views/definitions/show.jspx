@@ -73,7 +73,7 @@
     		<div class="calculation">
     			<p>
     				<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_calculation" />:</strong>
-    				<c:out value=" " /><c:out value="${definition.calculation}" />
+    				<c:out value=" " /><c:out value="${definition.markedUpCalculation}" escapeXml="false" />
     			</p>
     		</div>
     	</c:if>

@@ -39,7 +39,9 @@
        	</div>
        	
        	<div id="definitionCalculationField" class="${calculationFieldClass}">
+       		<p class="helpText"><spring:message code="metahive_calculation_help" />: (<span class="variable">D1</span> + <span class="variable">D2</span>) / <span class="variable">D3</span></p>
        		<field:input field="calculation" id="c_com_sfs_metahive_web_model_DefinitionForm_calculation" z="user-managed"/>
+       		<p class="exampleOutput"><spring:message code="metahive_calculation_example" />: <span id="testCalculationResult"><c:out value="${definition.testCalculation}" /></span></p>
        	</div>
        	<div id="definitionKeyValueGeneratorSelector" class="${keyValueGeneratorSelectorClass}">
     	   	<field:select field="keyValueGenerator" id="c_com_sfs_metahive_web_model_DefinitionForm_keyValueGenerator" path="/keyValueGenerator" items="${definition.dataType.keyValueGenerators}" required="true" z="user-managed"/>
@@ -65,6 +67,8 @@
         dojo.connect(dijit.byId('_definitionType_id'), 'onChange', definitionTypeChange);
         dojo.connect(dijit.byId('_dataType_id'), 'onChange', definitionDataTypeChange);        
         dojo.connect(dojo.byId('addRelatedDefinition'), 'onclick', addRelatedDefinition);
+        dojo.connect(dijit.byId('_calculation_id'), "onKeyUp", function(e) { testCalculation('testCalculation'); });
+        
         buildFilteringSelect(jsonUrl);
 		dojo.query('#relatedDefinitionsList li a').onclick(function(e){ removeElement(e) });
     });    

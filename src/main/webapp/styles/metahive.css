@@ -135,7 +135,7 @@ a:hover {
 
 .dictionary-header .actions, .record-header .actions {
 	float: right;
-	width: 500px;
+	width: 280px;
 	text-align: right;
 }
 .dictionary-header .actions form, .record-header .actions form {
@@ -270,6 +270,18 @@ a:hover {
 }
 
 
+#definitionCalculationField .helpText {
+	margin: 0.3em 0 0.2em 142px;
+	color: #666;
+}
+#definitionCalculationField .exampleOutput {
+	color: #666;
+	margin: -0.7em 0 1em 142px;
+}
+#definitionCalculationField .exampleOutput span {
+	font-weight: bold;	
+}
+
 #relatedDefinitionsList {
 	margin: -0.5em 0 0.5em 140px;	
 }
@@ -286,15 +298,20 @@ a:hover {
 	text-indent: -3000px;
 }
 #relatedDefinitionsList li span.variable,
-.relatedDefinitions li span.variable {
+.relatedDefinitions li span.variable,
+#definitionCalculationField span.variable,
+.definition .calculation span.variable {
 	padding: 0.1em 0.4em;
 	background: #ccdff4;
+	color: #333;
 	font-weight: bold;
 	font-size: 0.8em;
 	-moz-border-radius: 3px;
   	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
+
+
 #addRelatedDefinition {
 	margin-left: 0.5em;
 }
