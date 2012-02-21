@@ -1,6 +1,7 @@
 package com.sfs.metahive;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +12,7 @@ import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.DefinitionType;
 import com.sfs.metahive.model.KeyValue;
+import com.sfs.metahive.model.KeyValueBoolean;
 import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.KeyValueType;
 import com.sfs.metahive.model.MetahivePreferences;
@@ -55,6 +57,9 @@ public class KeyValueCalculator {
     		}
     		if (def.getDefinitionType() == DefinitionType.SUMMARY) {
     			calculateSummarisedKeyValue(def, kv);
+    		}
+    		if (def.getDefinitionType() == DefinitionType.CALCULATED) {
+    			calculateCalculatedKeyValue(def, kv);
     		}
     	}
     }
@@ -103,7 +108,11 @@ public class KeyValueCalculator {
 			}
 			
 			if (applicable) {
-				kv.setValue(KeyValueGenerator.calculateFromRawStrings(def, values));
+				Object result = KeyValueGenerator.calculateFromRawStrings(def, values);
+	    		
+	    		boolean refresh = checkChanged(kv, result);
+				
+				kv.setValue(result);
 				logger.info("Calculated string value: " + kv.getStringValue());
 				logger.info("Calculated double value: " + kv.getDoubleValue());
     		
@@ -118,14 +127,30 @@ public class KeyValueCalculator {
 					logger.error("Error saving key value: " + e.getMessage(), e);
 				}
 				
-				if (def.getSummaryDefinition() != null) {
-					// Recalculate the associated summary definition
-					calculateKeyValue(def.getSummaryDefinition(), kv.getPrimaryRecordId(),
-							kv.getSecondaryRecordId(), kv.getTertiaryRecordId());
-				}
-				
-				// Recalculate any associated calculated definitions
-				
+				if (refresh) {
+					if (def.getSummaryDefinition() != null) {
+						// Recalculate the associated summary definition
+						
+						Definition summaryDef = def.getSummaryDefinition();
+						logger.info("Summary definition: " + summaryDef.getId());
+						
+						try {
+							calculateKeyValue(summaryDef, 
+									kv.getPrimaryRecordId(), 
+									kv.getSecondaryRecordId(), 
+									kv.getTertiaryRecordId());
+						} catch (Exception e) {
+							logger.error("Error calculating summarised definition ("
+									+ def.getSummaryDefinition().getId() 
+									+ ") for key value (" + kv.getPrimaryRecordId()
+									+ kv.getSecondaryRecordId() + kv.getTertiaryRecordId()
+									+ "): " + e.getMessage(), e);
+						}
+					}
+
+					// Recalculate any associated calculated definitions
+					recalculateCalculatedDefinitions(def, kv);
+				}		
 			} else {
 				logger.error("This key value " + kv.getPrimaryRecordId() + ":" 
 						+ kv.getSecondaryRecordId() + ":" + kv.getTertiaryRecordId() 
@@ -136,7 +161,7 @@ public class KeyValueCalculator {
     }    
 
     /**
-     * Calculate the key value for a standard definition.
+     * Calculate the key value for a summary definition.
      *
      * @param def the definition
      * @param kv the key value
@@ -145,7 +170,62 @@ public class KeyValueCalculator {
     		final KeyValue kv) {
     	
     	// Load all of the contributed values for this definition/record combination
-    	List<Object> values = getSummarisedValues(def.getSummarisedDefinitions(), kv);
+    	
+    	List<Definition> definitions = Definition.findSummarisedDefinitions(def);
+    	    	
+    	List<Object> values = getSummarisedValues(definitions, kv);
+    	
+    	logger.info("Number of values: " + values.size());
+    	logger.info("Key value id: " + kv.getId());
+    			
+    	if (values.size() == 0) {
+    		// No submitted values exist - delete the key value if one exists
+    		if (kv.getId() != null && kv.getId() > 0) {
+    			try {
+    				kv.remove();
+    			} catch (Exception e) {
+    				logger.error("Error deleting old key value: " + e.getMessage());
+    			}
+    		}    			
+    	} else {
+    		Object result = KeyValueGenerator.calculateFromObjects(def, values);
+    		
+    		boolean refresh = checkChanged(kv, result);
+    		
+			kv.setValue(result);
+			logger.info("Calculated string value: " + kv.getStringValue());
+			logger.info("Calculated double value: " + kv.getDoubleValue());
+	    	
+			try {
+				if (kv.getId() == null) {
+					kv.persist();
+					kv.flush();
+				} else {
+					kv.merge();
+				}
+				
+				if (refresh) {
+					// Recalculate any associated calculated definitions
+					recalculateCalculatedDefinitions(def, kv);				
+				}
+			} catch (Exception e) {
+				logger.error("Error saving key value: " + e.getMessage(), e);
+			}
+    	}  
+    }
+    
+    /**
+     * Calculate the key value for a calculated definition.
+     *
+     * @param def the definition
+     * @param kv the key value
+     */
+    private static void calculateCalculatedKeyValue(final Definition def, 
+    		final KeyValue kv) {
+    	
+    	// Load all of the variable values for this definition/record combination
+    	HashMap<Long, Double> values = getCalculatedValues(
+    			def.getCalculatedDefinitions(), kv);    	
     			
     	logger.info("Number of values: " + values.size());
     	logger.info("Key value id: " + kv.getId());
@@ -160,7 +240,17 @@ public class KeyValueCalculator {
     			}
     		}    			
     	} else {
-			kv.setValue(KeyValueGenerator.calculateFromObjects(def, values));
+    		double result = 0;    		
+    		try {
+    			result = CalculationParser.performCalculation(
+    					def.getPlainTextCalculation(), values);
+    		} catch (Exception e) {
+    			logger.error("Error calculating value: " + e.getMessage());    			
+    		}
+    		
+    		boolean refresh = checkChanged(kv, result);
+    		
+			kv.setValue(result);
 			logger.info("Calculated string value: " + kv.getStringValue());
 			logger.info("Calculated double value: " + kv.getDoubleValue());
 	    	
@@ -172,9 +262,10 @@ public class KeyValueCalculator {
 					kv.merge();
 				}
 				
-				// Recalculate any associated calculated definitions
-				
-				
+				if (refresh) {
+					// Recalculate any associated calculated definitions
+					recalculateCalculatedDefinitions(def, kv);				
+				}
 			} catch (Exception e) {
 				logger.error("Error saving key value: " + e.getMessage(), e);
 			}
@@ -262,6 +353,67 @@ public class KeyValueCalculator {
     }
     
     /**
+     * Gets the calculated values as a map of doubles.
+     *
+     * @param definitions the definitions
+     * @param keyValue the key value
+     * @return the calculated values
+     */
+    private static HashMap<Long, Double> getCalculatedValues(
+    		final List<Definition> definitions, final KeyValue keyValue) {
+    	
+    	HashMap<Long, Double> values = new HashMap<Long, Double>();
+    	
+    	for (Definition def : definitions) {    		
+    		double value = 0;
+    		
+    		KeyValue kv = KeyValue.findKeyValue(def, keyValue.getPrimaryRecordId(), 
+    				keyValue.getSecondaryRecordId(), keyValue.getTertiaryRecordId());
+    		
+    		if (kv != null) {
+    			Object kvValue = getKeyValueAsObject(def, kv);
+    			
+    			if (kvValue instanceof Double) {
+    				value = (Double) kvValue;
+    			}
+    		}
+    		values.put(def.getId(), value);
+    	}    	
+    	return values;    	
+    }
+    
+    /**
+     * Recalculate calculated definitions by identifying definitions that use the
+     * supplied definition in their calculation and calling the calculate function.
+     *
+     * @param definition the definition
+     * @param kv the key value
+     */
+    private static void recalculateCalculatedDefinitions(final Definition definition, 
+    		final KeyValue kv) {
+    	
+    	if (definition != null && kv != null) {
+    		List<Definition> defs = Definition.findDefinitionsWithVariable(definition);
+    		
+    		if (defs != null) {
+    			for (Definition def : defs) {
+    				try {
+						calculateKeyValue(def, 
+								kv.getPrimaryRecordId(), 
+								kv.getSecondaryRecordId(), 
+								kv.getTertiaryRecordId());
+					} catch (Exception e) {
+						logger.error("Error calculating calculated definition ("
+								+ def.getSummaryDefinition().getId() + ") for key value ("
+								+ kv.getPrimaryRecordId() + kv.getSecondaryRecordId() 
+								+ kv.getTertiaryRecordId() + "): " + e.getMessage());
+					}
+    			}
+    		}    	
+    	}
+    }
+    
+    /**
      * Gets the key value as an object.
      *
      * @param def the def
@@ -285,5 +437,51 @@ public class KeyValueCalculator {
 		}
 		
 		return value;
+    }
+    
+    /**
+     * Check to see if the value has changed.
+     *
+     * @param kv the kv
+     * @param newValue the new value
+     * @return true, if successful
+     */
+    private static boolean checkChanged(final KeyValue kv, Object newValue) {
+    	
+    	boolean refresh = false;
+		
+		if (kv.getId() == null) {
+			refresh = true;
+		} else {
+			if (newValue == null) {
+				refresh = true;				
+			} else {
+				if (newValue instanceof String) {
+					if (!StringUtils.equalsIgnoreCase((String) newValue, 
+							kv.getStringValue())) {
+						refresh = true;
+					}
+				}
+				if (newValue instanceof Double) {
+					if (kv.getDoubleValue() != null) {
+						if ((Double) newValue != kv.getDoubleValue()) {
+							refresh = true;
+						}
+					} else {
+						refresh = true;
+					}
+				}
+				if (newValue instanceof KeyValueBoolean) {
+					if (kv.getBooleanValue() != null) {
+						if ((KeyValueBoolean) newValue != kv.getBooleanValue()) {
+							refresh = true;
+						}
+					} else {
+						refresh = true;
+					}
+				}
+			}
+		}
+		return refresh;
     }
 }

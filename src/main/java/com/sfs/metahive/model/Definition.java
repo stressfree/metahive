@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -22,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.Index;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
@@ -37,21 +37,26 @@ public class Definition {
 	
 	/** The name. */
 	@NotNull
+	@Index(name="definitionName")
 	@Size(min = 1, max = 100)
 	@Column(unique = true)
 	private String name;
 	
 	/** The definition type. */
 	@NotNull
+	@Index(name="definitionDefinitionType")
 	@Enumerated(EnumType.STRING)
 	private DefinitionType definitionType = DefinitionType.STANDARD;
 
 	/** The data type. */
 	@NotNull
+	@Index(name="definitionDataType")
 	@Enumerated(EnumType.STRING)
 	private DataType dataType;
 	
-	/** The calculation. */
+	/** The calculation as an HTML string. e.g. 
+	 * <span class="variable">D10</span> + <span class="variable">D11</span> */
+	@Index(name="definitionCalculation")
 	@Lob
 	private String calculation;
 	
@@ -77,6 +82,7 @@ public class Definition {
 
 	/** The category. */
 	@ManyToOne
+	@Index(name="definitionCategory")
 	@NotNull
 	private Category category;
 	
@@ -87,17 +93,13 @@ public class Definition {
 	
 	/** The summary definition. */
 	@ManyToOne
+	@Index(name="definitionSummaryDefinition")
 	private Definition summaryDefinition;
 		
 	/** The summarised definitions. */
 	@OrderBy("name ASC")
 	@OneToMany(mappedBy = "summaryDefinition")
 	private List<Definition> summarisedDefinitions = new ArrayList<Definition>();	
-
-	/** The calculated definitions. */
-	@OrderBy("name ASC")
-	@ManyToMany
-	private List<Definition> calculatedDefinitions = new ArrayList<Definition>();
 		
 	/** The comments. */
 	@OrderBy("created ASC")
@@ -196,17 +198,21 @@ public class Definition {
 	 * Gets the calculated definitions.
 	 *
 	 * @return the calculated definitions
-	 */
+	 */	
 	public final List<Definition> getCalculatedDefinitions() {
-		if (this.calculatedDefinitions == null) {
-			this.calculatedDefinitions = new ArrayList<Definition>();
-		}
-		if (this.definitionType != DefinitionType.CALCULATED 
-				&& this.calculatedDefinitions.size() > 0) {
-			this.calculatedDefinitions = new ArrayList<Definition>();
-		}
-		return this.calculatedDefinitions;
-	}
+		
+		List<Definition> calculatedDefinitions = new ArrayList<Definition>();
+		
+		if (StringUtils.isNotBlank(this.getCalculation())) {
+			Set<Long> ids = CalculationParser.parseVariableIds(
+					this.getPlainTextCalculation());
+			for (Long id : ids) {
+				Definition def = Definition.findDefinition(id);
+				calculatedDefinitions.add(def);
+			}
+		}		
+		return calculatedDefinitions;		
+	}	
 	
 	/**
 	 * Gets the summarised definitions.
@@ -280,6 +286,23 @@ public class Definition {
 		return entityManager().createQuery(
 				"SELECT d FROM Definition d ORDER BY name ASC",
 				Definition.class).getResultList();
+	}
+	
+	/**
+	 * A helper function to find summarised definitions 
+	 * based on the supplied definition id.
+	 *
+	 * @param def the definition
+	 * @return the list
+	 */
+	public static List<Definition> findSummarisedDefinitions(final Definition def) {
+				
+		TypedQuery<Definition> q = entityManager().createQuery(
+				"SELECT d FROM Definition AS d WHERE d.summaryDefinition = :def",
+				Definition.class);
+		q.setParameter("def", def);
+
+		return q.getResultList();
 	}
 
 	/**
@@ -578,6 +601,39 @@ public class Definition {
 		}
 		
 		return relatedDefinitions;
+	}
+	
+	
+	/**
+	 * Find the calculated definitions that include the supplied
+	 * definition as a calculation variable.
+	 *
+	 * @param definition the definition
+	 * @return the list
+	 */
+	public static List<Definition> findDefinitionsWithVariable(
+			final Definition definition) {
+				
+		List<Definition> definitions = new ArrayList<Definition>();
+		
+		if (definition != null && definition.getId() != null) {
+			
+			StringBuilder calculation = new StringBuilder("%<span class=\"variable\">D");
+			calculation.append(definition.getId());
+			calculation.append("</span>%");
+			
+			StringBuilder sql = new StringBuilder("SELECT d FROM Definition d");
+			sql.append(" WHERE upper(d.calculation) LIKE :calculation");
+			sql.append(" AND d.definitionType = :definitionType");
+		
+			TypedQuery<Definition> q = entityManager().createQuery(sql.toString(), 
+					Definition.class);
+			q.setParameter("calculation", calculation.toString().toUpperCase());
+			q.setParameter("definitionType" , DefinitionType.CALCULATED);
+			
+			definitions = q.getResultList();
+		}
+		return definitions;
 	}
 
 	/**

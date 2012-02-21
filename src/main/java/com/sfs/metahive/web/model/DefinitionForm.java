@@ -215,9 +215,6 @@ public class DefinitionForm extends BackingForm {
 	        definition.setKeyValueAccess(this.getKeyValueAccess());
 	        definition.setApplicability(this.getApplicability());
 	        
-	        if (this.getDefinitionType() == DefinitionType.CALCULATED) {
-	        	definition.setCalculatedDefinitions(this.getRelatedDefinitions());
-	        }
 	        if (this.getDefinitionType() == DefinitionType.SUMMARY) {
 	        	for (Definition def : this.getRelatedDefinitions()) {
 	        		definition.addSummarisedDefinition(def);

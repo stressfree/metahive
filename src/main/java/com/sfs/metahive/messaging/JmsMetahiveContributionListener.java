@@ -136,7 +136,7 @@ public class JmsMetahiveContributionListener {
 				
 				Record record = Record.findRecordByRecordIdEquals(primaryRecord);
 				
-				logger.error("Record id: " + record.getId());
+				logger.info("Record id: " + record.getId());
 				
 				boolean fieldCreated = false;
 				

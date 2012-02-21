@@ -153,8 +153,9 @@ public class KeyValue {
 			}
 			if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER) {
 				if (this.getDoubleValue() != null) {
-					value = String.valueOf(this.getDoubleValue());
-					if (StringUtils.endsWithIgnoreCase(value, ".0")) {
+					DecimalFormat df = new DecimalFormat("#.##");					
+					value = df.format(this.getDoubleValue());
+					if (StringUtils.endsWithIgnoreCase(value, ".00")) {
 						value = StringUtils.substring(value, 0, value.length() -2);
 					}
 					value += appendUnitOfMeasure();
@@ -162,12 +163,12 @@ public class KeyValue {
 			}
 			if (this.getDefinition().getDataType() == DataType.TYPE_CURRENCY) {
 				if (this.getDoubleValue() != null) {
-					DecimalFormat df = new java.text.DecimalFormat("$###,###,###,##0.00");
+					DecimalFormat df = new DecimalFormat("$###,###,###,##0.00");
 					value = df.format(this.getDoubleValue()) + appendUnitOfMeasure();
 				}
 			}			
 			if (this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
-				if (this.getDoubleValue() != null) {					
+				if (this.getDoubleValue() != null) {
 					NumberFormat percentFormatter = NumberFormat.getPercentInstance(
 							LocaleContextHolder.getLocale());
 					value = percentFormatter.format(this.getDoubleValue()) +
