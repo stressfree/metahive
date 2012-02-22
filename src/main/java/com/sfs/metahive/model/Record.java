@@ -529,46 +529,49 @@ public class Record {
 				id = keyValueCollection.getTertiaryRecordId();
 			}
 			
+			if (StringUtils.isNotBlank(id)) {
+				KeyValueCategories keyValueCategories = new KeyValueCategories();
+				keyValueCategories.setId(id);
 			
-			KeyValueCategories keyValueCategories = new KeyValueCategories();
-			keyValueCategories.setId(id);
-			
-			if (keyValueCategoryRecords.containsKey(id)) {
-				keyValueCategories = keyValueCategoryRecords.get(id);
-			}
-			
-			for (String name : keyValueCollection.getKeyValueMap().keySet()) {
-				KeyValue keyValue = keyValueCollection.getKeyValueMap().get(name);
-				
-				if (categoryMap.containsKey(keyValue.getDefinition().getId())) {
-										
-					String category = categoryMap.get(keyValue.getDefinition().getId());
-
-					KeyValueCategory keyValueCategory = new KeyValueCategory();
-					keyValueCategory.setName(category);
-					
-					if (keyValueCategories.getCategories().containsKey(category)) {
-						keyValueCategory = keyValueCategories
-								.getCategories().get(category);
-					}
-
-					String definition = keyValue.getDefinition().getName();
-					
-					List<KeyValue> keyValues = new ArrayList<KeyValue>();
-					if (keyValueCategory.getKeyValues().containsKey(name)) {
-						keyValues = keyValueCategory.getKeyValues().get(definition);
-					}
-					
-					if (keyValues.size() == 0 || !keyValue.hasNoData()) {
-						keyValues.add(keyValue);
-						keyValueCategory.getKeyValues().put(definition, keyValues);
-					}
-					
-
-					keyValueCategories.getCategories().put(category, keyValueCategory);
+				if (keyValueCategoryRecords.containsKey(id)) {
+					keyValueCategories = keyValueCategoryRecords.get(id);
 				}
+				
+				for (String name : keyValueCollection.getKeyValueMap().keySet()) {
+					KeyValue keyValue = keyValueCollection.getKeyValueMap().get(name);
+					
+					if (categoryMap.containsKey(keyValue.getDefinition().getId())) {
+											
+						String category = categoryMap.get(
+								keyValue.getDefinition().getId());
+	
+						KeyValueCategory keyValueCategory = new KeyValueCategory();
+						keyValueCategory.setName(category);
+						
+						if (keyValueCategories.getCategories().containsKey(category)) {
+							keyValueCategory = keyValueCategories
+									.getCategories().get(category);
+						}
+	
+						String definition = keyValue.getDefinition().getName();
+						
+						List<KeyValue> keyValues = new ArrayList<KeyValue>();
+						if (keyValueCategory.getKeyValues().containsKey(name)) {
+							keyValues = keyValueCategory.getKeyValues().get(definition);
+						}
+						
+						if (keyValues.size() == 0 || !keyValue.hasNoData()) {
+							keyValues.add(keyValue);
+							keyValueCategory.getKeyValues().put(definition, keyValues);
+						}
+						
+	
+						keyValueCategories.getCategories().put(
+								category, keyValueCategory);
+					}
+				}
+				keyValueCategoryRecords.put(id, keyValueCategories);
 			}
-			keyValueCategoryRecords.put(id, keyValueCategories);
 		}
 
 		return keyValueCategoryRecords;

@@ -6,9 +6,11 @@
 			<div class="keyValueSet">
     			<h5><c:out value="${keyValueCategory.key}" /></h5>
     			<ul class="keyvalues">
-    				<c:forEach items="${keyValueCategory.value.keyValues}" var="keyValue">
-    					<li><span><c:out value="${keyValue.definition.name}" />:</span><c:out value=" " />
-    						<c:out value="${keyValue.value}" />
+    				<c:forEach items="${keyValueCategory.value.keyValues}" var="keyValues">
+    					<li><span><c:out value="${keyValues.key}" />:</span><c:out value=" " />
+    						<c:forEach items="${keyValues.value}" var="keyValue">
+    							<c:out value="${keyValue.value}" /><br />
+    						</c:forEach>
     					</li>
     				</c:forEach>
     			</ul>
