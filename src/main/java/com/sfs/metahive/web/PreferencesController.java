@@ -59,7 +59,7 @@ public class PreferencesController extends BaseController {
 	
     @ModelAttribute("definitions")
     public Map<String, List<Definition>> populateDefinitions() {    	
-    	return Definition.findGroupedDefinitions();
+    	return Definition.groupDefinitions(Definition.findTopLevelDefinitions());
     }
 
 }

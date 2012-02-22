@@ -304,28 +304,6 @@ public class Definition {
 
 		return q.getResultList();
 	}
-
-	/**
-	 * A helper function to load the definitions grouped by their category.
-	 * The resulting map excludes the unique identifier definition(s).
-	 *
-	 * @return the map
-	 */
-	public static Map<String, List<Definition>> findGroupedDefinitions() {			
-		return groupDefinitions(Definition.findTopLevelDefinitions());
-	}	
-
-	/**
-	 * A helper function to load the definitions that an organisation 
-	 * has contributed data for, limited to standard definitions and grouped by
-	 * heir category. The resulting map excludes the unique identifier definition(s).
-	 *
-	 * @return the map
-	 */
-	public static Map<String, List<Definition>> findGroupedSubmissionDefinitions(
-			final Organisation organisation) {		
-		return groupDefinitions(Definition.findSubmissionDefinitions(organisation));
-	}
 	
 	/**
 	 * Find the definition going by the supplied name.
@@ -380,20 +358,39 @@ public class Definition {
 	}
 
 	/**
-	 * Find the top level definitions (i.e. those that are not summarised.
+	 * Find the top level definitions (i.e. those that are not summarised).
 	 * 
 	 * @return the list of definitions
 	 */
 	public static List<Definition> findTopLevelDefinitions() {
+		return findTopLevelDefinitions(null);
+	}
+	
+	/**
+	 * Find the top level definitions (i.e. those that are not summarised).
+	 * 
+	 * @param applicability the applicability of the definition to filter by
+	 * @return the list of definitions
+	 */
+	public static List<Definition> findTopLevelDefinitions(
+			final Applicability applicability) {
 
 		StringBuilder sql = new StringBuilder("SELECT d FROM Definition d");
-		sql.append(" WHERE d.summaryDefinition IS NULL ORDER BY d.name ASC");
+		sql.append(" WHERE d.summaryDefinition IS NULL");
+		
+		if (applicability != null) {
+			sql.append(" AND d.applicability = :applicability");
+		}		
+		sql.append(" ORDER BY d.name ASC");
 
 		TypedQuery<Definition> q = entityManager().createQuery(sql.toString(),
 				Definition.class);
+		if (applicability != null) {
+			q.setParameter("applicability", applicability);
+		}
 
 		return q.getResultList();
-	}
+	}	
 	
 	/**
 	 * Find definitions that have data supplied by the supplied organisation.
@@ -635,6 +632,35 @@ public class Definition {
 		}
 		return definitions;
 	}
+	
+	/**
+	 * Group the supplied definitions - does not include any unique id data types.
+	 *
+	 * @param definitions the definitions
+	 * @return the map
+	 */
+	public static Map<String, List<Definition>> groupDefinitions(
+			final List<Definition> definitions) {
+		
+		Map<String, List<Definition>> groupedDefinitions = 
+				new TreeMap<String, List<Definition>>();
+		
+		for (Definition definition : definitions) {
+			if (definition.getDataType() != DataType.TYPE_UNIQUEID) {
+				String name = definition.getCategory().getName();
+				
+				List<Definition> subGroup = new ArrayList<Definition>();
+				
+				if (groupedDefinitions.containsKey(name)) {
+					subGroup = groupedDefinitions.get(name);
+				}
+				subGroup.add(definition);
+				
+				groupedDefinitions.put(name, subGroup);
+			}
+		}		
+		return groupedDefinitions;		
+	}
 
 	/**
 	 * Builds the where statement.
@@ -681,36 +707,6 @@ public class Definition {
 			variables.put("category", filter.getCategory());
 		}
 		return variables;
-	}
-
-	
-	/**
-	 * Group the supplied definitions.
-	 *
-	 * @param definitions the definitions
-	 * @return the map
-	 */
-	private static Map<String, List<Definition>> groupDefinitions(
-			final List<Definition> definitions) {
-		
-		Map<String, List<Definition>> groupedDefinitions = 
-				new TreeMap<String, List<Definition>>();
-		
-		for (Definition definition : definitions) {
-			if (definition.getDataType() != DataType.TYPE_UNIQUEID) {
-				String name = definition.getCategory().getName();
-				
-				List<Definition> subGroup = new ArrayList<Definition>();
-				
-				if (groupedDefinitions.containsKey(name)) {
-					subGroup = groupedDefinitions.get(name);
-				}
-				subGroup.add(definition);
-				
-				groupedDefinitions.put(name, subGroup);
-			}
-		}		
-		return groupedDefinitions;		
 	}
 	
 }

@@ -116,17 +116,9 @@ public class KeyValueCalculator {
 				logger.info("Calculated string value: " + kv.getStringValue());
 				logger.info("Calculated double value: " + kv.getDoubleValue());
     		
-				try {
-					if (kv.getId() == null) {
-						kv.persist();
-						kv.flush();						
-					} else {
-						kv.merge();
-					}
-				} catch (Exception e) {
-					logger.error("Error saving key value: " + e.getMessage(), e);
-				}
-				
+				// Save the key value
+				saveKeyValue(kv);
+								
 				if (refresh) {
 					if (def.getSummaryDefinition() != null) {
 						// Recalculate the associated summary definition
@@ -195,21 +187,13 @@ public class KeyValueCalculator {
 			kv.setValue(result);
 			logger.info("Calculated string value: " + kv.getStringValue());
 			logger.info("Calculated double value: " + kv.getDoubleValue());
-	    	
-			try {
-				if (kv.getId() == null) {
-					kv.persist();
-					kv.flush();
-				} else {
-					kv.merge();
-				}
-				
-				if (refresh) {
-					// Recalculate any associated calculated definitions
-					recalculateCalculatedDefinitions(def, kv);				
-				}
-			} catch (Exception e) {
-				logger.error("Error saving key value: " + e.getMessage(), e);
+	    					
+			// Save the key value
+			saveKeyValue(kv);
+			
+			if (refresh) {
+				// Recalculate any associated calculated definitions
+				recalculateCalculatedDefinitions(def, kv);				
 			}
     	}  
     }
@@ -254,20 +238,10 @@ public class KeyValueCalculator {
 			logger.info("Calculated string value: " + kv.getStringValue());
 			logger.info("Calculated double value: " + kv.getDoubleValue());
 	    	
-			try {
-				if (kv.getId() == null) {
-					kv.persist();
-					kv.flush();
-				} else {
-					kv.merge();
-				}
-				
-				if (refresh) {
-					// Recalculate any associated calculated definitions
-					recalculateCalculatedDefinitions(def, kv);				
-				}
-			} catch (Exception e) {
-				logger.error("Error saving key value: " + e.getMessage(), e);
+			// Save the key value
+			if (refresh) {
+				// Recalculate any associated calculated definitions
+				recalculateCalculatedDefinitions(def, kv);				
 			}
     	}  
     }
@@ -292,10 +266,10 @@ public class KeyValueCalculator {
     	String tertiaryId = "";
     	
     	if (StringUtils.isNotBlank(secondaryRecordId)) {
-    		secondaryId = secondaryRecordId;
+    		secondaryId = parseRecordId(secondaryRecordId);
     	}
     	if (StringUtils.isNotBlank(tertiaryRecordId)) {
-    		tertiaryId = tertiaryRecordId;
+    		tertiaryId = parseRecordId(tertiaryRecordId);
     	}
     	
     	if (StringUtils.isBlank(secondaryId) && StringUtils.isNotBlank(
@@ -327,6 +301,24 @@ public class KeyValueCalculator {
     		kv.setTertiaryRecordId(tertiaryId);
     	}
     	return kv;
+    }
+    
+    /**
+     * Save the key value.
+     *
+     * @param kv the kv
+     */
+    private static void saveKeyValue(final KeyValue kv) {    	
+    	try {
+			if (kv.getId() == null) {
+				kv.persist();
+				kv.flush();						
+			} else {
+				kv.merge();
+			}
+		} catch (Exception e) {
+			logger.error("Error saving key value: " + e.getMessage(), e);
+		}
     }
     
     /**
@@ -483,5 +475,27 @@ public class KeyValueCalculator {
 			}
 		}
 		return refresh;
+    }
+    
+    /**
+     * Parses the record id. Tries casting to an integer first.
+     *
+     * @param recordId the record id
+     * @return the string
+     */
+    private static String parseRecordId(final String recordId) {
+    	
+    	String record = "";
+    	
+    	if (StringUtils.isNotBlank(recordId)) {
+    		record = recordId;
+    		try {
+    			int number = Integer.parseInt(recordId);
+    			record = String.valueOf(number);		
+    		} catch (NumberFormatException nfe) {
+    			// Error casting to a number
+    		}
+    	}
+    	return record;
     }
 }

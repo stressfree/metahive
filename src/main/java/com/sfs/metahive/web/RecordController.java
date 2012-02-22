@@ -95,10 +95,18 @@ public class RecordController extends BaseController {
  	public String show(@PathVariable("id") Long id, Model uiModel,
  			HttpServletRequest request) {
 		
-		Record record = Record.findRecord(id);
-				
-		uiModel.addAttribute("record", record);
+		Person user = loadUser(request);
+		UserRole role = UserRole.ANONYMOUS;
 		
+		if (user != null) {
+			role = user.getUserRole();
+		}
+		
+		Record record = Record.findRecord(id);
+		record.loadAllKeyValues(role, this.getContext());		
+		
+		uiModel.addAttribute("record", record);
+				
 		return "records/show";
 	}
 

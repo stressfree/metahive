@@ -13,4 +13,28 @@
     	</h1>
     </div>
     
+    <div class="primaryRecords">
+    	<c:forEach items="${record.primaryKeyValueCollection}" var="primaryRecord">
+    		<metahive:keyvalues keyValueCategories="${primaryRecord.value}" />
+    	</c:forEach>
+    </div>
+    
+    <div class="secondaryRecords">
+    	<c:forEach items="${record.secondaryKeyValueCollection}" var="secondaryRecord">
+	    	<div class="secondaryRecord">
+    			<h3><c:out value="${preferences.secondaryRecordName}" /><c:out value=" " /><c:out value="${secondaryRecord.key}" /></h3>
+    			<metahive:keyvalues keyValueCategories="${secondaryRecord.value}" />
+    		</div>
+    	</c:forEach>
+    </div>
+    
+    <div class="tertiaryRecords">
+	    <c:forEach items="${record.tertiaryKeyValueCollection}" var="tertiaryRecord">
+    		<div class="tertiaryRecord">
+    			<h3><c:out value="${preferences.tertiaryRecordName}" /><c:out value=" " /><c:out value="${tertiaryRecord.key}" /></h3>
+    			<metahive:keyvalues keyValueCategories="${tertiaryRecord.value}" />
+    		</div>
+    	</c:forEach>
+    </div>
+        
 </div>

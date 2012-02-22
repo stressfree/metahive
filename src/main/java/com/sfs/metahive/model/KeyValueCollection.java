@@ -1,6 +1,7 @@
 package com.sfs.metahive.model;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -16,7 +17,7 @@ public class KeyValueCollection {
 	private Long id;
 	
 	/** The key value map. */
-	private Map<String, KeyValue> keyValueMap;
+	private Map<String, KeyValue> keyValueMap = new TreeMap<String, KeyValue>();
 		
 	/** The record id. */
 	private String recordId;

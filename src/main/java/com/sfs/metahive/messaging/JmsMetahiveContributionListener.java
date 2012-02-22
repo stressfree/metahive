@@ -137,9 +137,7 @@ public class JmsMetahiveContributionListener {
 				Record record = Record.findRecordByRecordIdEquals(primaryRecord);
 				
 				logger.info("Record id: " + record.getId());
-				
-				boolean fieldCreated = false;
-				
+								
 				if (record != null) {
 					for (int index : definitions.keySet()) {
 						Definition definition = definitions.get(index);
@@ -160,23 +158,12 @@ public class JmsMetahiveContributionListener {
 							field.persist();
 							
 							processCount++;
-							fieldCreated = true;
 							
 							JmsRecalculateRequest req = new JmsRecalculateRequest(field);
 							keyValueGenerationTemplate.convertAndSend(req);
 						}
 					}
-				}
-				
-				if (fieldCreated) {
-					// Update the secondary/tertiary record counts if applicable
-					if (!record.containsSecondaryRecord(secondaryRecord)
-							|| !record.containsTertiaryRecord(tertiaryRecord)) {
-						record.addSecondaryRecord(secondaryRecord);
-						record.addTertiaryRecord(tertiaryRecord);
-						record.merge();
-					}
-				}				
+				}			
 			}
 		}
     	return processCount;

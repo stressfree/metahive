@@ -4,12 +4,14 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.KeyValue;
 import com.sfs.metahive.model.KeyValueBoolean;
 import com.sfs.metahive.model.KeyValueType;
 import com.sfs.metahive.model.Record;
 import com.sfs.metahive.model.UserRole;
 import java.lang.Double;
 import java.lang.String;
+import java.util.List;
 import org.springframework.context.ApplicationContext;
 
 privileged aspect KeyValue_Roo_JavaBean {
@@ -84,6 +86,14 @@ privileged aspect KeyValue_Roo_JavaBean {
     
     public void KeyValue.setBooleanValue(KeyValueBoolean booleanValue) {
         this.booleanValue = booleanValue;
+    }
+    
+    public List<KeyValue> KeyValue.getChildKeyValues() {
+        return this.childKeyValues;
+    }
+    
+    public void KeyValue.setChildKeyValues(List<KeyValue> childKeyValues) {
+        this.childKeyValues = childKeyValues;
     }
     
     public UserRole KeyValue.getUserRole() {

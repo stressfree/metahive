@@ -80,9 +80,9 @@
 									</tr>
 									<c:forEach var="keyValueCollection" items="${record.remainingKeyValueMap}">
 										<tr class="${rowStyle} secondaryRow">
-											<td class="secondaryRecord"><c:out value="${keyValueCollection.value.secondaryRecordId}" /></td>
-											<td class="tertiaryRecord"><c:out value="${keyValueCollection.value.tertiaryRecordId}" /></td>
-											<c:forEach var="keyValue" items="${keyValueCollection.value.keyValueMap}">
+											<td class="secondaryRecord"><c:out value="${keyValueCollection.secondaryRecordId}" /></td>
+											<td class="tertiaryRecord"><c:out value="${keyValueCollection.tertiaryRecordId}" /></td>
+											<c:forEach var="keyValue" items="${keyValueCollection.keyValueMap}">
 	 											<td class="${keyValue.value.cssClass}"><c:out value="${keyValue.value.value}" /></td>
 	 										</c:forEach>
 										</tr>

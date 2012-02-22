@@ -11,17 +11,16 @@ privileged aspect Record_Roo_ToString {
         StringBuilder sb = new StringBuilder();
         sb.append("FirstKeyValueCollection: ").append(getFirstKeyValueCollection()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
+        sb.append("KeyValueCollection: ").append(getKeyValueCollection() == null ? "null" : getKeyValueCollection().size()).append(", ");
         sb.append("KeyValueMap: ").append(getKeyValueMap() == null ? "null" : getKeyValueMap().size()).append(", ");
         sb.append("KeyValueMapSize: ").append(getKeyValueMapSize()).append(", ");
+        sb.append("PrimaryKeyValueCollection: ").append(getPrimaryKeyValueCollection() == null ? "null" : getPrimaryKeyValueCollection().size()).append(", ");
         sb.append("RecordId: ").append(getRecordId()).append(", ");
         sb.append("RemainingKeyValueMap: ").append(getRemainingKeyValueMap() == null ? "null" : getRemainingKeyValueMap().size()).append(", ");
-        sb.append("SecondaryRecordCount: ").append(getSecondaryRecordCount()).append(", ");
-        sb.append("SecondaryRecordSet: ").append(getSecondaryRecordSet()).append(", ");
-        sb.append("SecondaryRecords: ").append(getSecondaryRecords()).append(", ");
-        sb.append("TertiaryRecordCount: ").append(getTertiaryRecordCount()).append(", ");
-        sb.append("TertiaryRecordSet: ").append(getTertiaryRecordSet()).append(", ");
-        sb.append("TertiaryRecords: ").append(getTertiaryRecords()).append(", ");
-        sb.append("Version: ").append(getVersion());
+        sb.append("SecondaryKeyValueCollection: ").append(getSecondaryKeyValueCollection() == null ? "null" : getSecondaryKeyValueCollection().size()).append(", ");
+        sb.append("TertiaryKeyValueCollection: ").append(getTertiaryKeyValueCollection() == null ? "null" : getTertiaryKeyValueCollection().size()).append(", ");
+        sb.append("Version: ").append(getVersion()).append(", ");
+        sb.append("ShowAllDefinitions: ").append(isShowAllDefinitions());
         return sb.toString();
     }
     

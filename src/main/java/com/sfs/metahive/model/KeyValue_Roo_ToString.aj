@@ -10,6 +10,7 @@ privileged aspect KeyValue_Roo_ToString {
     public String KeyValue.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("BooleanValue: ").append(getBooleanValue()).append(", ");
+        sb.append("ChildKeyValues: ").append(getChildKeyValues() == null ? "null" : getChildKeyValues().size()).append(", ");
         sb.append("Context: ").append(getContext()).append(", ");
         sb.append("CssClass: ").append(getCssClass()).append(", ");
         sb.append("Definition: ").append(getDefinition()).append(", ");

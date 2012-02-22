@@ -25,10 +25,6 @@ privileged aspect RecordOnDemand_Roo_DataOnDemand {
     public Record RecordOnDemand.getNewTransientRecord(int index) {
         Record obj = new Record();
         setRecordId(obj, index);
-        setSecondaryRecordCount(obj, index);
-        setSecondaryRecords(obj, index);
-        setTertiaryRecordCount(obj, index);
-        setTertiaryRecords(obj, index);
         return obj;
     }
     
@@ -38,26 +34,6 @@ privileged aspect RecordOnDemand_Roo_DataOnDemand {
             recordId = new Random().nextInt(10) + recordId.substring(1, 255);
         }
         obj.setRecordId(recordId);
-    }
-    
-    public void RecordOnDemand.setSecondaryRecordCount(Record obj, int index) {
-        int secondaryRecordCount = index;
-        obj.setSecondaryRecordCount(secondaryRecordCount);
-    }
-    
-    public void RecordOnDemand.setSecondaryRecords(Record obj, int index) {
-        String secondaryRecords = "secondaryRecords_" + index;
-        obj.setSecondaryRecords(secondaryRecords);
-    }
-    
-    public void RecordOnDemand.setTertiaryRecordCount(Record obj, int index) {
-        int tertiaryRecordCount = index;
-        obj.setTertiaryRecordCount(tertiaryRecordCount);
-    }
-    
-    public void RecordOnDemand.setTertiaryRecords(Record obj, int index) {
-        String tertiaryRecords = "tertiaryRecords_" + index;
-        obj.setTertiaryRecords(tertiaryRecords);
     }
     
     public Record RecordOnDemand.getSpecificRecord(int index) {

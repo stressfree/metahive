@@ -70,6 +70,10 @@ public class KeyValue {
 	@Index(name="indexBooleanValue")
 	@Enumerated(EnumType.STRING)
 	private KeyValueBoolean booleanValue;
+
+	/** The child key values. */
+	@Transient
+	private List<KeyValue> childKeyValues;
 	
 	/** The user role. */
 	@Transient
@@ -180,6 +184,34 @@ public class KeyValue {
 	}
 	
 	/**
+	 * Checks for no data in the key value.
+	 *
+	 * @return true, if successful
+	 */
+	public final boolean hasNoData() {
+		boolean hasNoData = true;
+		
+		if (this.getDefinition().getDataType() == DataType.TYPE_STRING) {
+			if (this.getStringValue() != null) {
+				hasNoData = false;
+			}
+		}
+		if (this.getDefinition().getDataType() == DataType.TYPE_BOOLEAN) {
+			if (this.getBooleanValue() != null) {
+				hasNoData = false;
+			}
+		}
+		if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER
+				|| this.getDefinition().getDataType() == DataType.TYPE_CURRENCY
+				|| this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
+			if (this.getDoubleValue() != null) {
+				hasNoData = false;
+			}
+		}		
+		return hasNoData;
+	}
+	
+	/**
 	 * Find key values for the supplied Record.
 	 *
 	 * @param record the record
@@ -249,12 +281,14 @@ public class KeyValue {
         	throw new IllegalArgumentException("The primaryId argument is required");
         }
         
-        TypedQuery<KeyValue> q = entityManager().createQuery(
-        		"SELECT k FROM KeyValue AS k JOIN k.definition d"
-        		+ " WHERE d.id = :definitionId AND"
-        	    + " LOWER(k.primaryRecordId) = LOWER(:primaryRecordId)"
-        		+ " AND LOWER(k.secondaryRecordId) = LOWER(:secondaryRecordId)"
-        	    + " AND LOWER(k.tertiaryRecordId) = LOWER(:tertiaryRecordId)", 
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT k FROM KeyValue AS k JOIN k.definition d");
+        sql.append(" WHERE d.id = :definitionId AND");
+        sql.append(" LOWER(k.primaryRecordId) = LOWER(:primaryRecordId)");
+        sql.append(" AND LOWER(k.secondaryRecordId) = LOWER(:secondaryRecordId)");
+        sql.append(" AND LOWER(k.tertiaryRecordId) = LOWER(:tertiaryRecordId)");
+                
+        TypedQuery<KeyValue> q = entityManager().createQuery(sql.toString(), 
         		KeyValue.class);
         q.setParameter("definitionId", def.getId());
         q.setParameter("primaryRecordId", primaryId);

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TreeSet;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,23 +40,34 @@ public class Record {
 	@Size(min = 1, max = 255)
 	@Column(unique = true)
 	private String recordId;
-	
-	/** The secondary record count. */
-	private int secondaryRecordCount;
-	
-	/** The secondary record array. */
-	private String secondaryRecords;
-	
-	/** The tertiary record count. */
-	private int tertiaryRecordCount;
-	
-	/** The tertiary record array. */
-	private String tertiaryRecords;
-	
+		
 	/** The key values (specific to the list of requested values). */
 	@Transient
 	private Map<String, KeyValueCollection> keyValueMap;
 	
+	/** The show all definitions flag. */
+	@Transient
+	private boolean showAllDefinitions;
+	
+	
+	/**
+	 * A helper function to get the key value collections as a list.
+	 *
+	 * @return the first key value collection
+	 */
+	public List<KeyValueCollection> getKeyValueCollection() {
+		
+		List<KeyValueCollection> keyValueCollections = 
+				new ArrayList<KeyValueCollection>();
+		
+		if (this.getKeyValueMap() != null && this.getKeyValueMap().size() > 0) {
+			for (String key : this.getKeyValueMap().keySet()) {
+				KeyValueCollection keyValueCollection = this.getKeyValueMap().get(key);
+				keyValueCollections.add(keyValueCollection);
+			}
+		}
+		return keyValueCollections;
+	}
 	
 	/**
 	 * A helper function to get the first key value.
@@ -80,16 +89,14 @@ public class Record {
 	 *
 	 * @return the remaining key value map
 	 */
-	public Map<String, KeyValueCollection> getRemainingKeyValueMap() {
-		Map<String, KeyValueCollection> remainingMap = 
-				new TreeMap<String, KeyValueCollection>();
+	public List<KeyValueCollection> getRemainingKeyValueMap() {
+		List<KeyValueCollection> remainingMap = new ArrayList<KeyValueCollection>();
 		
 		if (this.getKeyValueMap() != null && this.getKeyValueMap().size() > 1) {
 			int x = 0;
 			for (String key : this.getKeyValueMap().keySet()) {
 				if (x != 0) {
-					KeyValueCollection collection = this.getKeyValueMap().get(key);
-					remainingMap.put(key, collection);
+					remainingMap.add(this.getKeyValueMap().get(key));
 				}
 				x++;
 			}
@@ -98,73 +105,39 @@ public class Record {
 	}
 	
 	/**
-	 * Contains the supplied secondary record.
+	 * Gets the primary key value collection.
 	 *
-	 * @param record the record
-	 * @return true, if successful
+	 * @return the primary key value collection
 	 */
-	public boolean containsSecondaryRecord(final String record) {		
-		return buildRecordSet(secondaryRecords).contains(record);
+	public Map<String, KeyValueCategories> getPrimaryKeyValueCollection() {
+				
+		return buildMap(Definition.groupDefinitions(
+				Definition.findTopLevelDefinitions(Applicability.RECORD_PRIMARY)), 
+				Applicability.RECORD_PRIMARY);
 	}
 	
 	/**
-	 * Adds the secondary record.
+	 * Gets the secondary key value collection.
 	 *
-	 * @param record the record
+	 * @return the secondary key value collection
 	 */
-	public void addSecondaryRecord(final String record) {
-		if (StringUtils.isNotBlank(record)) {
-			TreeSet<String> records = buildRecordSet(secondaryRecords);
-			if (!records.contains(record)) {
-				records.add(record);
-				secondaryRecordCount = records.size();
-				secondaryRecords = buildRecordString(records);
-			}
-		}
-	}
-
-	/**
-	 * Contains the supplied tertiary record.
-	 *
-	 * @param record the record
-	 * @return true, if successful
-	 */
-	public boolean containsTertiaryRecord(final String record) {		
-		return buildRecordSet(tertiaryRecords).contains(record);
+	public Map<String, KeyValueCategories> getSecondaryKeyValueCollection() {
+				
+		return buildMap(Definition.groupDefinitions(
+				Definition.findTopLevelDefinitions(Applicability.RECORD_SECONDARY)), 
+				Applicability.RECORD_SECONDARY);
 	}
 	
 	/**
-	 * Adds the tertiary record.
+	 * Gets the tertiary key value collection.
 	 *
-	 * @param record the record
+	 * @return the tertiary key value collection
 	 */
-	public void addTertiaryRecord(final String record) {
-		if (StringUtils.isNotBlank(record)) {
-			TreeSet<String> records = buildRecordSet(tertiaryRecords);
-			if (!records.contains(record)) {
-				records.add(record);
-				tertiaryRecordCount = records.size();
-				tertiaryRecords = buildRecordString(records);
-			}
-		}
-	}
-		
-	/**
-	 * Gets the secondary record set.
-	 *
-	 * @return the secondary record set
-	 */
-	public TreeSet<String> getSecondaryRecordSet() {
-		return buildRecordSet(this.secondaryRecords);	
-	}
-	
-	/**
-	 * Gets the tertiary record set.
-	 *
-	 * @return the tertiary record set
-	 */
-	public TreeSet<String> getTertiaryRecordSet() {
-		return buildRecordSet(this.tertiaryRecords);	
+	public Map<String, KeyValueCategories> getTertiaryKeyValueCollection() {
+				
+		return buildMap(Definition.groupDefinitions(
+				Definition.findTopLevelDefinitions(Applicability.RECORD_TERTIARY)), 
+				Applicability.RECORD_TERTIARY);
 	}
 	
 	/**
@@ -178,6 +151,23 @@ public class Record {
 			size = this.getKeyValueMap().size();
 		}
 		return size;
+	}
+	
+	
+	/**
+	 * Load all the key values for this record.
+	 *
+	 * @param userRole the user role
+	 * @param context the context
+	 */
+	public final void loadAllKeyValues(final UserRole userRole,
+			final ApplicationContext context) {
+		
+		List<Definition> definitions = Definition.findAllDefinitions();
+		
+		this.setKeyValues(
+				KeyValue.findKeyValues(this, definitions),
+				definitions, userRole, context);		
 	}
 	
 	/**
@@ -205,16 +195,6 @@ public class Record {
 							
 				if (StringUtils.isBlank(record.getRecordId())) {
 					record.setRecordId(primaryRecordId);
-				}
-						
-				if (StringUtils.isNotBlank(prefs.getSecondaryRecordRegex())) {
-					record.addSecondaryRecord(regex(recordId, 
-							prefs.getSecondaryRecordRegex()));
-				}
-				
-				if (StringUtils.isNotBlank(prefs.getTertiaryRecordRegex())) {
-					record.addTertiaryRecord(regex(recordId, 
-							prefs.getTertiaryRecordRegex()));
 				}
 							
 			} else {
@@ -435,54 +415,6 @@ public class Record {
     	
     	return variables;
     }
-		
-	/**
-	 * Builds the record string from the supplied collection.
-	 *
-	 * @param records the new records
-	 */
-	private String buildRecordString(final TreeSet<String> records) {
-		StringBuilder recordString = new StringBuilder();
-		if (records != null) {
-			for (String record : records) {
-				if (recordString.length() > 0) {
-					recordString.append(",");
-				}
-				recordString.append("\"");
-				recordString.append(record);
-				recordString.append("\"");
-			}
-		}
-		return recordString.toString();
-	}
-	
-	/**
-	 * Builds the record array from the supplied record string.
-	 *
-	 * @param recordString the record string
-	 * @return the records
-	 */
-	private TreeSet<String> buildRecordSet(final String recordString) {
-				
-		TreeSet<String> records = new TreeSet<String>();
-		
-		if (StringUtils.isNotBlank(recordString)) {
-			StringTokenizer st = new StringTokenizer(recordString,",");
-			while (st.hasMoreTokens()) {
-				String record = st.nextToken();
-				if (StringUtils.startsWith(record, "\"")) {
-					record = StringUtils.substring(record, 1);
-				}
-				if (StringUtils.endsWith(record, "\"")) {
-					record = StringUtils.substring(record, 0, record.length() - 1);
-				}
-				if (!records.contains(record)) {
-					records.add(record);					
-				}
-			}
-		}	
-		return records;
-	}
 	
 	/**
 	 * Builds the key values map based on the list of key values and definitions.
@@ -560,6 +492,86 @@ public class Record {
 	        		 + pe.getMessage());
 	    }
 		return result;
+	}
+	
+	
+	/**
+	 * Builds the key value category map.
+	 *
+	 * @param definitionMap the definition map
+	 * @param applicability the applicability
+	 * @return the map
+	 */
+	private Map<String, KeyValueCategories> buildMap(
+			final Map<String, List<Definition>> definitionMap, 
+			final Applicability applicability) {
+		
+		Map<String, KeyValueCategories> keyValueCategoryRecords = 
+				new TreeMap<String, KeyValueCategories>();
+		
+		Map<Long, String> categoryMap = new TreeMap<Long, String>();
+		
+		for (String key : definitionMap.keySet()) {
+			List<Definition> definitions = definitionMap.get(key);
+			for (Definition definition : definitions) {
+				categoryMap.put(definition.getId(), key);
+			}
+		}
+				
+		for (KeyValueCollection keyValueCollection : this.getKeyValueCollection()) {
+						
+			String id = keyValueCollection.getRecordId();
+
+			if (applicability == Applicability.RECORD_SECONDARY) {
+				id = keyValueCollection.getSecondaryRecordId();
+			}
+			if (applicability == Applicability.RECORD_TERTIARY) {
+				id = keyValueCollection.getTertiaryRecordId();
+			}
+			
+			
+			KeyValueCategories keyValueCategories = new KeyValueCategories();
+			keyValueCategories.setId(id);
+			
+			if (keyValueCategoryRecords.containsKey(id)) {
+				keyValueCategories = keyValueCategoryRecords.get(id);
+			}
+			
+			for (String name : keyValueCollection.getKeyValueMap().keySet()) {
+				KeyValue keyValue = keyValueCollection.getKeyValueMap().get(name);
+				
+				if (categoryMap.containsKey(keyValue.getDefinition().getId())) {
+										
+					String category = categoryMap.get(keyValue.getDefinition().getId());
+
+					KeyValueCategory keyValueCategory = new KeyValueCategory();
+					keyValueCategory.setName(category);
+					
+					if (keyValueCategories.getCategories().containsKey(category)) {
+						keyValueCategory = keyValueCategories
+								.getCategories().get(category);
+					}
+
+					String definition = keyValue.getDefinition().getName();
+					
+					List<KeyValue> keyValues = new ArrayList<KeyValue>();
+					if (keyValueCategory.getKeyValues().containsKey(name)) {
+						keyValues = keyValueCategory.getKeyValues().get(definition);
+					}
+					
+					if (keyValues.size() == 0 || !keyValue.hasNoData()) {
+						keyValues.add(keyValue);
+						keyValueCategory.getKeyValues().put(definition, keyValues);
+					}
+					
+
+					keyValueCategories.getCategories().put(category, keyValueCategory);
+				}
+			}
+			keyValueCategoryRecords.put(id, keyValueCategories);
+		}
+
+		return keyValueCategoryRecords;
 	}
 	
 }

@@ -4,9 +4,9 @@ import com.darius.Expr;
 import com.darius.Parser;
 import com.darius.SyntaxException;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -159,7 +159,7 @@ public class CalculationParser {
 	 */
 	public static Set<Long> parseVariableIds(final String calculation) {
 		
-		HashMap<Long, Long> variableIds = new HashMap<Long, Long>();
+		Set<Long> variableIds = new TreeSet<Long>();
 		
 		logger.debug("Calculation: " + calculation);
 		
@@ -173,7 +173,7 @@ public class CalculationParser {
 		        	 try {
 		        		 Long id = Long.parseLong(StringUtils.substring(m.group(), 1));
 		        		 logger.debug("Variable id: " + id);
-		        		 variableIds.put(id, id);
+		        		 variableIds.add(id);
 		        	 } catch (NumberFormatException nfe) {
 		        		 logger.error("Error parsing variable id");
 		        	 }		        	 
@@ -184,7 +184,8 @@ public class CalculationParser {
 		    }
 		}
 		
-		logger.info(variableIds.keySet().size() + " ids found");
-		return variableIds.keySet();
+		logger.info(variableIds.size() + " ids found");
+		
+		return variableIds;
 	}
 }
