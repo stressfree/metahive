@@ -58,7 +58,6 @@ public class RecordController extends BaseController {
         	Collection<Record> records = record.parseRecords(loadPreferences());
         	        	
         	for (Record newRecord : records) {
-            	System.out.println("Record Id: " + newRecord.getRecordId());
         		newRecord.persist();
         		newRecord.flush();
         	}

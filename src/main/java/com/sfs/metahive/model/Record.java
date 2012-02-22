@@ -292,7 +292,7 @@ public class Record {
 		
 		Record record = null;
 		
-        if (recordId == null || recordId.length() == 0) {
+        if (StringUtils.isBlank(recordId)) {
         	throw new IllegalArgumentException("The recordId argument is required");
         }
         
@@ -559,13 +559,12 @@ public class Record {
 						if (keyValueCategory.getKeyValues().containsKey(name)) {
 							keyValues = keyValueCategory.getKeyValues().get(definition);
 						}
-						
+												
 						if (keyValues.size() == 0 || !keyValue.hasNoData()) {
 							keyValues.add(keyValue);
 							keyValueCategory.getKeyValues().put(definition, keyValues);
 						}
 						
-	
 						keyValueCategories.getCategories().put(
 								category, keyValueCategory);
 					}
