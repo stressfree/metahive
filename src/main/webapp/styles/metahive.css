@@ -135,7 +135,12 @@ a:hover {
 
 .dictionary-header .actions, .record-header .actions {
 	float: right;
-	width: 280px;
+}
+
+.dictionary-header .actionsContainer, .record-header .actionsContainer {
+	position: absolute;
+	width: 500px;
+	margin-left: -500px;
 	text-align: right;
 }
 .dictionary-header .actions form, .record-header .actions form {
@@ -362,6 +367,46 @@ a.expandIcon:hover {
 	margin: 2em 0 0 0;	
 }
 
+.record .record-title {
+	clear: left;
+	padding: 1px 0 0 0;
+}
+.record .secondaryRecords, .record .tertiaryRecords {
+	width: 487px;
+	float: left;
+}
+.record .secondaryRecord, .record .tertiaryRecord {
+	border: 1px solid #eee;
+	padding: 0.5em 15px;
+	margin: 0 0 12px 0;
+	width: 444px;
+}
+.record .secondaryRecord h3, .record .tertiaryRecord h3 {
+	margin: 0 0 0.6em 0;
+}
+
+.record .keyValueSet {
+	clear: left;
+	padding: 0 0 1em 0;
+}
+.record ul.keyvalues {
+	margin: 0 0 1em 0;	
+}
+.record ul.keyvalues li {
+	list-style: none;
+	margin: 0;
+	clear: left;
+}
+.record ul.keyvalues li span.definitionName {
+	float: left;
+	padding: 0 0.5em 0 0;
+	color: #666;
+}
+.record ul.keyvalues li div.values {
+	float: left;
+}
+
+
 #filterform, #administrationmenu, #usermenu {
 	clear: both;
 	padding: 0.4em 20px 0.3em 20px;
@@ -525,12 +570,14 @@ ul.checkall li {
 
 div.keyValueDataKey {
 	background: #eee;
-	width: 40%;
-	margin: 1em 0 0 0;
+	float: left;
+	margin: 0;
 	padding: 0.2em 0;
 }
-div.keyValueDataKey p {
-	margin: 0.2em 1em 0.2em 20px;	
+div.keyValueDataKey li {
+	list-type: none;
+	display: inline;
+	padding: 0 1em;
 }
 
 div.keyValueDataMaximised {
@@ -541,8 +588,15 @@ div.keyValueDataMaximised {
 	background: #fff;
 }
 
+div.keyValueData {
+	clear: both;
+}
+div.keyValueData p.viewOptions {
+	padding: 0.5em 0 0 0;
+	margin: 0 0 0.5em 0;
+}
 div.keyValueData a.viewControl {
-	float: right;
+	margin-left: 1em;
 }
 
 div.keyValueData table {

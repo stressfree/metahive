@@ -1,6 +1,5 @@
 package com.sfs.metahive.model;
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -17,7 +16,7 @@ public class KeyValueCategory {
 	/** The name. */
 	private String name;
 
-	/** The key values. */
-	private Map<String, List<KeyValue>> keyValues = new TreeMap<String, List<KeyValue>>();
+	/** The key value sets. */
+	private Map<String, KeyValueSet> keyValueSets = new TreeMap<String, KeyValueSet>();
 	
 }

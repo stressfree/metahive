@@ -5,11 +5,13 @@ package com.sfs.metahive.model;
 
 import java.lang.String;
 
-privileged aspect KeyValueCategory_Roo_ToString {
+privileged aspect KeyValueSet_Roo_ToString {
     
-    public String KeyValueCategory.toString() {
+    public String KeyValueSet.toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("KeyValueSets: ").append(getKeyValueSets() == null ? "null" : getKeyValueSets().size()).append(", ");
+        sb.append("Id: ").append(getId()).append(", ");
+        sb.append("KeyValueCount: ").append(getKeyValueCount()).append(", ");
+        sb.append("KeyValues: ").append(getKeyValues() == null ? "null" : getKeyValues().size()).append(", ");
         sb.append("Name: ").append(getName());
         return sb.toString();
     }

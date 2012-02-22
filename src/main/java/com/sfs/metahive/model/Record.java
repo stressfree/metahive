@@ -553,17 +553,18 @@ public class Record {
 									.getCategories().get(category);
 						}
 	
-						String definition = keyValue.getDefinition().getName();
+						String def = keyValue.getDefinition().getName();
 						
-						List<KeyValue> keyValues = new ArrayList<KeyValue>();
-						if (keyValueCategory.getKeyValues().containsKey(name)) {
-							keyValues = keyValueCategory.getKeyValues().get(definition);
+						KeyValueSet keyValueSet = new KeyValueSet();
+						keyValueSet.setId(keyValue.getDefinition().getId());
+						keyValueSet.setName(def);
+						
+						if (keyValueCategory.getKeyValueSets().containsKey(name)) {
+							keyValueSet = keyValueCategory.getKeyValueSets().get(def);
 						}
-												
-						if (keyValues.size() == 0 || !keyValue.hasNoData()) {
-							keyValues.add(keyValue);
-							keyValueCategory.getKeyValues().put(definition, keyValues);
-						}
+						
+						keyValueSet.addKeyValue(keyValue);
+						keyValueCategory.getKeyValueSets().put(def, keyValueSet);
 						
 						keyValueCategories.getCategories().put(
 								category, keyValueCategory);

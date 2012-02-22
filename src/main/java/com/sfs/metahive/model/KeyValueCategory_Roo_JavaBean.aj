@@ -3,9 +3,8 @@
 
 package com.sfs.metahive.model;
 
-import com.sfs.metahive.model.KeyValue;
+import com.sfs.metahive.model.KeyValueSet;
 import java.lang.String;
-import java.util.List;
 import java.util.Map;
 
 privileged aspect KeyValueCategory_Roo_JavaBean {
@@ -18,12 +17,12 @@ privileged aspect KeyValueCategory_Roo_JavaBean {
         this.name = name;
     }
     
-    public Map<String, List<KeyValue>> KeyValueCategory.getKeyValues() {
-        return this.keyValues;
+    public Map<String, KeyValueSet> KeyValueCategory.getKeyValueSets() {
+        return this.keyValueSets;
     }
     
-    public void KeyValueCategory.setKeyValues(Map<String, List<KeyValue>> keyValues) {
-        this.keyValues = keyValues;
+    public void KeyValueCategory.setKeyValueSets(Map<String, KeyValueSet> keyValueSets) {
+        this.keyValueSets = keyValueSets;
     }
     
 }
