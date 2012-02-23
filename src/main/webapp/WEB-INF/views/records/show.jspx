@@ -24,28 +24,35 @@
     	</h1>
     </div>
     
-    <div class="primaryRecords">
+    <div class="primaryRecord">
     	<c:forEach items="${record.primaryKeyValueCollection}" var="primaryRecord">
-    		<metahive:keyvalues keyValueCategories="${primaryRecord.value}" />
+    		<metahive:keyvalues keyValueCategories="${primaryRecord.value}" recordLevel="primary" />
     	</c:forEach>
     </div>
     
     <div class="secondaryRecords">
     	<c:forEach items="${record.secondaryKeyValueCollection}" var="secondaryRecord">
-	    	<div class="secondaryRecord">
-    			<h3><c:out value="${preferences.secondaryRecordName}" /><c:out value=" " /><c:out value="${secondaryRecord.key}" /></h3>
-    			<metahive:keyvalues keyValueCategories="${secondaryRecord.value}" />
+    		<c:set var="title"><c:out value="${preferences.secondaryRecordName}" /><c:out value=" " /><c:out value="${secondaryRecord.key}" /></c:set>
+	    	<div class="secondaryRecord" dojoType="dijit.TitlePane" title="${title}">
+    			<metahive:keyvalues keyValueCategories="${secondaryRecord.value}" recordLevel="secondary" />
     		</div>
     	</c:forEach>
     </div>
     
     <div class="tertiaryRecords">
 	    <c:forEach items="${record.tertiaryKeyValueCollection}" var="tertiaryRecord">
-    		<div class="tertiaryRecord">
-    			<h3><c:out value="${preferences.tertiaryRecordName}" /><c:out value=" " /><c:out value="${tertiaryRecord.key}" /></h3>
-    			<metahive:keyvalues keyValueCategories="${tertiaryRecord.value}" />
+    		<c:set var="title"><c:out value="${preferences.tertiaryRecordName}" /><c:out value=" " /><c:out value="${tertiaryRecord.key}" /></c:set>
+	    	<div class="tertiaryRecord" dojoType="dijit.TitlePane" title="${title}">
+    			<metahive:keyvalues keyValueCategories="${tertiaryRecord.value}" recordLevel="tertiary" />
     		</div>
     	</c:forEach>
     </div>
-        
+    <script type="text/javascript">    
+    <![CDATA[     
+        dojo.require("dijit.TitlePane");
+        dojo.addOnLoad(function() {    	
+            dojo.parser.parse();
+        });
+    ]]>
+    </script>
 </div>

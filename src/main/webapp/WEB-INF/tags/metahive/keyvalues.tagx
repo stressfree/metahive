@@ -1,5 +1,6 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<jsp:directive.attribute name="keyValueCategories" type="com.sfs.metahive.model.KeyValueCategories" required="true" rtexprvalue="true" description="The key value categories" />
+	<jsp:directive.attribute name="recordLevel" type="java.lang.String" required="false" rtexprvalue="true" description="The record level of the key values (primary, secondary, tertiary)" />
 
 	<div class="keyValues">
 		<c:forEach items="${keyValueCategories.categories}" var="keyValueCategory">
@@ -7,12 +8,29 @@
     			<h5><c:out value="${keyValueCategory.key}" /></h5>
     			<ul class="keyvalues">
     				<c:forEach items="${keyValueCategory.value.keyValueSets}" var="keyValueSet">
-    					<li><span class="definitionName"><c:out value="${keyValueSet.value.name}" />:</span>
+    					<li><span class="definitionName">
+    						<spring:url value="/definitions/${keyValueSet.value.id}" var="link" />
+    						<a href="${link}"><c:out value="${keyValueSet.value.name}" /></a>:
+    						</span>
     					
     					<div class="values">
     						<c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
-    							<c:out value="${keyValue.value}" />    							
-    							<br />
+    							<c:out value="${keyValue.value}" />
+    							<c:if test="${keyValueSet.value.keyValueCount gt 1}">
+    								(<c:if test="${recordLevel ne 'secondary'}">
+    									<c:out value="${preferences.secondaryRecordName}" />
+    									<c:out value=" " />
+    									<c:out value="${keyValue.secondaryRecordId}" />    									
+    								</c:if>
+    								<c:if test="${recordLevel eq 'primary'}">
+    									<c:out value=" " />
+    								</c:if>
+    								<c:if test="${recordLevel ne 'tertiary'}">
+    									<c:out value="${preferences.secondaryRecordName}" />
+    									<c:out value=" " />
+    									<c:out value="${keyValue.secondaryRecordId}" />    									
+    								</c:if>)<br />
+    							</c:if>	
     						</c:forEach>    					
     					</div><c:out value=" " />
     					</li>
@@ -20,5 +38,6 @@
     			</ul>
     		</div>
     	</c:forEach>
+    	<div class="clear"><!-- --></div>
 	</div>
 </jsp:root>

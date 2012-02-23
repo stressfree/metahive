@@ -56,7 +56,7 @@
     </form:create>
     <spring:url value="/definitions/relatedDefinitions?id=${definition.id}" var="relatedDefinitions" />
     <script type="text/javascript">    
-    <![CDATA[     
+    <![CDATA[
     dojo.require('dojo.NodeList-traverse');
     dojo.require("dojo.data.ItemFileWriteStore");
     dojo.require("dijit.form.FilteringSelect");

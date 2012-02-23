@@ -371,23 +371,38 @@ a.expandIcon:hover {
 	clear: left;
 	padding: 1px 0 0 0;
 }
+
+.record .primaryRecord .keyValueSet {
+	float: left;
+	width: 457px;
+}
+
+.record .secondaryRecord, .record .tertiaryRecord {
+	padding: 0 0 0.5em 0;
+	margin: 0 0 12px 0;
+}
+.record .secondaryRecords {
+	clear: left;
+}
 .record .secondaryRecords, .record .tertiaryRecords {
 	width: 487px;
 	float: left;
 }
 .record .secondaryRecord, .record .tertiaryRecord {
-	border: 1px solid #eee;
-	padding: 0.5em 15px;
-	margin: 0 0 12px 0;
-	width: 444px;
+	width: 473px;
 }
-.record .secondaryRecord h3, .record .tertiaryRecord h3 {
-	margin: 0 0 0.6em 0;
+.record .secondaryRecord .dijitTitlePaneTitle {
+	background: #CCDFF4;
 }
-
+.record .tertiaryRecord .dijitTitlePaneTitle {
+	background: #CCF4D4;
+}
 .record .keyValueSet {
-	clear: left;
 	padding: 0 0 1em 0;
+	margin: 0 15px;
+}
+.record .secondaryRecord .keyValueSet, .record .tertiaryRecord .keyValueSet {
+	clear: left;
 }
 .record ul.keyvalues {
 	margin: 0 0 1em 0;	
@@ -402,6 +417,15 @@ a.expandIcon:hover {
 	padding: 0 0.5em 0 0;
 	color: #666;
 }
+.record ul.keyvalues li span.definitionName a {
+	text-decoration: none;
+	color: #666;	
+}
+.record ul.keyvalues li span.definitionName a:hover { 
+	text-decoration: underline;
+	color: #e92c19;
+}
+
 .record ul.keyvalues li div.values {
 	float: left;
 }
@@ -594,6 +618,7 @@ div.keyValueData {
 div.keyValueData p.viewOptions {
 	padding: 0.5em 0 0 0;
 	margin: 0 0 0.5em 0;
+	text-align: right;
 }
 div.keyValueData a.viewControl {
 	margin-left: 1em;
