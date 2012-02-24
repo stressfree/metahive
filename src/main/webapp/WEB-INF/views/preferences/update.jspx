@@ -55,6 +55,8 @@
         </fieldset>
     </form:update>
     <script type="text/javascript">
+    <![CDATA[   
     	dojo.require('dojo.NodeList-traverse');
+    ]]>
     </script>
 </div>

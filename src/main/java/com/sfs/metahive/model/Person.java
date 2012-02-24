@@ -96,6 +96,12 @@ public class Person implements UserDetails {
 	@ManyToMany
 	@OrderBy("name ASC")
 	private List<Definition> searchDefinitions = new ArrayList<Definition>();
+	
+	/** The show all definitions flag. */
+	private boolean showAllDefinitions;
+	
+	/** The expand all definitions flag. */
+	private boolean expandAllDefinitions;
     
 	
 	/** 

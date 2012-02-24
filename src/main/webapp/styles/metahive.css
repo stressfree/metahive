@@ -369,9 +369,12 @@ a.expandIcon:hover {
 
 .record .record-title {
 	clear: left;
+	float: left;
 	padding: 1px 0 0 0;
 }
-
+.record .primaryRecord {
+	clear: left;
+}
 .record .primaryRecord .keyValueSet {
 	float: left;
 	width: 457px;
@@ -392,42 +395,57 @@ a.expandIcon:hover {
 	width: 473px;
 }
 .record .secondaryRecord .dijitTitlePaneTitle {
-	background: #CCDFF4;
+	background: #F7FBFE;
 }
 .record .tertiaryRecord .dijitTitlePaneTitle {
-	background: #CCF4D4;
+	background: #F2FFF2;
 }
 .record .keyValueSet {
 	padding: 0 0 1em 0;
 	margin: 0 15px;
 }
+.record .keyValueSet h5 {
+	margin: 0 0 0.5em 0;	
+}
 .record .secondaryRecord .keyValueSet, .record .tertiaryRecord .keyValueSet {
 	clear: left;
 }
-.record ul.keyvalues {
-	margin: 0 0 1em 0;	
+
+.record div.keyvalues ul {
+	margin: 0;	
 }
-.record ul.keyvalues li {
+.record div.keyvalues .expandIcon {
+	float: left;	
+}
+.record div.childkeyvalues ul {
+	clear: left;
+	margin: 0 0 0 23px;
+}
+.record div.childkeyvalues div.clear {
+	padding: 0 0 0.7em 0;	
+}
+.record div.keyvalues li {
 	list-style: none;
 	margin: 0;
 	clear: left;
 }
-.record ul.keyvalues li span.definitionName {
+.record div.keyvalues li span.definitionName {
 	float: left;
 	padding: 0 0.5em 0 0;
 	color: #666;
 }
-.record ul.keyvalues li span.definitionName a {
+.record div.keyvalues li span.definitionName a {
 	text-decoration: none;
 	color: #666;	
 }
-.record ul.keyvalues li span.definitionName a:hover { 
+.record div.keyvalues li span.definitionName a:hover { 
 	text-decoration: underline;
 	color: #e92c19;
 }
 
-.record ul.keyvalues li div.values {
+.record div.keyvalues li div.values {
 	float: left;
+	padding: 0 0 0.3em 0;
 }
 
 
@@ -615,15 +633,6 @@ div.keyValueDataMaximised {
 div.keyValueData {
 	clear: both;
 }
-div.keyValueData p.viewOptions {
-	padding: 0.5em 0 0 0;
-	margin: 0 0 0.5em 0;
-	text-align: right;
-}
-div.keyValueData a.viewControl {
-	margin-left: 1em;
-}
-
 div.keyValueData table {
 	width: 100%;
 	clear: both;
@@ -685,6 +694,22 @@ div.keyValueDataMaximised a.viewControl {
 div.keyValueDataMaximised table {
 	width: 99%;
 	margin: 0 0px 5px 5px;
+}
+
+
+p.viewOptions {
+	padding: 0.5em 0 0 0;
+	margin: 0 0 0.5em 0;
+	text-align: right;
+	float: right;
+	color: #999;
+}
+p.viewOptions a {
+	text-decoration: none;
+}
+p.viewOptions a:hover {
+	text-decoration: underline;
+	color: #e92c19;
 }
 
 

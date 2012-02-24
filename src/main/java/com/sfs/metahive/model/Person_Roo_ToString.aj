@@ -30,7 +30,9 @@ privileged aspect Person_Roo_ToString {
         sb.append("AccountNonExpired: ").append(isAccountNonExpired()).append(", ");
         sb.append("AccountNonLocked: ").append(isAccountNonLocked()).append(", ");
         sb.append("CredentialsNonExpired: ").append(isCredentialsNonExpired()).append(", ");
-        sb.append("Enabled: ").append(isEnabled());
+        sb.append("Enabled: ").append(isEnabled()).append(", ");
+        sb.append("ExpandAllDefinitions: ").append(isExpandAllDefinitions()).append(", ");
+        sb.append("ShowAllDefinitions: ").append(isShowAllDefinitions());
         return sb.toString();
     }
     

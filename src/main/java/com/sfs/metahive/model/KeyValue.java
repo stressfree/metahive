@@ -70,10 +70,6 @@ public class KeyValue {
 	@Index(name="indexBooleanValue")
 	@Enumerated(EnumType.STRING)
 	private KeyValueBoolean booleanValue;
-
-	/** The child key values. */
-	@Transient
-	private List<KeyValue> childKeyValues;
 	
 	/** The user role. */
 	@Transient

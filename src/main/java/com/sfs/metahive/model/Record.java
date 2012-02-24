@@ -506,7 +506,7 @@ public class Record {
 			final Map<String, List<Definition>> definitionMap, 
 			final Applicability applicability) {
 		
-		Map<String, KeyValueCategories> keyValueCategoryRecords = 
+		Map<String, KeyValueCategories> kvCategoryRecords = 
 				new TreeMap<String, KeyValueCategories>();
 		
 		Map<Long, String> categoryMap = new TreeMap<Long, String>();
@@ -518,63 +518,107 @@ public class Record {
 			}
 		}
 				
-		for (KeyValueCollection keyValueCollection : this.getKeyValueCollection()) {
+		for (KeyValueCollection kvCollection : this.getKeyValueCollection()) {
 						
-			String id = keyValueCollection.getRecordId();
+			String id = kvCollection.getRecordId();
 
 			if (applicability == Applicability.RECORD_SECONDARY) {
-				id = keyValueCollection.getSecondaryRecordId();
+				id = kvCollection.getSecondaryRecordId();
 			}
 			if (applicability == Applicability.RECORD_TERTIARY) {
-				id = keyValueCollection.getTertiaryRecordId();
+				id = kvCollection.getTertiaryRecordId();
 			}
 			
 			if (StringUtils.isNotBlank(id)) {
-				KeyValueCategories keyValueCategories = new KeyValueCategories();
-				keyValueCategories.setId(id);
+				KeyValueCategories kvCategories = new KeyValueCategories();
+				kvCategories.setId(id);
 			
-				if (keyValueCategoryRecords.containsKey(id)) {
-					keyValueCategories = keyValueCategoryRecords.get(id);
+				if (kvCategoryRecords.containsKey(id)) {
+					kvCategories = kvCategoryRecords.get(id);
 				}
 				
-				for (String name : keyValueCollection.getKeyValueMap().keySet()) {
-					KeyValue keyValue = keyValueCollection.getKeyValueMap().get(name);
+				for (String name : kvCollection.getKeyValueMap().keySet()) {
 					
-					if (categoryMap.containsKey(keyValue.getDefinition().getId())) {
-											
-						String category = categoryMap.get(
-								keyValue.getDefinition().getId());
-	
-						KeyValueCategory keyValueCategory = new KeyValueCategory();
-						keyValueCategory.setName(category);
+					KeyValue keyValue = kvCollection.getKeyValueMap().get(name);
+					
+					Long defId = keyValue.getDefinition().getId();
+					String defName = keyValue.getDefinition().getName();
+					boolean summarisedKeyValue = false;
+					
+					if (keyValue.getDefinition().getSummaryDefinition() != null) {
+						defId = keyValue.getDefinition().getSummaryDefinition().getId();
+						defName = keyValue.getDefinition().getSummaryDefinition()
+								.getName();
+						summarisedKeyValue = true;
+					}
+										
+					if (categoryMap.containsKey(defId)) {
+
+						String category = categoryMap.get(defId);
 						
-						if (keyValueCategories.getCategories().containsKey(category)) {
-							keyValueCategory = keyValueCategories
-									.getCategories().get(category);
+						Map<KeyValueCategory, KeyValueSet> ob = getKeyValueCategory(
+								defId, defName, kvCategories, category);
+						
+						KeyValueCategory kvCategory = ob.keySet().iterator().next();
+						KeyValueSet kvSet = ob.values().iterator().next();
+						
+						if (!summarisedKeyValue) {
+							kvSet.addKeyValue(keyValue, this.showAllDefinitions);
+						} else {
+							kvSet.addChildKeyValue(keyValue, this.showAllDefinitions);
 						}
-	
-						String def = keyValue.getDefinition().getName();
 						
-						KeyValueSet keyValueSet = new KeyValueSet();
-						keyValueSet.setId(keyValue.getDefinition().getId());
-						keyValueSet.setName(def);
-						
-						if (keyValueCategory.getKeyValueSets().containsKey(name)) {
-							keyValueSet = keyValueCategory.getKeyValueSets().get(def);
+						if (this.showAllDefinitions
+								|| kvSet.getKeyValueCount() > 0 
+								|| kvSet.getChildKeyValueSetCount() > 0) {
+							kvCategory.getKeyValueSets().put(defName, kvSet);						
+							kvCategories.getCategories().put(category, kvCategory);
 						}
-						
-						keyValueSet.addKeyValue(keyValue);
-						keyValueCategory.getKeyValueSets().put(def, keyValueSet);
-						
-						keyValueCategories.getCategories().put(
-								category, keyValueCategory);
 					}
 				}
-				keyValueCategoryRecords.put(id, keyValueCategories);
+				kvCategoryRecords.put(id, kvCategories);
 			}
 		}
 
-		return keyValueCategoryRecords;
+		return kvCategoryRecords;
+	}
+	
+	/**
+	 * Gets the key value category.
+	 *
+	 * @param id the id
+	 * @param name the name
+	 * @param keyValueCategories the key value categories
+	 * @param category the category name
+	 * @return the key value category and key value set map
+	 */
+	private static final Map<KeyValueCategory, KeyValueSet> getKeyValueCategory(
+			final Long id, final String name, 
+			final KeyValueCategories keyValueCategories,
+			final String category) {
+		
+
+		KeyValueCategory keyValueCategory = new KeyValueCategory();
+		keyValueCategory.setName(category);
+		
+		if (keyValueCategories.getCategories().containsKey(category)) {
+			keyValueCategory = keyValueCategories
+					.getCategories().get(category);
+		}
+		
+		KeyValueSet keyValueSet = new KeyValueSet();
+		keyValueSet.setId(id);
+		keyValueSet.setName(name);
+		
+		if (keyValueCategory.getKeyValueSets().containsKey(name)) {
+			keyValueSet = keyValueCategory.getKeyValueSets().get(name);
+		}
+		
+		Map<KeyValueCategory, KeyValueSet> result = 
+				new HashMap<KeyValueCategory, KeyValueSet>();
+		result.put(keyValueCategory, keyValueSet);
+		
+		return result;
 	}
 	
 }

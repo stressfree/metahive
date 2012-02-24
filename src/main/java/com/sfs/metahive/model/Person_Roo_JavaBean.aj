@@ -112,4 +112,20 @@ privileged aspect Person_Roo_JavaBean {
         this.searchDefinitions = searchDefinitions;
     }
     
+    public boolean Person.isShowAllDefinitions() {
+        return this.showAllDefinitions;
+    }
+    
+    public void Person.setShowAllDefinitions(boolean showAllDefinitions) {
+        this.showAllDefinitions = showAllDefinitions;
+    }
+    
+    public boolean Person.isExpandAllDefinitions() {
+        return this.expandAllDefinitions;
+    }
+    
+    public void Person.setExpandAllDefinitions(boolean expandAllDefinitions) {
+        this.expandAllDefinitions = expandAllDefinitions;
+    }
+    
 }

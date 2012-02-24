@@ -32,7 +32,7 @@
 							dojo.place(dojo.byId('${div_id}'), node);
 							dojo.place(dojo.create('a', { class: 'expandIcon expandIconHidden' }), 
 									dojo.query('> label', node)[0], 'before');
-							dojo.query('> a', node).onclick(function(e){ 
+							dojo.query('> a.expandIcon', node).onclick(function(e){ 
 								node = dojo.query(e.target).toggleClass('expandIconHidden').closest('span')[0];
 								dojo.query('> div.field-multiselect', node).toggleClass('hidden');
 							});

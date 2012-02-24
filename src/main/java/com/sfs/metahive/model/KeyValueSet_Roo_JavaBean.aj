@@ -4,9 +4,11 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.KeyValue;
+import com.sfs.metahive.model.KeyValueSet;
 import java.lang.Long;
 import java.lang.String;
 import java.util.List;
+import java.util.Map;
 
 privileged aspect KeyValueSet_Roo_JavaBean {
     
@@ -32,6 +34,14 @@ privileged aspect KeyValueSet_Roo_JavaBean {
     
     public void KeyValueSet.setKeyValues(List<KeyValue> keyValues) {
         this.keyValues = keyValues;
+    }
+    
+    public Map<String, KeyValueSet> KeyValueSet.getChildKeyValueSets() {
+        return this.childKeyValueSets;
+    }
+    
+    public void KeyValueSet.setChildKeyValueSets(Map<String, KeyValueSet> childKeyValueSets) {
+        this.childKeyValueSets = childKeyValueSets;
     }
     
 }

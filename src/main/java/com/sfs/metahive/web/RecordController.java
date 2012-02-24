@@ -92,19 +92,48 @@ public class RecordController extends BaseController {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
  	public String show(@PathVariable("id") Long id, Model uiModel,
+ 			@RequestParam(value = "show", required = false) Boolean show,
+ 			@RequestParam(value = "expand", required = false) Boolean expand,
  			HttpServletRequest request) {
 		
 		Person user = loadUser(request);
 		UserRole role = UserRole.ANONYMOUS;
 		
+		boolean showAllDefinitions = false;
+		boolean expandAllDefinitions = false;
+		
 		if (user != null) {
 			role = user.getUserRole();
+			showAllDefinitions = user.isShowAllDefinitions();
+			expandAllDefinitions = user.isExpandAllDefinitions();
+		}
+		
+		if (show != null) {
+			showAllDefinitions = show;
+		}
+		if (expand != null) {
+			expandAllDefinitions = expand;
+		}
+		
+		if (user != null) {
+			if (show != null) {
+				user.setShowAllDefinitions(show);
+			}
+			if (expand != null) {
+				user.setExpandAllDefinitions(expand);
+			}
+			if (show != null || expand != null) {
+				user.merge();				
+			}
 		}
 		
 		Record record = Record.findRecord(id);
+		record.setShowAllDefinitions(showAllDefinitions);
 		record.loadAllKeyValues(role, this.getContext());		
 		
 		uiModel.addAttribute("record", record);
+		uiModel.addAttribute("show", showAllDefinitions);
+		uiModel.addAttribute("expand", expandAllDefinitions);
 				
 		return "records/show";
 	}

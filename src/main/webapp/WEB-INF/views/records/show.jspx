@@ -24,32 +24,54 @@
     	</h1>
     </div>
     
+    <p class="viewOptions">
+    	<spring:url value="/records/${record.id}" var="recordUrl" />
+    	<c:set var="showUrl" value="true" />
+    	<spring:message code="metahive_record_nodata_show" var="showText" />
+    	<c:if test="${show eq true}">
+    		<c:set var="showUrl" value="false" />
+    		<spring:message code="metahive_record_nodata_hide" var="showText"/>
+    	</c:if>
+    	
+    	<c:set var="expandUrl" value="true" />
+    	<spring:message code="metahive_record_summary_expand" var="expandText"/>
+    	<c:if test="${expand eq true}">
+    		<c:set var="expandUrl" value="false" />
+    		<spring:message code="metahive_record_summary_collapse" var="expandText"/>
+    	</c:if>
+    	
+		<a href="${recordUrl}?show=${showUrl}&amp;expand=${expand}"><c:out value="${showText}" /></a>
+		<c:out value=" | " />
+		<a href="${recordUrl}?show=${show}&amp;expand=${expandUrl}"><c:out value="${expandText}" /></a>
+	</p>
+    
     <div class="primaryRecord">
-    	<c:forEach items="${record.primaryKeyValueCollection}" var="primaryRecord">
-    		<metahive:keyvalues keyValueCategories="${primaryRecord.value}" recordLevel="primary" />
+    	<c:forEach items="${record.primaryKeyValueCollection}" var="primaryRecord" varStatus="counter">
+    		<metahive:keyvalues keyValueCategories="${primaryRecord.value}" recordLevel="primary" expand="${expand}" counter="${counter.count}"/>
     	</c:forEach>
     </div>
     
     <div class="secondaryRecords">
-    	<c:forEach items="${record.secondaryKeyValueCollection}" var="secondaryRecord">
+    	<c:forEach items="${record.secondaryKeyValueCollection}" var="secondaryRecord" varStatus="counter">
     		<c:set var="title"><c:out value="${preferences.secondaryRecordName}" /><c:out value=" " /><c:out value="${secondaryRecord.key}" /></c:set>
 	    	<div class="secondaryRecord" dojoType="dijit.TitlePane" title="${title}">
-    			<metahive:keyvalues keyValueCategories="${secondaryRecord.value}" recordLevel="secondary" />
+    			<metahive:keyvalues keyValueCategories="${secondaryRecord.value}" recordLevel="secondary" expand="${expand}" counter="${counter.count}" />
     		</div>
     	</c:forEach>
     </div>
     
     <div class="tertiaryRecords">
-	    <c:forEach items="${record.tertiaryKeyValueCollection}" var="tertiaryRecord">
+	    <c:forEach items="${record.tertiaryKeyValueCollection}" var="tertiaryRecord" varStatus="counter">
     		<c:set var="title"><c:out value="${preferences.tertiaryRecordName}" /><c:out value=" " /><c:out value="${tertiaryRecord.key}" /></c:set>
 	    	<div class="tertiaryRecord" dojoType="dijit.TitlePane" title="${title}">
-    			<metahive:keyvalues keyValueCategories="${tertiaryRecord.value}" recordLevel="tertiary" />
+    			<metahive:keyvalues keyValueCategories="${tertiaryRecord.value}" recordLevel="tertiary" expand="${expand}" counter="${counter.count}"/>
     		</div>
     	</c:forEach>
     </div>
     <script type="text/javascript">    
-    <![CDATA[     
+    <![CDATA[
         dojo.require("dijit.TitlePane");
+    	dojo.require('dojo.NodeList-traverse');
         dojo.addOnLoad(function() {    	
             dojo.parser.parse();
         });

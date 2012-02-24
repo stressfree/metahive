@@ -27,9 +27,11 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
     public Person PersonDataOnDemand.getNewTransientPerson(int index) {
         Person obj = new Person();
         setEmailAddress(obj, index);
+        setExpandAllDefinitions(obj, index);
         setFirstName(obj, index);
         setLastName(obj, index);
         setOpenIdIdentifier(obj, index);
+        setShowAllDefinitions(obj, index);
         setUserRole(obj, index);
         setUserStatus(obj, index);
         return obj;
@@ -38,6 +40,11 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
     public void PersonDataOnDemand.setEmailAddress(Person obj, int index) {
         String emailAddress = "emailAddress_" + index;
         obj.setEmailAddress(emailAddress);
+    }
+    
+    public void PersonDataOnDemand.setExpandAllDefinitions(Person obj, int index) {
+        Boolean expandAllDefinitions = true;
+        obj.setExpandAllDefinitions(expandAllDefinitions);
     }
     
     public void PersonDataOnDemand.setFirstName(Person obj, int index) {
@@ -53,6 +60,11 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
     public void PersonDataOnDemand.setOpenIdIdentifier(Person obj, int index) {
         String openIdIdentifier = "openIdIdentifier_" + index;
         obj.setOpenIdIdentifier(openIdIdentifier);
+    }
+    
+    public void PersonDataOnDemand.setShowAllDefinitions(Person obj, int index) {
+        Boolean showAllDefinitions = true;
+        obj.setShowAllDefinitions(showAllDefinitions);
     }
     
     public void PersonDataOnDemand.setUserRole(Person obj, int index) {
