@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
@@ -58,6 +59,12 @@ public class KeyValue {
 	@Index(name="indexTertiaryRecordId")
 	private String tertiaryRecordId;
 	
+	/** The submitted field count. */
+	private int submittedFieldCount;
+	
+	/** The submitted fields that contributed to this key value. */
+	@OrderBy("created DESC")
+	
 	/** The string value. */
 	@Index(name="indexStringValue")
 	private String stringValue;
@@ -74,6 +81,10 @@ public class KeyValue {
 	/** The user role. */
 	@Transient
 	private UserRole userRole;
+	
+	/** The submitted fields. */
+	@Transient
+	private List<SubmittedField> submittedFields = new ArrayList<SubmittedField>();
 	
 	/** The application context. */
 	@Transient

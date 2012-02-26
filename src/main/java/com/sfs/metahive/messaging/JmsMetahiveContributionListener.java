@@ -156,8 +156,11 @@ public class JmsMetahiveContributionListener {
 							field.setValue(cell.getValue().trim());
 							
 							field.persist();
+							field.flush();
 							
 							processCount++;
+							
+							logger.info("Submitted field id: " + field.getId());
 							
 							JmsRecalculateRequest req = new JmsRecalculateRequest(field);
 							keyValueGenerationTemplate.convertAndSend(req);

@@ -32,8 +32,8 @@ public class KeyValueCalculator {
      * @param secondaryId the secondary id
      * @param tertiaryId the tertiary id
      */
-    public static void calculateKeyValue(final Definition def, final String primaryId,
-    		final String secondaryId, final String tertiaryId) {
+    public static void calculateKeyValue(final Definition def,
+    		final String primaryId, final String secondaryId, final String tertiaryId) {
     	
     	if (def == null) {
     		throw new IllegalArgumentException("A valid definition is required");
@@ -75,21 +75,38 @@ public class KeyValueCalculator {
     		final KeyValue kv) {
     	
     	// Load all of the contributed values for this definition/record combination
-		List<String> values = SubmittedField.findSubmittedValues(def, 
-				kv.getPrimaryRecordId(), kv.getSecondaryRecordId(),
-				kv.getTertiaryRecordId());
+    	List<String> values = new ArrayList<String>();
+    	
+    	try {
+    		List<SubmittedField> fields = SubmittedField.findSubmittedFields(def, 
+    				kv.getPrimaryRecordId(), kv.getSecondaryRecordId(),
+    				kv.getTertiaryRecordId());
+    		
+    		for (SubmittedField field : fields) {
+    			values.add(field.getValue());
+    		}    		
+    	} catch (Exception e) {
+    		logger.error("Error loading submitted fields for record " 
+    				+ kv.getPrimaryRecordId() + "-"  + kv.getSecondaryRecordId()
+    				+ "-" + kv.getTertiaryRecordId() + ": " + e.getMessage());
+    	}
 		
 		logger.info("Number of values: " + values.size());
+		logger.info("Values: " + values);
 		logger.info("Key value id: " + kv.getId());
+		logger.info("Primary record id: " + kv.getPrimaryRecordId());
+		logger.info("Secondary record id: " + kv.getSecondaryRecordId());
+		logger.info("Tertiary record id: " + kv.getTertiaryRecordId());
 		
+    	kv.setSubmittedFieldCount(values.size());
+    	
+    	boolean refresh = false;
+    	
 		if (values.size() == 0) {
 			// No submitted values exist - delete the key value if one exists
 			if (kv.getId() != null && kv.getId() > 0) {
-				try {
-					kv.remove();
-				} catch (Exception e) {
-					logger.error("Error deleting old key value: " + e.getMessage());
-				}
+				deleteKeyValue(kv);
+				refresh = true;
 			}    			
 		} else {    			
 			// Check to see if the definition is applicable to the key value
@@ -110,7 +127,7 @@ public class KeyValueCalculator {
 			if (applicable) {
 				Object result = KeyValueGenerator.calculateFromRawStrings(def, values);
 	    		
-	    		boolean refresh = checkChanged(kv, result);
+	    		refresh = checkChanged(kv, result);
 				
 				kv.setValue(result);
 				logger.info("Calculated string value: " + kv.getStringValue());
@@ -118,37 +135,37 @@ public class KeyValueCalculator {
     		
 				// Save the key value
 				saveKeyValue(kv);
-								
-				if (refresh) {
-					if (def.getSummaryDefinition() != null) {
-						// Recalculate the associated summary definition
 						
-						Definition summaryDef = def.getSummaryDefinition();
-						logger.info("Summary definition: " + summaryDef.getId());
-						
-						try {
-							calculateKeyValue(summaryDef, 
-									kv.getPrimaryRecordId(), 
-									kv.getSecondaryRecordId(), 
-									kv.getTertiaryRecordId());
-						} catch (Exception e) {
-							logger.error("Error calculating summarised definition ("
-									+ def.getSummaryDefinition().getId() 
-									+ ") for key value (" + kv.getPrimaryRecordId()
-									+ kv.getSecondaryRecordId() + kv.getTertiaryRecordId()
-									+ "): " + e.getMessage(), e);
-						}
-					}
-
-					// Recalculate any associated calculated definitions
-					recalculateCalculatedDefinitions(def, kv);
-				}		
 			} else {
 				logger.error("This key value " + kv.getPrimaryRecordId() + ":" 
 						+ kv.getSecondaryRecordId() + ":" + kv.getTertiaryRecordId() 
 						+ " is not applicable to this definition: "
 						+ def.getName());    						
 			}
+		}
+
+		if (refresh) {
+			if (def.getSummaryDefinition() != null) {
+				// Recalculate the associated summary definition
+				
+				Definition summaryDef = def.getSummaryDefinition();
+				logger.info("Summary definition: " + summaryDef.getId());
+				
+				try {
+					calculateKeyValue(summaryDef,
+							kv.getPrimaryRecordId(), 
+							kv.getSecondaryRecordId(), 
+							kv.getTertiaryRecordId());
+				} catch (Exception e) {
+					logger.error("Error calculating summarised definition ("
+							+ def.getSummaryDefinition().getId() 
+							+ ") for key value (" + kv.getPrimaryRecordId()
+							+ kv.getSecondaryRecordId() + kv.getTertiaryRecordId()
+							+ "): " + e.getMessage(), e);
+				}
+			}
+			// Recalculate any associated calculated definitions
+			recalculateCalculatedDefinitions(def, kv);
 		}
     }    
 
@@ -169,20 +186,21 @@ public class KeyValueCalculator {
     	
     	logger.info("Number of values: " + values.size());
     	logger.info("Key value id: " + kv.getId());
-    			
+
+    	// No submitted fields associated with a summary definition
+    	kv.setSubmittedFieldCount(0);
+    	
+    	boolean refresh = false;
+    	
     	if (values.size() == 0) {
     		// No submitted values exist - delete the key value if one exists
     		if (kv.getId() != null && kv.getId() > 0) {
-    			try {
-    				kv.remove();
-    			} catch (Exception e) {
-    				logger.error("Error deleting old key value: " + e.getMessage());
-    			}
+    			deleteKeyValue(kv);
     		}    			
     	} else {
     		Object result = KeyValueGenerator.calculateFromObjects(def, values);
     		
-    		boolean refresh = checkChanged(kv, result);
+    		refresh = checkChanged(kv, result);
     		
 			kv.setValue(result);
 			logger.info("Calculated string value: " + kv.getStringValue());
@@ -190,12 +208,12 @@ public class KeyValueCalculator {
 	    					
 			// Save the key value
 			saveKeyValue(kv);
-			
-			if (refresh) {
-				// Recalculate any associated calculated definitions
-				recalculateCalculatedDefinitions(def, kv);				
-			}
-    	}  
+    	}
+		
+		if (refresh) {
+			// Recalculate any associated calculated definitions
+			recalculateCalculatedDefinitions(def, kv);				
+		}
     }
     
     /**
@@ -213,15 +231,17 @@ public class KeyValueCalculator {
     			
     	logger.info("Number of values: " + values.size());
     	logger.info("Key value id: " + kv.getId());
-    			
+    	
+    	// No submitted fields associated with a calculated definition
+    	kv.setSubmittedFieldCount(0);
+    	
+    	boolean refresh = false;
+    	
     	if (values.size() == 0) {
     		// No submitted values exist - delete the key value if one exists
     		if (kv.getId() != null && kv.getId() > 0) {
-    			try {
-    				kv.remove();
-    			} catch (Exception e) {
-    				logger.error("Error deleting old key value: " + e.getMessage());
-    			}
+    			deleteKeyValue(kv);
+    			refresh = true;
     		}    			
     	} else {
     		double result = 0;    		
@@ -232,18 +252,19 @@ public class KeyValueCalculator {
     			logger.error("Error calculating value: " + e.getMessage());    			
     		}
     		
-    		boolean refresh = checkChanged(kv, result);
+    		refresh = checkChanged(kv, result);
     		
 			kv.setValue(result);
 			logger.info("Calculated string value: " + kv.getStringValue());
 			logger.info("Calculated double value: " + kv.getDoubleValue());
 	    	
 			// Save the key value
-			if (refresh) {
-				// Recalculate any associated calculated definitions
-				recalculateCalculatedDefinitions(def, kv);				
-			}
-    	}  
+			saveKeyValue(kv);
+    	}
+		if (refresh) {
+			// Recalculate any associated calculated definitions
+			recalculateCalculatedDefinitions(def, kv);				
+		}
     }
     
     /**
@@ -255,9 +276,9 @@ public class KeyValueCalculator {
      * @param tertiaryRecordId the tertiary record id
      * @return the key value
      */
-    private static KeyValue prepareKeyValue(final Definition def, 
-    		final String primaryRecordId, final String secondaryRecordId,
-    		final String tertiaryRecordId) {
+    private static KeyValue prepareKeyValue(final Definition def,
+    		final String primaryRecordId, 
+    		final String secondaryRecordId, final String tertiaryRecordId) {
     	    	    	
     	MetahivePreferences preferences = MetahivePreferences.load();
     	
@@ -280,7 +301,7 @@ public class KeyValueCalculator {
     	if (StringUtils.isBlank(tertiaryId) && StringUtils.isNotBlank(
     			preferences.getTertiaryRecordDefault())) {
     		tertiaryId = preferences.getTertiaryRecordDefault();
-    	}
+    	}    	
     	    	
     	Record recd = Record.findRecordByRecordIdEquals(primaryId);
     	
@@ -300,6 +321,7 @@ public class KeyValueCalculator {
     		kv.setSecondaryRecordId(secondaryId);
     		kv.setTertiaryRecordId(tertiaryId);
     	}
+    	
     	return kv;
     }
     
@@ -310,14 +332,24 @@ public class KeyValueCalculator {
      */
     private static void saveKeyValue(final KeyValue kv) {    	
     	try {
-			if (kv.getId() == null) {
-				kv.persist();
-				kv.flush();						
-			} else {
-				kv.merge();
-			}
+			kv.merge();
+			kv.flush();
 		} catch (Exception e) {
 			logger.error("Error saving key value: " + e.getMessage(), e);
+		}
+    }
+    
+    /**
+     * Delete the key value.
+     *
+     * @param kv the kv
+     */
+    private static void deleteKeyValue(final KeyValue kv) {
+    	try {
+			kv.remove();
+			kv.flush();
+		} catch (Exception e) {
+			logger.error("Error deleting old key value: " + e.getMessage());
 		}
     }
     
@@ -390,7 +422,7 @@ public class KeyValueCalculator {
     		if (defs != null) {
     			for (Definition def : defs) {
     				try {
-						calculateKeyValue(def, 
+						calculateKeyValue(def,
 								kv.getPrimaryRecordId(), 
 								kv.getSecondaryRecordId(), 
 								kv.getTertiaryRecordId());

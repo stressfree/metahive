@@ -20,6 +20,8 @@ privileged aspect KeyValue_Roo_ToString {
         sb.append("Record: ").append(getRecord()).append(", ");
         sb.append("SecondaryRecordId: ").append(getSecondaryRecordId()).append(", ");
         sb.append("StringValue: ").append(getStringValue()).append(", ");
+        sb.append("SubmittedFieldCount: ").append(getSubmittedFieldCount()).append(", ");
+        sb.append("SubmittedFields: ").append(getSubmittedFields() == null ? "null" : getSubmittedFields().size()).append(", ");
         sb.append("TertiaryRecordId: ").append(getTertiaryRecordId()).append(", ");
         sb.append("UserRole: ").append(getUserRole()).append(", ");
         sb.append("Value: ").append(getValue()).append(", ");

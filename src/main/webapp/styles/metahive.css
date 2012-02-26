@@ -26,6 +26,13 @@ a, a:visited {
 a:hover {
 	color: #e92c19;
 }
+a.keyvalueDetail {
+	color: #333;
+}
+a.keyvalueDetail:hover {
+	color: #e92c19;
+	text-decoration: underline;	
+}
 
 .clear {
 	clear: both;
@@ -448,6 +455,18 @@ a.expandIcon:hover {
 	padding: 0 0 0.3em 0;
 }
 
+div.keyvalueDlg {
+	width:600px;
+}
+div.keyvalueDlg div.keyvalueDlgContainer {
+	width: 580px;
+	height:400px;
+	text-align:left;
+}
+div.keyvalueDlg div.keyvalueDlgTabContainer {
+	width: 578px;
+	height: 395px;
+}
 
 #filterform, #administrationmenu, #usermenu {
 	clear: both;

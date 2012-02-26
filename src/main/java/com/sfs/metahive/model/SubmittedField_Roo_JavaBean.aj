@@ -7,6 +7,7 @@ import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Record;
 import com.sfs.metahive.model.Submission;
 import java.lang.String;
+import java.util.Date;
 
 privileged aspect SubmittedField_Roo_JavaBean {
     
@@ -64,6 +65,14 @@ privileged aspect SubmittedField_Roo_JavaBean {
     
     public void SubmittedField.setValue(String value) {
         this.value = value;
+    }
+    
+    public Date SubmittedField.getCreated() {
+        return this.created;
+    }
+    
+    public void SubmittedField.setCreated(Date created) {
+        this.created = created;
     }
     
 }

@@ -1,11 +1,15 @@
 package com.sfs.metahive.model;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -59,8 +63,22 @@ public class SubmittedField {
 	@Size(min = 1, max = 255)
 	private String value;
 	
-	/**
-	 * Find the submitted values for the supplied parameters.
+	/** The created timestamp. */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", nullable = false)
+    private Date created;
+    
+
+    /**
+     * The on create actions.
+     */
+    @PrePersist
+    protected void onCreate() {
+    	created = new Date();
+    }
+	
+    /**
+	 * Find the submitted fields for the supplied parameters.
 	 *
 	 * @param def the def
 	 * @param primaryId the primary id
@@ -68,11 +86,9 @@ public class SubmittedField {
 	 * @param tertiaryId the tertiary id
 	 * @return the list
 	 */
-	public static List<String> findSubmittedValues(final Definition def,
+	public static List<SubmittedField> findSubmittedFields(final Definition def,
 			final String primaryId, final String secondaryId, final String tertiaryId) {
-		
-		List<String> values = new ArrayList<String>();
-		
+				
 		if (def == null) {
 			throw new IllegalArgumentException("A valid defintion is required");
 		}
@@ -115,15 +131,6 @@ public class SubmittedField {
         for (String key : variables.keySet()) {
         	q.setParameter(key, variables.get(key));
         }        
-        List<SubmittedField> results = q.getResultList();
-        
-        if (results != null) {
-        	for (SubmittedField field : results) {
-        		values.add(field.getValue());
-        	}
-        }    
-        return values;
+        return q.getResultList();
     }
-	
-	
 }

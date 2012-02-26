@@ -15,8 +15,10 @@ privileged aspect Comment_Roo_ToString {
         sb.append("Definition: ").append(getDefinition()).append(", ");
         sb.append("DescriptionId: ").append(getDescriptionId()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
+        sb.append("KeyValueId: ").append(getKeyValueId()).append(", ");
         sb.append("Message: ").append(getMessage()).append(", ");
         sb.append("Person: ").append(getPerson()).append(", ");
+        sb.append("Record: ").append(getRecord()).append(", ");
         sb.append("RelatedObject: ").append(getRelatedObject()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();

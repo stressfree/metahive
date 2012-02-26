@@ -210,7 +210,7 @@ public class Definition {
 				Definition def = Definition.findDefinition(id);
 				calculatedDefinitions.add(def);
 			}
-		}		
+		}
 		return calculatedDefinitions;		
 	}	
 	

@@ -64,7 +64,9 @@
 												<td class="secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
 												<td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
 												<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
-	 												<td class="${keyValue.value.cssClass}"><c:out value="${keyValue.value.value}" /></td>
+	 												<td class="${keyValue.value.cssClass}">
+	 													<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+	 												</td>
 	 											</c:forEach>
 											</c:otherwise>
 										</c:choose>
@@ -77,7 +79,9 @@
 										<td class="secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
 										<td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
 										<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
-	 										<td class="${keyValue.value.cssClass}"><c:out value="${keyValue.value.value}" /></td>
+	 										<td class="${keyValue.value.cssClass}">
+	 											<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+	 										</td>
 	 									</c:forEach>
 									</tr>
 									<c:forEach var="keyValueCollection" items="${record.remainingKeyValueMap}">
@@ -85,7 +89,9 @@
 											<td class="secondaryRecord"><c:out value="${keyValueCollection.secondaryRecordId}" /></td>
 											<td class="tertiaryRecord"><c:out value="${keyValueCollection.tertiaryRecordId}" /></td>
 											<c:forEach var="keyValue" items="${keyValueCollection.keyValueMap}">
-	 											<td class="${keyValue.value.cssClass}"><c:out value="${keyValue.value.value}" /></td>
+	 											<td class="${keyValue.value.cssClass}">
+	 												<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+	 											</td>
 	 										</c:forEach>
 										</tr>
 									</c:forEach>

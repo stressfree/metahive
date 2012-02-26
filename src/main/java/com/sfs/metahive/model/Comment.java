@@ -37,11 +37,18 @@ public class Comment {
     @ManyToOne
     private Definition definition;
     
+	/** The related record. */
+    @ManyToOne
+    private Record record;
+    
     /** The related description id if applicable. */
     private Long descriptionId;
     
     /** The related data source id if applicable. */
-    private Long dataSourceId;    
+    private Long dataSourceId;
+    
+    /** The related key value id if applicable */
+    private Long keyValueId;
     
 	/** The person who created the comment. */
 	@NotNull
@@ -71,7 +78,16 @@ public class Comment {
     	
     	if (this.dataSourceId != null && this.dataSourceId > 0) {
     		changedObject = "datasource";
-    	}    	
+    	}
+    	
+    	if (this.record != null) {
+    		changedObject = "record";
+    	}
+    	
+    	if (this.keyValueId != null && this.keyValueId > 0) {
+    		changedObject = "keyvalue";
+    	}
+    	
     	return changedObject;
     }
 }

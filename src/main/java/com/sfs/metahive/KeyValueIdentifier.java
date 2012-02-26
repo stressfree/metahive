@@ -1,4 +1,4 @@
-package com.sfs.metahive.model;
+package com.sfs.metahive;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,10 +8,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.sfs.metahive.model.KeyValueBoolean;
+
 /**
- * The Class KeyValueCalculator.
+ * The Class KeyValueIdentifier.
  */
-public class KeyValueCalculator {
+public class KeyValueIdentifier {
 
     /**
      * Calculate the key value based on the newest value.

@@ -9,6 +9,7 @@ import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.DefinitionDataOnDemand;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.PersonDataOnDemand;
+import com.sfs.metahive.model.Record;
 import java.lang.Long;
 import java.lang.String;
 import java.security.SecureRandom;
@@ -45,8 +46,10 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
         setDataSourceId(obj, index);
         setDefinition(obj, index);
         setDescriptionId(obj, index);
+        setKeyValueId(obj, index);
         setMessage(obj, index);
         setPerson(obj, index);
+        setRecord(obj, index);
         return obj;
     }
     
@@ -75,6 +78,11 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
         obj.setDescriptionId(descriptionId);
     }
     
+    public void CommentDataOnDemand.setKeyValueId(Comment obj, int index) {
+        Long keyValueId = new Integer(index).longValue();
+        obj.setKeyValueId(keyValueId);
+    }
+    
     public void CommentDataOnDemand.setMessage(Comment obj, int index) {
         String message = "message_" + index;
         obj.setMessage(message);
@@ -83,6 +91,11 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
     public void CommentDataOnDemand.setPerson(Comment obj, int index) {
         Person person = personDataOnDemand.getRandomPerson();
         obj.setPerson(person);
+    }
+    
+    public void CommentDataOnDemand.setRecord(Comment obj, int index) {
+        Record record = null;
+        obj.setRecord(record);
     }
     
     public Comment CommentDataOnDemand.getSpecificComment(int index) {

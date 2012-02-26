@@ -25,7 +25,7 @@
     					
 	    					<div class="values">
 	    						<c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
-	    							<c:out value="${keyValue.value}" />
+	    							<a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
 	    							<c:if test="${keyValueSet.value.keyValueCount gt 1}">
 	    								(<c:if test="${recordLevel ne 'secondary'}">
 	    									<c:out value="${preferences.secondaryRecordName}" />
@@ -34,11 +34,11 @@
 	    								</c:if>
 	    								<c:if test="${recordLevel eq 'primary'}">
 	    									<c:out value=" " />
-	    								</c:if>
+	    								</c:if>	    								
 	    								<c:if test="${recordLevel ne 'tertiary'}">
-	    									<c:out value="${preferences.secondaryRecordName}" />
+	    									<c:out value="${preferences.tertiaryRecordName}" />
 	    									<c:out value=" " />
-	    									<c:out value="${keyValue.secondaryRecordId}" />    									
+	    									<c:out value="${keyValue.tertiaryRecordId}" />    									
 	    								</c:if>)<br />
 	    							</c:if>	
 	    						</c:forEach>    					
@@ -58,7 +58,7 @@
 	    									
 	    									<div class="values">
 					    						<c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
-					    							<c:out value="${keyValue.value}" />
+					    							<a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
 					    							<c:if test="${keyValueSet.value.keyValueCount gt 1}">
 					    								(<c:if test="${recordLevel ne 'secondary'}">
 					    									<c:out value="${preferences.secondaryRecordName}" />
@@ -67,11 +67,11 @@
 					    								</c:if>
 					    								<c:if test="${recordLevel eq 'primary'}">
 					    									<c:out value=" " />
-					    								</c:if>
+					    								</c:if>	    								
 					    								<c:if test="${recordLevel ne 'tertiary'}">
-					    									<c:out value="${preferences.secondaryRecordName}" />
+					    									<c:out value="${preferences.tertiaryRecordName}" />
 					    									<c:out value=" " />
-					    									<c:out value="${keyValue.secondaryRecordId}" />    									
+					    									<c:out value="${keyValue.tertiaryRecordId}" />    									
 					    								</c:if>)<br />
 					    							</c:if>	
 					    						</c:forEach>    					

@@ -13,4 +13,7 @@
     <definition extends="default" name="records/show">
         <put-attribute name="body" value="/WEB-INF/views/records/show.jspx"/>
     </definition>
+    <definition extends="ajax" name="records/keyvaluedetail">
+        <put-attribute name="body" value="/WEB-INF/views/records/keyvaluedetail.jspx"/>
+    </definition>
 </tiles-definitions>

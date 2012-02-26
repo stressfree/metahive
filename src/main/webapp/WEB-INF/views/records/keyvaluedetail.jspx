@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:sec="http://www.springframework.org/security/tags" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <c:if test="${keyvalue.keyValueType eq 'OVERRIDDEN'}">
+    	<p><strong>This key value has been manually overridden by XX on XX to XX.</strong></p>
+    </c:if>
+    <div class="keyValueData">
+		<p>
+			<c:out value="${keyValue.submittedFieldCount}" /> submissions contribute to this key value.
+		 	<c:if test="${keyValue.submittedFieldCount gt 0}">These are:</c:if>
+		</p>
+		<c:if test="${keyValue.submittedFieldCount gt 0}">
+		<table>
+			<thead>
+				<tr>
+					<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
+						<th>Value</th>
+					</sec:authorize>
+					<th>Date</th>
+					<th>Contributor</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${keyValue.submittedFields}" var="submittedField" varStatus="counter">
+					<tr>
+						<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
+							<td><c:out value="${submittedField.value}" /></td>
+						</sec:authorize>
+						<td><fmt:formatDate pattern="d/M/yyyy" value="${submittedField.created}" /></td>
+						<c:set value="${submittedField.submission}" var="submission" />
+						<td><c:out value="${submission.person.formattedName}" /> (<c:out value="${submission.organisation.name}" />)</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		</c:if>
+	</div>
+</div>

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.sfs.metahive.KeyValueIdentifier;
+
 /**
  * The Enum KeyValueGenerator.
  */
@@ -79,40 +81,40 @@ public enum KeyValueGenerator {
     	    	
     	if (def != null && def.getKeyValueGenerator() != null) {
     		if (def.getKeyValueGenerator() == KeyValueGenerator.NEWEST) {
-    			keyValue = KeyValueCalculator.newest(values);
+    			keyValue = KeyValueIdentifier.newest(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.OLDEST) {
-    			keyValue = KeyValueCalculator.oldest(values);
+    			keyValue = KeyValueIdentifier.oldest(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.FREQUENT_DEFAULT_NEW) {
-    			keyValue = KeyValueCalculator.frequentDefaultNewest(values);
+    			keyValue = KeyValueIdentifier.frequentDefaultNewest(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.FREQUENT_DEFAULT_OLD) {
-    			keyValue = KeyValueCalculator.frequentDefaultOldest(values);
+    			keyValue = KeyValueIdentifier.frequentDefaultOldest(values);
     		}
     		// This assumes a boolean set of values.
     		if (def.getKeyValueGenerator() == KeyValueGenerator.UNCLEAR) {
-    			keyValue = KeyValueCalculator.unclear(values);
+    			keyValue = KeyValueIdentifier.unclear(values);
     		}
     		// This assumes a boolean or numeric set of values.
     		if (def.getKeyValueGenerator() == KeyValueGenerator.MEDIAN) {
-    			keyValue = KeyValueCalculator.median(values);
+    			keyValue = KeyValueIdentifier.median(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.QUARTILE_LOWER) {
-    			keyValue = KeyValueCalculator.quartileLower(values);
+    			keyValue = KeyValueIdentifier.quartileLower(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.QUARTILE_UPPER) {
-    			keyValue = KeyValueCalculator.quartileUpper(values);
+    			keyValue = KeyValueIdentifier.quartileUpper(values);
     		}
     	    // This assumes numeric (Double) set of values
     		if (def.getKeyValueGenerator() == KeyValueGenerator.AVERAGE) {
-    			keyValue = KeyValueCalculator.average(values);
+    			keyValue = KeyValueIdentifier.average(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.HIGHEST) {
-    			keyValue = KeyValueCalculator.highest(values);
+    			keyValue = KeyValueIdentifier.highest(values);
     		}
     		if (def.getKeyValueGenerator() == KeyValueGenerator.LOWEST) {
-    			keyValue = KeyValueCalculator.lowest(values);
+    			keyValue = KeyValueIdentifier.lowest(values);
     		}    		
     	}
     	return keyValue;

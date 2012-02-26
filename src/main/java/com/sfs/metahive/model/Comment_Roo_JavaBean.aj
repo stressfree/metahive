@@ -6,6 +6,7 @@ package com.sfs.metahive.model;
 import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
+import com.sfs.metahive.model.Record;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Date;
@@ -36,6 +37,14 @@ privileged aspect Comment_Roo_JavaBean {
         this.definition = definition;
     }
     
+    public Record Comment.getRecord() {
+        return this.record;
+    }
+    
+    public void Comment.setRecord(Record record) {
+        this.record = record;
+    }
+    
     public Long Comment.getDescriptionId() {
         return this.descriptionId;
     }
@@ -50,6 +59,14 @@ privileged aspect Comment_Roo_JavaBean {
     
     public void Comment.setDataSourceId(Long dataSourceId) {
         this.dataSourceId = dataSourceId;
+    }
+    
+    public Long Comment.getKeyValueId() {
+        return this.keyValueId;
+    }
+    
+    public void Comment.setKeyValueId(Long keyValueId) {
+        this.keyValueId = keyValueId;
     }
     
     public Person Comment.getPerson() {

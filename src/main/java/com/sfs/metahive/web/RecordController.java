@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.KeyValue;
 import com.sfs.metahive.model.MetahivePreferences;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Record;
+import com.sfs.metahive.model.SubmittedField;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.web.model.RecordFilter;
 import com.sfs.metahive.web.model.RecordForm;
@@ -159,6 +161,32 @@ public class RecordController extends BaseController {
         
         return "redirect:/records";
     }
+	
+	
+
+	/**
+	 * Show information on the key value.
+	 *
+	 * @param id the id
+	 * @param keyValueId the key value id
+	 * @param uiModel the ui model
+	 * @param request the request
+	 * @return the string
+	 */
+	@RequestMapping(value = "/{id}/{keyValueId}", method = RequestMethod.GET)
+ 	public String keyvalueDetail(@PathVariable("id") Long id, 
+ 			@PathVariable("keyValueId") Long keyValueId, Model uiModel,
+ 			HttpServletRequest request) {
+	
+		KeyValue kv = KeyValue.findKeyValue(keyValueId);
+		kv.setSubmittedFields(SubmittedField.findSubmittedFields(
+				kv.getDefinition(), kv.getPrimaryRecordId(), 
+				kv.getSecondaryRecordId(), kv.getTertiaryRecordId()));
+
+		uiModel.addAttribute("keyValue", kv);
+		
+		return "records/keyvaluedetail";
+	}
 
 	/**
 	 * List the records.

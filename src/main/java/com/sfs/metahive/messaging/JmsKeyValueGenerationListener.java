@@ -33,7 +33,7 @@ public class JmsKeyValueGenerationListener {
         
         if (message instanceof JmsRecalculateRequest) {
         	JmsRecalculateRequest req = (JmsRecalculateRequest) message;
-        	        	        	
+
         	logger.info("Primary Id: " + req.getPrimaryRecordId());
         	logger.info("Secondary Id: " + req.getSecondaryRecordId());
         	logger.info("Tertiary Id: " + req.getTertiaryRecordId());
@@ -41,10 +41,14 @@ public class JmsKeyValueGenerationListener {
         	
         	Definition definition = Definition.findDefinition(req.getDefinitionId());
         	
-        	if (definition != null && definition.getDefinitionType() 
-        			== DefinitionType.STANDARD) {        	
-        		KeyValueCalculator.calculateKeyValue(definition, req.getPrimaryRecordId(), 
-        				req.getSecondaryRecordId(), req.getTertiaryRecordId());
+        	if (definition != null 
+        			&& definition.getDefinitionType() == DefinitionType.STANDARD) {
+        		
+        		KeyValueCalculator.calculateKeyValue(
+        				definition,
+        				req.getPrimaryRecordId(), 
+        				req.getSecondaryRecordId(), 
+        				req.getTertiaryRecordId());
         	}
         }
     }

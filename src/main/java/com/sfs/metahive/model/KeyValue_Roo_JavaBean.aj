@@ -7,9 +7,11 @@ import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.KeyValueBoolean;
 import com.sfs.metahive.model.KeyValueType;
 import com.sfs.metahive.model.Record;
+import com.sfs.metahive.model.SubmittedField;
 import com.sfs.metahive.model.UserRole;
 import java.lang.Double;
 import java.lang.String;
+import java.util.List;
 import org.springframework.context.ApplicationContext;
 
 privileged aspect KeyValue_Roo_JavaBean {
@@ -62,6 +64,14 @@ privileged aspect KeyValue_Roo_JavaBean {
         this.tertiaryRecordId = tertiaryRecordId;
     }
     
+    public int KeyValue.getSubmittedFieldCount() {
+        return this.submittedFieldCount;
+    }
+    
+    public void KeyValue.setSubmittedFieldCount(int submittedFieldCount) {
+        this.submittedFieldCount = submittedFieldCount;
+    }
+    
     public String KeyValue.getStringValue() {
         return this.stringValue;
     }
@@ -92,6 +102,14 @@ privileged aspect KeyValue_Roo_JavaBean {
     
     public void KeyValue.setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+    
+    public List<SubmittedField> KeyValue.getSubmittedFields() {
+        return this.submittedFields;
+    }
+    
+    public void KeyValue.setSubmittedFields(List<SubmittedField> submittedFields) {
+        this.submittedFields = submittedFields;
     }
     
     public ApplicationContext KeyValue.getContext() {
