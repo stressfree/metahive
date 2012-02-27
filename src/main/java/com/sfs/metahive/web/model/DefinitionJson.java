@@ -1,5 +1,7 @@
 package com.sfs.metahive.web.model;
 
+import com.sfs.metahive.model.Definition;
+
 /**
  * The Class DefinitionJson.
  */
@@ -11,13 +13,13 @@ public class DefinitionJson {
 	/** The name. */
 	private String name;
 	
-	/**
-	 * Sets the id.
-	 *
-	 * @param idVal the new id
-	 */
-	public final void setId(final Long idVal) {
-		this.id = idVal;
+	
+	public DefinitionJson(final Definition definition) {
+		if (definition == null) {
+			throw new IllegalArgumentException("The supplied definition cannot be null");
+		}
+		this.id = definition.getId();
+		this.name = definition.getName();
 	}
 	
 	/**
@@ -27,15 +29,6 @@ public class DefinitionJson {
 	 */
 	public final Long getId() {
 		return this.id;
-	}
-	
-	/**
-	 * Sets the name.
-	 *
-	 * @param nameVal the new name
-	 */
-	public final void setName(final String nameVal) {
-		this.name = nameVal;
 	}
 	
 	/**

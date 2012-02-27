@@ -312,7 +312,8 @@ a.keyvalueDetail:hover {
 #relatedDefinitionsList li span.variable,
 .relatedDefinitions li span.variable,
 #definitionCalculationField span.variable,
-.definition .calculation span.variable {
+.definition .calculation span.variable,
+#keyvalueDetail span.variable {
 	padding: 0.1em 0.4em;
 	background: #ccdff4;
 	color: #333;
@@ -322,7 +323,10 @@ a.keyvalueDetail:hover {
   	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
-
+#keyvalueDetail p.calculation {
+	margin-left: 35px;
+	font-size: 1.3em;
+}
 
 #addRelatedDefinition {
 	margin-left: 0.5em;
@@ -700,7 +704,8 @@ div.keyValueData td.keyValueCurrency,
 div.keyValueData td.keyValuePercentage {
 	text-align: right;	
 }
-div.keyValueData td.keyValueBoolean {
+div.keyValueData td.keyValueBoolean,
+div.keyValueData td.keyValueDate {
 	text-align: center;
 }
 div.keyValueData td.keyValueString {

@@ -330,11 +330,7 @@ public class DefinitionController extends BaseController {
         json.setLabel("name");
         
         for (Definition def : definitions) {
-        	DefinitionJson defJ = new DefinitionJson();
-        	defJ.setId(def.getId());
-        	defJ.setName(def.getName());
-        	
-        	json.addDefinition(defJ);
+        	json.addDefinition(new DefinitionJson(def));
         }
         
         return new JSONSerializer().exclude("*.class").include("items").serialize(json);

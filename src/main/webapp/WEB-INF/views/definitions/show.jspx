@@ -59,11 +59,11 @@
     				<c:forEach items="${relatedDefinitions}" var="relatedDefinition">
     					<spring:url value="/definitions/${relatedDefinition.id}" var="definitionLink" />
     					<li>
-    						<a href="${definitionLink}"><c:out value="${relatedDefinition.name}" /></a>
     						<c:if test="${definition.definitionType eq 'CALCULATED'}">
-    							<c:out value=" " />
     							<span class="variable">D<c:out value="${relatedDefinition.id}" /></span>
+    							<c:out value=" " />
     						</c:if>
+    						<a href="${definitionLink}"><c:out value="${relatedDefinition.name}" /></a>
     					</li>
     				</c:forEach>
     			</ul>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.Definition;
@@ -25,8 +26,11 @@ import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Record;
 import com.sfs.metahive.model.SubmittedField;
 import com.sfs.metahive.model.UserRole;
+import com.sfs.metahive.web.model.KeyValueJson;
 import com.sfs.metahive.web.model.RecordFilter;
 import com.sfs.metahive.web.model.RecordForm;
+
+import flexjson.JSONSerializer;
 
 
 @RequestMapping("/records")
@@ -162,8 +166,6 @@ public class RecordController extends BaseController {
         return "redirect:/records";
     }
 	
-	
-
 	/**
 	 * Show information on the key value.
 	 *
@@ -173,7 +175,7 @@ public class RecordController extends BaseController {
 	 * @param request the request
 	 * @return the string
 	 */
-	@RequestMapping(value = "/{id}/{keyValueId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/keyvalue/{keyValueId}", method = RequestMethod.GET)
  	public String keyvalueDetail(@PathVariable("id") Long id, 
  			@PathVariable("keyValueId") Long keyValueId, Model uiModel,
  			HttpServletRequest request) {
@@ -187,6 +189,33 @@ public class RecordController extends BaseController {
 		
 		return "records/keyvaluedetail";
 	}
+	
+	/**
+	 * The key value as a json string.
+	 *
+	 * @param id the id
+	 * @param keyValueId the key value id
+	 * @param request the request
+	 * @return the string
+	 */
+	@RequestMapping(value = "/{id}/keyvalue/{keyValueId}", 
+			params = "json", method = RequestMethod.GET)
+    public @ResponseBody String keyvalueJson(@PathVariable("id") Long id, 
+ 			@PathVariable("keyValueId") Long keyValueId,
+ 			HttpServletRequest request) {
+
+		UserRole userRole = UserRole.ANONYMOUS;
+		
+		Person user = loadUser(request);
+		if (user != null && user.getUserRole() != null) {
+			userRole = user.getUserRole();
+		}
+		
+		KeyValue kv = KeyValue.findKeyValue(keyValueId);		
+		KeyValueJson kvj = new KeyValueJson(kv, kv.getDefinition(), userRole);
+		
+		return new JSONSerializer().exclude("*.class").serialize(kvj);
+    }
 
 	/**
 	 * List the records.

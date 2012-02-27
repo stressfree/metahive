@@ -11,6 +11,7 @@ privileged aspect SubmittedField_Roo_ToString {
         StringBuilder sb = new StringBuilder();
         sb.append("Created: ").append(getCreated()).append(", ");
         sb.append("Definition: ").append(getDefinition()).append(", ");
+        sb.append("FormattedValue: ").append(getFormattedValue()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("PrimaryRecordId: ").append(getPrimaryRecordId()).append(", ");
         sb.append("Record: ").append(getRecord()).append(", ");

@@ -69,21 +69,25 @@
     	</c:forEach>
     </div>
     
-    <div dojoType="dijit.Dialog" id="keyvalueDlg" dojoId="keyvalueDlg" title="Key value information" class="keyvalueDlg" >
+    <spring:message code="metahive_record_keyvaluedetail_detail" var="keyValueDetails" />
+    <div dojoType="dijit.Dialog" id="keyvalueDlg" dojoId="keyvalueDlg" title="${keyValueDetails}" class="keyvalueDlg" >
     	<div class="keyvalueDlgContainer">
 	    	<div dojoType="dijit.layout.TabContainer" class="keyvalueDlgTabContainer">
 	        	<div dojoType="dijit.layout.ContentPane" id="informationPane" dojoId="informationPane" title="Information" selected="true">
 	        	    <div id="keyvalueDetail"><!-- --></div>
 	        	</div>
-	        	<div dojoType="dijit.layout.ContentPane" id="overridePane" dojoId="overridePane" title="Override">
-	        	    Lorem ipsum and all around...
-	        	</div>
+	        	<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
+	        		<div dojoType="dijit.layout.ContentPane" id="overridePane" dojoId="overridePane" title="Override">
+	        	    	Lorem ipsum and all around...
+	        		</div>
+	        	</sec:authorize>
 	    	</div>
     	</div>
 	</div>
     
     <script type="text/javascript">
-    var recordUrl = '<spring:url value="/records/${record.id}/" />';
+    var recordUrl = '<spring:url value="/records/${record.id}/keyvalue/" />';
+    var keyValueTitle = '${keyValueDetails}';
     <![CDATA[
         dojo.require("dijit.TitlePane");
     	dojo.require("dojo.NodeList-traverse");
@@ -103,8 +107,15 @@
         	    url: recordUrl + id,
         	    handleAs: "text",
         	    load: function(data){
-        	        dojo.byId("keyvalueDetail").innerHTML = data;
-                	dijit.byId("keyvalueDlg").show();
+        	        dojo.byId("keyvalueDetail").innerHTML = data;        	        
+        	        dojo.xhrGet({
+        	            url: recordUrl + id + "?json",
+        	            handleAs:"json",
+        	            load: function(data){
+        	                dijit.byId("keyvalueDlg").set('title', data.name + ' - ' + keyValueTitle);
+                        	dijit.byId("keyvalueDlg").show();
+        	            }
+        	        });
         	    }
         	});
         }

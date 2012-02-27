@@ -11,6 +11,7 @@ import com.sfs.metahive.model.SubmittedField;
 import com.sfs.metahive.model.UserRole;
 import java.lang.Double;
 import java.lang.String;
+import java.util.Date;
 import java.util.List;
 import org.springframework.context.ApplicationContext;
 
@@ -94,6 +95,14 @@ privileged aspect KeyValue_Roo_JavaBean {
     
     public void KeyValue.setBooleanValue(KeyValueBoolean booleanValue) {
         this.booleanValue = booleanValue;
+    }
+    
+    public Date KeyValue.getModified() {
+        return this.modified;
+    }
+    
+    public void KeyValue.setModified(Date modified) {
+        this.modified = modified;
     }
     
     public UserRole KeyValue.getUserRole() {

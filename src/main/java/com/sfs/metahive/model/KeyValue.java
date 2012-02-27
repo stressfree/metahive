@@ -3,12 +3,18 @@ package com.sfs.metahive.model;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
@@ -77,7 +83,12 @@ public class KeyValue {
 	@Index(name="indexBooleanValue")
 	@Enumerated(EnumType.STRING)
 	private KeyValueBoolean booleanValue;
-	
+
+	/** The modified timestamp. */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "modified", nullable = false)
+    private Date modified;
+    
 	/** The user role. */
 	@Transient
 	private UserRole userRole;
@@ -91,6 +102,18 @@ public class KeyValue {
 	private ApplicationContext context;
 	
 	
+	 @PrePersist  
+	 @PreUpdate
+	 protected void preCreateOrUpdate() {
+		 if (doubleValue == Double.NaN
+				 || doubleValue == Double.POSITIVE_INFINITY
+				 || doubleValue == Double.NEGATIVE_INFINITY) {
+			 doubleValue = null;
+		 }
+		 // Update the modified date
+		 modified = new Date();
+	 }
+	 
 	/**
 	 * Gets the css class.
 	 *
@@ -129,7 +152,7 @@ public class KeyValue {
  	}	
 	
 	/**
-	 * Gets the value.
+	 * Gets the formatted value.
 	 *
 	 * @return the value
 	 */
@@ -164,10 +187,10 @@ public class KeyValue {
 			}
 			if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER) {
 				if (this.getDoubleValue() != null) {
-					DecimalFormat df = new DecimalFormat("#.##");					
+					DecimalFormat df = new DecimalFormat("#.######");					
 					value = df.format(this.getDoubleValue());
-					if (StringUtils.endsWithIgnoreCase(value, ".00")) {
-						value = StringUtils.substring(value, 0, value.length() -2);
+					if (StringUtils.endsWithIgnoreCase(value, ".000000")) {
+						value = StringUtils.substring(value, 0, value.length() -6);
 					}
 					value += appendUnitOfMeasure();
 				}

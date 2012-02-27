@@ -1,5 +1,7 @@
 package com.sfs.metahive.model;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,7 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -76,7 +79,73 @@ public class SubmittedField {
     protected void onCreate() {
     	created = new Date();
     }
-	
+	    
+    /**
+     * Gets the formatted value.
+     *
+     * @return the formatted value
+     */
+    public final String getFormattedValue() {
+    	String unformattedValue = "";
+    	String formattedValue = "";
+    	
+    	if (this.getDefinition() == null) {
+    		throw new NullPointerException("A valid definition is required");
+    	}
+		
+    	if (StringUtils.isNotBlank(this.getValue())) {
+    		unformattedValue = this.getValue();
+    	}
+    	
+		if (this.getDefinition().getDataType() == DataType.TYPE_STRING) {
+			formattedValue = unformattedValue + appendUnitOfMeasure();
+		}
+		if (this.getDefinition().getDataType() == DataType.TYPE_BOOLEAN) {
+			formattedValue = unformattedValue;
+		}
+		if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER) {
+			double dblValue = 0;
+			try {
+				dblValue = Double.parseDouble(unformattedValue);
+			} catch (NumberFormatException nfe) {
+				// Error parsing double
+			}
+			
+			DecimalFormat df = new DecimalFormat("#.######");					
+			formattedValue = df.format(dblValue);
+			if (StringUtils.endsWithIgnoreCase(formattedValue, ".000000")) {
+				formattedValue = StringUtils.substring(formattedValue, 0, 
+						formattedValue.length() -6);
+			}
+			formattedValue += appendUnitOfMeasure();
+		}
+		if (this.getDefinition().getDataType() == DataType.TYPE_CURRENCY) {
+				double dblValue = 0;
+				try {
+					dblValue = Double.parseDouble(unformattedValue);
+				} catch (NumberFormatException nfe) {
+					// Error parsing double
+				}
+				
+				DecimalFormat df = new DecimalFormat("$###,###,###,##0.00");
+				formattedValue = df.format(dblValue) + appendUnitOfMeasure();
+		}			
+		if (this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
+			double dblValue = 0;
+			try {
+				dblValue = Double.parseDouble(unformattedValue);
+			} catch (NumberFormatException nfe) {
+				// Error parsing double
+			}
+			
+			NumberFormat percentFormatter = NumberFormat.getPercentInstance(
+					LocaleContextHolder.getLocale());
+			formattedValue = percentFormatter.format(dblValue) +
+					appendUnitOfMeasure();
+		}
+		return formattedValue;
+    }
+    
     /**
 	 * Find the submitted fields for the supplied parameters.
 	 *
@@ -132,5 +201,27 @@ public class SubmittedField {
         	q.setParameter(key, variables.get(key));
         }        
         return q.getResultList();
+    }
+    
+    /**
+     * Append unit of measure.
+     *
+     * @return the string
+     */
+    private String appendUnitOfMeasure() {
+    	
+    	String value = "";
+    	
+    	if (this.getDefinition() != null 
+    			&& this.getDefinition().getDescription() != null) {
+
+        	String unitOfMeasure = this.getDefinition().getDescription()
+    				.getUnitOfMeasure();
+    		
+    		if (StringUtils.isNotBlank(unitOfMeasure)) {
+    			value += " " + StringUtils.trim(unitOfMeasure);
+    		}
+    	}
+    	return value;
     }
 }

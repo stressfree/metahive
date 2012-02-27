@@ -38,14 +38,10 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${records}" var="record" varStatus="rowCounter">
-							<c:choose>
-          						<c:when test="${rowCounter.count % 2 == 0}">
-            						<c:set var="rowStyle" scope="page" value="odd"/>
-          						</c:when>
-          						<c:otherwise>
-            						<c:set var="rowStyle" scope="page" value="even"/>
-          						</c:otherwise>
-        					</c:choose>
+							<c:set var="rowStyle" scope="page" value="even"/>
+							<c:if test="${rowCounter.count % 2 == 0}">
+            					<c:set var="rowStyle" scope="page" value="odd"/>
+          					</c:if>
         					
 							<c:choose>
 								<c:when test="${record.keyValueMapSize lt 2}">

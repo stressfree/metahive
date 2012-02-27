@@ -16,6 +16,7 @@ privileged aspect KeyValue_Roo_ToString {
         sb.append("DoubleValue: ").append(getDoubleValue()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("KeyValueType: ").append(getKeyValueType()).append(", ");
+        sb.append("Modified: ").append(getModified()).append(", ");
         sb.append("PrimaryRecordId: ").append(getPrimaryRecordId()).append(", ");
         sb.append("Record: ").append(getRecord()).append(", ");
         sb.append("SecondaryRecordId: ").append(getSecondaryRecordId()).append(", ");

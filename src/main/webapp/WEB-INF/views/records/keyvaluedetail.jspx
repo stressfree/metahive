@@ -1,39 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:sec="http://www.springframework.org/security/tags" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div xmlns:sec="http://www.springframework.org/security/tags" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
+    <c:set var="definition" value="${keyValue.definition}" />
+    <spring:message code="${definition.keyValueGenerator.messageKey}" var="keyvalueMethod"/>
+    <spring:url value="/definitions/${definition.id}" var="url" />
+    
     <c:if test="${keyvalue.keyValueType eq 'OVERRIDDEN'}">
     	<p><strong>This key value has been manually overridden by XX on XX to XX.</strong></p>
     </c:if>
     <div class="keyValueData">
-		<p>
-			<c:out value="${keyValue.submittedFieldCount}" /> submissions contribute to this key value.
-		 	<c:if test="${keyValue.submittedFieldCount gt 0}">These are:</c:if>
-		</p>
-		<c:if test="${keyValue.submittedFieldCount gt 0}">
-		<table>
-			<thead>
-				<tr>
-					<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
-						<th>Value</th>
-					</sec:authorize>
-					<th>Date</th>
-					<th>Contributor</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${keyValue.submittedFields}" var="submittedField" varStatus="counter">
-					<tr>
-						<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
-							<td><c:out value="${submittedField.value}" /></td>
-						</sec:authorize>
-						<td><fmt:formatDate pattern="d/M/yyyy" value="${submittedField.created}" /></td>
-						<c:set value="${submittedField.submission}" var="submission" />
-						<td><c:out value="${submission.person.formattedName}" /> (<c:out value="${submission.organisation.name}" />)</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		</c:if>
+    	<c:choose>
+    		<c:when test="${definition.definitionType eq 'CALCULATED' }">
+    			<p><spring:message code="metahive_record_keyvaluedetail_calculated_1" htmlEscape="false" arguments="${url}|${fn:escapeXml(definition.name)}" argumentSeparator="|"/></p>
+    			<p class="calculation"><c:out value="${definition.calculation}" escapeXml="false" /></p>
+    			<p><spring:message code="metahive_record_keyvaluedetail_calculated_2" /></p>
+    			<ul>
+    				<c:forEach items="${definition.calculatedDefinitions}" var="calculatedDefinition">
+    					<spring:url value="/definitions/${calculatedDefinition.id}" var="calculatedUrl" />
+    					<li><span class="variable">D<c:out value="${calculatedDefinition.id}" /></span>
+    						<c:out value=" " />
+    						<a href="${calculatedUrl}"><c:out value="${calculatedDefinition.name}" /></a>
+    					</li>
+    				</c:forEach>
+    			</ul>
+    		</c:when>
+    		<c:when test="${definition.definitionType eq 'SUMMARY' }">
+    			<p><spring:message code="metahive_record_keyvaluedetail_summary" htmlEscape="false" arguments="${url}|${fn:escapeXml(definition.name)}|${fn:toLowerCase(keyvalueMethod)}" argumentSeparator="|"/></p>
+    			<ul>
+    				<c:forEach items="${definition.summarisedDefinitions}" var="summarisedDefinition">
+    					<spring:url value="/definitions/${summarisedDefinition.id}" var="summarisedUrl" />
+    					<li><a href="${summarisedUrl}"><c:out value="${summarisedDefinition.name}" /></a></li>
+    				</c:forEach>
+    			</ul>
+    		</c:when>
+    		<c:otherwise>
+    			<spring:message code="metahive_record_keyvaluedetail_standard_2" arguments="${keyValue.submittedFieldCount}" var="listIntro" />
+				<c:if test="${keyValue.submittedFieldCount eq 0}">
+					<spring:message code="metahive_record_keyvaluedetail_standard_none" var="listIntro" />
+				</c:if>
+				<c:if test="${keyValue.submittedFieldCount eq 1}">
+					<spring:message code="metahive_record_keyvaluedetail_standard_one" var="listIntro" />
+				</c:if>
+				<p><spring:message code="metahive_record_keyvaluedetail_standard_1" htmlEscape="false" arguments="${url}|${fn:escapeXml(definition.name)}|${fn:toLowerCase(keyvalueMethod)}" argumentSeparator="|"/></p>
+    			<p><c:out value="${listIntro}" /></p>
+				<c:if test="${keyValue.submittedFieldCount gt 0}">
+					<table>
+						<thead>
+							<tr>
+								<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
+									<th>Value</th>
+								</sec:authorize>
+								<th>Date</th>
+								<th>Contributor</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${keyValue.submittedFields}" var="submittedField" varStatus="rowCounter">
+								<c:set var="rowStyle" scope="page" value="even"/>
+								<c:if test="${rowCounter.count % 2 == 0}">
+            						<c:set var="rowStyle" scope="page" value="odd"/>
+          						</c:if>
+								<tr class="${rowStyle}">
+									<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
+										<td class="${definition.dataType.cssClass}"><c:out value="${submittedField.formattedValue}" /></td>
+									</sec:authorize>
+									<td class="keyValueDate"><fmt:formatDate pattern="d/M/yyyy" value="${submittedField.created}" /></td>
+									<c:set value="${submittedField.submission}" var="submission" />
+									<td><c:out value="${submission.person.formattedName}" /> (<c:out value="${submission.organisation.name}" />)</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</c:if>
+    		</c:otherwise>
+    	</c:choose>
+		
 	</div>
 </div>
