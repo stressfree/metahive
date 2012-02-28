@@ -6,6 +6,7 @@ package com.sfs.metahive.model;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.KeyValueBoolean;
 import com.sfs.metahive.model.KeyValueType;
+import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Record;
 import com.sfs.metahive.model.SubmittedField;
 import com.sfs.metahive.model.UserRole;
@@ -95,6 +96,22 @@ privileged aspect KeyValue_Roo_JavaBean {
     
     public void KeyValue.setBooleanValue(KeyValueBoolean booleanValue) {
         this.booleanValue = booleanValue;
+    }
+    
+    public String KeyValue.getComment() {
+        return this.comment;
+    }
+    
+    public void KeyValue.setComment(String comment) {
+        this.comment = comment;
+    }
+    
+    public Person KeyValue.getOverriddenBy() {
+        return this.overriddenBy;
+    }
+    
+    public void KeyValue.setOverriddenBy(Person overriddenBy) {
+        this.overriddenBy = overriddenBy;
     }
     
     public Date KeyValue.getModified() {

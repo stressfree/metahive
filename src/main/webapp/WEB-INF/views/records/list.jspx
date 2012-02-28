@@ -61,7 +61,14 @@
 												<td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
 												<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
 	 												<td class="${keyValue.value.cssClass}">
-	 													<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+	 													<c:choose>
+	 														<c:when test="${not empty keyValue.value.id}">
+	 															<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+	 														</c:when>
+	 														<c:otherwise>
+	 															<c:out value="${keyValue.value.value}" />
+	 														</c:otherwise>
+	 													</c:choose>
 	 												</td>
 	 											</c:forEach>
 											</c:otherwise>
@@ -76,7 +83,14 @@
 										<td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
 										<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
 	 										<td class="${keyValue.value.cssClass}">
-	 											<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+	 											<c:choose>
+	 												<c:when test="${not empty keyValue.value.id}">
+	 													<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+	 												</c:when>
+	 												<c:otherwise>
+	 													<c:out value="${keyValue.value.value}" />
+	 												</c:otherwise>
+	 											</c:choose>
 	 										</td>
 	 									</c:forEach>
 									</tr>
@@ -86,7 +100,14 @@
 											<td class="tertiaryRecord"><c:out value="${keyValueCollection.tertiaryRecordId}" /></td>
 											<c:forEach var="keyValue" items="${keyValueCollection.keyValueMap}">
 	 											<td class="${keyValue.value.cssClass}">
-	 												<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+	 												<c:choose>
+	 													<c:when test="${not empty keyValue.value.id}">
+	 														<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+	 													</c:when>
+	 													<c:otherwise>
+	 														<c:out value="${keyValue.value.value}" />
+	 													</c:otherwise>
+	 												</c:choose>
 	 											</td>
 	 										</c:forEach>
 										</tr>
@@ -121,6 +142,8 @@
 			});			
 			]]>
   			</script>
+  			
+  			<metahive:keyvaluedetail />
 		</c:when>
 		<c:otherwise>
 			<p><spring:message code="entity_not_found" arguments="records" /></p>

@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
@@ -83,6 +84,14 @@ public class KeyValue {
 	@Index(name="indexBooleanValue")
 	@Enumerated(EnumType.STRING)
 	private KeyValueBoolean booleanValue;
+	
+	/** The comment about the key value. */
+	@Lob
+	private String comment;
+	
+	/** The user who overrode the key value. */
+	@ManyToOne
+	private Person overriddenBy;
 
 	/** The modified timestamp. */
     @Temporal(TemporalType.TIMESTAMP)
@@ -317,7 +326,7 @@ public class KeyValue {
         sql.append(" LOWER(k.primaryRecordId) = LOWER(:primaryRecordId)");
         sql.append(" AND LOWER(k.secondaryRecordId) = LOWER(:secondaryRecordId)");
         sql.append(" AND LOWER(k.tertiaryRecordId) = LOWER(:tertiaryRecordId)");
-                
+        
         TypedQuery<KeyValue> q = entityManager().createQuery(sql.toString(), 
         		KeyValue.class);
         q.setParameter("definitionId", def.getId());

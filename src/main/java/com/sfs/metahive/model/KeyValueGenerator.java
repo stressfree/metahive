@@ -120,7 +120,6 @@ public enum KeyValueGenerator {
     	return keyValue;
     }
     
-    
     /**
      * Parses the values to a list of Objects.
      *
@@ -128,42 +127,58 @@ public enum KeyValueGenerator {
      * @param values the values
      * @return the list
      */
-    private static List<Object> parseValues(final DataType dataType,
+    public static List<Object> parseValues(final DataType dataType,
     		final List<String> values) {
+    	
+    	List<Object> parsedValues = new ArrayList<Object>();
+    	
+    	if (values != null) {
+    		for (String value : values) {
+    			parsedValues.add(parseValue(dataType, value));
+    		}
+    	}
+    	return parsedValues;
+    }
+        
+    /**
+     * Parses the value to its respective object.
+     *
+     * @param dataType the data type
+     * @param value the value
+     * @return the object
+     */
+    public static Object parseValue(final DataType dataType, final String value) {
     	
     	if (dataType == null) {
     		throw new IllegalArgumentException("A valid data type is required");
     	}
     	
-    	List<Object> parsedValues = new ArrayList<Object>();
+    	Object objValue = null;
     	
-    	if (values != null) {
+    	if (value != null) {
     		if (dataType == DataType.TYPE_NUMBER 
     				|| dataType == DataType.TYPE_CURRENCY
     				|| dataType == DataType.TYPE_PERCENTAGE) {
     			// Cast to doubles
-    			for (String value : values) {
-    				double dblValue = 0;
-    				try {
-    					dblValue = Double.parseDouble(value);
-    	    			parsedValues.add(dblValue);
-    				} catch (NumberFormatException nfe) {
-    					// Do not add this value to the parsed value map
-    				}
-    			}
-    		}
+    			double dblValue = 0;
+				try {
+					dblValue = Double.parseDouble(value);
+				} catch (NumberFormatException nfe) {
+					// Do not add this value to the parsed value map
+				}
+				objValue = dblValue;
+			}
+			
     		if (dataType == DataType.TYPE_BOOLEAN) {
-    			for (String value : values) {
-    				parsedValues.add(parseToBoolean(value));
-    			}
-    		}
+				objValue = parseToBoolean(value);
+			}
+    		
     		if (dataType == DataType.TYPE_STRING || dataType == DataType.TYPE_UNIQUEID) {
-    			for (String value : values) {
-    				parsedValues.add(value);
-    			}
+    			objValue = value;
     		}
     	}
-    	return parsedValues;
+		return objValue;
+    	    	
     }
     
     /**

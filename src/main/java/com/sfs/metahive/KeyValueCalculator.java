@@ -49,6 +49,11 @@ public class KeyValueCalculator {
     	}
     	
     	KeyValue kv = prepareKeyValue(def, primaryId, secondaryId, tertiaryId);
+    	
+    	if (kv.getId() != null) {
+    		logger.info("Key value id: " + kv.getId());
+    		logger.info("Key value type: " + kv.getKeyValueType());
+    	}
     	    	
     	// If the key value is overridden then there's no need to recalculate it
     	if (kv.getKeyValueType() != KeyValueType.OVERRIDDEN) {    		
@@ -61,6 +66,10 @@ public class KeyValueCalculator {
     		if (def.getDefinitionType() == DefinitionType.CALCULATED) {
     			calculateCalculatedKeyValue(def, kv);
     		}
+    	} else {
+    		// There's no need to recalculate the value, 
+    		// but the related definitions need updating.
+    		recalculateRelatedDefinitions(def, kv);
     	}
     }
     
@@ -145,27 +154,7 @@ public class KeyValueCalculator {
 		}
 
 		if (refresh) {
-			if (def.getSummaryDefinition() != null) {
-				// Recalculate the associated summary definition
-				
-				Definition summaryDef = def.getSummaryDefinition();
-				logger.info("Summary definition: " + summaryDef.getId());
-				
-				try {
-					calculateKeyValue(summaryDef,
-							kv.getPrimaryRecordId(), 
-							kv.getSecondaryRecordId(), 
-							kv.getTertiaryRecordId());
-				} catch (Exception e) {
-					logger.error("Error calculating summarised definition ("
-							+ def.getSummaryDefinition().getId() 
-							+ ") for key value (" + kv.getPrimaryRecordId()
-							+ kv.getSecondaryRecordId() + kv.getTertiaryRecordId()
-							+ "): " + e.getMessage(), e);
-				}
-			}
-			// Recalculate any associated calculated definitions
-			recalculateCalculatedDefinitions(def, kv);
+			recalculateRelatedDefinitions(def, kv);
 		}
     }    
 
@@ -196,6 +185,7 @@ public class KeyValueCalculator {
     		// No submitted values exist - delete the key value if one exists
     		if (kv.getId() != null && kv.getId() > 0) {
     			deleteKeyValue(kv);
+				refresh = true;
     		}    			
     	} else {
     		Object result = KeyValueGenerator.calculateFromObjects(def, values);
@@ -211,8 +201,7 @@ public class KeyValueCalculator {
     	}
 		
 		if (refresh) {
-			// Recalculate any associated calculated definitions
-			recalculateCalculatedDefinitions(def, kv);				
+			recalculateRelatedDefinitions(def, kv);			
 		}
     }
     
@@ -262,10 +251,42 @@ public class KeyValueCalculator {
 			saveKeyValue(kv);
     	}
 		if (refresh) {
-			// Recalculate any associated calculated definitions
-			recalculateCalculatedDefinitions(def, kv);				
+			recalculateRelatedDefinitions(def, kv);
 		}
     }
+    
+    /**
+     * Recalculate any related definitions.
+     *
+     * @param def the definition
+     * @param kv the key value
+     */
+    private static void recalculateRelatedDefinitions(final Definition def,
+    		final KeyValue kv) {
+    	
+    	if (def.getSummaryDefinition() != null) {
+			// Recalculate the associated summary definition
+			
+			Definition summaryDef = def.getSummaryDefinition();
+			logger.info("Summary definition: " + summaryDef.getId());
+			
+			try {
+				calculateKeyValue(summaryDef,
+						kv.getPrimaryRecordId(), 
+						kv.getSecondaryRecordId(), 
+						kv.getTertiaryRecordId());
+			} catch (Exception e) {
+				logger.error("Error calculating summarised definition ("
+						+ def.getSummaryDefinition().getId() 
+						+ ") for key value (" + kv.getPrimaryRecordId()
+						+ kv.getSecondaryRecordId() + kv.getTertiaryRecordId()
+						+ "): " + e.getMessage(), e);
+			}
+		}
+		// Recalculate any associated calculated definitions
+		recalculateCalculatedDefinitions(def, kv);
+    }
+    
     
     /**
      * Get the existing key value, or prepare a new key value for calculating.
@@ -311,6 +332,12 @@ public class KeyValueCalculator {
     	
     	KeyValue kv = KeyValue.findKeyValue(def, primaryId, secondaryId, tertiaryId);
     	    	
+    	if (kv != null) {
+    		logger.info("Key value id: " + kv.getId());
+    	} else {
+    		logger.info("Key value is null");
+    	}
+    	
     	// If the key value is still null then this is a new record
     	if (kv == null) {
     		kv = new KeyValue();

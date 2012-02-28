@@ -25,7 +25,14 @@
     					
 	    					<div class="values">
 	    						<c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
-	    							<a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
+	    							<c:choose>
+										<c:when test="${not empty keyValue.id}">
+											<a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
+										</c:when>
+										<c:otherwise>
+											<c:out value="${keyValue.value}" />
+										</c:otherwise>
+	    							</c:choose>
 	    							<c:if test="${keyValueSet.value.keyValueCount gt 1}">
 	    								(<c:if test="${recordLevel ne 'secondary'}">
 	    									<c:out value="${preferences.secondaryRecordName}" />
@@ -58,7 +65,14 @@
 	    									
 	    									<div class="values">
 					    						<c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
-					    							<a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
+					    							<c:choose>
+														<c:when test="${not empty keyValue.id}">
+															<a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
+														</c:when>
+														<c:otherwise>
+															<c:out value="${keyValue.value}" />
+														</c:otherwise>
+	    											</c:choose>
 					    							<c:if test="${keyValueSet.value.keyValueCount gt 1}">
 					    								(<c:if test="${recordLevel ne 'secondary'}">
 					    									<c:out value="${preferences.secondaryRecordName}" />

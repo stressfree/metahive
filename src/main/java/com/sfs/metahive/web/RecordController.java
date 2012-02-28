@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +21,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sfs.metahive.FlashScope;
+import com.sfs.metahive.messaging.JmsRecalculateRequest;
+import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.KeyValue;
+import com.sfs.metahive.model.KeyValueGenerator;
+import com.sfs.metahive.model.KeyValueType;
 import com.sfs.metahive.model.MetahivePreferences;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Record;
 import com.sfs.metahive.model.SubmittedField;
 import com.sfs.metahive.model.UserRole;
+import com.sfs.metahive.web.model.KeyValueForm;
 import com.sfs.metahive.web.model.KeyValueJson;
 import com.sfs.metahive.web.model.RecordFilter;
 import com.sfs.metahive.web.model.RecordForm;
@@ -37,6 +44,9 @@ import flexjson.JSONSerializer;
 @Controller
 public class RecordController extends BaseController {
 
+	@Autowired
+	private transient JmsTemplate keyValueGenerationTemplate;
+	
 	/** The default page size. */
 	private final static int DEFAULT_PAGE_SIZE = 50;
 	
@@ -145,7 +155,7 @@ public class RecordController extends BaseController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_EDITOR','ROLE_ADMIN')")
     public String delete(@PathVariable("id") Long id, Model uiModel,
     		HttpServletRequest request) {
 		
@@ -175,16 +185,17 @@ public class RecordController extends BaseController {
 	 * @param request the request
 	 * @return the string
 	 */
-	@RequestMapping(value = "/{id}/keyvalue/{keyValueId}", method = RequestMethod.GET)
- 	public String keyvalueDetail(@PathVariable("id") Long id, 
- 			@PathVariable("keyValueId") Long keyValueId, Model uiModel,
+	@RequestMapping(value = "/keyvalue/{id}", method = RequestMethod.GET)
+ 	public String keyvalueDetail(@PathVariable("id") Long id, Model uiModel,
  			HttpServletRequest request) {
 	
-		KeyValue kv = KeyValue.findKeyValue(keyValueId);
+		KeyValue kv = KeyValue.findKeyValue(id);
 		kv.setSubmittedFields(SubmittedField.findSubmittedFields(
 				kv.getDefinition(), kv.getPrimaryRecordId(), 
 				kv.getSecondaryRecordId(), kv.getTertiaryRecordId()));
 
+		kv.setContext(this.getContext());
+		
 		uiModel.addAttribute("keyValue", kv);
 		
 		return "records/keyvaluedetail";
@@ -194,14 +205,12 @@ public class RecordController extends BaseController {
 	 * The key value as a json string.
 	 *
 	 * @param id the id
-	 * @param keyValueId the key value id
 	 * @param request the request
 	 * @return the string
 	 */
-	@RequestMapping(value = "/{id}/keyvalue/{keyValueId}", 
+	@RequestMapping(value = "/keyvalue/{id}", 
 			params = "json", method = RequestMethod.GET)
-    public @ResponseBody String keyvalueJson(@PathVariable("id") Long id, 
- 			@PathVariable("keyValueId") Long keyValueId,
+    public @ResponseBody String keyvalueJson(@PathVariable("id") Long id,
  			HttpServletRequest request) {
 
 		UserRole userRole = UserRole.ANONYMOUS;
@@ -211,10 +220,72 @@ public class RecordController extends BaseController {
 			userRole = user.getUserRole();
 		}
 		
-		KeyValue kv = KeyValue.findKeyValue(keyValueId);		
+		KeyValue kv = KeyValue.findKeyValue(id);		
 		KeyValueJson kvj = new KeyValueJson(kv, kv.getDefinition(), userRole);
 		
 		return new JSONSerializer().exclude("*.class").serialize(kvj);
+    }
+	
+	@RequestMapping(value = "/keyvalue/{id}", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+    public @ResponseBody String overrideKeyValue(@PathVariable("id") Long id,
+    		KeyValueForm kvForm, Model uiModel, HttpServletRequest request) {
+		
+		Person user = loadUser(request);
+        
+		if (user == null) {
+			// A valid user is required
+	        return getMessage("metahive_valid_user_required");
+		}
+		
+		KeyValue kv = null;
+		try {
+			kv = KeyValue.findKeyValue(id);
+		} catch (Exception e) {
+			// Error loading key value
+		}
+		
+		if (kv == null) {
+			return getMessage("metahive_record_keyvaluedetail_error");
+		}
+		
+		DataType dt = kv.getDefinition().getDataType();
+		
+		boolean keyValueChanged = false;
+
+		kv.setComment(kvForm.getTrimmedOverrideComment());
+		
+		if (kvForm.isOverridden()) {
+			// Key value is overridden
+			kv.setKeyValueType(KeyValueType.OVERRIDDEN);
+			kv.setValue(KeyValueGenerator.parseValue(dt, kvForm.getOverrideValue()));
+			kv.setOverriddenBy(user);
+			
+			keyValueChanged = true;
+		}
+		
+		if (kv.getKeyValueType() == KeyValueType.OVERRIDDEN
+				&& !kvForm.isOverridden()) {
+			// Key value changed to being not overridden
+			kv.setKeyValueType(KeyValueType.CALCULATED);
+			kv.setOverriddenBy(null);
+			
+			keyValueChanged = true;
+		}
+
+		// Save the key value
+		kv.merge();
+		kv.flush();
+		
+		// Submit a recalculation JMS request
+		if (keyValueChanged) {			
+			JmsRecalculateRequest req = new JmsRecalculateRequest(kv);
+			keyValueGenerationTemplate.convertAndSend(req);
+		}
+		
+        uiModel.asMap().clear();
+        
+        return getMessage("metahive_record_keyvaluedetail_success");
     }
 
 	/**

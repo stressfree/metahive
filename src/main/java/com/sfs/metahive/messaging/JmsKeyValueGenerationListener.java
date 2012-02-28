@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import com.sfs.metahive.KeyValueCalculator;
 import com.sfs.metahive.model.Definition;
-import com.sfs.metahive.model.DefinitionType;
 
 
 /**
@@ -41,9 +40,7 @@ public class JmsKeyValueGenerationListener {
         	
         	Definition definition = Definition.findDefinition(req.getDefinitionId());
         	
-        	if (definition != null 
-        			&& definition.getDefinitionType() == DefinitionType.STANDARD) {
-        		
+        	if (definition != null) {        		
         		KeyValueCalculator.calculateKeyValue(
         				definition,
         				req.getPrimaryRecordId(), 

@@ -6,8 +6,9 @@
     <spring:message code="${definition.keyValueGenerator.messageKey}" var="keyvalueMethod"/>
     <spring:url value="/definitions/${definition.id}" var="url" />
     
-    <c:if test="${keyvalue.keyValueType eq 'OVERRIDDEN'}">
-    	<p><strong>This key value has been manually overridden by XX on XX to XX.</strong></p>
+    <c:if test="${keyValue.keyValueType eq 'OVERRIDDEN'}">
+    	<c:set var="overrideDate"><fmt:formatDate pattern="d/M/yyyy" value="${keyValue.modified}" /></c:set>
+    	<p><strong><spring:message code="metahive_record_keyvaluedetail_overridden" arguments="${keyValue.overriddenBy.formattedName}|${overrideDate}|${keyValue.value}" argumentSeparator="|"/></strong></p>
     </c:if>
     <div class="keyValueData">
     	<c:choose>

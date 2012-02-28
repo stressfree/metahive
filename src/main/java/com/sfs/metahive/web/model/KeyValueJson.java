@@ -3,6 +3,7 @@ package com.sfs.metahive.web.model;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.KeyValue;
+import com.sfs.metahive.model.KeyValueBoolean;
 import com.sfs.metahive.model.KeyValueType;
 import com.sfs.metahive.model.UserRole;
 
@@ -48,6 +49,7 @@ public class KeyValueJson {
 		
 		this.id = kv.getId();
 		this.name = kv.getDefinition().getName();
+		this.comment = kv.getComment();
 		
 		if (kv.getKeyValueType() == KeyValueType.OVERRIDDEN) {
 			this.overridden = true;
@@ -61,7 +63,13 @@ public class KeyValueJson {
 			}
 			if (definition.getDataType() == DataType.TYPE_BOOLEAN) {
 				if (kv.getBooleanValue() != null) {
-					value = kv.getBooleanValue().getMessageKey();
+					value = "Unclear";
+					if (kv.getBooleanValue() == KeyValueBoolean.BL_TRUE) {
+						value = "Yes";
+					}
+					if (kv.getBooleanValue() == KeyValueBoolean.BL_FALSE) {
+						value = "No";
+					}
 				}
 			}
 			if (definition.getDataType() == DataType.TYPE_NUMBER
@@ -93,6 +101,18 @@ public class KeyValueJson {
 			this.name = "";
 		}
 		return this.name;
+	}
+
+	/**
+	 * Gets the comment.
+	 *
+	 * @return the comment
+	 */
+	public final String getComment() {
+		if (this.comment == null) {
+			this.comment = "";
+		}
+		return this.comment;
 	}
 	
 	/**

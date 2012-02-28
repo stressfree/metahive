@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 
+import com.sfs.metahive.model.KeyValue;
 import com.sfs.metahive.model.SubmittedField;
 
 
@@ -25,12 +26,25 @@ public class JmsRecalculateRequest implements Serializable {
 	 *
 	 * @param field the submitted field
 	 */
-	public JmsRecalculateRequest(SubmittedField field) {
+	public JmsRecalculateRequest(final SubmittedField field) {
 		super();
 		this.primaryRecordId = field.getPrimaryRecordId();
 		this.secondaryRecordId = field.getSecondaryRecordId();
 		this.tertiaryRecordId = field.getTertiaryRecordId();
 		this.definitionId = field.getDefinition().getId();
+	}
+	
+	/**
+	 * Instantiates a new jms recalculate request.
+	 *
+	 * @param kv the key value
+	 */
+	public JmsRecalculateRequest(final KeyValue kv) {
+		super();
+		this.primaryRecordId = kv.getPrimaryRecordId();
+		this.secondaryRecordId = kv.getSecondaryRecordId();
+		this.tertiaryRecordId = kv.getTertiaryRecordId();
+		this.definitionId = kv.getDefinition().getId();
 	}
 	
 	/**

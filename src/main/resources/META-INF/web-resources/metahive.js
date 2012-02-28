@@ -146,3 +146,55 @@ function testCalculation(url) {
 	    }
 	});
 }
+
+function showKeyValueDetail(e) {
+	var id = String(dojo.query(e.target).attr('id')).replace("keyvalueDetail", "");
+	dojo.xhrGet({
+	    url: recordUrl + id,
+	    handleAs: "text",
+	    load: function(data){
+	        dojo.byId("keyvalueDetail").innerHTML = data;        	        
+	        dojo.xhrGet({
+	            url: recordUrl + id + "?json",
+	            handleAs:"json",
+	            load: function(data){
+	                dijit.byId("keyvalueDlg").set('title', keyValueTitle + ': ' + data.name);
+	                
+	                if (dojo.byId("overrideForm")) {
+    	                if (data.overridden) {
+    	                	dijit.byId("overrideEnabled").set('checked', true);
+    	                	toggleOverride();
+    	                }
+	                	dijit.byId("overrideValue").set('value', data.value);
+    	                dijit.byId("overrideComment_").set('value', data.comment);
+	                	dojo.byId("keyValueId").value = data.id;
+    	                dojo.byId("overrideOutcome").innerHTML = "";
+	                }
+	                
+                	dijit.byId("keyvalueDlg").show();
+	            }
+	        });
+	    }
+	});
+}
+
+function toggleOverride(e) {
+	var override = true;        	
+	if (dijit.byId("overrideEnabled").get("value") == 'overridden') {
+		override = false;
+	}
+	dijit.byId("overrideValue").set("disabled", override); 
+}
+
+function submitOverrideForm(e) {
+	dojo.stopEvent(e);
+
+	dojo.xhrPost({
+	    	form: dojo.byId("overrideForm"),
+	    	url: recordUrl + dojo.byId("keyValueId").value,
+	    handleAs: "text",
+	    load: function(data){
+	    	dojo.byId("overrideOutcome").innerHTML = data;
+	    }
+	});
+}

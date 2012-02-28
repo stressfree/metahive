@@ -464,12 +464,26 @@ div.keyvalueDlg {
 }
 div.keyvalueDlg div.keyvalueDlgContainer {
 	width: 580px;
-	height:400px;
+	height:420px;
 	text-align:left;
 }
 div.keyvalueDlg div.keyvalueDlgTabContainer {
 	width: 578px;
-	height: 395px;
+	height: 405px;
+}
+div.keyvalueDlg div.keyvalueDlgTabContainer #overrideOutcome {
+	margin: 0 30px;
+	padding: 0.2em 0;
+}
+div.keyvalueDlg div.keyvalueDlgTabContainer .dijitTabPane {
+	padding-top: 15px;	
+}
+div.keyvalueDlg div.keyvalueDlgTabContainer #overridePane {
+	overflow: hidden;	
+}
+div.keyvalueDlg div.keyvalueDlgTabContainer .submit {
+	text-align: right;
+	margin-right: 30px;
 }
 
 #filterform, #administrationmenu, #usermenu {
