@@ -25,6 +25,11 @@
     					
 	    					<div class="values">
 	    						<c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
+	    							<c:set var="spanClass" value="" />
+	    							<c:if test="${keyValue.keyValueType eq 'OVERRIDDEN'}">
+					    				<c:set var="spanClass" value="overridden" />
+					    			</c:if>
+					    			<span class="${spanClass}">
 	    							<c:choose>
 										<c:when test="${not empty keyValue.id}">
 											<a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
@@ -33,6 +38,7 @@
 											<c:out value="${keyValue.value}" />
 										</c:otherwise>
 	    							</c:choose>
+	    							</span>
 	    							<c:if test="${keyValueSet.value.keyValueCount gt 1}">
 	    								(<c:if test="${recordLevel ne 'secondary'}">
 	    									<c:out value="${preferences.secondaryRecordName}" />
@@ -65,6 +71,11 @@
 	    									
 	    									<div class="values">
 					    						<c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
+					    							<c:set var="childSpanClass" value="" />
+					    							<c:if test="${keyValue.keyValueType eq 'OVERRIDDEN'}">
+					    								<c:set var="childSpanClass" value="overridden" />
+					    							</c:if>
+					    							<span class="${childSpanClass}">
 					    							<c:choose>
 														<c:when test="${not empty keyValue.id}">
 															<a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
@@ -73,6 +84,7 @@
 															<c:out value="${keyValue.value}" />
 														</c:otherwise>
 	    											</c:choose>
+	    											</span>
 					    							<c:if test="${keyValueSet.value.keyValueCount gt 1}">
 					    								(<c:if test="${recordLevel ne 'secondary'}">
 					    									<c:out value="${preferences.secondaryRecordName}" />

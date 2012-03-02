@@ -21,6 +21,8 @@
             <spring:message code="metahive_table_minimise" var="minimised" />						
 			<div class="keyValueData">
 				<p class="viewOptions">
+    				<a id="saveRecords"><spring:message code="metahive_export_records" /></a>
+					<c:out value=" | " />
 					<a class="viewControl"><c:out value="${maximised}" /></a>
 				</p>
 				<table>
@@ -60,7 +62,12 @@
 												<td class="secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
 												<td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
 												<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
+													<c:set var="spanClass" value="" />
+													<c:if test="${keyValue.value.keyValueType eq 'OVERRIDDEN'}">
+					    								<c:set var="spanClass" value="overridden" />
+					    							</c:if>
 	 												<td class="${keyValue.value.cssClass}">
+	 													<span class="${spanClass}">
 	 													<c:choose>
 	 														<c:when test="${not empty keyValue.value.id}">
 	 															<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
@@ -69,6 +76,7 @@
 	 															<c:out value="${keyValue.value.value}" />
 	 														</c:otherwise>
 	 													</c:choose>
+	 													</span>
 	 												</td>
 	 											</c:forEach>
 											</c:otherwise>
@@ -82,7 +90,12 @@
 										<td class="secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
 										<td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
 										<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
+											<c:set var="spanClass" value="" />
+											<c:if test="${keyValue.value.keyValueType eq 'OVERRIDDEN'}">
+					    						<c:set var="spanClass" value="overridden" />
+					    					</c:if>
 	 										<td class="${keyValue.value.cssClass}">
+	 											<span class="${spanClass}">
 	 											<c:choose>
 	 												<c:when test="${not empty keyValue.value.id}">
 	 													<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
@@ -91,6 +104,7 @@
 	 													<c:out value="${keyValue.value.value}" />
 	 												</c:otherwise>
 	 											</c:choose>
+	 											</span>
 	 										</td>
 	 									</c:forEach>
 									</tr>
@@ -99,7 +113,12 @@
 											<td class="secondaryRecord"><c:out value="${keyValueCollection.secondaryRecordId}" /></td>
 											<td class="tertiaryRecord"><c:out value="${keyValueCollection.tertiaryRecordId}" /></td>
 											<c:forEach var="keyValue" items="${keyValueCollection.keyValueMap}">
+												<c:set var="spanClass" value="" />
+												<c:if test="${keyValue.value.keyValueType eq 'OVERRIDDEN'}">
+					    							<c:set var="spanClass" value="overridden" />
+					    						</c:if>
 	 											<td class="${keyValue.value.cssClass}">
+	 												<span class="${spanClass}">
 	 												<c:choose>
 	 													<c:when test="${not empty keyValue.value.id}">
 	 														<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
@@ -108,6 +127,7 @@
 	 														<c:out value="${keyValue.value.value}" />
 	 													</c:otherwise>
 	 												</c:choose>
+	 												</span>
 	 											</td>
 	 										</c:forEach>
 										</tr>
@@ -122,10 +142,15 @@
 			<c:if test="${not empty maxPages}">
             	<util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
           	</c:if>
+  			
+  			<metahive:keyvaluedetail />
+    
+    		<metahive:export modelAttribute="user" />
             
 			<script type="text/javascript">
   			<![CDATA[
 			dojo.require("dojo.NodeList-html");
+			
 			dojo.addOnLoad(function() {
 				dojo.query('.viewControl').onclick(function () {
 					dojo.forEach(
@@ -139,11 +164,13 @@
 							}
   						});
 				});
+				
+				dojo.connect(dojo.byId("saveRecords"), "onclick", function(e) {
+		        	dojo.query('.export').removeClass('hidden');
+		        });
 			});			
 			]]>
   			</script>
-  			
-  			<metahive:keyvaluedetail />
 		</c:when>
 		<c:otherwise>
 			<p><spring:message code="entity_not_found" arguments="records" /></p>

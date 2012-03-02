@@ -40,6 +40,8 @@
     		<spring:message code="metahive_record_summary_collapse" var="expandText"/>
     	</c:if>
     	
+    	<a id="saveRecords"><spring:message code="metahive_export_record" /></a>
+		<c:out value=" | " />
 		<a href="${recordUrl}?show=${showUrl}&amp;expand=${expand}"><c:out value="${showText}" /></a>
 		<c:out value=" | " />
 		<a href="${recordUrl}?show=${show}&amp;expand=${expandUrl}"><c:out value="${expandText}" /></a>
@@ -72,9 +74,17 @@
     <script type="text/javascript">
     <![CDATA[
         dojo.require("dijit.TitlePane");
+        
+		dojo.addOnLoad(function() {
+	        dojo.connect(dojo.byId("saveRecords"), "onclick", function(e) {
+	        	dojo.query('.export').removeClass('hidden');
+	        });
+	    });
     ]]>
     </script>
      
     <metahive:keyvaluedetail />
+    
+    <metahive:export id="${record.id}" modelAttribute="user" />
    
 </div>

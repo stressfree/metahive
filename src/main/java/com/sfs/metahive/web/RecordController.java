@@ -3,6 +3,7 @@ package com.sfs.metahive.web;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -358,6 +360,26 @@ public class RecordController extends BaseController {
         		? nrOfPages + 1 : nrOfPages));
         
         return "records/list";
+    }
+
+	
+    @ModelAttribute("user")
+    public Person populateUser(HttpServletRequest request) {
+    	
+    	Person user = loadUser(request);
+    	
+    	if (user == null) {
+    		user = new Person();
+    		
+    		MetahivePreferences preferences = MetahivePreferences.load();
+    		user.setSearchDefinitions(preferences.getDefaultDefinitions());
+    	}
+    	return user;
+    }
+
+    @ModelAttribute("exportDefinitions")
+    public Map<String, List<Definition>> populateDefinitions() {    	
+    	return Definition.groupDefinitions(Definition.findTopLevelDefinitions());
     }
 	
 }

@@ -32,6 +32,11 @@ a.keyvalueDetail {
 a.keyvalueDetail:hover {
 	color: #e92c19;
 	text-decoration: underline;	
+	cursor: pointer;
+}
+span.overridden {
+	padding-right: 18px;
+	background: url('../images/override.png') top right no-repeat;
 }
 
 .clear {
@@ -486,6 +491,32 @@ div.keyvalueDlg div.keyvalueDlgTabContainer .submit {
 	margin-right: 30px;
 }
 
+.export {
+	position: absolute;
+	top: 100px;
+	z-index: 9999;
+	width: 974px;
+}
+.export div.container {
+	margin: 0 auto;
+	width: 904px;
+	border-top: 1px solid #ccc;	
+	border-left: 1px solid #ccc;	
+	border-bottom: 1px solid #666;	
+	border-right: 1px solid #666;	
+	padding: 7px 20px 20px 20px;
+	background: #fff;
+}
+.export .exportMessage {
+	float: left;
+}
+.export .actions {
+	text-align: right;
+}
+.export .firstDefinitionColumn {
+	clear: left;
+}
+
 #filterform, #administrationmenu, #usermenu {
 	clear: both;
 	padding: 0.4em 20px 0.3em 20px;
@@ -574,12 +605,17 @@ div.keyvalueDlg div.keyvalueDlgTabContainer .submit {
 ul.checkall {
 	margin: 0;
 	padding: 0;
+	clear: left;
 }
 ul.checkall li {
 	float: left;
 	padding: 0 1em 0 0;
 	list-style: none;	
 }
+ul.checkall li a:hover {
+	cursor: pointer;
+}
+
 #submissionData {
 	width: 100%;
 	height: 200px;	
@@ -748,6 +784,7 @@ p.viewOptions a {
 p.viewOptions a:hover {
 	text-decoration: underline;
 	color: #e92c19;
+	cursor: pointer;
 }
 
 
@@ -818,4 +855,8 @@ p.viewOptions a:hover {
 }
 .field-multiselect .multiselectThreeColumn span {
 	width: 230px;
+}
+
+.dijitTabListContainer-top :focus, .dijitTitlePaneContentInner:focus {
+	outline: none;	
 }
