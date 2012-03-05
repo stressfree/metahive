@@ -111,6 +111,24 @@ public class DataGrid {
 		return fields;
 	}
 	
+	
+	/**
+	 * Adds the row.
+	 *
+	 * @param rowData the row data
+	 */
+	public void addRow(final List<String> rowData) {
+		String[] row = new String[rowData.size()];
+
+		int i = 0;
+		for (String value : rowData) {
+			row[i] = value;
+			i++;
+		}
+		this.addRow(row);		
+	}
+	
+	
 	/**
 	 * Adds the row to the body.
 	 *

@@ -75,7 +75,14 @@ public class ExcelTemplateView extends AbstractExcelView {
 			int x = 0;
 					
 			for (String data : rowData) {
-				row.createCell(x).setCellValue(data);
+				HSSFCell cell = row.createCell(x);
+				
+				try {
+					double dbValue = Double.parseDouble(data);
+					cell.setCellValue(dbValue);
+				} catch (NumberFormatException nfe) {
+					cell.setCellValue(data);
+				}
 				x++;
 			}
 		}

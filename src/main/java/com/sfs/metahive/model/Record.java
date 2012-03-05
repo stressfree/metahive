@@ -153,7 +153,6 @@ public class Record {
 		return size;
 	}
 	
-	
 	/**
 	 * Load all the key values for this record.
 	 *
@@ -163,11 +162,22 @@ public class Record {
 	public final void loadAllKeyValues(final UserRole userRole,
 			final ApplicationContext context) {
 		
-		List<Definition> definitions = Definition.findAllDefinitions();
+		loadKeyValues(Definition.findAllDefinitions(), userRole, context);
+	}
+		
+	/**
+	 * Load the supplied key values for this record.
+	 *
+	 * @param definitions the definitions
+	 * @param userRole the user role
+	 * @param context the context
+	 */
+	public final void loadKeyValues(final List<Definition> definitions, 
+			final UserRole userRole, final ApplicationContext context) {
 		
 		this.setKeyValues(
 				KeyValue.findKeyValues(this, definitions),
-				definitions, userRole, context);		
+				definitions, userRole, context);	
 	}
 	
 	/**
@@ -341,8 +351,11 @@ public class Record {
     	sql.append(" ORDER BY r.recordId ASC");
     	
     	TypedQuery<Record> q = entityManager().createQuery(
-        		sql.toString(), Record.class)
-        		.setFirstResult(firstResult).setMaxResults(maxResults);
+        		sql.toString(), Record.class);
+    	
+    	if (maxResults > 0) {
+    		q.setFirstResult(firstResult).setMaxResults(maxResults);
+    	}
     	
     	HashMap<String, String> variables = buildVariables(filter);
     	for (String variable : variables.keySet()) {

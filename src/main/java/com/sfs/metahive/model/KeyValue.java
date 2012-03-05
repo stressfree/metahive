@@ -160,67 +160,25 @@ public class KeyValue {
 		}
  	}	
 	
+	
 	/**
-	 * Gets the formatted value.
+	 * Gets the value including the unit of measure.
 	 *
 	 * @return the value
 	 */
-	public String getValue() {
-		
-		if (this.getDefinition() == null) {
-			throw new NullPointerException("A valid definition is required");
-		}
-		if (this.getContext() == null) {
-			throw new NullPointerException("A valid application context is required");
-		}
-		
-		// The default value is authorisation required
-		String value = context.getMessage(
-				"label_com_sfs_metahive_model_keyvalue_access_restricted", 
-				null, LocaleContextHolder.getLocale());
-		
-		if (UserRole.allowAccess(this.getUserRole(), definition.getKeyValueAccess())) {
-			value = context.getMessage("label_com_sfs_metahive_model_keyvalue_no_data", 
-					null, LocaleContextHolder.getLocale());
-			
-			if (this.getDefinition().getDataType() == DataType.TYPE_STRING) {
-				if (this.getStringValue() != null) {
-					value = this.getStringValue() + appendUnitOfMeasure();
-				}
-			}
-			if (this.getDefinition().getDataType() == DataType.TYPE_BOOLEAN) {
-				if (this.getBooleanValue() != null && this.getContext() != null) {
-					value = context.getMessage(this.getBooleanValue().getMessageKey(), 
-							null, LocaleContextHolder.getLocale());
-				}
-			}
-			if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER) {
-				if (this.getDoubleValue() != null) {
-					DecimalFormat df = new DecimalFormat("#.######");					
-					value = df.format(this.getDoubleValue());
-					if (StringUtils.endsWithIgnoreCase(value, ".000000")) {
-						value = StringUtils.substring(value, 0, value.length() -6);
-					}
-					value += appendUnitOfMeasure();
-				}
-			}
-			if (this.getDefinition().getDataType() == DataType.TYPE_CURRENCY) {
-				if (this.getDoubleValue() != null) {
-					DecimalFormat df = new DecimalFormat("$###,###,###,##0.00");
-					value = df.format(this.getDoubleValue()) + appendUnitOfMeasure();
-				}
-			}			
-			if (this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
-				if (this.getDoubleValue() != null) {
-					NumberFormat percentFormatter = NumberFormat.getPercentInstance(
-							LocaleContextHolder.getLocale());
-					value = percentFormatter.format(this.getDoubleValue()) +
-							appendUnitOfMeasure();
-				}
-			}
-		}	
-		return value;
+	public final String getValue() {
+		return getValue(true);
 	}
+	
+	/**
+	 * Gets the value sans the units of measure.
+	 *
+	 * @return the value sans units
+	 */
+	public final String getValueSansUnits() {
+		return getValue(false);
+	}
+	
 	
 	/**
 	 * Checks for no data in the key value.
@@ -341,6 +299,77 @@ public class KeyValue {
         }
         return keyValue;
     }
+	
+
+	/**
+	 * Gets the formatted value.
+	 *
+	 * @param includeUnits the include units flag
+	 * @return the value
+	 */
+	private String getValue(final boolean includeUnits) {
+		
+		if (this.getDefinition() == null) {
+			throw new NullPointerException("A valid definition is required");
+		}
+		if (this.getContext() == null) {
+			throw new NullPointerException("A valid application context is required");
+		}
+		
+		// The default value is authorisation required
+		String value = context.getMessage(
+				"label_com_sfs_metahive_model_keyvalue_access_restricted", 
+				null, LocaleContextHolder.getLocale());
+		
+		if (UserRole.allowAccess(this.getUserRole(), definition.getKeyValueAccess())) {
+			value = context.getMessage("label_com_sfs_metahive_model_keyvalue_no_data", 
+					null, LocaleContextHolder.getLocale());
+			
+			if (this.getDefinition().getDataType() == DataType.TYPE_STRING) {
+				if (this.getStringValue() != null) {
+					value = this.getStringValue();
+					if (includeUnits) {
+						value += appendUnitOfMeasure();
+					}
+				}
+			}
+			if (this.getDefinition().getDataType() == DataType.TYPE_BOOLEAN) {
+				if (this.getBooleanValue() != null && this.getContext() != null) {
+					value = context.getMessage(this.getBooleanValue().getMessageKey(), 
+							null, LocaleContextHolder.getLocale());
+				}
+			}
+			if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER) {
+				if (this.getDoubleValue() != null) {
+					DecimalFormat df = new DecimalFormat("#.######");					
+					value = df.format(this.getDoubleValue());
+					if (StringUtils.endsWithIgnoreCase(value, ".000000")) {
+						value = StringUtils.substring(value, 0, value.length() -6);
+					}
+					if (includeUnits) {
+						value += appendUnitOfMeasure();
+					}
+				}
+			}
+			if (this.getDefinition().getDataType() == DataType.TYPE_CURRENCY) {
+				if (this.getDoubleValue() != null) {
+					DecimalFormat df = new DecimalFormat("$###,###,###,##0.00");
+					value = df.format(this.getDoubleValue()) + appendUnitOfMeasure();
+				}
+			}			
+			if (this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
+				if (this.getDoubleValue() != null) {
+					NumberFormat percentFormatter = NumberFormat.getPercentInstance(
+							LocaleContextHolder.getLocale());
+					value = percentFormatter.format(this.getDoubleValue());
+					if (includeUnits) {
+						value += appendUnitOfMeasure();
+					}
+				}
+			}
+		}	
+		return value;
+	}
     
     /**
      * Append unit of measure.
@@ -363,4 +392,5 @@ public class KeyValue {
     	}
     	return value;
     }
+    
 }

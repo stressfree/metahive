@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.messaging.JmsRecalculateRequest;
+import com.sfs.metahive.model.DataGrid;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.KeyValue;
+import com.sfs.metahive.model.KeyValueCollection;
 import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.KeyValueType;
 import com.sfs.metahive.model.MetahivePreferences;
@@ -337,7 +341,7 @@ public class RecordController extends BaseController {
 		int sizeNo = size == null ? DEFAULT_PAGE_SIZE : size.intValue();
 		int pageNo = page == null ? 0 : page.intValue() - 1;
 		
-		RecordFilter filter = new RecordFilter();		
+		RecordFilter filter = new RecordFilter();
 		filter.setEncoding(request.getCharacterEncoding());
 		
 		if (StringUtils.isNotBlank(recordId)) {
@@ -361,6 +365,57 @@ public class RecordController extends BaseController {
         
         return "records/list";
     }
+	
+	
+	@RequestMapping(value = "/search.xls", method = RequestMethod.POST)
+	public ModelAndView recordsExport(@RequestParam(
+			value = "searchDefinitions", required = true) String[] definitionIds,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Person user = loadUser(request);
+		
+		UserRole userRole = UserRole.ANONYMOUS;
+		if (user != null && user.getUserRole() != null) {
+			userRole = user.getUserRole();
+		}
+		
+		List<Definition> definitions = Definition.findDefinitionEntries(definitionIds);
+		
+		List<Record> records = Record.findRecordEntries(
+				new RecordFilter(), definitions, userRole, this.getContext(), 1, 0);
+		
+		DataGrid dataGrid = buildDataGrid(records, definitions);
+		
+		return new ModelAndView("ExcelTemplateView", "dataGrid", dataGrid);
+	}
+	
+	
+	@RequestMapping(value = "/{id}/record.xls", method = RequestMethod.POST)
+	public ModelAndView recordExport(@RequestParam(
+			value = "searchDefinitions", required = true) String[] definitionIds,
+			@PathVariable("id") Long id, HttpServletRequest request, 
+			HttpServletResponse response) throws Exception {
+
+		Person user = loadUser(request);
+		
+		UserRole userRole = UserRole.ANONYMOUS;
+		if (user != null && user.getUserRole() != null) {
+			userRole = user.getUserRole();
+		}
+		
+		List<Definition> definitions = Definition.findDefinitionEntries(definitionIds);
+		
+		Record record = Record.findRecord(id);
+		record.loadKeyValues(definitions, userRole, this.getContext());
+		
+		List<Record> records = new ArrayList<Record>();
+		records.add(record);
+		
+		DataGrid dataGrid = buildDataGrid(records, definitions);
+		
+		return new ModelAndView("ExcelTemplateView", "dataGrid", dataGrid);
+	}
+	
 
 	
     @ModelAttribute("user")
@@ -380,6 +435,94 @@ public class RecordController extends BaseController {
     @ModelAttribute("exportDefinitions")
     public Map<String, List<Definition>> populateDefinitions() {    	
     	return Definition.groupDefinitions(Definition.findTopLevelDefinitions());
+    }
+    
+    
+    /**
+     * Builds the data grid.
+     *
+     * @param records the records
+     * @param definitions the definitions
+     * @return the data grid
+     */
+    private DataGrid buildDataGrid(final List<Record> records, 
+    		final List<Definition> definitions) {
+    	
+    	DataGrid dataGrid = new DataGrid();
+    	
+    	if (records.size() == 1) {
+    		dataGrid.setTitle("Record " + records.get(0).getRecordId());    		
+    	} else {
+    		dataGrid.setTitle("Record search results");
+    	}
+
+		MetahivePreferences preferences = loadPreferences();
+				
+		dataGrid.addHeaderField(preferences.getPrimaryRecordName());
+		
+		if (StringUtils.isNotBlank(preferences.getSecondaryRecordName())) {
+			dataGrid.addHeaderField(preferences.getSecondaryRecordName());			
+		}
+		if (StringUtils.isNotBlank(preferences.getTertiaryRecordName())) {
+			dataGrid.addHeaderField(preferences.getTertiaryRecordName());			
+		}
+		
+		for (Definition definition : definitions) {
+			String field = definition.getName();
+			if (StringUtils.isNotBlank(definition.getDescription().getUnitOfMeasure())) {
+				field += " (" + definition.getDescription().getUnitOfMeasure() + ")";
+			}
+			dataGrid.addHeaderField(field);
+		}
+
+		for (Record record : records) {
+			
+			if (record.getKeyValueCollection() != null 
+					&& record.getKeyValueCollection().size() > 0) {
+				
+				for (KeyValueCollection kvCollection : record.getKeyValueCollection()) {
+			
+					List<String> rowData = new ArrayList<String>();
+			
+					rowData.add(kvCollection.getRecordId());
+					
+					if (StringUtils.isNotBlank(preferences.getSecondaryRecordName())) {
+						rowData.add(kvCollection.getSecondaryRecordId());
+					}
+					if (StringUtils.isNotBlank(preferences.getTertiaryRecordName())) {
+						rowData.add(kvCollection.getTertiaryRecordId());
+					}
+					
+					for (String name : kvCollection.getKeyValueMap().keySet()) {
+						KeyValue kv = kvCollection.getKeyValueMap().get(name);
+					
+						rowData.add(kv.getValueSansUnits());
+					}
+					dataGrid.addRow(rowData);
+				}
+			} else {
+				// No data found, enter a blank (no data) row
+				List<String> rowData = new ArrayList<String>();
+				
+				rowData.add(record.getRecordId());
+				
+				if (StringUtils.isNotBlank(preferences.getSecondaryRecordName())) {
+					rowData.add("");
+				}
+				if (StringUtils.isNotBlank(preferences.getTertiaryRecordName())) {
+					rowData.add("");
+				}
+				
+				String noData = getMessage(
+						"label_com_sfs_metahive_model_keyvalue_no_data");
+				
+				for (int x = 0; x < definitions.size(); x++) {
+					rowData.add(noData);
+				}
+				dataGrid.addRow(rowData);
+			}
+		}
+		return dataGrid;
     }
 	
 }
