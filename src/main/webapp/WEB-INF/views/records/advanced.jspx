@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div class="yui-g" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <metahive:record />
+
+    <div class="record-title">
+      <h1>
+        <spring:message code="metahive_record_advancedsearch" />
+      </h1>
+    </div>
+
+	<spring:url value="/records" var="search_url" />
+	<div class="recordAdvancedSearch">
+		<form:form action="${search_url}" method="POST" modelAttribute="recordSearch" dojoType="dijit.form.Form">
+			<p>Modify search options</p>
+
+			<c:forEach var="definitionGroup" items="${exportDefinitions}">
+				<fieldset>
+					<legend>
+        				<a class="expandIcon ${expandClass}"><!-- --></a>
+						<c:out value="${definitionGroup.key}" />
+					</legend>
+					<div class="searchTerms">
+						<ul>
+							<c:forEach var="summary" items="${definitionGroup.value}">
+								<metahive:searchterm definition="${summary}" />
+							</c:forEach>
+						</ul>
+					</div>
+				</fieldset>
+			</c:forEach>
+		</form:form>
+	</div>
+	<script type="text/javascript">
+      <![CDATA[
+        dojo.require("dijit.form.Form");
+        dojo.require("dijit.form.TextBox");
+        dojo.require("dijit.form.NumberTextBox");
+        dojo.require("dijit.form.CurrencyTextBox");
+        dojo.require('dojo.NodeList-traverse');
+
+        dojo.parser.parse();
+
+        dojo.addOnLoad(function() {
+          dojo.query('legend a.expandIcon').onclick(function(e){
+            node = dojo.query(e.target).toggleClass('expandIconHidden').closest('fieldset')[0];
+            dojo.query('> div.searchTerms', node).toggleClass('hidden');
+          });
+          dojo.query('.searchTerms a.expandIcon').onclick(function(e){
+            node = dojo.query(e.target).toggleClass('expandIconHidden').closest('li')[0];
+            dojo.query('> div.summarisedDefinitions', node).toggleClass('hidden');
+          });
+        });
+        ]]>
+    </script>
+</div>

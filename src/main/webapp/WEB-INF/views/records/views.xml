@@ -7,6 +7,9 @@
   <definition extends="default" name="records/bulk">
         <put-attribute name="body" value="/WEB-INF/views/records/bulk.jspx"/>
     </definition>
+  <definition extends="default" name="records/advanced">
+        <put-attribute name="body" value="/WEB-INF/views/records/advanced.jspx"/>
+    </definition>
     <definition extends="default" name="records/list">
         <put-attribute name="body" value="/WEB-INF/views/records/list.jspx"/>
     </definition>

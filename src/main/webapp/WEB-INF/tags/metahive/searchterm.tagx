@@ -1,0 +1,57 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+  	<jsp:directive.attribute name="definition" type="com.sfs.metahive.model.Definition" required="true" rtexprvalue="true" description="The definition to be used as the search term" />
+
+	<c:choose>
+		<c:when test="${definition.dataType eq 'TYPE_NUMBER'}">
+			<c:set var="dojoType" value="dijit.form.NumberTextBox" />
+			<c:set var="constrainable" value="true" />
+		</c:when>
+		<c:when test="${definition.dataType eq 'TYPE_PERCENTAGE'}">
+			<c:set var="dojoType" value="dijit.form.NumberTextBox" />
+			<c:set var="constrainable" value="true" />
+		</c:when>
+		<c:when test="${definition.dataType eq 'TYPE_CURRENCY'}">
+			<c:set var="dojoType" value="dijit.form.CurrencyTextBox" />
+			<c:set var="constrainable" value="true" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="dojoType" value="dijit.form.TextBox" />
+			<c:set var="constrainable" value="false" />
+		</c:otherwise>
+	</c:choose>
+	<li>
+		<c:set value="" var="labelStyle" />
+		<c:if test="${not empty definition.summarisedDefinitions}">
+			<c:set value="summaryDefinition" var="labelStyle" />
+        	<a class="expandIcon expandIconHidden"><!-- --></a>
+        </c:if>
+		<label class="${labelStyle}" for="d_${definition.id}_a"><c:out value="${definition.name}" /></label>
+		<c:if test="${definition.dataType eq 'TYPE_CURRENCY'}">
+			<span class="prefix">$</span>
+		</c:if>
+		<input id="d_${definition.id}_a" name="d_${definition.id}_a"  dojoType="${dojoType}" />
+		<c:if test="${not empty definition.description.unitOfMeasure}">
+			<span class="suffix"><c:out value="${definition.description.unitOfMeasure}" /></span>
+		</c:if>
+		<c:if test="${constrainable eq true}">
+			<c:out value=" " />
+			<span class="constraint">
+				<spring:message code="metahive_record_advancedsearch_constraint" />:
+				<c:if test="${definition.dataType eq 'TYPE_CURRENCY'}">
+					<span class="prefix">$</span>
+				</c:if>
+				<input id="d_${definition.id}_b" name="d_${definition.id}_b"  dojoType="${dojoType}" />
+		</span>
+		</c:if>
+		<c:if test="${not empty definition.summarisedDefinitions}">
+			<div class="summarisedDefinitions hidden">
+				<ul>
+					<c:forEach var="summarisedDefinition" items="${definition.summarisedDefinitions}">
+						<metahive:searchterm definition="${summarisedDefinition}" />
+					</c:forEach>
+				</ul>
+			</div>
+		</c:if>
+	</li>
+</jsp:root>
