@@ -32,7 +32,7 @@
     <c:if test="${empty multiple}">
       <c:set value="false" var="multiple" />
     </c:if>
-    
+
     <c:set var="sec_field">
       <spring:escapeBody javaScriptEscape="true" >${field}</spring:escapeBody>
     </c:set>

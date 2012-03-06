@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2012 David Harrison, Triptech Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/gpl.html
+ * 
+ * Contributors:
+ *     David Harrison, Triptech Ltd - initial API and implementation
+ ******************************************************************************/
 package com.sfs.metahive.web;
 
 import java.util.ArrayList;
@@ -27,86 +37,86 @@ import com.sfs.metahive.model.UserStatus;
 @Controller
 public class PersonController extends BaseController {
 
-    
-	@RequestMapping(method = RequestMethod.PUT)
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String update(@Valid Person person, BindingResult bindingResult, 
-    		Model uiModel, HttpServletRequest request) {
-		
+
+    @RequestMapping(method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String update(@Valid Person person, BindingResult bindingResult,
+            Model uiModel, HttpServletRequest request) {
+
         if (bindingResult.hasErrors()) {
             uiModel.addAttribute("person", person);
 
             FlashScope.appendMessage(
-            		getMessage("metahive_object_validation", Person.class), request);
-            
-            return "people/update";            
+                    getMessage("metahive_object_validation", Person.class), request);
+
+            return "people/update";
         }
         uiModel.asMap().clear();
         person.merge();
-        
+
         FlashScope.appendMessage(
-        		getMessage("metahive_edit_complete", Person.class), request);
-        
-		return "redirect:/people";
+                getMessage("metahive_edit_complete", Person.class), request);
+
+        return "redirect:/people";
     }
 
-	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
         uiModel.addAttribute("person", Person.findPerson(id));
-                
+
         return "people/update";
     }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String delete(@PathVariable("id") Long id, Model uiModel,
-    		HttpServletRequest request) {
-		
-		Person.findPerson(id).remove();
+            HttpServletRequest request) {
+
+        Person.findPerson(id).remove();
         uiModel.asMap().clear();
 
         FlashScope.appendMessage(
-        		getMessage("metahive_delete_complete", Person.class), request);
-        
+                getMessage("metahive_delete_complete", Person.class), request);
+
         return "redirect:/people";
     }
-	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public @ResponseBody String list() {
-		String json = Person.toJsonArray(Person.findAllPeople());
-		
-		// Translate the user role and statuses
-		for (UserRole ur : UserRole.values()) {
-			json = StringUtils.replace(json, ur.name(), getMessage(ur.getMessageKey()));
-		}
-		for (UserStatus us : UserStatus.values()) {
-			json = StringUtils.replace(json, us.name(), getMessage(us.getMessageKey()));
-		}
-		return json;
-	}
 
-	@RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public @ResponseBody String list() {
+        String json = Person.toJsonArray(Person.findAllPeople());
+
+        // Translate the user role and statuses
+        for (UserRole ur : UserRole.values()) {
+            json = StringUtils.replace(json, ur.name(), getMessage(ur.getMessageKey()));
+        }
+        for (UserStatus us : UserStatus.values()) {
+            json = StringUtils.replace(json, us.name(), getMessage(us.getMessageKey()));
+        }
+        return json;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
     public String index() {
         return "people/list";
     }
 
     @ModelAttribute("userroles")
     public Collection<UserRole> populateUserRoles() {
-    	Collection<UserRole> userRoles = new ArrayList<UserRole>();
-    	for (UserRole userRole : UserRole.values()) {
-    		if (StringUtils.startsWithIgnoreCase(userRole.name(), "ROLE")) {
-    			userRoles.add(userRole);
-    		}
-    	}        
+        Collection<UserRole> userRoles = new ArrayList<UserRole>();
+        for (UserRole userRole : UserRole.values()) {
+            if (StringUtils.startsWithIgnoreCase(userRole.name(), "ROLE")) {
+                userRoles.add(userRole);
+            }
+        }
         return userRoles;
     }
-    
+
     @ModelAttribute("userstatuses")
     public Collection<UserStatus> populateUserStatuses() {
-    	Collection<UserStatus> userStatuses = new ArrayList<UserStatus>();
-    	for (UserStatus userStatus : UserStatus.values()) {
-    		userStatuses.add(userStatus);
-    	}        
+        Collection<UserStatus> userStatuses = new ArrayList<UserStatus>();
+        for (UserStatus userStatus : UserStatus.values()) {
+            userStatuses.add(userStatus);
+        }
         return userStatuses;
     }
 

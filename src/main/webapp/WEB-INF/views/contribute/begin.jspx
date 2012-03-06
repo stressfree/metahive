@@ -2,67 +2,67 @@
 <div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    	
-	<spring:message var="title" code="metahive_contribute" htmlEscape="false" />
-  	<util:panel id="title" title="${title}">
-    	<p><spring:message code="metahive_contribute_selectfields" htmlEscape="false" /></p>
-    	<spring:url value="/contribute/template.xls" var="template_url" />
-		<form:form target="_blank" id="template" jsId="template" action="${template_url}" method="POST" dojoType="dijit.form.Form">
-			<spring:message code="metahive_contribute_selectfields_error" var="error_msg" />
-			<script type="dojo/method" event="onSubmit">
-				var valid = false;
-    			dojo.query('.contributefields input').forEach(function(inputTag) {
-        			if (dijit.getEnclosingWidget(inputTag).get("checked")) {
-        				valid = true;
-        			}
-            	});
-				if (!valid) {
-					alert('${error_msg}');
-				}
-				return valid;
-			</script>
 
-			<div class="field contributefields">
-				<ul class="checkall">
-	  				<li><a id="checkAllLink"><spring:message code="metahive_check_all" /></a></li>
-	  				<li><a id="uncheckAllLink"><spring:message code="metahive_uncheck_all" /></a></li>
-	  			</ul>
-	  			<div class="checkboxset">
-	  				<div class="recordfield">
-	  					<input id="definitions_${uniqueIdDef.id}" name="definitions" dojoType="dijit.form.CheckBox" value="${uniqueIdDef.id}" checked="checked" disabled="true" />
-	  					<label for="definitions_${uniqueIdDef.id}"><c:out value="${uniqueIdDef.name}" /></label>
-	  				</div>
-	  				<c:forEach items="${definitions}" var="definitionGroup">
-		  				<div class="field field-multiselect">
-		  					<label>
-	            				<c:out value="${fn:escapeXml(definitionGroup.key)}" />:
-	          				</label>
-	          				<div class="multiselectItems multiselectTwoColumn">
-	          					<c:forEach items="${definitionGroup.value}" var="definition">
-	          						<span>
-	          							<input id="definitions_${definition.id}" name="definitions" dojoType="dijit.form.CheckBox" value="${definition.id}" />
-		  								<label for="definitions_${definition.id}"><c:out value="${definition.name}" /></label>
-		  							</span>
-	          					</c:forEach>
-	          					<div class="clear"><!-- --></div>
-	          				</div>
-	          			</div>
-          			</c:forEach>
-	  			</div>
-	  			<div class="clear"><!-- --></div>
-	  		</div>
-	    	<button dojoType="dijit.form.Button" id="generateTemplate" type="submit"><spring:message code="metahive_button_template" /></button>
-	    	<div id="nextButton" dojoType="dijit.form.Button" jsId="nextButton"><spring:message code="metahive_button_next" /></div>
-		</form:form>
-  	</util:panel>
-  	  	
+  <spring:message var="title" code="metahive_contribute" htmlEscape="false" />
+    <util:panel id="title" title="${title}">
+      <p><spring:message code="metahive_contribute_selectfields" htmlEscape="false" /></p>
+      <spring:url value="/contribute/template.xls" var="template_url" />
+    <form:form target="_blank" id="template" jsId="template" action="${template_url}" method="POST" dojoType="dijit.form.Form">
+      <spring:message code="metahive_contribute_selectfields_error" var="error_msg" />
+      <script type="dojo/method" event="onSubmit">
+        var valid = false;
+          dojo.query('.contributefields input').forEach(function(inputTag) {
+              if (dijit.getEnclosingWidget(inputTag).get("checked")) {
+                valid = true;
+              }
+              });
+        if (!valid) {
+          alert('${error_msg}');
+        }
+        return valid;
+      </script>
+
+      <div class="field contributefields">
+        <ul class="checkall">
+            <li><a id="checkAllLink"><spring:message code="metahive_check_all" /></a></li>
+            <li><a id="uncheckAllLink"><spring:message code="metahive_uncheck_all" /></a></li>
+          </ul>
+          <div class="checkboxset">
+            <div class="recordfield">
+              <input id="definitions_${uniqueIdDef.id}" name="definitions" dojoType="dijit.form.CheckBox" value="${uniqueIdDef.id}" checked="checked" disabled="true" />
+              <label for="definitions_${uniqueIdDef.id}"><c:out value="${uniqueIdDef.name}" /></label>
+            </div>
+            <c:forEach items="${definitions}" var="definitionGroup">
+              <div class="field field-multiselect">
+                <label>
+                      <c:out value="${fn:escapeXml(definitionGroup.key)}" />:
+                    </label>
+                    <div class="multiselectItems multiselectTwoColumn">
+                      <c:forEach items="${definitionGroup.value}" var="definition">
+                        <span>
+                          <input id="definitions_${definition.id}" name="definitions" dojoType="dijit.form.CheckBox" value="${definition.id}" />
+                      <label for="definitions_${definition.id}"><c:out value="${definition.name}" /></label>
+                    </span>
+                      </c:forEach>
+                      <div class="clear"><!-- --></div>
+                    </div>
+                  </div>
+                </c:forEach>
+          </div>
+          <div class="clear"><!-- --></div>
+        </div>
+        <button dojoType="dijit.form.Button" id="generateTemplate" type="submit"><spring:message code="metahive_button_template" /></button>
+        <div id="nextButton" dojoType="dijit.form.Button" jsId="nextButton"><spring:message code="metahive_button_next" /></div>
+    </form:form>
+    </util:panel>
+
     <spring:url value="/contribute/submission?id=${organisationId}" var="submission_url" />
-  	<script type="text/javascript">
-  	<![CDATA[
-   	dojo.require("dijit.form.Form");
-   	dojo.require("dijit.form.Button");
-   	dojo.require("dijit.form.CheckBox");
-    
+    <script type="text/javascript">
+    <![CDATA[
+     dojo.require("dijit.form.Form");
+     dojo.require("dijit.form.Button");
+     dojo.require("dijit.form.CheckBox");
+
     dojo.addOnLoad(function() {
 
         dojo.parser.parse();
@@ -70,20 +70,20 @@
         dojo.connect(nextButton, "onClick", function() {
             window.location.href="${submission_url}";
         });
-        
+
         dojo.query('#checkAllLink').onclick(function() {
             dojo.query('.contributefields input').forEach(function(inputTag) {
-	            dijit.getEnclosingWidget(inputTag).set("checked",true);
+              dijit.getEnclosingWidget(inputTag).set("checked",true);
             });
         });
         dojo.query('#uncheckAllLink').onclick(function() {
             dojo.query('.contributefields input').forEach(function(inputTag) {
-            	if (dijit.getEnclosingWidget(inputTag).get("disabled") != true) {
-            		dijit.getEnclosingWidget(inputTag).set("checked",false);
-            	}
+              if (dijit.getEnclosingWidget(inputTag).get("disabled") != true) {
+                dijit.getEnclosingWidget(inputTag).set("checked",false);
+              }
             });
         });
     });
     ]]>
-  	</script>
+    </script>
 </div>

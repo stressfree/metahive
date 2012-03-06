@@ -2,179 +2,179 @@
 <div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    
-	<metahive:record changeDefinitions="true" />
-		
-	<c:choose>
-		<c:when test="${not empty records}">
-			<div class="keyValueDataKey">
-				<li><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></strong>:
-				   <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data_description" />
-				</li>
-				<li><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted" /></strong>:
-				   <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted_description" />
-				</li>
-			</div>
-						
-          			
+
+  <metahive:record changeDefinitions="true" />
+
+  <c:choose>
+    <c:when test="${not empty records}">
+      <div class="keyValueDataKey">
+        <li><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></strong>:
+           <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data_description" />
+        </li>
+        <li><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted" /></strong>:
+           <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted_description" />
+        </li>
+      </div>
+
+
             <spring:message code="metahive_table_maximise" var="maximised" />
-            <spring:message code="metahive_table_minimise" var="minimised" />						
-			<div class="keyValueData">
-				<p class="viewOptions">
-    				<a id="saveRecords"><spring:message code="metahive_export_records" /></a>
-					<c:out value=" | " />
-					<a class="viewControl"><c:out value="${maximised}" /></a>
-				</p>
-				<table>
-					<thead>
-						<tr>
-							<th class="empty"><!-- --></th>
-							<th><c:out value="${preferences.secondaryRecordName}" /></th>
-							<th><c:out value="${preferences.tertiaryRecordName}" /></th>
-							<c:if test="${not empty definitions}">
-								<c:forEach items="${definitions}" var="definition">
-									<th><c:out value="${definition.name}" escapeXml="true" /></th>
-								</c:forEach>
-							</c:if>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${records}" var="record" varStatus="rowCounter">
-							<c:set var="rowStyle" scope="page" value="even"/>
-							<c:if test="${rowCounter.count % 2 == 0}">
-            					<c:set var="rowStyle" scope="page" value="odd"/>
-          					</c:if>
-        					
-							<c:choose>
-								<c:when test="${record.keyValueMapSize lt 2}">
-									<tr class="${rowStyle} primaryRow">
-		    	    					<spring:url value="/records/${record.id}" var="recordlink"/>
-										<td class="primaryRecord"><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></td>
-										<c:choose>
-											<c:when test="${record.keyValueMapSize eq 0}">
-												<td class="secondaryRecord"><!-- --></td>
-												<td class="tertiaryRecord"><!-- --></td>
-												<c:forEach items="${definitions}" var="definition">
-													<td class="${definition.dataType.cssClass}"><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></td>
-												</c:forEach>
-											</c:when>
-											<c:otherwise>
-												<td class="secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
-												<td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
-												<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
-													<c:set var="spanClass" value="" />
-													<c:if test="${keyValue.value.keyValueType eq 'OVERRIDDEN'}">
-					    								<c:set var="spanClass" value="overridden" />
-					    							</c:if>
-	 												<td class="${keyValue.value.cssClass}">
-	 													<span class="${spanClass}">
-	 													<c:choose>
-	 														<c:when test="${not empty keyValue.value.id}">
-	 															<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
-	 														</c:when>
-	 														<c:otherwise>
-	 															<c:out value="${keyValue.value.value}" />
-	 														</c:otherwise>
-	 													</c:choose>
-	 													</span>
-	 												</td>
-	 											</c:forEach>
-											</c:otherwise>
-										</c:choose>
-									</tr>
-								</c:when>
-								<c:otherwise>
-									<tr class="${rowStyle} primaryRow">
-		    	    					<spring:url value="/records/${record.id}" var="recordlink"/>
-										<td class="primaryRecord" rowspan="${record.keyValueMapSize}"><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></td>
-										<td class="secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
-										<td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
-										<c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
-											<c:set var="spanClass" value="" />
-											<c:if test="${keyValue.value.keyValueType eq 'OVERRIDDEN'}">
-					    						<c:set var="spanClass" value="overridden" />
-					    					</c:if>
-	 										<td class="${keyValue.value.cssClass}">
-	 											<span class="${spanClass}">
-	 											<c:choose>
-	 												<c:when test="${not empty keyValue.value.id}">
-	 													<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
-	 												</c:when>
-	 												<c:otherwise>
-	 													<c:out value="${keyValue.value.value}" />
-	 												</c:otherwise>
-	 											</c:choose>
-	 											</span>
-	 										</td>
-	 									</c:forEach>
-									</tr>
-									<c:forEach var="keyValueCollection" items="${record.remainingKeyValueMap}">
-										<tr class="${rowStyle} secondaryRow">
-											<td class="secondaryRecord"><c:out value="${keyValueCollection.secondaryRecordId}" /></td>
-											<td class="tertiaryRecord"><c:out value="${keyValueCollection.tertiaryRecordId}" /></td>
-											<c:forEach var="keyValue" items="${keyValueCollection.keyValueMap}">
-												<c:set var="spanClass" value="" />
-												<c:if test="${keyValue.value.keyValueType eq 'OVERRIDDEN'}">
-					    							<c:set var="spanClass" value="overridden" />
-					    						</c:if>
-	 											<td class="${keyValue.value.cssClass}">
-	 												<span class="${spanClass}">
-	 												<c:choose>
-	 													<c:when test="${not empty keyValue.value.id}">
-	 														<a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
-	 													</c:when>
-	 													<c:otherwise>
-	 														<c:out value="${keyValue.value.value}" />
-	 													</c:otherwise>
-	 												</c:choose>
-	 												</span>
-	 											</td>
-	 										</c:forEach>
-										</tr>
-									</c:forEach>
-								</c:otherwise>
-							</c:choose>							
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
-				
-			<c:if test="${not empty maxPages}">
-            	<util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
-          	</c:if>
-  			
-  			<metahive:keyvaluedetail />
-    
-    		<metahive:export modelAttribute="user" />
-            
-			<script type="text/javascript">
-  			<![CDATA[
-			dojo.require("dojo.NodeList-html");
-			
-			dojo.addOnLoad(function() {
-				dojo.query('.viewControl').onclick(function () {
-					dojo.forEach(
-  						dojo.query('.keyValueData'),
-  						function(e) {
-  							dojo.toggleClass(e, 'keyValueDataMaximised');
-  							if (dojo.hasClass(e, 'keyValueDataMaximised')) {
-  								dojo.query('.viewControl').html('${minimised}');
-							} else {
-  								dojo.query('.viewControl').html('${maximised}');
-							}
-  						});
-				});
-				
-				dojo.connect(dojo.byId("saveRecords"), "onclick", function(e) {
-		        	dojo.query('.export').removeClass('hidden');
-		        });
-			});			
-			]]>
-  			</script>
-		</c:when>
-		<c:otherwise>
-			<p><spring:message code="entity_not_found" arguments="records" /></p>
-		</c:otherwise>
-	</c:choose>
+            <spring:message code="metahive_table_minimise" var="minimised" />
+      <div class="keyValueData">
+        <p class="viewOptions">
+            <a id="saveRecords"><spring:message code="metahive_export_records" /></a>
+          <c:out value=" | " />
+          <a class="viewControl"><c:out value="${maximised}" /></a>
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th class="empty"><!-- --></th>
+              <th><c:out value="${preferences.secondaryRecordName}" /></th>
+              <th><c:out value="${preferences.tertiaryRecordName}" /></th>
+              <c:if test="${not empty definitions}">
+                <c:forEach items="${definitions}" var="definition">
+                  <th><c:out value="${definition.name}" escapeXml="true" /></th>
+                </c:forEach>
+              </c:if>
+            </tr>
+          </thead>
+          <tbody>
+            <c:forEach items="${records}" var="record" varStatus="rowCounter">
+              <c:set var="rowStyle" scope="page" value="even"/>
+              <c:if test="${rowCounter.count % 2 == 0}">
+                      <c:set var="rowStyle" scope="page" value="odd"/>
+                    </c:if>
+
+              <c:choose>
+                <c:when test="${record.keyValueMapSize lt 2}">
+                  <tr class="${rowStyle} primaryRow">
+                        <spring:url value="/records/${record.id}" var="recordlink"/>
+                    <td class="primaryRecord"><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></td>
+                    <c:choose>
+                      <c:when test="${record.keyValueMapSize eq 0}">
+                        <td class="secondaryRecord"><!-- --></td>
+                        <td class="tertiaryRecord"><!-- --></td>
+                        <c:forEach items="${definitions}" var="definition">
+                          <td class="${definition.dataType.cssClass}"><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></td>
+                        </c:forEach>
+                      </c:when>
+                      <c:otherwise>
+                        <td class="secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
+                        <td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
+                        <c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
+                          <c:set var="spanClass" value="" />
+                          <c:if test="${keyValue.value.keyValueType eq 'OVERRIDDEN'}">
+                              <c:set var="spanClass" value="overridden" />
+                            </c:if>
+                           <td class="${keyValue.value.cssClass}">
+                             <span class="${spanClass}">
+                             <c:choose>
+                               <c:when test="${not empty keyValue.value.id}">
+                                 <a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+                               </c:when>
+                               <c:otherwise>
+                                 <c:out value="${keyValue.value.value}" />
+                               </c:otherwise>
+                             </c:choose>
+                             </span>
+                           </td>
+                         </c:forEach>
+                      </c:otherwise>
+                    </c:choose>
+                  </tr>
+                </c:when>
+                <c:otherwise>
+                  <tr class="${rowStyle} primaryRow">
+                        <spring:url value="/records/${record.id}" var="recordlink"/>
+                    <td class="primaryRecord" rowspan="${record.keyValueMapSize}"><a href="${recordlink}"><c:out value="${record.recordId}" escapeXml="true" /></a></td>
+                    <td class="secondaryRecord"><c:out value="${record.firstKeyValueCollection.secondaryRecordId}" /></td>
+                    <td class="tertiaryRecord"><c:out value="${record.firstKeyValueCollection.tertiaryRecordId}" /></td>
+                    <c:forEach var="keyValue" items="${record.firstKeyValueCollection.keyValueMap}">
+                      <c:set var="spanClass" value="" />
+                      <c:if test="${keyValue.value.keyValueType eq 'OVERRIDDEN'}">
+                          <c:set var="spanClass" value="overridden" />
+                        </c:if>
+                       <td class="${keyValue.value.cssClass}">
+                         <span class="${spanClass}">
+                         <c:choose>
+                           <c:when test="${not empty keyValue.value.id}">
+                             <a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+                           </c:when>
+                           <c:otherwise>
+                             <c:out value="${keyValue.value.value}" />
+                           </c:otherwise>
+                         </c:choose>
+                         </span>
+                       </td>
+                     </c:forEach>
+                  </tr>
+                  <c:forEach var="keyValueCollection" items="${record.remainingKeyValueMap}">
+                    <tr class="${rowStyle} secondaryRow">
+                      <td class="secondaryRecord"><c:out value="${keyValueCollection.secondaryRecordId}" /></td>
+                      <td class="tertiaryRecord"><c:out value="${keyValueCollection.tertiaryRecordId}" /></td>
+                      <c:forEach var="keyValue" items="${keyValueCollection.keyValueMap}">
+                        <c:set var="spanClass" value="" />
+                        <c:if test="${keyValue.value.keyValueType eq 'OVERRIDDEN'}">
+                            <c:set var="spanClass" value="overridden" />
+                          </c:if>
+                         <td class="${keyValue.value.cssClass}">
+                           <span class="${spanClass}">
+                           <c:choose>
+                             <c:when test="${not empty keyValue.value.id}">
+                               <a id="keyvalueDetail${keyValue.value.id}" class="keyvalueDetail"><c:out value="${keyValue.value.value}" /></a>
+                             </c:when>
+                             <c:otherwise>
+                               <c:out value="${keyValue.value.value}" />
+                             </c:otherwise>
+                           </c:choose>
+                           </span>
+                         </td>
+                       </c:forEach>
+                    </tr>
+                  </c:forEach>
+                </c:otherwise>
+              </c:choose>
+            </c:forEach>
+          </tbody>
+        </table>
+      </div>
+
+      <c:if test="${not empty maxPages}">
+              <util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
+            </c:if>
+
+        <metahive:keyvaluedetail />
+
+        <metahive:export modelAttribute="user" />
+
+      <script type="text/javascript">
+        <![CDATA[
+      dojo.require("dojo.NodeList-html");
+
+      dojo.addOnLoad(function() {
+        dojo.query('.viewControl').onclick(function () {
+          dojo.forEach(
+              dojo.query('.keyValueData'),
+              function(e) {
+                dojo.toggleClass(e, 'keyValueDataMaximised');
+                if (dojo.hasClass(e, 'keyValueDataMaximised')) {
+                  dojo.query('.viewControl').html('${minimised}');
+              } else {
+                  dojo.query('.viewControl').html('${maximised}');
+              }
+              });
+        });
+
+        dojo.connect(dojo.byId("saveRecords"), "onclick", function(e) {
+              dojo.query('.export').removeClass('hidden');
+            });
+      });
+      ]]>
+        </script>
+    </c:when>
+    <c:otherwise>
+      <p><spring:message code="entity_not_found" arguments="records" /></p>
+    </c:otherwise>
+  </c:choose>
 
 </div>

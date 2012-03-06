@@ -10,37 +10,37 @@ import java.lang.String;
 import java.util.List;
 
 privileged aspect Organisation_Roo_JavaBean {
-    
+
     public String Organisation.getName() {
         return this.name;
     }
-    
+
     public void Organisation.setName(String name) {
         this.name = name;
     }
-    
+
     public List<Person> Organisation.getPeople() {
         return this.people;
     }
-    
+
     public void Organisation.setPeople(List<Person> people) {
         this.people = people;
     }
-    
+
     public List<DataSource> Organisation.getDataSources() {
         return this.dataSources;
     }
-    
+
     public void Organisation.setDataSources(List<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
-    
+
     public List<Submission> Organisation.getSubmissions() {
         return this.submissions;
     }
-    
+
     public void Organisation.setSubmissions(List<Submission> submissions) {
         this.submissions = submissions;
     }
-    
+
 }

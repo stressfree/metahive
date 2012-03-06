@@ -6,13 +6,13 @@ package com.sfs.metahive.web.model;
 import java.lang.String;
 
 privileged aspect BaseFilter_Roo_JavaBean {
-    
+
     public String BaseFilter.getEncoding() {
         return this.encoding;
     }
-    
+
     public void BaseFilter.setEncoding(String encoding) {
         this.encoding = encoding;
     }
-    
+
 }

@@ -18,43 +18,43 @@ import javax.persistence.Version;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect KeyValue_Roo_Entity {
-    
+
     declare @type: KeyValue: @Entity;
-    
+
     @PersistenceContext
     transient EntityManager KeyValue.entityManager;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long KeyValue.id;
-    
+
     @Version
     @Column(name = "version")
     private Integer KeyValue.version;
-    
+
     public Long KeyValue.getId() {
         return this.id;
     }
-    
+
     public void KeyValue.setId(Long id) {
         this.id = id;
     }
-    
+
     public Integer KeyValue.getVersion() {
         return this.version;
     }
-    
+
     public void KeyValue.setVersion(Integer version) {
         this.version = version;
     }
-    
+
     @Transactional
     public void KeyValue.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
-    
+
     @Transactional
     public void KeyValue.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
@@ -65,19 +65,19 @@ privileged aspect KeyValue_Roo_Entity {
             this.entityManager.remove(attached);
         }
     }
-    
+
     @Transactional
     public void KeyValue.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
     }
-    
+
     @Transactional
     public void KeyValue.clear() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.clear();
     }
-    
+
     @Transactional
     public KeyValue KeyValue.merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
@@ -85,28 +85,28 @@ privileged aspect KeyValue_Roo_Entity {
         this.entityManager.flush();
         return merged;
     }
-    
+
     public static final EntityManager KeyValue.entityManager() {
         EntityManager em = new KeyValue().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
-    
+
     public static long KeyValue.countKeyValues() {
         return entityManager().createQuery("SELECT COUNT(o) FROM KeyValue o", Long.class).getSingleResult();
     }
-    
+
     public static List<KeyValue> KeyValue.findAllKeyValues() {
         return entityManager().createQuery("SELECT o FROM KeyValue o", KeyValue.class).getResultList();
     }
-    
+
     public static KeyValue KeyValue.findKeyValue(Long id) {
         if (id == null) return null;
         return entityManager().find(KeyValue.class, id);
     }
-    
+
     public static List<KeyValue> KeyValue.findKeyValueEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM KeyValue o", KeyValue.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
-    
+
 }

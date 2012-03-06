@@ -19,7 +19,7 @@
       <p>
         <field:reference field="${dependency[0]}" id="${fn:escapeXml(id)}_${dependency[0]}" path="/${dependency[1]}"/>
       </p>
-	</c:forEach>
+  </c:forEach>
     </util:panel>
   </c:if>
 </jsp:root>

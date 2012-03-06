@@ -12,21 +12,21 @@ import java.util.Collection;
 import java.util.List;
 
 privileged aspect ConditionOfUse_Roo_Json {
-    
+
     public String ConditionOfUse.toJson() {
         return new JSONSerializer().exclude("*.class").serialize(this);
     }
-    
+
     public static ConditionOfUse ConditionOfUse.fromJsonToConditionOfUse(String json) {
         return new JSONDeserializer<ConditionOfUse>().use(null, ConditionOfUse.class).deserialize(json);
     }
-    
+
     public static String ConditionOfUse.toJsonArray(Collection<ConditionOfUse> collection) {
         return new JSONSerializer().exclude("*.class").serialize(collection);
     }
-    
+
     public static Collection<ConditionOfUse> ConditionOfUse.fromJsonArrayToConditionOfUses(String json) {
         return new JSONDeserializer<List<ConditionOfUse>>().use(null, ArrayList.class).use("values", ConditionOfUse.class).deserialize(json);
     }
-    
+
 }

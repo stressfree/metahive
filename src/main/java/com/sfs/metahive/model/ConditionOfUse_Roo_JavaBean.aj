@@ -8,29 +8,29 @@ import java.lang.String;
 import java.util.List;
 
 privileged aspect ConditionOfUse_Roo_JavaBean {
-    
+
     public String ConditionOfUse.getName() {
         return this.name;
     }
-    
+
     public void ConditionOfUse.setName(String name) {
         this.name = name;
     }
-    
+
     public String ConditionOfUse.getDetails() {
         return this.details;
     }
-    
+
     public void ConditionOfUse.setDetails(String details) {
         this.details = details;
     }
-    
+
     public List<DataSource> ConditionOfUse.getDataSources() {
         return this.dataSources;
     }
-    
+
     public void ConditionOfUse.setDataSources(List<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
-    
+
 }

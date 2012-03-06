@@ -17,101 +17,101 @@ import java.lang.String;
 import java.util.List;
 
 privileged aspect Definition_Roo_JavaBean {
-    
+
     public String Definition.getName() {
         return this.name;
     }
-    
+
     public void Definition.setName(String name) {
         this.name = name;
     }
-    
+
     public DefinitionType Definition.getDefinitionType() {
         return this.definitionType;
     }
-    
+
     public void Definition.setDefinitionType(DefinitionType definitionType) {
         this.definitionType = definitionType;
     }
-    
+
     public DataType Definition.getDataType() {
         return this.dataType;
     }
-    
+
     public void Definition.setDataType(DataType dataType) {
         this.dataType = dataType;
     }
-    
+
     public void Definition.setCalculation(String calculation) {
         this.calculation = calculation;
     }
-    
+
     public KeyValueGenerator Definition.getKeyValueGenerator() {
         return this.keyValueGenerator;
     }
-    
+
     public void Definition.setKeyValueGenerator(KeyValueGenerator keyValueGenerator) {
         this.keyValueGenerator = keyValueGenerator;
     }
-    
+
     public UserRole Definition.getKeyValueAccess() {
         return this.keyValueAccess;
     }
-    
+
     public void Definition.setKeyValueAccess(UserRole keyValueAccess) {
         this.keyValueAccess = keyValueAccess;
     }
-    
+
     public List<Description> Definition.getDescriptions() {
         return this.descriptions;
     }
-    
+
     public void Definition.setDescriptions(List<Description> descriptions) {
         this.descriptions = descriptions;
     }
-    
+
     public List<DataSource> Definition.getDataSources() {
         return this.dataSources;
     }
-    
+
     public void Definition.setDataSources(List<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
-    
+
     public Category Definition.getCategory() {
         return this.category;
     }
-    
+
     public void Definition.setCategory(Category category) {
         this.category = category;
     }
-    
+
     public Applicability Definition.getApplicability() {
         return this.applicability;
     }
-    
+
     public void Definition.setApplicability(Applicability applicability) {
         this.applicability = applicability;
     }
-    
+
     public Definition Definition.getSummaryDefinition() {
         return this.summaryDefinition;
     }
-    
+
     public void Definition.setSummaryDefinition(Definition summaryDefinition) {
         this.summaryDefinition = summaryDefinition;
     }
-    
+
     public void Definition.setSummarisedDefinitions(List<Definition> summarisedDefinitions) {
         this.summarisedDefinitions = summarisedDefinitions;
     }
-    
+
     public List<Comment> Definition.getComments() {
         return this.comments;
     }
-    
+
     public void Definition.setComments(List<Comment> comments) {
         this.comments = comments;
     }
-    
+
 }

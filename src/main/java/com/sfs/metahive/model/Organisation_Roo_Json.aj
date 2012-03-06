@@ -12,21 +12,21 @@ import java.util.Collection;
 import java.util.List;
 
 privileged aspect Organisation_Roo_Json {
-    
+
     public String Organisation.toJson() {
         return new JSONSerializer().exclude("*.class").serialize(this);
     }
-    
+
     public static Organisation Organisation.fromJsonToOrganisation(String json) {
         return new JSONDeserializer<Organisation>().use(null, Organisation.class).deserialize(json);
     }
-    
+
     public static String Organisation.toJsonArray(Collection<Organisation> collection) {
         return new JSONSerializer().exclude("*.class").serialize(collection);
     }
-    
+
     public static Collection<Organisation> Organisation.fromJsonArrayToOrganisations(String json) {
         return new JSONDeserializer<List<Organisation>>().use(null, ArrayList.class).use("values", Organisation.class).deserialize(json);
     }
-    
+
 }

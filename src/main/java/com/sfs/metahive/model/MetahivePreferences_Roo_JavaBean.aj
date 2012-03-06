@@ -8,117 +8,117 @@ import java.lang.String;
 import java.util.List;
 
 privileged aspect MetahivePreferences_Roo_JavaBean {
-    
+
     public String MetahivePreferences.getUrl() {
         return this.url;
     }
-    
+
     public void MetahivePreferences.setUrl(String url) {
         this.url = url;
     }
-    
+
     public String MetahivePreferences.getAdminEmail() {
         return this.adminEmail;
     }
-    
+
     public void MetahivePreferences.setAdminEmail(String adminEmail) {
         this.adminEmail = adminEmail;
     }
-    
+
     public String MetahivePreferences.getFromEmail() {
         return this.fromEmail;
     }
-    
+
     public void MetahivePreferences.setFromEmail(String fromEmail) {
         this.fromEmail = fromEmail;
     }
-    
+
     public String MetahivePreferences.getHomepageTitle() {
         return this.homepageTitle;
     }
-    
+
     public void MetahivePreferences.setHomepageTitle(String homepageTitle) {
         this.homepageTitle = homepageTitle;
     }
-    
+
     public String MetahivePreferences.getHomepageContent() {
         return this.homepageContent;
     }
-    
+
     public void MetahivePreferences.setHomepageContent(String homepageContent) {
         this.homepageContent = homepageContent;
     }
-    
+
     public String MetahivePreferences.getPrimaryRecordName() {
         return this.primaryRecordName;
     }
-    
+
     public void MetahivePreferences.setPrimaryRecordName(String primaryRecordName) {
         this.primaryRecordName = primaryRecordName;
     }
-    
+
     public String MetahivePreferences.getPrimaryRecordRegex() {
         return this.primaryRecordRegex;
     }
-    
+
     public void MetahivePreferences.setPrimaryRecordRegex(String primaryRecordRegex) {
         this.primaryRecordRegex = primaryRecordRegex;
     }
-    
+
     public String MetahivePreferences.getSecondaryRecordName() {
         return this.secondaryRecordName;
     }
-    
+
     public void MetahivePreferences.setSecondaryRecordName(String secondaryRecordName) {
         this.secondaryRecordName = secondaryRecordName;
     }
-    
+
     public String MetahivePreferences.getSecondaryRecordRegex() {
         return this.secondaryRecordRegex;
     }
-    
+
     public void MetahivePreferences.setSecondaryRecordRegex(String secondaryRecordRegex) {
         this.secondaryRecordRegex = secondaryRecordRegex;
     }
-    
+
     public String MetahivePreferences.getSecondaryRecordDefault() {
         return this.secondaryRecordDefault;
     }
-    
+
     public void MetahivePreferences.setSecondaryRecordDefault(String secondaryRecordDefault) {
         this.secondaryRecordDefault = secondaryRecordDefault;
     }
-    
+
     public String MetahivePreferences.getTertiaryRecordName() {
         return this.tertiaryRecordName;
     }
-    
+
     public void MetahivePreferences.setTertiaryRecordName(String tertiaryRecordName) {
         this.tertiaryRecordName = tertiaryRecordName;
     }
-    
+
     public String MetahivePreferences.getTertiaryRecordRegex() {
         return this.tertiaryRecordRegex;
     }
-    
+
     public void MetahivePreferences.setTertiaryRecordRegex(String tertiaryRecordRegex) {
         this.tertiaryRecordRegex = tertiaryRecordRegex;
     }
-    
+
     public String MetahivePreferences.getTertiaryRecordDefault() {
         return this.tertiaryRecordDefault;
     }
-    
+
     public void MetahivePreferences.setTertiaryRecordDefault(String tertiaryRecordDefault) {
         this.tertiaryRecordDefault = tertiaryRecordDefault;
     }
-    
+
     public List<Definition> MetahivePreferences.getDefaultDefinitions() {
         return this.defaultDefinitions;
     }
-    
+
     public void MetahivePreferences.setDefaultDefinitions(List<Definition> defaultDefinitions) {
         this.defaultDefinitions = defaultDefinitions;
     }
-    
+
 }

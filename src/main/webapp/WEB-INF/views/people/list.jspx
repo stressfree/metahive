@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div class="yui-g" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
-    
+
     <metahive:administration />
-    
-   	<spring:message var="people_heading" code="metahive_people" htmlEscape="true" />
-   	<spring:message var="people_firstname" code="label_com_sfs_metahive_model_person_firstname" />
-   	<spring:message var="people_lastname" code="label_com_sfs_metahive_model_person_lastname" />
-   	<spring:message var="people_email" code="label_com_sfs_metahive_model_person_emailaddress" />
-   	<spring:message var="people_role" code="label_com_sfs_metahive_model_person_userrole" />
-   	<spring:message var="people_status" code="label_com_sfs_metahive_model_person_userstatus" />	
-   	
+
+     <spring:message var="people_heading" code="metahive_people" htmlEscape="true" />
+     <spring:message var="people_firstname" code="label_com_sfs_metahive_model_person_firstname" />
+     <spring:message var="people_lastname" code="label_com_sfs_metahive_model_person_lastname" />
+     <spring:message var="people_email" code="label_com_sfs_metahive_model_person_emailaddress" />
+     <spring:message var="people_role" code="label_com_sfs_metahive_model_person_userrole" />
+     <spring:message var="people_status" code="label_com_sfs_metahive_model_person_userstatus" />
+
     <util:panel id="_people_heading" title="${people_heading}">
-    
+
       <div id="personEditButton" dojoType="dijit.form.Button" jsId="personEditButton"><spring:message code="metahive_button_edit" /></div>
       <div id="personDeleteButton" dojoType="dijit.form.Button" jsId="personDeleteButton"><spring:message code="metahive_button_delete" /></div>
       <div id="personDataGrid" jsId="personDataGrid"
          dojoType="dojox.grid.EnhancedGrid"
          structure ="[
-         	{ field: 'firstName', name: '${people_firstname}', width: '160px' },
-         	{ field: 'lastName', name: '${people_lastname}', width: '200px' },
-         	{ field: 'emailAddress', name: '${people_email}', width: '300px' },         	
-         	{ field: 'userRole', name: '${people_role}', width: '170px' },         	
-         	{ field: 'userStatus', name: '${people_status}', width: '100px' }
+           { field: 'firstName', name: '${people_firstname}', width: '160px' },
+           { field: 'lastName', name: '${people_lastname}', width: '200px' },
+           { field: 'emailAddress', name: '${people_email}', width: '300px' },
+           { field: 'userRole', name: '${people_role}', width: '170px' },
+           { field: 'userStatus', name: '${people_status}', width: '100px' }
          ]"
          autoWidth="true"
          autoHeight="true"
          plugins="{indirectSelection: true}"
          selectionMode="single"><!-- --></div>
-    
-    </util:panel> 
-	   
-    
+
+    </util:panel>
+
+
     <spring:url value="/people" var="people_url" />
     <spring:url value="/people/list" var="people_datasource"/>
     <spring:message arguments="person" code="metahive_edit_select" var="person_edit" />
     <spring:message arguments="person" code="metahive_delete_confirm" var="person_delete" />
-            
+
     <script type="text/javascript">
     <![CDATA[
-   	dojo.require("dojox.grid.EnhancedGrid");
-   	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
-   	dojo.require("dijit.form.Button");
+     dojo.require("dojox.grid.EnhancedGrid");
+     dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+     dojo.require("dijit.form.Button");
     dojo.require("dojo.data.ItemFileReadStore");
-    
+
     dojo.addOnLoad(function() {
-    	
-       	dojo.parser.parse();
-       	
-        dojo.connect(personEditButton, "onClick", function() {        	
-        	if (personDataGrid.getItem(personDataGrid.selection.selectedIndex)) {
-        		var id = personDataGrid.getItem(personDataGrid.selection.selectedIndex).id;
-            	window.location.href="${people_url}/" + id + "?form";        		
+
+         dojo.parser.parse();
+
+        dojo.connect(personEditButton, "onClick", function() {
+          if (personDataGrid.getItem(personDataGrid.selection.selectedIndex)) {
+            var id = personDataGrid.getItem(personDataGrid.selection.selectedIndex).id;
+              window.location.href="${people_url}/" + id + "?form";
             } else {
-            	alert('${person_edit}');            	
+              alert('${person_edit}');
             }
         });
-        
+
         dojo.connect(personDataGrid, "onRowDblClick", function(event) {
-        	 var id = personDataGrid.getItem(event.rowIndex).id;
-        	 window.location.href="${people_url}/" + id + "?form";
+           var id = personDataGrid.getItem(event.rowIndex).id;
+           window.location.href="${people_url}/" + id + "?form";
         });
 
         dojo.connect(personDeleteButton, "onClick", function() {
-        	if (confirm('${person_delete}')) {
-          		var id = personDataGrid.getItem(personDataGrid.selection.selectedIndex).id;
-          		dojo.xhrDelete({
-              		url: "${people_url}/" + id,
-              		load: function() {
+          if (confirm('${person_delete}')) {
+              var id = personDataGrid.getItem(personDataGrid.selection.selectedIndex).id;
+              dojo.xhrDelete({
+                  url: "${people_url}/" + id,
+                  load: function() {
                         loadGrid(personDataGrid, "${people_datasource}");
                     }
                 });
-        	}
+          }
         });
-        
+
         loadGrid(personDataGrid, "${people_datasource}");
     });
     ]]>
     </script>
-    
+
 </div>

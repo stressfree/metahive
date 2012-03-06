@@ -6,45 +6,45 @@ package com.sfs.metahive.model;
 import java.lang.String;
 
 privileged aspect ValidatedField_Roo_JavaBean {
-    
+
     public boolean ValidatedField.isValid() {
         return this.valid;
     }
-    
+
     public void ValidatedField.setValid(boolean valid) {
         this.valid = valid;
     }
-    
+
     public boolean ValidatedField.isNotApplicable() {
         return this.notApplicable;
     }
-    
+
     public void ValidatedField.setNotApplicable(boolean notApplicable) {
         this.notApplicable = notApplicable;
     }
-    
+
     public boolean ValidatedField.isIdField() {
         return this.idField;
     }
-    
+
     public void ValidatedField.setIdField(boolean idField) {
         this.idField = idField;
     }
-    
+
     public String ValidatedField.getValue() {
         return this.value;
     }
-    
+
     public void ValidatedField.setValue(String value) {
         this.value = value;
     }
-    
+
     public String ValidatedField.getComment() {
         return this.comment;
     }
-    
+
     public void ValidatedField.setComment(String comment) {
         this.comment = comment;
     }
-    
+
 }

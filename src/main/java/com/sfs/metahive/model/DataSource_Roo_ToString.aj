@@ -6,7 +6,7 @@ package com.sfs.metahive.model;
 import java.lang.String;
 
 privileged aspect DataSource_Roo_ToString {
-    
+
     public String DataSource.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("CollectionDate: ").append(getCollectionDate()).append(", ");
@@ -20,5 +20,5 @@ privileged aspect DataSource_Roo_ToString {
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }
-    
+
 }

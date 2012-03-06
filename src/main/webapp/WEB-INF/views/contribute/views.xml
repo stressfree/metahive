@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
-	<definition extends="default" name="contribute/begin">
+  <definition extends="default" name="contribute/begin">
         <put-attribute name="body" value="/WEB-INF/views/contribute/begin.jspx"/>
     </definition>
-	<definition extends="default" name="contribute/select">
+  <definition extends="default" name="contribute/select">
         <put-attribute name="body" value="/WEB-INF/views/contribute/select.jspx"/>
     </definition>
-	<definition extends="default" name="contribute/noorganisation">
+  <definition extends="default" name="contribute/noorganisation">
         <put-attribute name="body" value="/WEB-INF/views/contribute/noorganisation.jspx"/>
     </definition>
-	<definition extends="default" name="contribute/nouniqueid">
+  <definition extends="default" name="contribute/nouniqueid">
         <put-attribute name="body" value="/WEB-INF/views/contribute/nouniqueid.jspx"/>
     </definition>
-	<definition extends="default" name="contribute/nodefinitions">
+  <definition extends="default" name="contribute/nodefinitions">
         <put-attribute name="body" value="/WEB-INF/views/contribute/nodefinitions.jspx"/>
     </definition>
-	<definition extends="default" name="contribute/submission">
+  <definition extends="default" name="contribute/submission">
         <put-attribute name="body" value="/WEB-INF/views/contribute/submission.jspx"/>
     </definition>
-	<definition extends="ajax" name="contribute/preview">
+  <definition extends="ajax" name="contribute/preview">
         <put-attribute name="body" value="/WEB-INF/views/contribute/preview.jspx"/>
     </definition>
 </tiles-definitions>

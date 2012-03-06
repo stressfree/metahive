@@ -2,54 +2,54 @@
 <div class="yui-g definitions" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    
-	<metahive:dictionary />
 
-	<c:choose>
-		<c:when test="${not empty definitions}">
-			<ul class="definitions">
-	    	<c:forEach items="${definitions}" var="definition">
-	    	    <spring:url value="/definitions/${definition.id}" var="definitionlink"/>
-				<li>
-					<h3><a href="${definitionlink}"><c:out value="${definition.name}" escapeXml="true" /></a></h3>
-					<div class="description">
-						<p>
-						   <c:out value="${definition.description.simpleDescription}" escapeXml="true" />
-						   <c:out value=" " />
-						   <span><a href="${definitionlink}"><spring:message code="metahive_moredetails" /></a></span>
-						</p>
-					</div>
-					<div class="information">
-						<ul class="metadata">
-							<li>
-								<strong><spring:message code="label_com_sfs_metahive_model_category" />: </strong>
-								<c:out value="${definition.category.name}" escapeXml="true" />
-								(<c:out value="${definition.applicability.metahiveName}" escapeXml="true" />)
-							</li>
-							<li>
-								<strong><spring:message code="label_com_sfs_metahive_model_datatype" />: </strong>
-								<spring:message code="${definition.dataType.messageKey}" />
-								<c:if test="${not empty definition.description.unitOfMeasure}">
-								<c:out value=" (${definition.description.unitOfMeasure})" escapeXml="true" />
-								</c:if>
-							</li>
-							<li>
-								<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_examplevalues" />: </strong>
-								<c:out value="${definition.description.exampleValues}" escapeXml="true" />
-							</li>
-						</ul>
-						<div class="clear"><!-- --></div>
-					</div>
-				</li>
-			</c:forEach>
-			</ul>			
-			<c:if test="${not empty maxPages}">
-            	<util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
-          	</c:if>
-		</c:when>
-		<c:otherwise>
-			<p><spring:message code="entity_not_found" arguments="definitions" /></p>
-		</c:otherwise>
-	</c:choose>
+  <metahive:dictionary />
+
+  <c:choose>
+    <c:when test="${not empty definitions}">
+      <ul class="definitions">
+        <c:forEach items="${definitions}" var="definition">
+            <spring:url value="/definitions/${definition.id}" var="definitionlink"/>
+        <li>
+          <h3><a href="${definitionlink}"><c:out value="${definition.name}" escapeXml="true" /></a></h3>
+          <div class="description">
+            <p>
+               <c:out value="${definition.description.simpleDescription}" escapeXml="true" />
+               <c:out value=" " />
+               <span><a href="${definitionlink}"><spring:message code="metahive_moredetails" /></a></span>
+            </p>
+          </div>
+          <div class="information">
+            <ul class="metadata">
+              <li>
+                <strong><spring:message code="label_com_sfs_metahive_model_category" />: </strong>
+                <c:out value="${definition.category.name}" escapeXml="true" />
+                (<c:out value="${definition.applicability.metahiveName}" escapeXml="true" />)
+              </li>
+              <li>
+                <strong><spring:message code="label_com_sfs_metahive_model_datatype" />: </strong>
+                <spring:message code="${definition.dataType.messageKey}" />
+                <c:if test="${not empty definition.description.unitOfMeasure}">
+                <c:out value=" (${definition.description.unitOfMeasure})" escapeXml="true" />
+                </c:if>
+              </li>
+              <li>
+                <strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_examplevalues" />: </strong>
+                <c:out value="${definition.description.exampleValues}" escapeXml="true" />
+              </li>
+            </ul>
+            <div class="clear"><!-- --></div>
+          </div>
+        </li>
+      </c:forEach>
+      </ul>
+      <c:if test="${not empty maxPages}">
+              <util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
+            </c:if>
+    </c:when>
+    <c:otherwise>
+      <p><spring:message code="entity_not_found" arguments="definitions" /></p>
+    </c:otherwise>
+  </c:choose>
 
 </div>

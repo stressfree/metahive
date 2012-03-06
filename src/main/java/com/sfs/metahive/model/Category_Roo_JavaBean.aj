@@ -8,21 +8,21 @@ import java.lang.String;
 import java.util.List;
 
 privileged aspect Category_Roo_JavaBean {
-    
+
     public String Category.getName() {
         return this.name;
     }
-    
+
     public void Category.setName(String name) {
         this.name = name;
     }
-    
+
     public List<Definition> Category.getDefinitions() {
         return this.definitions;
     }
-    
+
     public void Category.setDefinitions(List<Definition> definitions) {
         this.definitions = definitions;
     }
-    
+
 }

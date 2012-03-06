@@ -38,9 +38,9 @@
     <c:set var="lengths" value="${fn:split(columnMaxLengths, ',')}" scope="request" />
     <c:set var="types" value="${fn:split(columnTypes, ',')}" scope="request" />
     <c:set var="patterns" value="${fn:split(columnDatePatterns, ',')}" scope="request" />
-	
+
     <spring:eval var="colCounter" expression="1" />
-    
+
     <table>
       <thead>
         <tr>

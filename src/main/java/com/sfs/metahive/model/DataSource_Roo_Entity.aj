@@ -18,43 +18,43 @@ import javax.persistence.Version;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect DataSource_Roo_Entity {
-    
+
     declare @type: DataSource: @Entity;
-    
+
     @PersistenceContext
     transient EntityManager DataSource.entityManager;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long DataSource.id;
-    
+
     @Version
     @Column(name = "version")
     private Integer DataSource.version;
-    
+
     public Long DataSource.getId() {
         return this.id;
     }
-    
+
     public void DataSource.setId(Long id) {
         this.id = id;
     }
-    
+
     public Integer DataSource.getVersion() {
         return this.version;
     }
-    
+
     public void DataSource.setVersion(Integer version) {
         this.version = version;
     }
-    
+
     @Transactional
     public void DataSource.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
-    
+
     @Transactional
     public void DataSource.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
@@ -65,19 +65,19 @@ privileged aspect DataSource_Roo_Entity {
             this.entityManager.remove(attached);
         }
     }
-    
+
     @Transactional
     public void DataSource.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
     }
-    
+
     @Transactional
     public void DataSource.clear() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.clear();
     }
-    
+
     @Transactional
     public DataSource DataSource.merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
@@ -85,28 +85,28 @@ privileged aspect DataSource_Roo_Entity {
         this.entityManager.flush();
         return merged;
     }
-    
+
     public static final EntityManager DataSource.entityManager() {
         EntityManager em = new DataSource().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
-    
+
     public static long DataSource.countDataSources() {
         return entityManager().createQuery("SELECT COUNT(o) FROM DataSource o", Long.class).getSingleResult();
     }
-    
+
     public static List<DataSource> DataSource.findAllDataSources() {
         return entityManager().createQuery("SELECT o FROM DataSource o", DataSource.class).getResultList();
     }
-    
+
     public static DataSource DataSource.findDataSource(Long id) {
         if (id == null) return null;
         return entityManager().find(DataSource.class, id);
     }
-    
+
     public static List<DataSource> DataSource.findDataSourceEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM DataSource o", DataSource.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
-    
+
 }

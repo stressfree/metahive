@@ -23,19 +23,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
-    
+
     declare @type: DescriptionDataOnDemand: @Component;
-    
+
     private Random DescriptionDataOnDemand.rnd = new SecureRandom();
-    
+
     private List<Description> DescriptionDataOnDemand.data;
-    
+
     @Autowired
     private DefinitionDataOnDemand DescriptionDataOnDemand.definitionDataOnDemand;
-    
+
     @Autowired
     private PersonDataOnDemand DescriptionDataOnDemand.personDataOnDemand;
-    
+
     public Description DescriptionDataOnDemand.getNewTransientDescription(int index) {
         Description obj = new Description();
         setCreated(obj, index);
@@ -46,37 +46,37 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
         setUnitOfMeasure(obj, index);
         return obj;
     }
-    
+
     public void DescriptionDataOnDemand.setCreated(Description obj, int index) {
         Date created = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setCreated(created);
     }
-    
+
     public void DescriptionDataOnDemand.setDefinition(Description obj, int index) {
         Definition definition = definitionDataOnDemand.getRandomDefinition();
         obj.setDefinition(definition);
     }
-    
+
     public void DescriptionDataOnDemand.setDescription(Description obj, int index) {
         String description = "description_" + index;
         obj.setDescription(description);
     }
-    
+
     public void DescriptionDataOnDemand.setExampleValues(Description obj, int index) {
         String exampleValues = "exampleValues_" + index;
         obj.setExampleValues(exampleValues);
     }
-    
+
     public void DescriptionDataOnDemand.setPerson(Description obj, int index) {
         Person person = personDataOnDemand.getRandomPerson();
         obj.setPerson(person);
     }
-    
+
     public void DescriptionDataOnDemand.setUnitOfMeasure(Description obj, int index) {
         String unitOfMeasure = "unitOfMeasure_" + index;
         obj.setUnitOfMeasure(unitOfMeasure);
     }
-    
+
     public Description DescriptionDataOnDemand.getSpecificDescription(int index) {
         init();
         if (index < 0) index = 0;
@@ -84,24 +84,24 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
         Description obj = data.get(index);
         return Description.findDescription(obj.getId());
     }
-    
+
     public Description DescriptionDataOnDemand.getRandomDescription() {
         init();
         Description obj = data.get(rnd.nextInt(data.size()));
         return Description.findDescription(obj.getId());
     }
-    
+
     public boolean DescriptionDataOnDemand.modifyDescription(Description obj) {
         return false;
     }
-    
+
     public void DescriptionDataOnDemand.init() {
         data = Description.findDescriptionEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Description' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
-        
+
         data = new ArrayList<com.sfs.metahive.model.Description>();
         for (int i = 0; i < 10; i++) {
             Description obj = getNewTransientDescription(i);
@@ -119,5 +119,5 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
             data.add(obj);
         }
     }
-    
+
 }

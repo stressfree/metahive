@@ -2,32 +2,32 @@
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
   <spring:message code="security_login_title" var="title" htmlEscape="false" />
-  
+
   <spring:url value="/j_spring_openid_security_check" var="form_url_openid" />
   <spring:url var="google" value="/resources/images/google-account-logo.png" />
-  
+
   <spring:message var="login_title" code="security_login_title" />
   <spring:message var="login_button" code="google_login_button" />
   <util:panel id="google_login" title="${login_title}" >
-  	<div class="googlelogon">
-	    <form action="${fn:escapeXml(form_url_openid)}" method="post">
-	    	<p><spring:message code="google_login_description" /></p>
-	        <input name="openid_identifier" type="hidden" value="http://www.google.com/accounts/o8/id"/>
-	        <div class="submit">
-	           <button dojoType="dijit.form.Button" id="proceed" type="submit"><c:out value="${fn:escapeXml(login_button)}" /></button>
-	        </div>
-	    </form>
+    <div class="googlelogon">
+      <form action="${fn:escapeXml(form_url_openid)}" method="post">
+        <p><spring:message code="google_login_description" /></p>
+          <input name="openid_identifier" type="hidden" value="http://www.google.com/accounts/o8/id"/>
+          <div class="submit">
+             <button dojoType="dijit.form.Button" id="proceed" type="submit"><c:out value="${fn:escapeXml(login_button)}" /></button>
+          </div>
+      </form>
     </div>
   </util:panel>
-  
+
   <script type="text/javascript">
       <![CDATA[
         dojo.require("dijit.form.Form");
         dojo.require("dijit.form.Button");
-        
-       	dojo.addOnLoad(function() {
-       	   	dojo.parser.parse();
-       	});
+
+         dojo.addOnLoad(function() {
+              dojo.parser.parse();
+         });
         ]]>
     </script>
 </div>

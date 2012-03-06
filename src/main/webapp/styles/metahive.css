@@ -5,858 +5,858 @@ body, button, input {
    color: #333;
 }
 b, strong, label, legend {
-	font-weight: 600;
+  font-weight: 600;
 }
 label {
-	min-width: 130px;
-	float: left;
-	text-align: right;
-	margin-right: 10px;
-	font-weight: normal;
-	color: #666;
+  min-width: 130px;
+  float: left;
+  text-align: right;
+  margin-right: 10px;
+  font-weight: normal;
+  color: #666;
 }
 legend {
-	color: #333;
-	padding-bottom: 0.5em;
+  color: #333;
+  padding-bottom: 0.5em;
 }
 
 a, a:visited {
-	color: #52509d;	
+  color: #52509d;
 }
 a:hover {
-	color: #e92c19;
+  color: #e92c19;
 }
 a.keyvalueDetail {
-	color: #333;
+  color: #333;
 }
 a.keyvalueDetail:hover {
-	color: #e92c19;
-	text-decoration: underline;	
-	cursor: pointer;
+  color: #e92c19;
+  text-decoration: underline;
+  cursor: pointer;
 }
 span.overridden {
-	padding-right: 18px;
-	background: url('../images/override.png') top right no-repeat;
+  padding-right: 18px;
+  background: url('../images/override.png') top right no-repeat;
 }
 
 .clear {
-	clear: both;
+  clear: both;
 }
 .submit {
-	clear: both;
+  clear: both;
 }
 
 .hidden {
-	display: none;
+  display: none;
 }
 .loader {
-	height: 50px;
-	background: url('../images/loader.gif') center center no-repeat;
+  height: 50px;
+  background: url('../images/loader.gif') center center no-repeat;
 }
 
 
 .body {
-	font-size: 1.2em;
-	line-height: 1.5em;	
+  font-size: 1.2em;
+  line-height: 1.5em;
 }
 
 #header {
-	background: #e92c19;
-	margin: 10px 0 1em 0;
-	border: 1px solid #ccc;
+  background: #e92c19;
+  margin: 10px 0 1em 0;
+  border: 1px solid #ccc;
 }
 #header h2 {
-	font-size: 1.7em;
-	margin: 0 0 0 0.5em;
-	padding: 2em 0 0.5em 0;
-	font-weight: 300!important;
+  font-size: 1.7em;
+  margin: 0 0 0 0.5em;
+  padding: 2em 0 0.5em 0;
+  font-weight: 300!important;
 }
 #header h2 a {
-	text-decoration: none;
-	color: #fff;
+  text-decoration: none;
+  color: #fff;
 }
 #menu {
-	font-size: 1.4em;
+  font-size: 1.4em;
 }
 #menu ul {
-	margin: 0 1em 0 0;
-	padding: 0;	
+  margin: 0 1em 0 0;
+  padding: 0;
 }
 #menu li {
-	display: inline;
-	padding: 0 0 0 1em;
-	list-style: none;
+  display: inline;
+  padding: 0 0 0 1em;
+  list-style: none;
 }
 
 #footer {
-	border-top: 1px solid #ccc;
-	padding: 1em 0 2em 0;
-	margin: 2em 0 0 0;
-	text-align: right;
+  border-top: 1px solid #ccc;
+  padding: 1em 0 2em 0;
+  margin: 2em 0 0 0;
+  text-align: right;
 }
 #footer ul {
-	margin: 0 1em 0 0;
-	padding: 0;	
+  margin: 0 1em 0 0;
+  padding: 0;
 }
 #footer li {
-	display: inline;
-	list-style: none;
-	padding: 0 0 0 1em;
+  display: inline;
+  list-style: none;
+  padding: 0 0 0 1em;
 }
 
 .body h1 {
-	font-weight: 300!important;
-	font-size: 2.2em;
-	line-height: 1.2em;
-	margin: 0.6em 0 0.5em 0;
+  font-weight: 300!important;
+  font-size: 2.2em;
+  line-height: 1.2em;
+  margin: 0.6em 0 0.5em 0;
 }
 
 #flashMessage {
-	position: absolute;
-	top: 0;
-	width: 970px;
+  position: absolute;
+  top: 0;
+  width: 970px;
 }
 #flashMessage .flashMessageContent {
-	width: 500px;
-	margin: 0 auto;	
-	font-size: 1.2em;
-	background: #666;
-	border-bottom: 1px solid #333;
-	border-left: 1px solid #333;
-	border-right: 1px solid #333;
-	color: #fff;
-	padding: 1em 2em 0 2em;
+  width: 500px;
+  margin: 0 auto;
+  font-size: 1.2em;
+  background: #666;
+  border-bottom: 1px solid #333;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
+  color: #fff;
+  padding: 1em 2em 0 2em;
 }
 
 
 
 .googlelogon {
-	background: url('../images/google-account-logo.png') top left no-repeat;
+  background: url('../images/google-account-logo.png') top left no-repeat;
 }
 .googlelogon form {
-	margin: 0 0 0 190px;
+  margin: 0 0 0 190px;
 }
 
 .definition .metadata {
-	width: 280px;
-	float: right;
-	border: 1px solid #eee;
-	background: #f7fbfe;
-	padding: 10px 15px;
+  width: 280px;
+  float: right;
+  border: 1px solid #eee;
+  background: #f7fbfe;
+  padding: 10px 15px;
 }
 
 .dictionary-header .actions, .record-header .actions {
-	float: right;
+  float: right;
 }
 
 .dictionary-header .actionsContainer, .record-header .actionsContainer {
-	position: absolute;
-	width: 500px;
-	margin-left: -500px;
-	text-align: right;
+  position: absolute;
+  width: 500px;
+  margin-left: -500px;
+  text-align: right;
 }
 .dictionary-header .actions form, .record-header .actions form {
-	display: inline;
+  display: inline;
 }
 .record-header ul.options {
-	margin: 0;
-	display: inline;
+  margin: 0;
+  display: inline;
 }
 .record-header ul.options li {
-	padding: 0 1em;	
-	display: inline;
-	line-height: 1.9em;
+  padding: 0 1em;
+  display: inline;
+  line-height: 1.9em;
 }
 
 .definitions ul {
-	margin: 0.5em 0 0 0;
-	padding: 0;
+  margin: 0.5em 0 0 0;
+  padding: 0;
 }
 .definitions li {
-	list-style: none;
-	margin: 1em 0 1.5em 0;
-	padding: 0;	
+  list-style: none;
+  margin: 1em 0 1.5em 0;
+  padding: 0;
 }
 .definitions h3 {
-	font-weight: 300;
-	font-size: 1.5em;
-	margin: 0.5em 0 0 0;
+  font-weight: 300;
+  font-size: 1.5em;
+  margin: 0.5em 0 0 0;
 }
 .definitions .description p {
-	margin-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
 .definitions .information {
-	border: 1px solid #eee;
-	background: #f7fbfe;
-	padding: 0 0.5em 0.4em 0.5em;
+  border: 1px solid #eee;
+  background: #f7fbfe;
+  padding: 0 0.5em 0.4em 0.5em;
 }
 .definitions .information li {
-	display: inline;
-	padding: 0 2em 0 0;	
+  display: inline;
+  padding: 0 2em 0 0;
 }
 
 .definition-title span, .record-title span {
-	font-size: 0.6em;	
+  font-size: 0.6em;
 }
 
 .definition .keyvalue {
-	margin: 1em 0;
+  margin: 1em 0;
 }
 .definition .keyvalue p {
-	margin: 0.1em 0;	
+  margin: 0.1em 0;
 }
 
 .definition .datasources {
-	clear: left;
-	margin: 0 0 1em 0;
-	padding: 1em 0 0 0;
+  clear: left;
+  margin: 0 0 1em 0;
+  padding: 1em 0 0 0;
 }
 .definition .datasources ul {
-	margin: 0;
-	padding: 0;	
+  margin: 0;
+  padding: 0;
 }
 .definition .datasources .actions-add {
-	clear: left;
-	padding: 0.8em 0 0 0;
-	vertical-align: top!important;
+  clear: left;
+  padding: 0.8em 0 0 0;
+  vertical-align: top!important;
 }
 .definition .datasources .actions-add .dijitButton,
 .definition .datasources .actions-add .dijitSelect {
-	margin-top: 0;
+  margin-top: 0;
 }
 .definition .datasource {
-	clear: left;
-	padding: 0.7em 0 0 0;
-	margin: 0;
-	list-style: none;
+  clear: left;
+  padding: 0.7em 0 0 0;
+  margin: 0;
+  list-style: none;
 }
 .definition .datasource .datasource-name {
-	display: inline;
+  display: inline;
 }
 .definition .datasource .datasource-name span {
-	font-weight: 300;	
+  font-weight: 300;
 }
-.definition .datasource .datasource-conditions strong, 
+.definition .datasource .datasource-conditions strong,
 .definition .datasource .datasource-contacts strong {
-	font-weight: 300;
-	color: #666;
+  font-weight: 300;
+  color: #666;
 }
 .definition .datasource .dijitButton {
-	float: left;
+  float: left;
 }
 
 .datasource .actions, .datasource .actions form,
 .comment .actions, .comment .actions form {
-	display: inline;
+  display: inline;
 }
 .datasource .actions button,
 .comment .actions button {
-	display: inline;
-	margin: 0;
-	padding: 0 0.1em 0 0.6em;
-	border: 0;
-	background: none;
-	color: #52509d;
+  display: inline;
+  margin: 0;
+  padding: 0 0.1em 0 0.6em;
+  border: 0;
+  background: none;
+  color: #52509d;
 }
 .datasource .actions button:hover,
 .comment .actions button:hover {
-	text-decoration: underline;
-	color: #e92c19;
-	cursor: pointer;
+  text-decoration: underline;
+  color: #e92c19;
+  cursor: pointer;
 }
 
 .comments {
-	clear: left;
-	margin: 0 0 1em 0;
+  clear: left;
+  margin: 0 0 1em 0;
 }
 .comments .comment {
-	clear: left;
-	padding: 0.7em 0 0 0;
+  clear: left;
+  padding: 0.7em 0 0 0;
 }
 .comments .comment .detail {
-	color: #666;
-	display: inline;
+  color: #666;
+  display: inline;
 }
 .comments .actions-add {
-	clear: left;
-	padding: 0.8em 0 0 0;
+  clear: left;
+  padding: 0.8em 0 0 0;
 }
 
 .relatedDefinitions ul {
-	margin-top: 0;	
+  margin-top: 0;
 }
 
 
 #definitionCalculationField .helpText {
-	margin: 0.3em 0 0.2em 142px;
-	color: #666;
+  margin: 0.3em 0 0.2em 142px;
+  color: #666;
 }
 #definitionCalculationField .exampleOutput {
-	color: #666;
-	margin: -0.7em 0 1em 142px;
+  color: #666;
+  margin: -0.7em 0 1em 142px;
 }
 #definitionCalculationField .exampleOutput span {
-	font-weight: bold;	
+  font-weight: bold;
 }
 
 #relatedDefinitionsList {
-	margin: -0.5em 0 0.5em 140px;	
+  margin: -0.5em 0 0.5em 140px;
 }
 #relatedDefinitionsList li {
-	list-style: none;	
+  list-style: none;
 }
 #relatedDefinitionsList li a {
-	cursor: pointer;
-	background: url('../images/remove.png') center left no-repeat;
-	float: left;
-	width: 15px;
-	height: 1.5em;
-	margin-right: 0.3em;
-	text-indent: -3000px;
+  cursor: pointer;
+  background: url('../images/remove.png') center left no-repeat;
+  float: left;
+  width: 15px;
+  height: 1.5em;
+  margin-right: 0.3em;
+  text-indent: -3000px;
 }
 #relatedDefinitionsList li span.variable,
 .relatedDefinitions li span.variable,
 #definitionCalculationField span.variable,
 .definition .calculation span.variable,
 #keyvalueDetail span.variable {
-	padding: 0.1em 0.4em;
-	background: #ccdff4;
-	color: #333;
-	font-weight: bold;
-	font-size: 0.8em;
-	-moz-border-radius: 3px;
-  	-webkit-border-radius: 3px;
-	border-radius: 3px;
+  padding: 0.1em 0.4em;
+  background: #ccdff4;
+  color: #333;
+  font-weight: bold;
+  font-size: 0.8em;
+  -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+  border-radius: 3px;
 }
 #keyvalueDetail p.calculation {
-	margin-left: 35px;
-	font-size: 1.3em;
+  margin-left: 35px;
+  font-size: 1.3em;
 }
 
 #addRelatedDefinition {
-	margin-left: 0.5em;
+  margin-left: 0.5em;
 }
 
 a.expandIcon {
-	margin: 0.3em 0.5em 0 0;
-	width: 16px;
-	height: 16px;
-	float: left;
-	background: url('../images/expand.png') top left no-repeat;
+  margin: 0.3em 0.5em 0 0;
+  width: 16px;
+  height: 16px;
+  float: left;
+  background: url('../images/expand.png') top left no-repeat;
 }
 a.expandIconHidden {
-	background-position: -22px 0px;
+  background-position: -22px 0px;
 }
-a.expandIcon:hover {	
-	cursor: pointer;
+a.expandIcon:hover {
+  cursor: pointer;
 }
 .field-multiselect .multiselectItems .hasSummarisedDefinitions .dijitCheckBox {
-	margin-right: 0;	
+  margin-right: 0;
 }
 .field-multiselect .multiselectItems .hasSummarisedDefinitions .multiselectItems .dijitCheckBox {
-	margin-right: 0.3em;
+  margin-right: 0.3em;
 }
 
 .firstDefinitionColumn, .secondDefinitionColumn {
-	width: 450px;
-	float: left;
+  width: 450px;
+  float: left;
 }
 .summarisedDefinitions {
-	clear: left;
-	margin: 0 0 0.2em 17px!important;
+  clear: left;
+  margin: 0 0 0.2em 17px!important;
 }
 
 .recordOptions {
-	margin: 0 0 1em 0;
+  margin: 0 0 1em 0;
 }
 .recordOptions ul {
-	margin: 0;
-	padding: 0;	
+  margin: 0;
+  padding: 0;
 }
 .recordOptions li {
-	float: left;
-	padding: 0 0.5em 0 0.5em;
-	list-style: none;
+  float: left;
+  padding: 0 0.5em 0 0.5em;
+  list-style: none;
 }
 
 .records ul {
-	margin: 2em 0 0 0;	
+  margin: 2em 0 0 0;
 }
 
 .record .record-title {
-	clear: left;
-	float: left;
-	padding: 1px 0 0 0;
+  clear: left;
+  float: left;
+  padding: 1px 0 0 0;
 }
 .record .primaryRecord {
-	clear: left;
+  clear: left;
 }
 .record .primaryRecord .keyValueSet {
-	float: left;
-	width: 457px;
+  float: left;
+  width: 457px;
 }
 
 .record .secondaryRecord, .record .tertiaryRecord {
-	padding: 0 0 0.5em 0;
-	margin: 0 0 12px 0;
+  padding: 0 0 0.5em 0;
+  margin: 0 0 12px 0;
 }
 .record .secondaryRecords {
-	clear: left;
+  clear: left;
 }
 .record .secondaryRecords, .record .tertiaryRecords {
-	width: 487px;
-	float: left;
+  width: 487px;
+  float: left;
 }
 .record .secondaryRecord, .record .tertiaryRecord {
-	width: 473px;
+  width: 473px;
 }
 .record .secondaryRecord .dijitTitlePaneTitle {
-	background: #F7FBFE;
+  background: #F7FBFE;
 }
 .record .tertiaryRecord .dijitTitlePaneTitle {
-	background: #F2FFF2;
+  background: #F2FFF2;
 }
 .record .keyValueSet {
-	padding: 0 0 1em 0;
-	margin: 0 15px;
+  padding: 0 0 1em 0;
+  margin: 0 15px;
 }
 .record .keyValueSet h5 {
-	margin: 0 0 0.5em 0;	
+  margin: 0 0 0.5em 0;
 }
 .record .secondaryRecord .keyValueSet, .record .tertiaryRecord .keyValueSet {
-	clear: left;
+  clear: left;
 }
 
 .record div.keyvalues ul {
-	margin: 0;	
+  margin: 0;
 }
 .record div.keyvalues .expandIcon {
-	float: left;	
+  float: left;
 }
 .record div.childkeyvalues ul {
-	clear: left;
-	margin: 0 0 0 23px;
+  clear: left;
+  margin: 0 0 0 23px;
 }
 .record div.childkeyvalues div.clear {
-	padding: 0 0 0.7em 0;	
+  padding: 0 0 0.7em 0;
 }
 .record div.keyvalues li {
-	list-style: none;
-	margin: 0;
-	clear: left;
+  list-style: none;
+  margin: 0;
+  clear: left;
 }
 .record div.keyvalues li span.definitionName {
-	float: left;
-	padding: 0 0.5em 0 0;
-	color: #666;
+  float: left;
+  padding: 0 0.5em 0 0;
+  color: #666;
 }
 .record div.keyvalues li span.definitionName a {
-	text-decoration: none;
-	color: #666;	
+  text-decoration: none;
+  color: #666;
 }
-.record div.keyvalues li span.definitionName a:hover { 
-	text-decoration: underline;
-	color: #e92c19;
+.record div.keyvalues li span.definitionName a:hover {
+  text-decoration: underline;
+  color: #e92c19;
 }
 
 .record div.keyvalues li div.values {
-	float: left;
-	padding: 0 0 0.3em 0;
+  float: left;
+  padding: 0 0 0.3em 0;
 }
 
 div.keyvalueDlg {
-	width:600px;
+  width:600px;
 }
 div.keyvalueDlg div.keyvalueDlgContainer {
-	width: 580px;
-	height:420px;
-	text-align:left;
+  width: 580px;
+  height:420px;
+  text-align:left;
 }
 div.keyvalueDlg div.keyvalueDlgTabContainer {
-	width: 578px;
-	height: 405px;
+  width: 578px;
+  height: 405px;
 }
 div.keyvalueDlg div.keyvalueDlgTabContainer #overrideOutcome {
-	margin: 0 30px;
-	padding: 0.2em 0;
+  margin: 0 30px;
+  padding: 0.2em 0;
 }
 div.keyvalueDlg div.keyvalueDlgTabContainer .dijitTabPane {
-	padding-top: 15px;	
+  padding-top: 15px;
 }
 div.keyvalueDlg div.keyvalueDlgTabContainer #overridePane {
-	overflow: hidden;	
+  overflow: hidden;
 }
 div.keyvalueDlg div.keyvalueDlgTabContainer .submit {
-	text-align: right;
-	margin-right: 30px;
+  text-align: right;
+  margin-right: 30px;
 }
 
 .export {
-	position: absolute;
-	top: 100px;
-	z-index: 9999;
-	width: 974px;
+  position: absolute;
+  top: 100px;
+  z-index: 9999;
+  width: 974px;
 }
 .export div.container {
-	margin: 0 auto;
-	width: 904px;
-	border-top: 1px solid #ccc;	
-	border-left: 1px solid #ccc;	
-	border-bottom: 1px solid #666;	
-	border-right: 1px solid #666;	
-	padding: 7px 20px 20px 20px;
-	background: #fff;
+  margin: 0 auto;
+  width: 904px;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #666;
+  border-right: 1px solid #666;
+  padding: 7px 20px 20px 20px;
+  background: #fff;
 }
 .export .exportMessage {
-	float: left;
+  float: left;
 }
 .export .actions {
-	text-align: right;
+  text-align: right;
 }
 .export .firstDefinitionColumn {
-	clear: left;
+  clear: left;
 }
 
 #filterform, #administrationmenu, #usermenu {
-	clear: both;
-	padding: 0.4em 20px 0.3em 20px;
-	margin: 1em 0;
-	vertical-align: middle;
-	background: #eee;
+  clear: both;
+  padding: 0.4em 20px 0.3em 20px;
+  margin: 1em 0;
+  vertical-align: middle;
+  background: #eee;
 }
 #filterform h3, #filterform .filterfield, #administrationmenu h3, #usermenu h3 {
-	float: left;
-	margin: 0;
+  float: left;
+  margin: 0;
 }
 #filterform h3, #administrationmenu h3, #usermenu h3 {
-	font-size: 1em;
-	line-height: 1.9em;
-	font-weight: 600!important;
-	margin: 0;
-	padding: 0 30px 0 0;	
+  font-size: 1em;
+  line-height: 1.9em;
+  font-weight: 600!important;
+  margin: 0;
+  padding: 0 30px 0 0;
 }
 #filterform label {
-	line-height: 1.9em;
-	min-width: 50px;
-	padding-left: 20px;
-	font-weight: 300!important;
+  line-height: 1.9em;
+  min-width: 50px;
+  padding-left: 20px;
+  font-weight: 300!important;
 }
 #administrationmenu ul, #usermenu ul {
-	margin: 0.3em 0 0.3em 0;
-	padding: 0;	
+  margin: 0.3em 0 0.3em 0;
+  padding: 0;
 }
 #administrationmenu li, #usermenu li {
-	display: inline;
-	padding: 0 1em 0 0;
-	list-style: none;
+  display: inline;
+  padding: 0 1em 0 0;
+  list-style: none;
 }
 
 
 .paginationGrouping, .paginationActions {
-	clear: left;	
+  clear: left;
 }
 .paginationGrouping p, .paginationActions p {
-	float: left;
-	margin: 0;
+  float: left;
+  margin: 0;
 }
 .paginationGrouping ul, .paginationActions ul {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 .paginationGrouping li, .paginationActions li {
-	list-style: none;
-	margin: 0;
-	padding: 0 0.4em;	
-	float: left;
-	border-left: 1px solid #ccc;
+  list-style: none;
+  margin: 0;
+  padding: 0 0.4em;
+  float: left;
+  border-left: 1px solid #ccc;
 }
 .paginationGrouping li:first-child, .paginationActions li:first-child {
-	border-left: none;
+  border-left: none;
 }
 
 .dojoxGrid table {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 .dijitEditor {
-	clear: left;
-	width: 500px;
-	height: 200px;
-	border: 1px solid #ccc;
-	margin: 5px 0 0 30px;	
+  clear: left;
+  width: 500px;
+  height: 200px;
+  border: 1px solid #ccc;
+  margin: 5px 0 0 30px;
 }
 .dijitDownArrowButton {
-	height: 1.5em;
+  height: 1.5em;
 }
 .dijitSelect, .dijitToggleButton, .dijitButton, .dijitDropDownButton, .dijitComboButton {
-	margin: 0 0.2em 0.2em 0.2em;	
+  margin: 0 0.2em 0.2em 0.2em;
 }
 
 .field {
-	padding: 0 0 0.9em 0;	
+  padding: 0 0 0.9em 0;
 }
 
 .contributefields .checkboxset {
-	clear: left;
-	margin: 0.3em 30px 0.3em 0;
+  clear: left;
+  margin: 0.3em 30px 0.3em 0;
 }
 .contributefields .recordfield {
-	display: none;	
+  display: none;
 }
 ul.checkall {
-	margin: 0;
-	padding: 0;
-	clear: left;
+  margin: 0;
+  padding: 0;
+  clear: left;
 }
 ul.checkall li {
-	float: left;
-	padding: 0 1em 0 0;
-	list-style: none;	
+  float: left;
+  padding: 0 1em 0 0;
+  list-style: none;
 }
 ul.checkall li a:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 #submissionData {
-	width: 100%;
-	height: 200px;	
+  width: 100%;
+  height: 200px;
 }
 
 
 #submissionPreview table, #viewData table {
-	clear: left;	
+  clear: left;
 }
 #submissionPreview table th, #viewData table th {
-	background: #666;
-	color: #fff;
-	border: none;
-	border-bottom: 1px solid #333;
-	padding: 0.3em 0.8em;
+  background: #666;
+  color: #fff;
+  border: none;
+  border-bottom: 1px solid #333;
+  padding: 0.3em 0.8em;
 }
 #submissionPreview table td, #viewData table td {
-	border: none;
-	border-bottom: 1px solid #999;
-	border-right: 1px solid #eee;
-	border-left: 1px solid #eee;
-	padding: 0.3em 1em;
+  border: none;
+  border-bottom: 1px solid #999;
+  border-right: 1px solid #eee;
+  border-left: 1px solid #eee;
+  padding: 0.3em 1em;
 }
 #submissionPreview table th.invalid, #submissionPreview li.invalidcolumn {
-	background: #DB6B55;
-	color: #fff;
+  background: #DB6B55;
+  color: #fff;
 }
 #submissionPreview table tr.invalid, #submissionPreview li.invalidrow {
-	background: #FFFEEE;	
+  background: #FFFEEE;
 }
 #submissionPreview table td.invalid, #submissionPreview li.invalidcell {
-	background: #FAD9D2;
+  background: #FAD9D2;
 }
 #submissionPreview table td.notapplicable, #submissionPreview li.notapplicablecell {
-	background: #c1e7ee;
+  background: #c1e7ee;
 }
 #submissionPreview table td.idfield {
-	background: #eee;
+  background: #eee;
 }
 #submissionPreview ul {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 #submissionPreview li {
-	list-style: none;
-	float: left;
-	padding: 0.3em 1em;
-	margin: 0 0 1em 0;
+  list-style: none;
+  float: left;
+  padding: 0.3em 1em;
+  margin: 0 0 1em 0;
 }
 
 #viewDataContent, #submissionPreview {
-	width: 800px;
-	height: 600px;
-	overflow: auto;	
+  width: 800px;
+  height: 600px;
+  overflow: auto;
 }
 #submissionPreview .previewTable {
-	width: 770px;
-	height: 450px;
-	overflow: auto;
-	border: 1px solid #ccc;	
+  width: 770px;
+  height: 450px;
+  overflow: auto;
+  border: 1px solid #ccc;
 }
 #submissionPreview div.actions {
-	font-size: 1.2em;
-	margin: 0 0 1em 0;	
+  font-size: 1.2em;
+  margin: 0 0 1em 0;
 }
 
 
 div.keyValueDataKey {
-	background: #eee;
-	float: left;
-	margin: 0;
-	padding: 0.2em 0;
+  background: #eee;
+  float: left;
+  margin: 0;
+  padding: 0.2em 0;
 }
 div.keyValueDataKey li {
-	list-type: none;
-	display: inline;
-	padding: 0 1em;
+  list-type: none;
+  display: inline;
+  padding: 0 1em;
 }
 
 div.keyValueDataMaximised {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	background: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
 }
 
 div.keyValueData {
-	clear: both;
+  clear: both;
 }
 div.keyValueData table {
-	width: 100%;
-	clear: both;
+  width: 100%;
+  clear: both;
 }
 div.keyValueData tbody {
-	border: 1px solid #ccc;
+  border: 1px solid #ccc;
 }
 div.keyValueData th {
-	font-size: 0.9em;
-	background: url('../images/table-header.png') bottom left repeat-x #e6ebf2;
-	border: 1px solid #ccc;
+  font-size: 0.9em;
+  background: url('../images/table-header.png') bottom left repeat-x #e6ebf2;
+  border: 1px solid #ccc;
 }
 div.keyValueData th.empty {
-	border: none;
-	background: none;
+  border: none;
+  background: none;
 }
 div.keyValueData tr.even {
-	background: #fff;
+  background: #fff;
 }
 div.keyValueData tr.odd {
-	background: #f7fbfe;
+  background: #f7fbfe;
 }
 div.keyValueData td {
-	border: 0px none;
+  border: 0px none;
 }
 div.keyValueData tr.primaryRow td {
-	border-top: 1px solid #ccc;	
+  border-top: 1px solid #ccc;
 }
 div.keyValueData tr.secondaryRow td {
-	border-top: 1px solid #eee;	
+  border-top: 1px solid #eee;
 }
 div.keyValueData tr:hover td {
-	background: #dcedfc;
+  background: #dcedfc;
 }
 div.keyValueData td.primaryRecord {
-	background: url('../images/table-header.png') bottom left repeat-x #e6ebf2!important;
+  background: url('../images/table-header.png') bottom left repeat-x #e6ebf2!important;
 }
 div.keyValueData td.secondaryRecord, div.keyValueData td.tertiaryRecord {
-	text-align: center;
+  text-align: center;
 }
 div.keyValueData td.secondaryRecord {
-	border-left: 1px solid #eee;
+  border-left: 1px solid #eee;
 }
-div.keyValueData td.keyValueNumber, 
+div.keyValueData td.keyValueNumber,
 div.keyValueData td.keyValueCurrency,
 div.keyValueData td.keyValuePercentage {
-	text-align: right;	
+  text-align: right;
 }
 div.keyValueData td.keyValueBoolean,
 div.keyValueData td.keyValueDate {
-	text-align: center;
+  text-align: center;
 }
 div.keyValueData td.keyValueString {
-	text-align: left;
+  text-align: left;
 }
 
 div.keyValueDataMaximised a.viewControl {
-	padding: 0 15px 0 0;
+  padding: 0 15px 0 0;
 }
 div.keyValueDataMaximised table {
-	width: 99%;
-	margin: 0 0px 5px 5px;
+  width: 99%;
+  margin: 0 0px 5px 5px;
 }
 
 
 p.viewOptions {
-	padding: 0.5em 0 0 0;
-	margin: 0 0 0.5em 0;
-	text-align: right;
-	float: right;
-	color: #999;
+  padding: 0.5em 0 0 0;
+  margin: 0 0 0.5em 0;
+  text-align: right;
+  float: right;
+  color: #999;
 }
 p.viewOptions a {
-	text-decoration: none;
+  text-decoration: none;
 }
 p.viewOptions a:hover {
-	text-decoration: underline;
-	color: #e92c19;
-	cursor: pointer;
+  text-decoration: underline;
+  color: #e92c19;
+  cursor: pointer;
 }
 
 
 .nihilo .dijitDialog {
-	background: #fff;	
+  background: #fff;
 }
 
 #_c_com_sfs_metahive_web_model_DefinitionForm_categories_id .dojoxMultiSelect {
-	height: auto;
-	overflow: auto;
-	overflow-y: auto;	
+  height: auto;
+  overflow: auto;
+  overflow-y: auto;
 }
 
 #_c_com_sfs_metahive_web_model_DefinitionForm_name_id .dijitTextBox,
 #_c_com_sfs_metahive_web_model_DefinitionForm_examplevalues_id .dijitTextBox,
 #_c_com_sfs_metahive_web_model_DefinitionForm_calculation_id .dijitTextBox {
-	width: 420px;	
+  width: 420px;
 }
 #_c_com_sfs_metahive_web_model_DefinitionForm_name_id input,
 #_c_com_sfs_metahive_web_model_DefinitionForm_examplevalues_id input,
 #_c_com_sfs_metahive_web_model_DefinitionForm_calculation_id input {
-	width: 400px;
+  width: 400px;
 }
 #_c_com_sfs_metahive_web_model_DefinitionForm_name_id .dijitValidationIcon,
 #_c_com_sfs_metahive_web_model_DefinitionForm_examplevalues_id .dijitValidationIcon {
-	background-position: top right;	
+  background-position: top right;
 }
 #_c_com_sfs_metahive_web_model_DefinitionForm_categories_id label,
 #_c_com_sfs_metahive_model_DataSource_pointsOfContact_id label {
-	float: none;
-	display: block;
-	text-align: left;
+  float: none;
+  display: block;
+  text-align: left;
 }
 
 #_c_com_sfs_metahive_web_model_RecordForm_recordids_id textarea {
-	width: 400px;
-	height: 300px;
+  width: 400px;
+  height: 300px;
 }
 
 
 .field-multiselect .multiselectItems {
-	float: left;
-	margin: 0 0 1em 15px;	
+  float: left;
+  margin: 0 0 1em 15px;
 }
 .field-multiselect .multiselectItems span {
-	display: block;
-	clear: left;
+  display: block;
+  clear: left;
 }
 .field-multiselect .multiselectItems label {
-	display: inline;
-	text-align: left;
-	font-size: 0.9em;
+  display: inline;
+  text-align: left;
+  font-size: 0.9em;
 }
 .field-multiselect .multiselectItems .dijitCheckBox {
-	float: left;
-	margin: 0.3em 0.5em 0 0;
+  float: left;
+  margin: 0.3em 0.5em 0 0;
 }
 .field-multiselect .multiselectTwoColumn, .field-multiselect .multiselectThreeColumn {
-	width: 700px;
+  width: 700px;
 }
-.field-multiselect .multiselectTwoColumn span, 
+.field-multiselect .multiselectTwoColumn span,
 .field-multiselect .multiselectThreeColumn span {
-	float: left;
-	clear: none;
+  float: left;
+  clear: none;
 }
 .field-multiselect .multiselectTwoColumn span {
-	width: 340px;
+  width: 340px;
 }
 .field-multiselect .multiselectThreeColumn span {
-	width: 230px;
+  width: 230px;
 }
 
 .dijitTabListContainer-top :focus, .dijitTitlePaneContentInner:focus {
-	outline: none;	
+  outline: none;
 }

@@ -8,29 +8,29 @@ import java.lang.String;
 import java.util.List;
 
 privileged aspect ValidatedRow_Roo_JavaBean {
-    
+
     public boolean ValidatedRow.isValid() {
         return this.valid;
     }
-    
+
     public void ValidatedRow.setValid(boolean valid) {
         this.valid = valid;
     }
-    
+
     public List<ValidatedField> ValidatedRow.getFields() {
         return this.fields;
     }
-    
+
     public void ValidatedRow.setFields(List<ValidatedField> fields) {
         this.fields = fields;
     }
-    
+
     public String ValidatedRow.getComment() {
         return this.comment;
     }
-    
+
     public void ValidatedRow.setComment(String comment) {
         this.comment = comment;
     }
-    
+
 }

@@ -1,6 +1,6 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
   <jsp:output omit-xml-declaration="yes"/>
-  
+
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" description="The identifier for this tag (do not change!)"/>
   <jsp:directive.attribute name="modelAttribute" type="java.lang.String" required="true" rtexprvalue="true" description="The name of the model attribute for form binding"/>
   <jsp:directive.attribute name="path" type="java.lang.String" required="true" rtexprvalue="true" description="Specify the relative URL path (wit leading /)" />
@@ -11,7 +11,7 @@
   <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if the title pane is opened or closed by default (default: true)"/>
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)"/>
   <jsp:directive.attribute name="cancelAction" type="java.lang.String" rtexprvalue="true" required="false" description="The URL for the cancel action if provided"/>
-	
+
   <c:if test="${empty render or render}">
     <c:if test="${empty label}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
@@ -29,7 +29,7 @@
           <form:hidden id="_${fn:escapeXml(compositePkField)}_id" path="${fn:escapeXml(compositePkField)}" />
           <script type="text/javascript">
           <![CDATA[
-            dojo.require("dojox.encoding.base64");            
+            dojo.require("dojox.encoding.base64");
             function encodePk() {
               var obj = new Object();
               dojo.query("input[name^=\"${compositePkField}.\"]").forEach(function(node, index, nodelist){
@@ -52,9 +52,9 @@
           <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
           <button dojoType="dijit.form.Button" id="proceed" type="submit"><c:out value="${fn:escapeXml(save_button)}" /></button>
           <c:if test="${not empty cancelAction}">
-        	<div id="cancelButton" dojoType="dijit.form.Button" jsId="cancelButton"><spring:message code="metahive_button_cancel" /></div>
+          <div id="cancelButton" dojoType="dijit.form.Button" jsId="cancelButton"><spring:message code="metahive_button_cancel" /></div>
           </c:if>
-        </div>      
+        </div>
       </form:form>
     </util:panel>
     <script type="text/javascript">

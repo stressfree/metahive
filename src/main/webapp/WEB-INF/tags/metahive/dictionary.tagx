@@ -1,94 +1,94 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:sec="http://www.springframework.org/security/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
   <jsp:output omit-xml-declaration="yes"/>
   <jsp:directive.attribute name="filter" type="com.sfs.metahive.web.model.DefinitionFilter" required="false" rtexprvalue="true" description="The filter applied to the paginated search" />
-      
+
   <c:if test="${not empty filter.name}">
-  	<c:set var="filterName" value="${filter.name}" />
+    <c:set var="filterName" value="${filter.name}" />
   </c:if>
   <c:if test="${not empty filter.category}">
-  	<c:set var="filterCategory" value="${filter.category}" />
+    <c:set var="filterCategory" value="${filter.category}" />
   </c:if>
-       
-  <div class="dictionary-header">	  
-	  <spring:url value="/definitions" var="search" />
-	  <form:form id="filterform" action="${search}" method="GET" dojoType="dijit.form.Form">
-	  	<h3><spring:message code="metahive_datadictionary" /></h3>
-	  	<div class="filterfield">
-	  		<label for="name"><spring:message code="label_com_sfs_metahive_model_definition_name" htmlEscape="true" />: </label>
-	  		<input type="text" id="name" name="name" dojoType="dijit.form.TextBox" value="${filterName}" />
-	  	</div>  	
-	  	<div class="filterfield">
-	  		<label for="category"><spring:message code="label_com_sfs_metahive_model_category" htmlEscape="true" />: </label>
-	  		<select id="category" name="category" style="width: 200px;" dojoType="dijit.form.Select">
-	  			<option value="-">Any category</option>
-	  			<c:forEach items="${categories}" var="category">
-	  				<c:if test="${fn:toLowerCase(category.name) eq fn:toLowerCase(filterCategory)}">
-	  					<c:set var="selected" value="selected" />
-	  				</c:if>
-	  			<option value="${category.name}" selected="${selected}">${category.name}</option>
-	  			</c:forEach>
-	  		</select>
-	  	</div> 	
-	  	<spring:message code="button_filter" var="filter_button" htmlEscape="true" />
-	    <button dojoType="dijit.form.Button" id="filter" type="submit"><c:out value="${filter_button}" /></button>
-	    <div class="clear"><!-- --></div>
-	  </form:form>
-	  
-	  <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
-	  	 <div class="actions">
-	  	 	<div class="actionsContainer">
-		   	<div id="definitionNewButton" dojoType="dijit.form.Button" jsId="definitionNewButton"><spring:message code="metahive_button_new_definition" /></div>
-			   	<c:if test="${not empty definition}">
-			   		<div id="definitionEditButton" dojoType="dijit.form.Button" jsId="definitionEditButton"><spring:message code="metahive_button_edit" /></div>
-			        <sec:authorize ifAllGranted="ROLE_ADMIN">
-						<spring:url value="/definitions/${definition.id}" var="delete_definition_url" />
-						<form:form action="${fn:escapeXml(delete_definition_url)}" method="DELETE">
-			           		<spring:message arguments="definition" code="entity_delete" var="delete_label" htmlEscape="false" />
-			           		<c:set var="delete_confirm_msg">
-			            		<spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
-			           		</c:set>
-			           		<button dojoType="dijit.form.Button" onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
-			         	</form:form>
-			        </sec:authorize>
-			   	</c:if>
-		   	</div>
-	     </div>
-	  </sec:authorize>
+
+  <div class="dictionary-header">
+    <spring:url value="/definitions" var="search" />
+    <form:form id="filterform" action="${search}" method="GET" dojoType="dijit.form.Form">
+      <h3><spring:message code="metahive_datadictionary" /></h3>
+      <div class="filterfield">
+        <label for="name"><spring:message code="label_com_sfs_metahive_model_definition_name" htmlEscape="true" />: </label>
+        <input type="text" id="name" name="name" dojoType="dijit.form.TextBox" value="${filterName}" />
+      </div>
+      <div class="filterfield">
+        <label for="category"><spring:message code="label_com_sfs_metahive_model_category" htmlEscape="true" />: </label>
+        <select id="category" name="category" style="width: 200px;" dojoType="dijit.form.Select">
+          <option value="-">Any category</option>
+          <c:forEach items="${categories}" var="category">
+            <c:if test="${fn:toLowerCase(category.name) eq fn:toLowerCase(filterCategory)}">
+              <c:set var="selected" value="selected" />
+            </c:if>
+          <option value="${category.name}" selected="${selected}">${category.name}</option>
+          </c:forEach>
+        </select>
+      </div>
+      <spring:message code="button_filter" var="filter_button" htmlEscape="true" />
+      <button dojoType="dijit.form.Button" id="filter" type="submit"><c:out value="${filter_button}" /></button>
+      <div class="clear"><!-- --></div>
+    </form:form>
+
+    <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
+       <div class="actions">
+         <div class="actionsContainer">
+         <div id="definitionNewButton" dojoType="dijit.form.Button" jsId="definitionNewButton"><spring:message code="metahive_button_new_definition" /></div>
+           <c:if test="${not empty definition}">
+             <div id="definitionEditButton" dojoType="dijit.form.Button" jsId="definitionEditButton"><spring:message code="metahive_button_edit" /></div>
+              <sec:authorize ifAllGranted="ROLE_ADMIN">
+            <spring:url value="/definitions/${definition.id}" var="delete_definition_url" />
+            <form:form action="${fn:escapeXml(delete_definition_url)}" method="DELETE">
+                     <spring:message arguments="definition" code="entity_delete" var="delete_label" htmlEscape="false" />
+                     <c:set var="delete_confirm_msg">
+                      <spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
+                     </c:set>
+                     <button dojoType="dijit.form.Button" onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
+                 </form:form>
+              </sec:authorize>
+           </c:if>
+         </div>
+       </div>
+    </sec:authorize>
   </div>
-  
+
   <script type="text/javascript">
   <![CDATA[
-   	dojo.require("dijit.form.Form");
-   	dojo.require("dijit.form.Button");
-   	dojo.require("dijit.form.TextBox");
-   	dojo.require("dijit.form.Select");
-   	
+     dojo.require("dijit.form.Form");
+     dojo.require("dijit.form.Button");
+     dojo.require("dijit.form.TextBox");
+     dojo.require("dijit.form.Select");
+
     dojo.addOnLoad(function() {
-        dojo.parser.parse();        
+        dojo.parser.parse();
     });
     ]]>
   </script>
   <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
-	<spring:url value="/definitions?form" var="create_url" />
+  <spring:url value="/definitions?form" var="create_url" />
   <script type="text/javascript">
   <![CDATA[
-	dojo.addOnLoad(function() {
-		dojo.connect(definitionNewButton, "onClick", function() {
+  dojo.addOnLoad(function() {
+    dojo.connect(definitionNewButton, "onClick", function() {
             window.location.href="${create_url}";
         });
-	});
-	]]>
+  });
+  ]]>
   </script>
   <c:if test="${not empty definition}">
   <spring:url value="/definitions/${definition.id}?form" var="update_form_url" />
   <script type="text/javascript">
   <![CDATA[
-	dojo.addOnLoad(function() {  	
-    	dojo.connect(definitionEditButton, "onClick", function() {
-        	window.location.href="${update_form_url}";
-    	});
-	});
-	]]>
+  dojo.addOnLoad(function() {
+      dojo.connect(definitionEditButton, "onClick", function() {
+          window.location.href="${update_form_url}";
+      });
+  });
+  ]]>
   </script>
   </c:if>
   </sec:authorize>

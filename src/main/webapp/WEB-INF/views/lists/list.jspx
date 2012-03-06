@@ -1,134 +1,134 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div class="yui-gb" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
-    
+
     <metahive:administration />
-    
+
     <spring:message var="list_management" code="metahive_lists" />
     <spring:message var="category_name" code="label_com_sfs_metahive_model_category_name" />
     <spring:message var="conditionofuse_name" code="label_com_sfs_metahive_model_conditionofuse_name" />
-    
+
     <util:panel id="_list_management" title="${list_management}">
-    
-	    <div class="yui-u first">
-	       <spring:message var="category_heading" code="metahive_categories" />
-		   <h3><c:out value="${category_heading}" /></h3>
-	       <div id="categoryAddButton" dojoType="dijit.form.Button" jsId="categoryAddButton"><spring:message code="metahive_button_add" /></div>
-	       <div id="categoryEditButton" dojoType="dijit.form.Button" jsId="categoryEditButton"><spring:message code="metahive_button_edit" /></div>
-	       <div id="categoryDeleteButton" dojoType="dijit.form.Button" jsId="categoryDeleteButton"><spring:message code="metahive_button_delete" /></div>
-	       <div id="categoryDataGrid" jsId="categoryDataGrid"
-	          dojoType="dojox.grid.EnhancedGrid"
-	          structure ="[{ field: 'name', name: '${category_name}', width: '260px' }]"
-	          autoWidth="true"
-	          autoHeight="true"
-	          plugins="{indirectSelection: true}"
-	          selectionMode="single"><!-- --></div>	    
-	    </div>
-	    
-	    <div class="yui-u">
-		   <spring:message var="conditionofuse_heading" code="metahive_conditionsofuse" />
-		   <h3><c:out value="${conditionofuse_heading}" /></h3>
-	       <div id="conditionOfUseAddButton" dojoType="dijit.form.Button" jsId="conditionOfUseAddButton"><spring:message code="metahive_button_add" /></div>
-	       <div id="conditionOfUseEditButton" dojoType="dijit.form.Button" jsId="conditionOfUseEditButton"><spring:message code="metahive_button_edit" /></div>
-	       <div id="conditionOfUseDeleteButton" dojoType="dijit.form.Button" jsId="conditionOfUseDeleteButton"><spring:message code="metahive_button_delete" /></div>
-	       <div id="conditionOfUseDataGrid" jsId="conditionOfUseDataGrid"
-	          dojoType="dojox.grid.EnhancedGrid"
-	          structure ="[{ field: 'name', name: '${conditionofuse_name}', width: '260px' }]"
-	          autoWidth="true"
-	          autoHeight="true"
-	          plugins="{indirectSelection: true}"
-	          selectionMode="single"><!-- --></div>   
-	    </div>
-	    
+
+      <div class="yui-u first">
+         <spring:message var="category_heading" code="metahive_categories" />
+       <h3><c:out value="${category_heading}" /></h3>
+         <div id="categoryAddButton" dojoType="dijit.form.Button" jsId="categoryAddButton"><spring:message code="metahive_button_add" /></div>
+         <div id="categoryEditButton" dojoType="dijit.form.Button" jsId="categoryEditButton"><spring:message code="metahive_button_edit" /></div>
+         <div id="categoryDeleteButton" dojoType="dijit.form.Button" jsId="categoryDeleteButton"><spring:message code="metahive_button_delete" /></div>
+         <div id="categoryDataGrid" jsId="categoryDataGrid"
+            dojoType="dojox.grid.EnhancedGrid"
+            structure ="[{ field: 'name', name: '${category_name}', width: '260px' }]"
+            autoWidth="true"
+            autoHeight="true"
+            plugins="{indirectSelection: true}"
+            selectionMode="single"><!-- --></div>
+      </div>
+
+      <div class="yui-u">
+       <spring:message var="conditionofuse_heading" code="metahive_conditionsofuse" />
+       <h3><c:out value="${conditionofuse_heading}" /></h3>
+         <div id="conditionOfUseAddButton" dojoType="dijit.form.Button" jsId="conditionOfUseAddButton"><spring:message code="metahive_button_add" /></div>
+         <div id="conditionOfUseEditButton" dojoType="dijit.form.Button" jsId="conditionOfUseEditButton"><spring:message code="metahive_button_edit" /></div>
+         <div id="conditionOfUseDeleteButton" dojoType="dijit.form.Button" jsId="conditionOfUseDeleteButton"><spring:message code="metahive_button_delete" /></div>
+         <div id="conditionOfUseDataGrid" jsId="conditionOfUseDataGrid"
+            dojoType="dojox.grid.EnhancedGrid"
+            structure ="[{ field: 'name', name: '${conditionofuse_name}', width: '260px' }]"
+            autoWidth="true"
+            autoHeight="true"
+            plugins="{indirectSelection: true}"
+            selectionMode="single"><!-- --></div>
+      </div>
+
     </util:panel>
-    
+
     <spring:url value="/categories" var="categories_url" />
     <spring:url value="/categories/list" var="categories_datasource"/>
     <spring:url value="/categories?form" var="add_category_url" />
     <spring:message arguments="category" code="metahive_edit_select" var="category_edit" />
     <spring:message arguments="category" code="metahive_delete_confirm" var="category_delete" />
-            
+
     <spring:url value="/conditions" var="conditions_url" />
     <spring:url value="/conditions/list" var="conditions_datasource"/>
     <spring:url value="/conditions?form" var="add_condition_url" />
     <spring:message arguments="condition of use" code="metahive_edit_select" var="condition_edit" />
     <spring:message arguments="condition of use" code="metahive_delete_confirm" var="condition_delete" />
-    
+
     <script type="text/javascript">
     <![CDATA[
-   	dojo.require("dojox.grid.EnhancedGrid");
-   	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
-   	dojo.require("dijit.form.Button");
+     dojo.require("dojox.grid.EnhancedGrid");
+     dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+     dojo.require("dijit.form.Button");
     dojo.require("dojo.data.ItemFileReadStore");
-    
+
     dojo.addOnLoad(function() {
 
         dojo.parser.parse();
-        
+
         dojo.connect(categoryAddButton, "onClick", function() {
             window.location.href="${add_category_url}";
         });
-        
+
         dojo.connect(conditionOfUseAddButton, "onClick", function() {
             window.location.href="${add_condition_url}";
         });
 
-        dojo.connect(categoryEditButton, "onClick", function() {        	
-        	if (categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex)) {
-        		var id = categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex).id;
-            	window.location.href="${categories_url}/" + id + "?form";        		
+        dojo.connect(categoryEditButton, "onClick", function() {
+          if (categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex)) {
+            var id = categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex).id;
+              window.location.href="${categories_url}/" + id + "?form";
             } else {
-            	alert('${category_edit}');            	
+              alert('${category_edit}');
             }
         });
-        
-        dojo.connect(conditionOfUseEditButton, "onClick", function() {        	
-        	if (conditionOfUseDataGrid.getItem(conditionOfUseDataGrid.selection.selectedIndex)) {
-        		var id = conditionOfUseDataGrid.getItem(conditionOfUseDataGrid.selection.selectedIndex).id;
-            	window.location.href="${conditions_url}/" + id + "?form";        		
+
+        dojo.connect(conditionOfUseEditButton, "onClick", function() {
+          if (conditionOfUseDataGrid.getItem(conditionOfUseDataGrid.selection.selectedIndex)) {
+            var id = conditionOfUseDataGrid.getItem(conditionOfUseDataGrid.selection.selectedIndex).id;
+              window.location.href="${conditions_url}/" + id + "?form";
             } else {
-            	alert('${condition_edit}');            	
+              alert('${condition_edit}');
             }
         });
-        
+
         dojo.connect(categoryDeleteButton, "onClick", function() {
-        	if (confirm('${category_delete}')) {
-          		var id = categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex).id;
-          		dojo.xhrDelete({
-              		url: "${categories_url}/" + id,
-              		load: function() {
+          if (confirm('${category_delete}')) {
+              var id = categoryDataGrid.getItem(categoryDataGrid.selection.selectedIndex).id;
+              dojo.xhrDelete({
+                  url: "${categories_url}/" + id,
+                  load: function() {
                         loadGrid(categoryDataGrid, "${categories_datasource}");
                     }
                 });
-        	}
+          }
         });
-                
+
         dojo.connect(conditionOfUseDeleteButton, "onClick", function() {
-        	if (confirm('${condition_delete}')) {
-          		var id = conditionOfUseDataGrid.getItem(conditionOfUseDataGrid.selection.selectedIndex).id;
-          		dojo.xhrDelete({
-              		url: "${conditions_url}/" + id,
-              		load: function() {
+          if (confirm('${condition_delete}')) {
+              var id = conditionOfUseDataGrid.getItem(conditionOfUseDataGrid.selection.selectedIndex).id;
+              dojo.xhrDelete({
+                  url: "${conditions_url}/" + id,
+                  load: function() {
                         loadGrid(conditionOfUseDataGrid, "${conditions_datasource}");
                     }
                 });
-        	}
+          }
         });
-        
+
         dojo.connect(categoryDataGrid, "onRowDblClick", function(event) {
-        	 var id = categoryDataGrid.getItem(event.rowIndex).id;
-        	 window.location.href="${categories_url}/" + id + "?form";
+           var id = categoryDataGrid.getItem(event.rowIndex).id;
+           window.location.href="${categories_url}/" + id + "?form";
         });
-        
+
         dojo.connect(conditionOfUseDataGrid, "onRowDblClick", function(event) {
-      	     var id = conditionOfUseDataGrid.getItem(event.rowIndex).id;
-      	     window.location.href="${conditions_url}/" + id + "?form";
+             var id = conditionOfUseDataGrid.getItem(event.rowIndex).id;
+             window.location.href="${conditions_url}/" + id + "?form";
         });
-        
+
         loadGrid(categoryDataGrid, "${categories_datasource}");
         loadGrid(conditionOfUseDataGrid, "${conditions_datasource}");
     });
     ]]>
     </script>
-    
+
 </div>

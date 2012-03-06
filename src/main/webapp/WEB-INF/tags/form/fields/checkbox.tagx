@@ -15,7 +15,7 @@
     <c:set var="sec_field">
       <spring:escapeBody javaScriptEscape="true">${field}</spring:escapeBody>
     </c:set>
-   
+
     <script type="text/javascript">dojo.require("dijit.form.CheckBox");</script>
     <div id="_${sec_id}_id" class="field field-checkbox">
       <label for="_${sec_field}_id">
@@ -30,7 +30,7 @@
         </c:otherwise>
       </c:choose>
       <script type="text/javascript">
-      	Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id', widgetType : 'dijit.form.CheckBox', widgetAttrs : {}}));
+        Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id', widgetType : 'dijit.form.CheckBox', widgetAttrs : {}}));
       </script>
     </div>
   </c:if>

@@ -12,61 +12,61 @@ import java.util.Date;
 import java.util.List;
 
 privileged aspect DataSource_Roo_JavaBean {
-    
+
     public String DataSource.getCollectionSource() {
         return this.collectionSource;
     }
-    
+
     public void DataSource.setCollectionSource(String collectionSource) {
         this.collectionSource = collectionSource;
     }
-    
+
     public ConditionOfUse DataSource.getConditionOfUse() {
         return this.conditionOfUse;
     }
-    
+
     public void DataSource.setConditionOfUse(ConditionOfUse conditionOfUse) {
         this.conditionOfUse = conditionOfUse;
     }
-    
+
     public Definition DataSource.getDefinition() {
         return this.definition;
     }
-    
+
     public void DataSource.setDefinition(Definition definition) {
         this.definition = definition;
     }
-    
+
     public Organisation DataSource.getOrganisation() {
         return this.organisation;
     }
-    
+
     public void DataSource.setOrganisation(Organisation organisation) {
         this.organisation = organisation;
     }
-    
+
     public Date DataSource.getCollectionDate() {
         return this.collectionDate;
     }
-    
+
     public void DataSource.setCollectionDate(Date collectionDate) {
         this.collectionDate = collectionDate;
     }
-    
+
     public String DataSource.getDetails() {
         return this.details;
     }
-    
+
     public void DataSource.setDetails(String details) {
         this.details = details;
     }
-    
+
     public List<Person> DataSource.getPointsOfContact() {
         return this.pointsOfContact;
     }
-    
+
     public void DataSource.setPointsOfContact(List<Person> pointsOfContact) {
         this.pointsOfContact = pointsOfContact;
     }
-    
+
 }

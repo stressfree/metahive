@@ -18,43 +18,43 @@ import javax.persistence.Version;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect MetahivePreferences_Roo_Entity {
-    
+
     declare @type: MetahivePreferences: @Entity;
-    
+
     @PersistenceContext
     transient EntityManager MetahivePreferences.entityManager;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long MetahivePreferences.id;
-    
+
     @Version
     @Column(name = "version")
     private Integer MetahivePreferences.version;
-    
+
     public Long MetahivePreferences.getId() {
         return this.id;
     }
-    
+
     public void MetahivePreferences.setId(Long id) {
         this.id = id;
     }
-    
+
     public Integer MetahivePreferences.getVersion() {
         return this.version;
     }
-    
+
     public void MetahivePreferences.setVersion(Integer version) {
         this.version = version;
     }
-    
+
     @Transactional
     public void MetahivePreferences.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
-    
+
     @Transactional
     public void MetahivePreferences.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
@@ -65,19 +65,19 @@ privileged aspect MetahivePreferences_Roo_Entity {
             this.entityManager.remove(attached);
         }
     }
-    
+
     @Transactional
     public void MetahivePreferences.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
     }
-    
+
     @Transactional
     public void MetahivePreferences.clear() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.clear();
     }
-    
+
     @Transactional
     public MetahivePreferences MetahivePreferences.merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
@@ -85,28 +85,28 @@ privileged aspect MetahivePreferences_Roo_Entity {
         this.entityManager.flush();
         return merged;
     }
-    
+
     public static final EntityManager MetahivePreferences.entityManager() {
         EntityManager em = new MetahivePreferences().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
-    
+
     public static long MetahivePreferences.countMetahivePreferenceses() {
         return entityManager().createQuery("SELECT COUNT(o) FROM MetahivePreferences o", Long.class).getSingleResult();
     }
-    
+
     public static List<MetahivePreferences> MetahivePreferences.findAllMetahivePreferenceses() {
         return entityManager().createQuery("SELECT o FROM MetahivePreferences o", MetahivePreferences.class).getResultList();
     }
-    
+
     public static MetahivePreferences MetahivePreferences.findMetahivePreferences(Long id) {
         if (id == null) return null;
         return entityManager().find(MetahivePreferences.class, id);
     }
-    
+
     public static List<MetahivePreferences> MetahivePreferences.findMetahivePreferencesEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM MetahivePreferences o", MetahivePreferences.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
-    
+
 }

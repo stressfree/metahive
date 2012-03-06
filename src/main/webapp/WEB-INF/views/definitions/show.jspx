@@ -2,209 +2,209 @@
 <div class="yui-g definition" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:sec="http://www.springframework.org/security/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:form="http://www.springframework.org/tags/form" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    
+
     <metahive:dictionary />
-    
+
     <spring:url value="/definitions" var="browse" />
     <div class="definition-title">
-    	<h1>
-    		<span class="browse"><a href="${browse}"><spring:message code="metahive_browse" /></a> &#187; </span>
-    		<c:out value="${definition.name}" escapeXml="true" />
-    	</h1>
+      <h1>
+        <span class="browse"><a href="${browse}"><spring:message code="metahive_browse" /></a> &#187; </span>
+        <c:out value="${definition.name}" escapeXml="true" />
+      </h1>
     </div>
-    
+
     <div class="metadata">
-    	<div class="definitiontype">
-    		<h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_definitiontype" />:</h4>
-    		<spring:message code="${definition.definitionType.messageKey}" />
-    	</div>    	
-    	<div class="categories">
-	    	<spring:url value="/definitions?category=${definition.category.name}" var="categoryLink" />
-    		<h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_category" />:</h4>
-    		<a href="${categoryLink}"><c:out value="${definition.category.name}" escapeXml="true" /></a> (<c:out value="${definition.applicability.metahiveName}" escapeXml="true" />)
-    	</div>
-    	<div class="datatype">
-    		<h4><spring:message code="label_com_sfs_metahive_model_definition_datatypeandmeasure" />:</h4>
-    		<spring:message code="${definition.dataType.messageKey}" />
-    		<c:if test="${not empty definition.description.unitOfMeasure}">
-			<c:out value=" (${definition.description.unitOfMeasure})" escapeXml="true" />
-			</c:if>
-		</div>
-    	<div class="examplevalue">
-    		<h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_examplevalues" />:</h4>
-    		<c:out value="${definition.description.exampleValues}" escapeXml="true" />
-    	</div>
+      <div class="definitiontype">
+        <h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_definitiontype" />:</h4>
+        <spring:message code="${definition.definitionType.messageKey}" />
+      </div>
+      <div class="categories">
+        <spring:url value="/definitions?category=${definition.category.name}" var="categoryLink" />
+        <h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_category" />:</h4>
+        <a href="${categoryLink}"><c:out value="${definition.category.name}" escapeXml="true" /></a> (<c:out value="${definition.applicability.metahiveName}" escapeXml="true" />)
+      </div>
+      <div class="datatype">
+        <h4><spring:message code="label_com_sfs_metahive_model_definition_datatypeandmeasure" />:</h4>
+        <spring:message code="${definition.dataType.messageKey}" />
+        <c:if test="${not empty definition.description.unitOfMeasure}">
+      <c:out value=" (${definition.description.unitOfMeasure})" escapeXml="true" />
+      </c:if>
     </div>
-    
+      <div class="examplevalue">
+        <h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_examplevalues" />:</h4>
+        <c:out value="${definition.description.exampleValues}" escapeXml="true" />
+      </div>
+    </div>
+
     <div class="details">
-    	<c:if test="${not empty definition.summaryDefinition}">
-    		<spring:url value="/definitions/${definition.summaryDefinition.id}" var="definitionLink" />
-    		<div class="summaryDefinition">
-    			<p>
-    				<strong><spring:message code="label_com_sfs_metahive_model_definition_summarydefinition" />:</strong>
-    				<c:out value=" " /><a href="${definitionLink}"><c:out value="${definition.summaryDefinition.name}" /></a>
-    			</p>
-    		</div>
-    	</c:if>
-    	<c:if test="${definition.definitionType ne 'STANDARD'}">
-    		<div class="relatedDefinitions">
-    			<spring:message code="label_com_sfs_metahive_model_definition_summariseddefinitions" var="relatedDefinitionTitle" />
-    			<c:set var="relatedDefinitions" value="${definition.summarisedDefinitions}" />
-    			<c:if test="${definition.definitionType eq 'CALCULATED'}">
-    				<spring:message code="label_com_sfs_metahive_model_definition_calculateddefinitions" var="relatedDefinitionTitle" />
-    				<c:set var="relatedDefinitions" value="${definition.calculatedDefinitions}" />
-    			</c:if>    			
-    			<strong><c:out value="${relatedDefinitionTitle}" />:</strong>
-				<ul>
-    				<c:forEach items="${relatedDefinitions}" var="relatedDefinition">
-    					<spring:url value="/definitions/${relatedDefinition.id}" var="definitionLink" />
-    					<li>
-    						<c:if test="${definition.definitionType eq 'CALCULATED'}">
-    							<span class="variable">D<c:out value="${relatedDefinition.id}" /></span>
-    							<c:out value=" " />
-    						</c:if>
-    						<a href="${definitionLink}"><c:out value="${relatedDefinition.name}" /></a>
-    					</li>
-    				</c:forEach>
-    			</ul>
-    		</div>
-    	</c:if>    	
-    	<c:if test="${definition.definitionType eq 'CALCULATED'}">
-    		<div class="calculation">
-    			<p>
-    				<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_calculation" />:</strong>
-    				<c:out value=" " /><c:out value="${definition.calculation}" escapeXml="false" />
-    			</p>
-    		</div>
-    	</c:if>
-    	<div class="keyvalue">
-    		<c:if test="${definition.definitionType ne 'CALCULATED'}">
-    			<p>
-    				<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvaluegenerator" />:</strong>
-    				<c:out value=" " /><spring:message code="${definition.keyValueGenerator.messageKey}" />
-				</p>
-			</c:if>
-			<p>
-    			<strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvalueaccess" />:</strong>
-    			<c:out value=" " /><spring:message code="${definition.keyValueAccess.messageKey}" />
-    		</p>
-    	</div>
-    	<div class="description"><c:out value="${definition.description.description}" escapeXml="false" /></div>
+      <c:if test="${not empty definition.summaryDefinition}">
+        <spring:url value="/definitions/${definition.summaryDefinition.id}" var="definitionLink" />
+        <div class="summaryDefinition">
+          <p>
+            <strong><spring:message code="label_com_sfs_metahive_model_definition_summarydefinition" />:</strong>
+            <c:out value=" " /><a href="${definitionLink}"><c:out value="${definition.summaryDefinition.name}" /></a>
+          </p>
+        </div>
+      </c:if>
+      <c:if test="${definition.definitionType ne 'STANDARD'}">
+        <div class="relatedDefinitions">
+          <spring:message code="label_com_sfs_metahive_model_definition_summariseddefinitions" var="relatedDefinitionTitle" />
+          <c:set var="relatedDefinitions" value="${definition.summarisedDefinitions}" />
+          <c:if test="${definition.definitionType eq 'CALCULATED'}">
+            <spring:message code="label_com_sfs_metahive_model_definition_calculateddefinitions" var="relatedDefinitionTitle" />
+            <c:set var="relatedDefinitions" value="${definition.calculatedDefinitions}" />
+          </c:if>
+          <strong><c:out value="${relatedDefinitionTitle}" />:</strong>
+        <ul>
+            <c:forEach items="${relatedDefinitions}" var="relatedDefinition">
+              <spring:url value="/definitions/${relatedDefinition.id}" var="definitionLink" />
+              <li>
+                <c:if test="${definition.definitionType eq 'CALCULATED'}">
+                  <span class="variable">D<c:out value="${relatedDefinition.id}" /></span>
+                  <c:out value=" " />
+                </c:if>
+                <a href="${definitionLink}"><c:out value="${relatedDefinition.name}" /></a>
+              </li>
+            </c:forEach>
+          </ul>
+        </div>
+      </c:if>
+      <c:if test="${definition.definitionType eq 'CALCULATED'}">
+        <div class="calculation">
+          <p>
+            <strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_calculation" />:</strong>
+            <c:out value=" " /><c:out value="${definition.calculation}" escapeXml="false" />
+          </p>
+        </div>
+      </c:if>
+      <div class="keyvalue">
+        <c:if test="${definition.definitionType ne 'CALCULATED'}">
+          <p>
+            <strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvaluegenerator" />:</strong>
+            <c:out value=" " /><spring:message code="${definition.keyValueGenerator.messageKey}" />
+        </p>
+      </c:if>
+      <p>
+          <strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvalueaccess" />:</strong>
+          <c:out value=" " /><spring:message code="${definition.keyValueAccess.messageKey}" />
+        </p>
+      </div>
+      <div class="description"><c:out value="${definition.description.description}" escapeXml="false" /></div>
     </div>
     <c:if test="${definition.definitionType eq 'STANDARD'}">
-	    <div class="datasources">    	    
-	    	<h4><spring:message code="label_com_sfs_metahive_model_datasource_plural" />:</h4>
-	    	<ul>
-	    	<c:forEach items="${definition.dataSources}" var="dataSource">
-	    		<li class="datasource">    			
-	    			<div class="datasource-name">
-	    				<strong>
-	    					<c:if test="${not empty dataSource.collectionSource}">
-	    						<c:out value="${dataSource.collectionSource}" escapeXml="true" /><c:out value=" " />
-	    						<span><spring:message code="metahive_contributedby" htmlEscape="true" /></span><c:out value=" " />
-	    					</c:if>
-	    					<c:out value="${dataSource.organisation.name}" escapeXml="true" />    			
-	    				</strong>
-	    			</div>
-	    			<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
-	    			<div class="actions">
-	    				<spring:url value="/datasources/${dataSource.id}" var="update_datasource_url" />
-	   					<form dojoType="dijit.form.Form" action="${fn:escapeXml(update_datasource_url)}">
-	   						<input type="hidden" name="form" />
-	               			<button type="submit"><spring:message code="metahive_button_edit" /></button>
-	             		</form>
-	    				<sec:authorize ifAllGranted="ROLE_ADMIN">
-	    					<spring:url value="/datasources/${dataSource.id}" var="delete_datasource_url" />
-	    					<form:form action="${fn:escapeXml(delete_datasource_url)}" method="DELETE">
-	                			<spring:message arguments="data source" code="entity_delete" var="delete_label" htmlEscape="false" />
-	                			<c:set var="delete_confirm_msg">
-	                  				<spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
-	                			</c:set>
-	                			<button onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
-	              			</form:form>
-	              		</sec:authorize>
-	              	</div>
-	              	</sec:authorize>
-	    			<c:if test="${not empty dataSource.collectionDate}">
-	    				<div class="datasource-collectiondate">
-	    			   		<strong><spring:message code="label_com_sfs_metahive_model_datasource_collectiondate" />: </strong>
-	    			   		<fmt:formatDate pattern="d/M/yyyy" value="${dataSource.collectionDate}" />
-	    				</div>
-	    			</c:if>
-	    			<div class="datasource-conditions">
-	    			   <strong><spring:message code="label_com_sfs_metahive_model_conditionofuse" />: </strong>
-	    			   <c:out value="${dataSource.conditionOfUse.name}" escapeXml="true" />
-	    			</div>
-	    			<div class="datasource-contacts">
-	    				<strong><spring:message code="label_com_sfs_metahive_model_datasource_pointsofcontact" />: </strong>
-	    				<c:forEach items="${dataSource.pointsOfContact}" var="person" varStatus="status">
-	    					<c:if test="${status.count > 1}">,</c:if>
-	    					<c:out value="${person.formattedName}" escapeXml="true" />
-	    				</c:forEach>
-	    			</div>
-	    			<div class="datasource-details">
-	    				<c:out value="${dataSource.details}" escapeXml="false" />
-	    			</div>
-	    		</li>
-	    	</c:forEach>
-	    	</ul>    	
-	    	<sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
-	    		<c:if test="${not empty organisations}">
-	    			<div class="actions-add">
-	    			<spring:url value="/datasources" var="create_datasource_url" />
-	   					<form dojoType="dijit.form.Form" action="${fn:escapeXml(create_datasource_url)}">
-	   						<input type="hidden" name="form" />
-	   						<input type="hidden" name="definition" value="${definition.id}" />
-	   				
-	   						<label for="organisation"><spring:message code="metahive_add_datasource" htmlEscape="true" />: </label>
-							<select dojoType="dijit.form.Select" name="organisation" id="organisation">
-								<c:forEach items="${organisations}" var="organisation">
-								<option value="${organisation.id}"><c:out value="${organisation.name}" escapeXml="true" /></option>
-								</c:forEach>
-							</select>
-	            			<button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_add" /></button>
-	        			</form>
-	        		</div>
-	        	</c:if>
-	        </sec:authorize>    	
-	    </div>
+      <div class="datasources">
+        <h4><spring:message code="label_com_sfs_metahive_model_datasource_plural" />:</h4>
+        <ul>
+        <c:forEach items="${definition.dataSources}" var="dataSource">
+          <li class="datasource">
+            <div class="datasource-name">
+              <strong>
+                <c:if test="${not empty dataSource.collectionSource}">
+                  <c:out value="${dataSource.collectionSource}" escapeXml="true" /><c:out value=" " />
+                  <span><spring:message code="metahive_contributedby" htmlEscape="true" /></span><c:out value=" " />
+                </c:if>
+                <c:out value="${dataSource.organisation.name}" escapeXml="true" />
+              </strong>
+            </div>
+            <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
+            <div class="actions">
+              <spring:url value="/datasources/${dataSource.id}" var="update_datasource_url" />
+               <form dojoType="dijit.form.Form" action="${fn:escapeXml(update_datasource_url)}">
+                 <input type="hidden" name="form" />
+                       <button type="submit"><spring:message code="metahive_button_edit" /></button>
+                   </form>
+              <sec:authorize ifAllGranted="ROLE_ADMIN">
+                <spring:url value="/datasources/${dataSource.id}" var="delete_datasource_url" />
+                <form:form action="${fn:escapeXml(delete_datasource_url)}" method="DELETE">
+                        <spring:message arguments="data source" code="entity_delete" var="delete_label" htmlEscape="false" />
+                        <c:set var="delete_confirm_msg">
+                            <spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
+                        </c:set>
+                        <button onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
+                      </form:form>
+                    </sec:authorize>
+                  </div>
+                  </sec:authorize>
+            <c:if test="${not empty dataSource.collectionDate}">
+              <div class="datasource-collectiondate">
+                   <strong><spring:message code="label_com_sfs_metahive_model_datasource_collectiondate" />: </strong>
+                   <fmt:formatDate pattern="d/M/yyyy" value="${dataSource.collectionDate}" />
+              </div>
+            </c:if>
+            <div class="datasource-conditions">
+               <strong><spring:message code="label_com_sfs_metahive_model_conditionofuse" />: </strong>
+               <c:out value="${dataSource.conditionOfUse.name}" escapeXml="true" />
+            </div>
+            <div class="datasource-contacts">
+              <strong><spring:message code="label_com_sfs_metahive_model_datasource_pointsofcontact" />: </strong>
+              <c:forEach items="${dataSource.pointsOfContact}" var="person" varStatus="status">
+                <c:if test="${status.count > 1}">,</c:if>
+                <c:out value="${person.formattedName}" escapeXml="true" />
+              </c:forEach>
+            </div>
+            <div class="datasource-details">
+              <c:out value="${dataSource.details}" escapeXml="false" />
+            </div>
+          </li>
+        </c:forEach>
+        </ul>
+        <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
+          <c:if test="${not empty organisations}">
+            <div class="actions-add">
+            <spring:url value="/datasources" var="create_datasource_url" />
+               <form dojoType="dijit.form.Form" action="${fn:escapeXml(create_datasource_url)}">
+                 <input type="hidden" name="form" />
+                 <input type="hidden" name="definition" value="${definition.id}" />
+
+                 <label for="organisation"><spring:message code="metahive_add_datasource" htmlEscape="true" />: </label>
+              <select dojoType="dijit.form.Select" name="organisation" id="organisation">
+                <c:forEach items="${organisations}" var="organisation">
+                <option value="${organisation.id}"><c:out value="${organisation.name}" escapeXml="true" /></option>
+                </c:forEach>
+              </select>
+                    <button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_add" /></button>
+                </form>
+              </div>
+            </c:if>
+          </sec:authorize>
+      </div>
     </c:if>
-	
-   	<sec:authorize ifAnyGranted="ROLE_USER,ROLE_EDITOR,ROLE_ADMIN">
-    	<div class="comments">
-    		<h4><spring:message code="label_com_sfs_metahive_model_comment_plural" />:</h4>
-    		<c:forEach items="${definition.comments}" var="comment">
-    			<spring:message code="label_com_sfs_metahive_model_${comment.relatedObject}" var="commentObject" />
-    			<c:set var="commentDate"><fmt:formatDate pattern="d/M/yyyy" value="${comment.created}" /></c:set>
-    			<c:set var="commentTime"><fmt:formatDate pattern="h:mma" value="${comment.created}" /></c:set>
-    			<div class="comment">   			
-    				<div class="detail">
-    					<spring:message code="${comment.commentType.messageKey}" htmlEscape="false" arguments="${comment.person.formattedName},${fn:toLowerCase(commentObject)},${commentDate},${fn:toLowerCase(commentTime)}" />
-    				</div>
-    				<sec:authorize ifAnyGranted="ROLE_ADMIN">
-	    				<div class="actions">
-	    					<spring:url value="/comments/${comment.id}" var="delete_comment_url" />
-	    					<form:form action="${fn:escapeXml(delete_comment_url)}" method="DELETE">
-	                			<spring:message arguments="comment" code="entity_delete" var="delete_label" htmlEscape="false" />
-	                			<c:set var="delete_confirm_msg">
-	                  				<spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
-	                			</c:set>
-	                			<button onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
-	              			</form:form>
-	              		</div>
-              		</sec:authorize>    				
-    				<div class="message"><c:out value="${fn:trim(comment.message)}" escapeXml="false" /></div>
-    			</div>
-    		</c:forEach>
-    		<div class="actions-add">
-	    		<spring:url value="/comments" var="add_comment_url" />
-	    		<spring:message code="metahive_add_comment" var="addComment" />
-	    		<form:form action="${fn:escapeXml(add_comment_url)}" method="POST" modelAttribute="comment">
-	    			<form:hidden path="definition.id" />
-	                <field:editor label="${addComment}" field="message" required="true" id="c_com_sfs_metahive_model_Comment_message" z="user-managed" />
-	                <button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_post" /></button>
-	            </form:form>
-    		</div>
-   		</div>
+
+     <sec:authorize ifAnyGranted="ROLE_USER,ROLE_EDITOR,ROLE_ADMIN">
+      <div class="comments">
+        <h4><spring:message code="label_com_sfs_metahive_model_comment_plural" />:</h4>
+        <c:forEach items="${definition.comments}" var="comment">
+          <spring:message code="label_com_sfs_metahive_model_${comment.relatedObject}" var="commentObject" />
+          <c:set var="commentDate"><fmt:formatDate pattern="d/M/yyyy" value="${comment.created}" /></c:set>
+          <c:set var="commentTime"><fmt:formatDate pattern="h:mma" value="${comment.created}" /></c:set>
+          <div class="comment">
+            <div class="detail">
+              <spring:message code="${comment.commentType.messageKey}" htmlEscape="false" arguments="${comment.person.formattedName},${fn:toLowerCase(commentObject)},${commentDate},${fn:toLowerCase(commentTime)}" />
+            </div>
+            <sec:authorize ifAnyGranted="ROLE_ADMIN">
+              <div class="actions">
+                <spring:url value="/comments/${comment.id}" var="delete_comment_url" />
+                <form:form action="${fn:escapeXml(delete_comment_url)}" method="DELETE">
+                        <spring:message arguments="comment" code="entity_delete" var="delete_label" htmlEscape="false" />
+                        <c:set var="delete_confirm_msg">
+                            <spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
+                        </c:set>
+                        <button onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
+                      </form:form>
+                    </div>
+                  </sec:authorize>
+            <div class="message"><c:out value="${fn:trim(comment.message)}" escapeXml="false" /></div>
+          </div>
+        </c:forEach>
+        <div class="actions-add">
+          <spring:url value="/comments" var="add_comment_url" />
+          <spring:message code="metahive_add_comment" var="addComment" />
+          <form:form action="${fn:escapeXml(add_comment_url)}" method="POST" modelAttribute="comment">
+            <form:hidden path="definition.id" />
+                  <field:editor label="${addComment}" field="message" required="true" id="c_com_sfs_metahive_model_Comment_message" z="user-managed" />
+                  <button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_post" /></button>
+              </form:form>
+        </div>
+       </div>
     </sec:authorize>
 </div>

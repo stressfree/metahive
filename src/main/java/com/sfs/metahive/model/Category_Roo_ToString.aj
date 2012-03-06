@@ -6,7 +6,7 @@ package com.sfs.metahive.model;
 import java.lang.String;
 
 privileged aspect Category_Roo_ToString {
-    
+
     public String Category.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Definitions: ").append(getDefinitions() == null ? "null" : getDefinitions().size()).append(", ");
@@ -15,5 +15,5 @@ privileged aspect Category_Roo_ToString {
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }
-    
+
 }

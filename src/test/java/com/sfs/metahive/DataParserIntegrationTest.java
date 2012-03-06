@@ -11,12 +11,12 @@ import org.junit.Test;
  */
 public class DataParserIntegrationTest {
 
-	/**
-	 * Test the parseTextData function.
-	 */
-	@Test
-	public void parseTextData() {
-		
+    /**
+     * Test the parseTextData function.
+     */
+    @Test
+    public void parseTextData() {
+
         final int expRows = 3;
         final int expColumns = 4;
 
@@ -32,6 +32,6 @@ public class DataParserIntegrationTest {
         for (int rowNum = 0; rowNum < result.length; rowNum++) {
             assertEquals(expColumns, result[rowNum].length);
         }
-	}
-	
+    }
+
 }

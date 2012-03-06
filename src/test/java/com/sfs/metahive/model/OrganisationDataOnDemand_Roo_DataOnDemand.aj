@@ -15,19 +15,19 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 privileged aspect OrganisationDataOnDemand_Roo_DataOnDemand {
-    
+
     declare @type: OrganisationDataOnDemand: @Component;
-    
+
     private Random OrganisationDataOnDemand.rnd = new SecureRandom();
-    
+
     private List<Organisation> OrganisationDataOnDemand.data;
-    
+
     public Organisation OrganisationDataOnDemand.getNewTransientOrganisation(int index) {
         Organisation obj = new Organisation();
         setName(obj, index);
         return obj;
     }
-    
+
     public void OrganisationDataOnDemand.setName(Organisation obj, int index) {
         String name = "name_" + index;
         if (name.length() > 100) {
@@ -35,7 +35,7 @@ privileged aspect OrganisationDataOnDemand_Roo_DataOnDemand {
         }
         obj.setName(name);
     }
-    
+
     public Organisation OrganisationDataOnDemand.getSpecificOrganisation(int index) {
         init();
         if (index < 0) index = 0;
@@ -43,24 +43,24 @@ privileged aspect OrganisationDataOnDemand_Roo_DataOnDemand {
         Organisation obj = data.get(index);
         return Organisation.findOrganisation(obj.getId());
     }
-    
+
     public Organisation OrganisationDataOnDemand.getRandomOrganisation() {
         init();
         Organisation obj = data.get(rnd.nextInt(data.size()));
         return Organisation.findOrganisation(obj.getId());
     }
-    
+
     public boolean OrganisationDataOnDemand.modifyOrganisation(Organisation obj) {
         return false;
     }
-    
+
     public void OrganisationDataOnDemand.init() {
         data = Organisation.findOrganisationEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Organisation' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
-        
+
         data = new ArrayList<com.sfs.metahive.model.Organisation>();
         for (int i = 0; i < 10; i++) {
             Organisation obj = getNewTransientOrganisation(i);
@@ -78,5 +78,5 @@ privileged aspect OrganisationDataOnDemand_Roo_DataOnDemand {
             data.add(obj);
         }
     }
-    
+
 }

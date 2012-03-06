@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2012 David Harrison, Triptech Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/gpl.html
+ * 
+ * Contributors:
+ *     David Harrison, Triptech Ltd - initial API and implementation
+ ******************************************************************************/
 package com.sfs.metahive.service;
 
 import java.io.File;
@@ -29,11 +39,11 @@ public class EmailSenderService {
 
     /** The logger. */
     private static Logger logger = Logger.getLogger(EmailSenderService.class);
-	
+
     /** The java mail sender. */
     @Autowired
     private transient JavaMailSender mailSender;
-	
+
     /**
      * Send an email message using the configured Spring sender. On success
      * record the sent message in the datastore for reporting purposes
@@ -43,7 +53,7 @@ public class EmailSenderService {
      * @throws ServiceException the service exception
      */
     public final void send(final SimpleMailMessage email,
-    		TreeMap<String, Object> attachments) throws ServiceException {
+            TreeMap<String, Object> attachments) throws ServiceException {
 
         // Check to see whether the required fields are set (to, from, message)
         if (email.getTo() == null) {
@@ -68,7 +78,7 @@ public class EmailSenderService {
         MimeMessageHelper helper = null;
         boolean htmlMessage = false;
         if (StringUtils.containsIgnoreCase(email.getText(), "<html")) {
-        	htmlMessage = true;
+            htmlMessage = true;
             try {
                 helper = new MimeMessageHelper(message, true, "UTF-8");
             } catch (MessagingException me) {
@@ -80,35 +90,35 @@ public class EmailSenderService {
         }
 
         try {
-        	helper.setTo(email.getTo());
-        	helper.setFrom(email.getFrom());
+            helper.setTo(email.getTo());
+            helper.setFrom(email.getFrom());
             helper.setSubject(email.getSubject());
-        	
-        	if (email.getCc() != null) {
-        		helper.setCc(email.getCc());
-        	}
-        	if (email.getBcc() != null) {
-        		helper.setBcc(email.getBcc());
-        	}
-        	
+
+            if (email.getCc() != null) {
+                helper.setCc(email.getCc());
+            }
+            if (email.getBcc() != null) {
+                helper.setBcc(email.getBcc());
+            }
+
             if (htmlMessage) {
                 String plainText = email.getText();
                 try {
                     ConvertHtmlToText htmlToText = new ConvertHtmlToText();
                     plainText = htmlToText.convert(email.getText());
                 } catch (Exception e) {
-                	logger.error("Error converting HTML to plain text: "
+                    logger.error("Error converting HTML to plain text: "
                             + e.getMessage());
                 }
                 helper.setText(plainText, email.getText());
             } else {
                 helper.setText(email.getText());
             }
-            
+
             if (email.getSentDate() != null) {
                 helper.setSentDate(email.getSentDate());
             } else {
-            	helper.setSentDate(Calendar.getInstance().getTime());
+                helper.setSentDate(Calendar.getInstance().getTime());
             }
 
         } catch (MessagingException me) {
@@ -127,8 +137,8 @@ public class EmailSenderService {
                                 (File) reference);
                         helper.addInline(id, res);
                     } catch (MessagingException me) {
-                    	logger.error("Error appending File attachment: " 
-                    			+ me.getMessage());
+                        logger.error("Error appending File attachment: "
+                                + me.getMessage());
                     }
                 }
                 if (reference instanceof URL) {
@@ -136,7 +146,7 @@ public class EmailSenderService {
                         UrlResource res = new UrlResource((URL) reference);
                         helper.addInline(id, res);
                     } catch (MessagingException me) {
-                    	logger.error("Error appending URL attachment: "
+                        logger.error("Error appending URL attachment: "
                                 + me.getMessage());
                     }
                 }
@@ -151,5 +161,5 @@ public class EmailSenderService {
             throw new ServiceException("Error sending email: " + me.getMessage());
         }
     }
-    
+
 }

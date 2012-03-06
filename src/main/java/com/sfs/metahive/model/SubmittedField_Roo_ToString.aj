@@ -6,7 +6,7 @@ package com.sfs.metahive.model;
 import java.lang.String;
 
 privileged aspect SubmittedField_Roo_ToString {
-    
+
     public String SubmittedField.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Created: ").append(getCreated()).append(", ");
@@ -22,5 +22,5 @@ privileged aspect SubmittedField_Roo_ToString {
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }
-    
+
 }

@@ -6,13 +6,13 @@ package com.sfs.metahive.web.model;
 import java.lang.String;
 
 privileged aspect RecordFilter_Roo_JavaBean {
-    
+
     public String RecordFilter.getRecordId() {
         return this.recordId;
     }
-    
+
     public void RecordFilter.setRecordId(String recordId) {
         this.recordId = recordId;
     }
-    
+
 }

@@ -23,16 +23,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
-    
+
     declare @type: DefinitionDataOnDemand: @Component;
-    
+
     private Random DefinitionDataOnDemand.rnd = new SecureRandom();
-    
+
     private List<Definition> DefinitionDataOnDemand.data;
-    
+
     @Autowired
     private CategoryDataOnDemand DefinitionDataOnDemand.categoryDataOnDemand;
-    
+
     public Definition DefinitionDataOnDemand.getNewTransientDefinition(int index) {
         Definition obj = new Definition();
         setApplicability(obj, index);
@@ -46,42 +46,42 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
         setSummaryDefinition(obj, index);
         return obj;
     }
-    
+
     public void DefinitionDataOnDemand.setApplicability(Definition obj, int index) {
         Applicability applicability = Applicability.class.getEnumConstants()[0];
         obj.setApplicability(applicability);
     }
-    
+
     public void DefinitionDataOnDemand.setCalculation(Definition obj, int index) {
         String calculation = "calculation_" + index;
         obj.setCalculation(calculation);
     }
-    
+
     public void DefinitionDataOnDemand.setCategory(Definition obj, int index) {
         Category category = categoryDataOnDemand.getRandomCategory();
         obj.setCategory(category);
     }
-    
+
     public void DefinitionDataOnDemand.setDataType(Definition obj, int index) {
         DataType dataType = DataType.class.getEnumConstants()[0];
         obj.setDataType(dataType);
     }
-    
+
     public void DefinitionDataOnDemand.setDefinitionType(Definition obj, int index) {
         DefinitionType definitionType = DefinitionType.class.getEnumConstants()[0];
         obj.setDefinitionType(definitionType);
     }
-    
+
     public void DefinitionDataOnDemand.setKeyValueAccess(Definition obj, int index) {
         UserRole keyValueAccess = UserRole.class.getEnumConstants()[0];
         obj.setKeyValueAccess(keyValueAccess);
     }
-    
+
     public void DefinitionDataOnDemand.setKeyValueGenerator(Definition obj, int index) {
         KeyValueGenerator keyValueGenerator = KeyValueGenerator.class.getEnumConstants()[0];
         obj.setKeyValueGenerator(keyValueGenerator);
     }
-    
+
     public void DefinitionDataOnDemand.setName(Definition obj, int index) {
         String name = "name_" + index;
         if (name.length() > 100) {
@@ -89,12 +89,12 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
         }
         obj.setName(name);
     }
-    
+
     public void DefinitionDataOnDemand.setSummaryDefinition(Definition obj, int index) {
         Definition summaryDefinition = obj;
         obj.setSummaryDefinition(summaryDefinition);
     }
-    
+
     public Definition DefinitionDataOnDemand.getSpecificDefinition(int index) {
         init();
         if (index < 0) index = 0;
@@ -102,24 +102,24 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
         Definition obj = data.get(index);
         return Definition.findDefinition(obj.getId());
     }
-    
+
     public Definition DefinitionDataOnDemand.getRandomDefinition() {
         init();
         Definition obj = data.get(rnd.nextInt(data.size()));
         return Definition.findDefinition(obj.getId());
     }
-    
+
     public boolean DefinitionDataOnDemand.modifyDefinition(Definition obj) {
         return false;
     }
-    
+
     public void DefinitionDataOnDemand.init() {
         data = Definition.findDefinitionEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Definition' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
-        
+
         data = new ArrayList<com.sfs.metahive.model.Definition>();
         for (int i = 0; i < 10; i++) {
             Definition obj = getNewTransientDefinition(i);
@@ -137,5 +137,5 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
             data.add(obj);
         }
     }
-    
+
 }

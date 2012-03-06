@@ -19,7 +19,7 @@
     <c:if test="${empty dateTimePattern}">
       <c:set value="MM/dd/yyyy" var="dateTimePattern" />
     </c:if>
-      
+
     <c:choose>
       <c:when test="${date and empty columnTypes}">
         <c:set var="columnTypes" value="date" scope="request" />

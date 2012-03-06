@@ -1,13 +1,13 @@
 <jsp:root xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-	<jsp:output omit-xml-declaration="yes"/>
-	
-	<div id="administrationmenu">
-		<h3><spring:message code="menu_item_administration_administration_label" /></h3>
-		<ul>
-			<menu:item id="i_administration_preferences" url="/preferences" z="user-managed"/>
-			<menu:item id="i_administration_people" url="/people" z="user-managed"/>
-			<menu:item id="i_administration_organisations" url="/organisations" z="user-managed"/>
-			<menu:item id="i_administration_list" url="/lists" z="user-managed"/>
-		</ul>
-	</div>
+  <jsp:output omit-xml-declaration="yes"/>
+
+  <div id="administrationmenu">
+    <h3><spring:message code="menu_item_administration_administration_label" /></h3>
+    <ul>
+      <menu:item id="i_administration_preferences" url="/preferences" z="user-managed"/>
+      <menu:item id="i_administration_people" url="/people" z="user-managed"/>
+      <menu:item id="i_administration_organisations" url="/organisations" z="user-managed"/>
+      <menu:item id="i_administration_list" url="/lists" z="user-managed"/>
+    </ul>
+  </div>
 </jsp:root>

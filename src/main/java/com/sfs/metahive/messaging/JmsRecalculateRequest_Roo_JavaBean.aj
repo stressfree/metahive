@@ -7,37 +7,37 @@ import java.lang.Long;
 import java.lang.String;
 
 privileged aspect JmsRecalculateRequest_Roo_JavaBean {
-    
+
     public String JmsRecalculateRequest.getPrimaryRecordId() {
         return this.primaryRecordId;
     }
-    
+
     public void JmsRecalculateRequest.setPrimaryRecordId(String primaryRecordId) {
         this.primaryRecordId = primaryRecordId;
     }
-    
+
     public String JmsRecalculateRequest.getSecondaryRecordId() {
         return this.secondaryRecordId;
     }
-    
+
     public void JmsRecalculateRequest.setSecondaryRecordId(String secondaryRecordId) {
         this.secondaryRecordId = secondaryRecordId;
     }
-    
+
     public String JmsRecalculateRequest.getTertiaryRecordId() {
         return this.tertiaryRecordId;
     }
-    
+
     public void JmsRecalculateRequest.setTertiaryRecordId(String tertiaryRecordId) {
         this.tertiaryRecordId = tertiaryRecordId;
     }
-    
+
     public Long JmsRecalculateRequest.getDefinitionId() {
         return this.definitionId;
     }
-    
+
     public void JmsRecalculateRequest.setDefinitionId(Long definitionId) {
         this.definitionId = definitionId;
     }
-    
+
 }

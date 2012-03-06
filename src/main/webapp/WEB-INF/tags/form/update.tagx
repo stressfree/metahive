@@ -31,8 +31,8 @@
     <spring:message arguments="${fn:toLowerCase(label)}" code="entity_update" var="title_msg" htmlEscape="false" />
     <c:if test="${!empty title}">
       <spring:message code="${title}" var="title_msg" htmlEscape="false" />
-    </c:if> 
-    
+    </c:if>
+
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <spring:url value="${path}" var="form_url" />
       <form:form action="${fn:escapeXml(form_url)}" method="PUT" modelAttribute="${modelAttribute}" enctype="${enctype}" dojoType="dijit.form.Form">
@@ -43,7 +43,7 @@
           <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
           <button id="proceed" type="submit" dojoType="dijit.form.Button"><c:out value="${fn:escapeXml(save_button)}" /></button>
           <c:if test="${not empty cancelAction}">
-        	<div id="cancelButton" dojoType="dijit.form.Button" jsId="cancelButton"><spring:message code="metahive_button_cancel" /></div>
+          <div id="cancelButton" dojoType="dijit.form.Button" jsId="cancelButton"><spring:message code="metahive_button_cancel" /></div>
           </c:if>
         </div>
         <form:hidden id="_${fn:escapeXml(idField)}_id" path="${fn:escapeXml(idField)}" />

@@ -1,104 +1,104 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div class="yui-g" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:sec="http://www.springframework.org/security/tags" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
-    
-   	<spring:message var="submission_heading" code="metahive_submissions" />
-   	<spring:message var="submission_created" code="label_com_sfs_metahive_model_submission_created" />
-   	<spring:message var="submission_person" code="label_com_sfs_metahive_model_submission_person" />
-   	<spring:message var="submission_organisation" code="label_com_sfs_metahive_model_submission_organisation" />
-   	 	
+
+     <spring:message var="submission_heading" code="metahive_submissions" />
+     <spring:message var="submission_created" code="label_com_sfs_metahive_model_submission_created" />
+     <spring:message var="submission_person" code="label_com_sfs_metahive_model_submission_person" />
+     <spring:message var="submission_organisation" code="label_com_sfs_metahive_model_submission_organisation" />
+
     <util:panel id="_submission_heading" title="${submission_heading}">
-   	  <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_CONTRIBUTOR">
-	  	 <div id="contributeButton" dojoType="dijit.form.Button" jsId="contributeButton"><spring:message code="metahive_button_add" /></div>
-	  </sec:authorize>
-	  <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR">
-	  	 <div id="submissionDeleteButton" dojoType="dijit.form.Button" jsId="submissionDeleteButton"><spring:message code="metahive_button_delete" /></div>
-	  </sec:authorize>
+       <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_CONTRIBUTOR">
+       <div id="contributeButton" dojoType="dijit.form.Button" jsId="contributeButton"><spring:message code="metahive_button_add" /></div>
+    </sec:authorize>
+    <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR">
+       <div id="submissionDeleteButton" dojoType="dijit.form.Button" jsId="submissionDeleteButton"><spring:message code="metahive_button_delete" /></div>
+    </sec:authorize>
       <div id="submissionDataGrid" jsId="submissionDataGrid"
          dojoType="dojox.grid.EnhancedGrid"
          structure ="[
-         	{ field: 'formattedCreationDate', name: 'Submitted', width: '250px', formatter: formatDate },
-         	{ field: 'personName', name: 'Person', width: '230px' },
-         	{ field: 'organisationName', name: 'Organisation', width: '280px' },
-         	{ field: 'id', name: ' ', width: '180px', formatter: viewData },
+           { field: 'formattedCreationDate', name: 'Submitted', width: '250px', formatter: formatDate },
+           { field: 'personName', name: 'Person', width: '230px' },
+           { field: 'organisationName', name: 'Organisation', width: '280px' },
+           { field: 'id', name: ' ', width: '180px', formatter: viewData },
          ]"
          autoWidth="true"
          autoHeight="true"
          plugins="{indirectSelection: true}"
-         selectionMode="single"><!-- --></div>	   
-         
+         selectionMode="single"><!-- --></div>
+
     </util:panel>
 
     <spring:message code="metahive_submissions_rawdata" var="view_rawdata" />
     <div id="viewData" dojoType="dijit.Dialog" title="${view_rawdata}">
-    	<div id="viewDataContent"><!--  --></div>
+      <div id="viewDataContent"><!--  --></div>
     </div>
-            
+
     <spring:url value="/submissions/list" var="submissions_datasource"/>
     <spring:url value="/submissions/data" var="submissions_data"/>
     <spring:message code="metahive_submissions_viewdata" var="view_data" />
-    
+
     <script type="text/javascript">
     <![CDATA[
     dojo.require("dijit.form.Button");
-   	dojo.require("dojox.grid.EnhancedGrid");
-   	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+     dojo.require("dojox.grid.EnhancedGrid");
+     dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
     dojo.require("dojo.data.ItemFileReadStore");
     dojo.require("dojo.date.locale");
-    
+
     dojo.addOnLoad(function() {
-       	dojo.parser.parse();
-        
+         dojo.parser.parse();
+
         loadGrid(submissionDataGrid, "${submissions_datasource}");
     });
-    
+
     function viewData(id) {
-    	return '<a onclick="showData(' + id + ')">${view_data}</a>';
+      return '<a onclick="showData(' + id + ')">${view_data}</a>';
     }
-    
+
     function showData(id) {
-    	var url = '${submissions_data}/' + id;
-    	dojo.xhrGet({
-    	    url: url,
-    	    load: function(data,args){    		    
-    	        dojo.byId("viewDataContent").innerHTML = data;
-    	    	dijit.byId("viewData").show();
-    	    }
-        });    	
+      var url = '${submissions_data}/' + id;
+      dojo.xhrGet({
+          url: url,
+          load: function(data,args){
+              dojo.byId("viewDataContent").innerHTML = data;
+            dijit.byId("viewData").show();
+          }
+        });
     }
     ]]>
     </script>
-	<spring:url value="/contribute" var="contribute_url" />
+  <spring:url value="/contribute" var="contribute_url" />
     <sec:authorize ifAnyGranted="ROLE_ADMIN, ROLE_EDITOR, ROLE_CONTRIBUTOR">
-  	<script type="text/javascript">
-  	<![CDATA[
-	dojo.addOnLoad(function() {
-		dojo.connect(contributeButton, "onClick", function() {
+    <script type="text/javascript">
+    <![CDATA[
+  dojo.addOnLoad(function() {
+    dojo.connect(contributeButton, "onClick", function() {
             window.location.href="${contribute_url}";
         });
-	});
-	]]>
-  	</script>
-  	</sec:authorize>
+  });
+  ]]>
+    </script>
+    </sec:authorize>
     <sec:authorize ifAnyGranted="ROLE_ADMIN, ROLE_EDITOR">
-    	<spring:message arguments="submission" code="metahive_delete_confirm" var="submission_delete" />
-  	<script type="text/javascript">
-  	<![CDATA[
-	dojo.addOnLoad(function() {
-		dojo.connect(submissionDeleteButton, "onClick", function() {
-			if (confirm('${submission_delete}')) {
-	  			var id = submissionDataGrid.getItem(submissionDataGrid.selection.selectedIndex).id;
-	  			dojo.xhrDelete({
-	    	  		url: "${contribute_url}/" + id,
-	    	  		load: function() {
-	    	            loadGrid(submissionDataGrid, "${submissions_datasource}");
-	    	        }
-	       	    });
-			}
-		});
-	});
-	]]>
-  	</script>
-  	</sec:authorize>
-    
+      <spring:message arguments="submission" code="metahive_delete_confirm" var="submission_delete" />
+    <script type="text/javascript">
+    <![CDATA[
+  dojo.addOnLoad(function() {
+    dojo.connect(submissionDeleteButton, "onClick", function() {
+      if (confirm('${submission_delete}')) {
+          var id = submissionDataGrid.getItem(submissionDataGrid.selection.selectedIndex).id;
+          dojo.xhrDelete({
+              url: "${contribute_url}/" + id,
+              load: function() {
+                    loadGrid(submissionDataGrid, "${submissions_datasource}");
+                }
+               });
+      }
+    });
+  });
+  ]]>
+    </script>
+    </sec:authorize>
+
 </div>

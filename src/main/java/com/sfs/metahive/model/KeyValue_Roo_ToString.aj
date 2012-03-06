@@ -6,7 +6,7 @@ package com.sfs.metahive.model;
 import java.lang.String;
 
 privileged aspect KeyValue_Roo_ToString {
-    
+
     public String KeyValue.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("BooleanValue: ").append(getBooleanValue()).append(", ");
@@ -31,5 +31,5 @@ privileged aspect KeyValue_Roo_ToString {
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }
-    
+
 }

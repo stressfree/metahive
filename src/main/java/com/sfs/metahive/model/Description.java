@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package com.sfs.metahive.model;
 
@@ -32,8 +32,8 @@ public class Description {
     @ManyToOne
     private Definition definition;
 
-	/** The unit of measure. */
-	private String unitOfMeasure;
+    /** The unit of measure. */
+    private String unitOfMeasure;
 
     /** The description. */
     @Lob
@@ -42,35 +42,35 @@ public class Description {
     /** The example values. */
     private String exampleValues;
 
-	/** The person who created the description. */
-	@NotNull
-	@ManyToOne
-	private Person person;
-	
-	/** The created timestamp. */
+    /** The person who created the description. */
+    @NotNull
+    @ManyToOne
+    private Person person;
+
+    /** The created timestamp. */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false)
     private Date created;
-    
+
     @PrePersist
     protected void onCreate() {
-    	created = new Date();
+        created = new Date();
     }
-    
+
     /**
      * Gets the simple description.
      *
      * @return the simple description
      */
     public final String getSimpleDescription() {
-    	String simpleDescription = "";
-    	if (StringUtils.isNotBlank(getDescription())) {
-    		simpleDescription = Jsoup.parse(getDescription()).text();
-    	}	
-    	if (simpleDescription.length() > 200) {
-    		simpleDescription = simpleDescription.substring(0, 198).trim() + "...";
-    	}
-    	return simpleDescription;
+        String simpleDescription = "";
+        if (StringUtils.isNotBlank(getDescription())) {
+            simpleDescription = Jsoup.parse(getDescription()).text();
+        }
+        if (simpleDescription.length() > 200) {
+            simpleDescription = simpleDescription.substring(0, 198).trim() + "...";
+        }
+        return simpleDescription;
     }
-    
+
 }

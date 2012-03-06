@@ -1,128 +1,128 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<jsp:directive.attribute name="keyValueCategories" type="com.sfs.metahive.model.KeyValueCategories" required="true" rtexprvalue="true" description="The key value categories" />
-	<jsp:directive.attribute name="recordLevel" type="java.lang.String" required="false" rtexprvalue="true" description="The record level of the key values (primary, secondary, tertiary)" />
-	<jsp:directive.attribute name="expand" type="java.lang.Boolean" required="false" rtexprvalue="true" description="The expand all flag" />
-	<jsp:directive.attribute name="counter" type="java.lang.Integer" required="true" rtexprvalue="true" description="The row counter" />
+  <jsp:directive.attribute name="keyValueCategories" type="com.sfs.metahive.model.KeyValueCategories" required="true" rtexprvalue="true" description="The key value categories" />
+  <jsp:directive.attribute name="recordLevel" type="java.lang.String" required="false" rtexprvalue="true" description="The record level of the key values (primary, secondary, tertiary)" />
+  <jsp:directive.attribute name="expand" type="java.lang.Boolean" required="false" rtexprvalue="true" description="The expand all flag" />
+  <jsp:directive.attribute name="counter" type="java.lang.Integer" required="true" rtexprvalue="true" description="The row counter" />
 
-	<div class="keyValues" id="${recordLevel}KeyValues${counter}">
-		<c:forEach items="${keyValueCategories.categories}" var="keyValueCategory">
-			<div class="keyValueSet">
-    			<h5><c:out value="${keyValueCategory.key}" /></h5>
-    			<div class="keyvalues">
-    				<ul>
-    				<c:forEach items="${keyValueCategory.value.keyValueSets}" var="keyValueSet">
-    					<li>
-    						<c:if test="${keyValueSet.value.childKeyValueSetCount gt 0}">
-    							<c:if test="${expand eq false}">
-	    							<c:set var="expandClass" value="expandIconHidden" />
-	    						</c:if>
-    							<a class="expandIcon ${expandClass}"><!-- --></a>
-    						</c:if>
-    						<span class="definitionName">
-    						<spring:url value="/definitions/${keyValueSet.value.id}" var="link" />
-    						<a href="${link}"><c:out value="${keyValueSet.value.name}" /></a>:
-    						</span>
-    					
-	    					<div class="values">
-	    						<c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
-	    							<c:set var="spanClass" value="" />
-	    							<c:if test="${keyValue.keyValueType eq 'OVERRIDDEN'}">
-					    				<c:set var="spanClass" value="overridden" />
-					    			</c:if>
-					    			<span class="${spanClass}">
-	    							<c:choose>
-										<c:when test="${not empty keyValue.id}">
-											<a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
-										</c:when>
-										<c:otherwise>
-											<c:out value="${keyValue.value}" />
-										</c:otherwise>
-	    							</c:choose>
-	    							</span>
-	    							<c:if test="${keyValueSet.value.keyValueCount gt 1}">
-	    								(<c:if test="${recordLevel ne 'secondary'}">
-	    									<c:out value="${preferences.secondaryRecordName}" />
-	    									<c:out value=" " />
-	    									<c:out value="${keyValue.secondaryRecordId}" />    									
-	    								</c:if>
-	    								<c:if test="${recordLevel eq 'primary'}">
-	    									<c:out value=" " />
-	    								</c:if>	    								
-	    								<c:if test="${recordLevel ne 'tertiary'}">
-	    									<c:out value="${preferences.tertiaryRecordName}" />
-	    									<c:out value=" " />
-	    									<c:out value="${keyValue.tertiaryRecordId}" />    									
-	    								</c:if>)<br />
-	    							</c:if>	
-	    						</c:forEach>    					
-	    					</div>
-	    					
-	    					<c:if test="${keyValueSet.value.childKeyValueSetCount gt 0}">
-	    						<c:if test="${expand eq false}">
-	    							<c:set var="childClass" value="hidden" />
-	    						</c:if>
-		    					<div class="childkeyvalues ${childClass}">
-		    						<ul>						
-		    						<c:forEach items="${keyValueSet.value.childKeyValueSets}" var="keyValueSet">
-		    							<li><span class="definitionName">
-	    									<spring:url value="/definitions/${keyValueSet.value.id}" var="link" />
-	    									<a href="${link}"><c:out value="${keyValueSet.value.name}" /></a>:
-	    									</span>
-	    									
-	    									<div class="values">
-					    						<c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
-					    							<c:set var="childSpanClass" value="" />
-					    							<c:if test="${keyValue.keyValueType eq 'OVERRIDDEN'}">
-					    								<c:set var="childSpanClass" value="overridden" />
-					    							</c:if>
-					    							<span class="${childSpanClass}">
-					    							<c:choose>
-														<c:when test="${not empty keyValue.id}">
-															<a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
-														</c:when>
-														<c:otherwise>
-															<c:out value="${keyValue.value}" />
-														</c:otherwise>
-	    											</c:choose>
-	    											</span>
-					    							<c:if test="${keyValueSet.value.keyValueCount gt 1}">
-					    								(<c:if test="${recordLevel ne 'secondary'}">
-					    									<c:out value="${preferences.secondaryRecordName}" />
-					    									<c:out value=" " />
-					    									<c:out value="${keyValue.secondaryRecordId}" />    									
-					    								</c:if>
-					    								<c:if test="${recordLevel eq 'primary'}">
-					    									<c:out value=" " />
-					    								</c:if>	    								
-					    								<c:if test="${recordLevel ne 'tertiary'}">
-					    									<c:out value="${preferences.tertiaryRecordName}" />
-					    									<c:out value=" " />
-					    									<c:out value="${keyValue.tertiaryRecordId}" />    									
-					    								</c:if>)<br />
-					    							</c:if>	
-					    						</c:forEach>    					
-					    					</div>
-		    							</li>
-		    						</c:forEach>
-		    						</ul>
-		    						<div class="clear"><!-- --></div>
-		    					</div>
-	    					</c:if>
-    					</li>
-    				</c:forEach>
-    				</ul>
-	    			<div class="clear"><!-- --></div>
-    			</div>
-    		</div>
-    	</c:forEach>
-    	<div class="clear"><!-- --></div>
-    	<script type="text/javascript">			
-			dojo.addOnLoad(function() {
-				dojo.query('#${recordLevel}KeyValues${counter} a.expandIcon').onclick(function(e){
-					node = dojo.query(e.target).toggleClass('expandIconHidden').closest('li')[0];
-					dojo.query('> div.childkeyvalues', node).toggleClass('hidden');
-				});
-			});
-		</script>
-	</div>
+  <div class="keyValues" id="${recordLevel}KeyValues${counter}">
+    <c:forEach items="${keyValueCategories.categories}" var="keyValueCategory">
+      <div class="keyValueSet">
+          <h5><c:out value="${keyValueCategory.key}" /></h5>
+          <div class="keyvalues">
+            <ul>
+            <c:forEach items="${keyValueCategory.value.keyValueSets}" var="keyValueSet">
+              <li>
+                <c:if test="${keyValueSet.value.childKeyValueSetCount gt 0}">
+                  <c:if test="${expand eq false}">
+                    <c:set var="expandClass" value="expandIconHidden" />
+                  </c:if>
+                  <a class="expandIcon ${expandClass}"><!-- --></a>
+                </c:if>
+                <span class="definitionName">
+                <spring:url value="/definitions/${keyValueSet.value.id}" var="link" />
+                <a href="${link}"><c:out value="${keyValueSet.value.name}" /></a>:
+                </span>
+
+                <div class="values">
+                  <c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
+                    <c:set var="spanClass" value="" />
+                    <c:if test="${keyValue.keyValueType eq 'OVERRIDDEN'}">
+                      <c:set var="spanClass" value="overridden" />
+                    </c:if>
+                    <span class="${spanClass}">
+                    <c:choose>
+                    <c:when test="${not empty keyValue.id}">
+                      <a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
+                    </c:when>
+                    <c:otherwise>
+                      <c:out value="${keyValue.value}" />
+                    </c:otherwise>
+                    </c:choose>
+                    </span>
+                    <c:if test="${keyValueSet.value.keyValueCount gt 1}">
+                      (<c:if test="${recordLevel ne 'secondary'}">
+                        <c:out value="${preferences.secondaryRecordName}" />
+                        <c:out value=" " />
+                        <c:out value="${keyValue.secondaryRecordId}" />
+                      </c:if>
+                      <c:if test="${recordLevel eq 'primary'}">
+                        <c:out value=" " />
+                      </c:if>
+                      <c:if test="${recordLevel ne 'tertiary'}">
+                        <c:out value="${preferences.tertiaryRecordName}" />
+                        <c:out value=" " />
+                        <c:out value="${keyValue.tertiaryRecordId}" />
+                      </c:if>)<br />
+                    </c:if>
+                  </c:forEach>
+                </div>
+
+                <c:if test="${keyValueSet.value.childKeyValueSetCount gt 0}">
+                  <c:if test="${expand eq false}">
+                    <c:set var="childClass" value="hidden" />
+                  </c:if>
+                  <div class="childkeyvalues ${childClass}">
+                    <ul>
+                    <c:forEach items="${keyValueSet.value.childKeyValueSets}" var="keyValueSet">
+                      <li><span class="definitionName">
+                        <spring:url value="/definitions/${keyValueSet.value.id}" var="link" />
+                        <a href="${link}"><c:out value="${keyValueSet.value.name}" /></a>:
+                        </span>
+
+                        <div class="values">
+                          <c:forEach items="${keyValueSet.value.keyValues}" var="keyValue">
+                            <c:set var="childSpanClass" value="" />
+                            <c:if test="${keyValue.keyValueType eq 'OVERRIDDEN'}">
+                              <c:set var="childSpanClass" value="overridden" />
+                            </c:if>
+                            <span class="${childSpanClass}">
+                            <c:choose>
+                            <c:when test="${not empty keyValue.id}">
+                              <a id="keyvalueDetail${keyValue.id}" class="keyvalueDetail"><c:out value="${keyValue.value}" /></a>
+                            </c:when>
+                            <c:otherwise>
+                              <c:out value="${keyValue.value}" />
+                            </c:otherwise>
+                            </c:choose>
+                            </span>
+                            <c:if test="${keyValueSet.value.keyValueCount gt 1}">
+                              (<c:if test="${recordLevel ne 'secondary'}">
+                                <c:out value="${preferences.secondaryRecordName}" />
+                                <c:out value=" " />
+                                <c:out value="${keyValue.secondaryRecordId}" />
+                              </c:if>
+                              <c:if test="${recordLevel eq 'primary'}">
+                                <c:out value=" " />
+                              </c:if>
+                              <c:if test="${recordLevel ne 'tertiary'}">
+                                <c:out value="${preferences.tertiaryRecordName}" />
+                                <c:out value=" " />
+                                <c:out value="${keyValue.tertiaryRecordId}" />
+                              </c:if>)<br />
+                            </c:if>
+                          </c:forEach>
+                        </div>
+                      </li>
+                    </c:forEach>
+                    </ul>
+                    <div class="clear"><!-- --></div>
+                  </div>
+                </c:if>
+              </li>
+            </c:forEach>
+            </ul>
+            <div class="clear"><!-- --></div>
+          </div>
+        </div>
+      </c:forEach>
+      <div class="clear"><!-- --></div>
+      <script type="text/javascript">
+      dojo.addOnLoad(function() {
+        dojo.query('#${recordLevel}KeyValues${counter} a.expandIcon').onclick(function(e){
+          node = dojo.query(e.target).toggleClass('expandIconHidden').closest('li')[0];
+          dojo.query('> div.childkeyvalues', node).toggleClass('hidden');
+        });
+      });
+    </script>
+  </div>
 </jsp:root>

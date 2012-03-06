@@ -2,89 +2,89 @@
 <div class="yui-g record" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    
-	<metahive:record />
-	
+
+  <metahive:record />
+
     <spring:url value="/records" var="browse" />
-    
+
     <div class="keyValueDataKey">
-		<li><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></strong>:
-		   <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data_description" />
-		</li>
-		<li>
-		   <strong><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted" /></strong>:
-		   <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted_description" />
-		</li>
-	</div>
-	
+    <li><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></strong>:
+       <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data_description" />
+    </li>
+    <li>
+       <strong><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted" /></strong>:
+       <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted_description" />
+    </li>
+  </div>
+
     <div class="record-title">
-    	<h1>
-    		<span class="browse"><a href="${browse}"><spring:message code="metahive_browse" /></a> &#187; </span>
-    		<c:out value="${record.recordId}" escapeXml="true" />
-    	</h1>
+      <h1>
+        <span class="browse"><a href="${browse}"><spring:message code="metahive_browse" /></a> &#187; </span>
+        <c:out value="${record.recordId}" escapeXml="true" />
+      </h1>
     </div>
-    
+
     <p class="viewOptions">
-    	<spring:url value="/records/${record.id}" var="recordUrl" />
-    	<c:set var="showUrl" value="true" />
-    	<spring:message code="metahive_record_nodata_show" var="showText" />
-    	<c:if test="${show eq true}">
-    		<c:set var="showUrl" value="false" />
-    		<spring:message code="metahive_record_nodata_hide" var="showText"/>
-    	</c:if>
-    	
-    	<c:set var="expandUrl" value="true" />
-    	<spring:message code="metahive_record_summary_expand" var="expandText"/>
-    	<c:if test="${expand eq true}">
-    		<c:set var="expandUrl" value="false" />
-    		<spring:message code="metahive_record_summary_collapse" var="expandText"/>
-    	</c:if>
-    	
-    	<a id="saveRecords"><spring:message code="metahive_export_record" /></a>
-		<c:out value=" | " />
-		<a href="${recordUrl}?show=${showUrl}&amp;expand=${expand}"><c:out value="${showText}" /></a>
-		<c:out value=" | " />
-		<a href="${recordUrl}?show=${show}&amp;expand=${expandUrl}"><c:out value="${expandText}" /></a>
-	</p>
-    
+      <spring:url value="/records/${record.id}" var="recordUrl" />
+      <c:set var="showUrl" value="true" />
+      <spring:message code="metahive_record_nodata_show" var="showText" />
+      <c:if test="${show eq true}">
+        <c:set var="showUrl" value="false" />
+        <spring:message code="metahive_record_nodata_hide" var="showText"/>
+      </c:if>
+
+      <c:set var="expandUrl" value="true" />
+      <spring:message code="metahive_record_summary_expand" var="expandText"/>
+      <c:if test="${expand eq true}">
+        <c:set var="expandUrl" value="false" />
+        <spring:message code="metahive_record_summary_collapse" var="expandText"/>
+      </c:if>
+
+      <a id="saveRecords"><spring:message code="metahive_export_record" /></a>
+    <c:out value=" | " />
+    <a href="${recordUrl}?show=${showUrl}&amp;expand=${expand}"><c:out value="${showText}" /></a>
+    <c:out value=" | " />
+    <a href="${recordUrl}?show=${show}&amp;expand=${expandUrl}"><c:out value="${expandText}" /></a>
+  </p>
+
     <div class="primaryRecord">
-    	<c:forEach items="${record.primaryKeyValueCollection}" var="primaryRecord" varStatus="counter">
-    		<metahive:keyvalues keyValueCategories="${primaryRecord.value}" recordLevel="primary" expand="${expand}" counter="${counter.count}"/>
-    	</c:forEach>
+      <c:forEach items="${record.primaryKeyValueCollection}" var="primaryRecord" varStatus="counter">
+        <metahive:keyvalues keyValueCategories="${primaryRecord.value}" recordLevel="primary" expand="${expand}" counter="${counter.count}"/>
+      </c:forEach>
     </div>
-    
+
     <div class="secondaryRecords">
-    	<c:forEach items="${record.secondaryKeyValueCollection}" var="secondaryRecord" varStatus="counter">
-    		<c:set var="title"><c:out value="${preferences.secondaryRecordName}" /><c:out value=" " /><c:out value="${secondaryRecord.key}" /></c:set>
-	    	<div class="secondaryRecord" dojoType="dijit.TitlePane" title="${title}">
-    			<metahive:keyvalues keyValueCategories="${secondaryRecord.value}" recordLevel="secondary" expand="${expand}" counter="${counter.count}" />
-    		</div>
-    	</c:forEach>
+      <c:forEach items="${record.secondaryKeyValueCollection}" var="secondaryRecord" varStatus="counter">
+        <c:set var="title"><c:out value="${preferences.secondaryRecordName}" /><c:out value=" " /><c:out value="${secondaryRecord.key}" /></c:set>
+        <div class="secondaryRecord" dojoType="dijit.TitlePane" title="${title}">
+          <metahive:keyvalues keyValueCategories="${secondaryRecord.value}" recordLevel="secondary" expand="${expand}" counter="${counter.count}" />
+        </div>
+      </c:forEach>
     </div>
-    
+
     <div class="tertiaryRecords">
-	    <c:forEach items="${record.tertiaryKeyValueCollection}" var="tertiaryRecord" varStatus="counter">
-    		<c:set var="title"><c:out value="${preferences.tertiaryRecordName}" /><c:out value=" " /><c:out value="${tertiaryRecord.key}" /></c:set>
-	    	<div class="tertiaryRecord" dojoType="dijit.TitlePane" title="${title}">
-    			<metahive:keyvalues keyValueCategories="${tertiaryRecord.value}" recordLevel="tertiary" expand="${expand}" counter="${counter.count}"/>
-    		</div>
-    	</c:forEach>
+      <c:forEach items="${record.tertiaryKeyValueCollection}" var="tertiaryRecord" varStatus="counter">
+        <c:set var="title"><c:out value="${preferences.tertiaryRecordName}" /><c:out value=" " /><c:out value="${tertiaryRecord.key}" /></c:set>
+        <div class="tertiaryRecord" dojoType="dijit.TitlePane" title="${title}">
+          <metahive:keyvalues keyValueCategories="${tertiaryRecord.value}" recordLevel="tertiary" expand="${expand}" counter="${counter.count}"/>
+        </div>
+      </c:forEach>
     </div>
-    
+
     <script type="text/javascript">
     <![CDATA[
         dojo.require("dijit.TitlePane");
-        
-		dojo.addOnLoad(function() {
-	        dojo.connect(dojo.byId("saveRecords"), "onclick", function(e) {
-	        	dojo.query('.export').removeClass('hidden');
-	        });
-	    });
+
+    dojo.addOnLoad(function() {
+          dojo.connect(dojo.byId("saveRecords"), "onclick", function(e) {
+            dojo.query('.export').removeClass('hidden');
+          });
+      });
     ]]>
     </script>
-     
+
     <metahive:keyvaluedetail />
-    
+
     <metahive:export id="${record.id}" modelAttribute="user" />
-   
+
 </div>

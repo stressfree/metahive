@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div class="yui-g" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
-    
+
     <metahive:administration />
-    
-   	<spring:message var="organisation_heading" code="metahive_organisations" />
-   	<spring:message var="organisation_name" code="label_com_sfs_metahive_model_organisation_name" />   	
-   	<spring:message var="organisation_members" code="label_com_sfs_metahive_model_organisation_people" />
-   	
+
+     <spring:message var="organisation_heading" code="metahive_organisations" />
+     <spring:message var="organisation_name" code="label_com_sfs_metahive_model_organisation_name" />
+     <spring:message var="organisation_members" code="label_com_sfs_metahive_model_organisation_people" />
+
     <util:panel id="_organisation_heading" title="${organisation_heading}">
-   	
-	  <div id="organisationAddButton" dojoType="dijit.form.Button" jsId="organisationAddButton"><spring:message code="metahive_button_add" /></div>
+
+    <div id="organisationAddButton" dojoType="dijit.form.Button" jsId="organisationAddButton"><spring:message code="metahive_button_add" /></div>
       <div id="organisationEditButton" dojoType="dijit.form.Button" jsId="organisationEditButton"><spring:message code="metahive_button_edit" /></div>
       <div id="organisationDeleteButton" dojoType="dijit.form.Button" jsId="organisationDeleteButton"><spring:message code="metahive_button_delete" /></div>
       <div id="organisationDataGrid" jsId="organisationDataGrid"
          dojoType="dojox.grid.EnhancedGrid"
          structure ="[
-         	{ field: 'name', name: '${organisation_name}', width: '350px' },
-         	{ field: 'peopleNames', name: '${organisation_members}', width: '500px' },
+           { field: 'name', name: '${organisation_name}', width: '350px' },
+           { field: 'peopleNames', name: '${organisation_members}', width: '500px' },
          ]"
          autoWidth="true"
          autoHeight="true"
          plugins="{indirectSelection: true}"
-         selectionMode="single"><!-- --></div>	   
-         
-    </util:panel> 
-	   
-    
+         selectionMode="single"><!-- --></div>
+
+    </util:panel>
+
+
     <spring:url value="/organisations" var="organisations_url" />
     <spring:url value="/organisations/list" var="organisations_datasource"/>
     <spring:url value="/organisations?form" var="add_organisation_url" />
     <spring:message arguments="organisation" code="metahive_edit_select" var="organisation_edit" />
     <spring:message arguments="organisation" code="metahive_delete_confirm" var="organisation_delete" />
-            
+
     <script type="text/javascript">
     <![CDATA[
-   	dojo.require("dojox.grid.EnhancedGrid");
-   	dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
-   	dojo.require("dijit.form.Button");
+     dojo.require("dojox.grid.EnhancedGrid");
+     dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+     dojo.require("dijit.form.Button");
     dojo.require("dojo.data.ItemFileReadStore");
-    
+
     dojo.addOnLoad(function() {
 
         dojo.parser.parse();
-            
+
         dojo.connect(organisationAddButton, "onClick", function() {
             window.location.href="${add_organisation_url}";
         });
-     	
-        dojo.connect(organisationEditButton, "onClick", function() {        	
-        	if (organisationDataGrid.getItem(organisationDataGrid.selection.selectedIndex)) {
-        		var id = organisationDataGrid.getItem(organisationDataGrid.selection.selectedIndex).id;
-            	window.location.href="${organisations_url}/" + id + "?form";        		
+
+        dojo.connect(organisationEditButton, "onClick", function() {
+          if (organisationDataGrid.getItem(organisationDataGrid.selection.selectedIndex)) {
+            var id = organisationDataGrid.getItem(organisationDataGrid.selection.selectedIndex).id;
+              window.location.href="${organisations_url}/" + id + "?form";
             } else {
-            	alert('${organisation_edit}');            	
+              alert('${organisation_edit}');
             }
         });
 
         dojo.connect(organisationDeleteButton, "onClick", function() {
-        	if (confirm('${organisation_delete}')) {
-          		var id = organisationDataGrid.getItem(organisationDataGrid.selection.selectedIndex).id;
-          		dojo.xhrDelete({
-              		url: "${organisations_url}/" + id,
-              		load: function() {
+          if (confirm('${organisation_delete}')) {
+              var id = organisationDataGrid.getItem(organisationDataGrid.selection.selectedIndex).id;
+              dojo.xhrDelete({
+                  url: "${organisations_url}/" + id,
+                  load: function() {
                         loadGrid(organisationDataGrid, "${organisations_datasource}");
                     }
                 });
-        	}
+          }
         });
-        
+
         dojo.connect(organisationDataGrid, "onRowDblClick", function(event) {
-        	 var id = organisationDataGrid.getItem(event.rowIndex).id;
-        	 window.location.href="${organisations_url}/" + id + "?form";
+           var id = organisationDataGrid.getItem(event.rowIndex).id;
+           window.location.href="${organisations_url}/" + id + "?form";
         });
-        
+
         loadGrid(organisationDataGrid, "${organisations_datasource}");
     });
     ]]>
     </script>
-    
+
 </div>

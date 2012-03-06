@@ -17,133 +17,133 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 
 privileged aspect KeyValue_Roo_JavaBean {
-    
+
     public KeyValueType KeyValue.getKeyValueType() {
         return this.keyValueType;
     }
-    
+
     public void KeyValue.setKeyValueType(KeyValueType keyValueType) {
         this.keyValueType = keyValueType;
     }
-    
+
     public Record KeyValue.getRecord() {
         return this.record;
     }
-    
+
     public void KeyValue.setRecord(Record record) {
         this.record = record;
     }
-    
+
     public Definition KeyValue.getDefinition() {
         return this.definition;
     }
-    
+
     public void KeyValue.setDefinition(Definition definition) {
         this.definition = definition;
     }
-    
+
     public String KeyValue.getPrimaryRecordId() {
         return this.primaryRecordId;
     }
-    
+
     public void KeyValue.setPrimaryRecordId(String primaryRecordId) {
         this.primaryRecordId = primaryRecordId;
     }
-    
+
     public String KeyValue.getSecondaryRecordId() {
         return this.secondaryRecordId;
     }
-    
+
     public void KeyValue.setSecondaryRecordId(String secondaryRecordId) {
         this.secondaryRecordId = secondaryRecordId;
     }
-    
+
     public String KeyValue.getTertiaryRecordId() {
         return this.tertiaryRecordId;
     }
-    
+
     public void KeyValue.setTertiaryRecordId(String tertiaryRecordId) {
         this.tertiaryRecordId = tertiaryRecordId;
     }
-    
+
     public int KeyValue.getSubmittedFieldCount() {
         return this.submittedFieldCount;
     }
-    
+
     public void KeyValue.setSubmittedFieldCount(int submittedFieldCount) {
         this.submittedFieldCount = submittedFieldCount;
     }
-    
+
     public String KeyValue.getStringValue() {
         return this.stringValue;
     }
-    
+
     public void KeyValue.setStringValue(String stringValue) {
         this.stringValue = stringValue;
     }
-    
+
     public Double KeyValue.getDoubleValue() {
         return this.doubleValue;
     }
-    
+
     public void KeyValue.setDoubleValue(Double doubleValue) {
         this.doubleValue = doubleValue;
     }
-    
+
     public KeyValueBoolean KeyValue.getBooleanValue() {
         return this.booleanValue;
     }
-    
+
     public void KeyValue.setBooleanValue(KeyValueBoolean booleanValue) {
         this.booleanValue = booleanValue;
     }
-    
+
     public String KeyValue.getComment() {
         return this.comment;
     }
-    
+
     public void KeyValue.setComment(String comment) {
         this.comment = comment;
     }
-    
+
     public Person KeyValue.getOverriddenBy() {
         return this.overriddenBy;
     }
-    
+
     public void KeyValue.setOverriddenBy(Person overriddenBy) {
         this.overriddenBy = overriddenBy;
     }
-    
+
     public Date KeyValue.getModified() {
         return this.modified;
     }
-    
+
     public void KeyValue.setModified(Date modified) {
         this.modified = modified;
     }
-    
+
     public UserRole KeyValue.getUserRole() {
         return this.userRole;
     }
-    
+
     public void KeyValue.setUserRole(UserRole userRole) {
         this.userRole = userRole;
     }
-    
+
     public List<SubmittedField> KeyValue.getSubmittedFields() {
         return this.submittedFields;
     }
-    
+
     public void KeyValue.setSubmittedFields(List<SubmittedField> submittedFields) {
         this.submittedFields = submittedFields;
     }
-    
+
     public ApplicationContext KeyValue.getContext() {
         return this.context;
     }
-    
+
     public void KeyValue.setContext(ApplicationContext context) {
         this.context = context;
     }
-    
+
 }

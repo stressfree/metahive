@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
-	<definition extends="default" name="submissions/list">
-		<put-attribute name="body" value="/WEB-INF/views/submissions/list.jspx" />
-	</definition>
-	<definition extends="ajax" name="submissions/denied">
-		<put-attribute name="body" value="/WEB-INF/views/submissions/denied.jspx" />
-	</definition>
-	<definition extends="ajax" name="submissions/viewdata">
-		<put-attribute name="body" value="/WEB-INF/views/submissions/viewdata.jspx" />
-	</definition>
+  <definition extends="default" name="submissions/list">
+    <put-attribute name="body" value="/WEB-INF/views/submissions/list.jspx" />
+  </definition>
+  <definition extends="ajax" name="submissions/denied">
+    <put-attribute name="body" value="/WEB-INF/views/submissions/denied.jspx" />
+  </definition>
+  <definition extends="ajax" name="submissions/viewdata">
+    <put-attribute name="body" value="/WEB-INF/views/submissions/viewdata.jspx" />
+  </definition>
 </tiles-definitions>

@@ -2,37 +2,37 @@
 <div xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-	<c:choose>
-		<c:when test="${not empty validatedDataGrid.rows}">
-			<ul>
-				<li class="invalidcolumn"><spring:message code="metahive_contribute_invalidcolumn" /></li>
-				<li class="invalidrow"><spring:message code="metahive_contribute_invalidrow" /></li>
-				<li class="invalidcell"><spring:message code="metahive_contribute_invalidcell" /></li>
-				<li class="notapplicablecell"><spring:message code="metahive_contribute_notapplicablecell" /></li>
-			</ul>
-			<div class="previewTable">
-		    <table>
-		    	<thead>
-		    		<tr>
-		    			<c:forEach items="${validatedDataGrid.headerFields}" var="field">
-		    			<th class="${field.cssClasses}"><c:out value="${field.value}" escapeXml="true" /></th>
-		    			</c:forEach>
-		    		</tr>
-		    	</thead>
-		    	<tbody>
-		    		<c:forEach items="${validatedDataGrid.rows}" var="row">    		
-		    		<tr class="${row.cssClasses}">
-		    			<c:forEach items="${row.fields}" var="field">
-		    			<td class="${field.cssClasses}"><c:out value="${field.value}" escapeXml="true" /></td>
-		    			</c:forEach>
-		    		</tr>
-		    		</c:forEach>
-		    	</tbody>
-		    </table>
-		    </div>
-    	</c:when>
-    	<c:otherwise>
-    		<p><spring:message code="metahive_contribute_noresults" /></p>
-    	</c:otherwise>
+  <c:choose>
+    <c:when test="${not empty validatedDataGrid.rows}">
+      <ul>
+        <li class="invalidcolumn"><spring:message code="metahive_contribute_invalidcolumn" /></li>
+        <li class="invalidrow"><spring:message code="metahive_contribute_invalidrow" /></li>
+        <li class="invalidcell"><spring:message code="metahive_contribute_invalidcell" /></li>
+        <li class="notapplicablecell"><spring:message code="metahive_contribute_notapplicablecell" /></li>
+      </ul>
+      <div class="previewTable">
+        <table>
+          <thead>
+            <tr>
+              <c:forEach items="${validatedDataGrid.headerFields}" var="field">
+              <th class="${field.cssClasses}"><c:out value="${field.value}" escapeXml="true" /></th>
+              </c:forEach>
+            </tr>
+          </thead>
+          <tbody>
+            <c:forEach items="${validatedDataGrid.rows}" var="row">
+            <tr class="${row.cssClasses}">
+              <c:forEach items="${row.fields}" var="field">
+              <td class="${field.cssClasses}"><c:out value="${field.value}" escapeXml="true" /></td>
+              </c:forEach>
+            </tr>
+            </c:forEach>
+          </tbody>
+        </table>
+        </div>
+      </c:when>
+      <c:otherwise>
+        <p><spring:message code="metahive_contribute_noresults" /></p>
+      </c:otherwise>
     </c:choose>
 </div>

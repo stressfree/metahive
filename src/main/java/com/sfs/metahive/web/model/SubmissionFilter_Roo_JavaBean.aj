@@ -6,21 +6,21 @@ package com.sfs.metahive.web.model;
 import java.lang.Long;
 
 privileged aspect SubmissionFilter_Roo_JavaBean {
-    
+
     public Long SubmissionFilter.getPersonId() {
         return this.personId;
     }
-    
+
     public void SubmissionFilter.setPersonId(Long personId) {
         this.personId = personId;
     }
-    
+
     public Long SubmissionFilter.getOrganisationId() {
         return this.organisationId;
     }
-    
+
     public void SubmissionFilter.setOrganisationId(Long organisationId) {
         this.organisationId = organisationId;
     }
-    
+
 }

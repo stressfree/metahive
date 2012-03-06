@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2012 David Harrison, Triptech Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/gpl.html
+ * 
+ * Contributors:
+ *     David Harrison, Triptech Ltd - initial API and implementation
+ ******************************************************************************/
 package com.sfs.metahive;
 
 import java.io.IOException;
@@ -15,9 +25,9 @@ import org.springframework.security.web.access.AccessDeniedHandler;
  */
 public class RedirectAccessDeniedHandler implements AccessDeniedHandler {
 
-	/** The access denied url. */
-	private String accessDeniedUrl;
-	
+    /** The access denied url. */
+    private String accessDeniedUrl;
+
 
     /**
      * Instantiates a new redirect access denied handler.
@@ -44,11 +54,11 @@ public class RedirectAccessDeniedHandler implements AccessDeniedHandler {
      * @throws ServletException the servlet exception
      */
     @Override
-	public final void handle(final HttpServletRequest request, 
-    		final HttpServletResponse response, 
-    		final AccessDeniedException accessDeniedException) 
-    		throws IOException, ServletException {
-    	
+    public final void handle(final HttpServletRequest request,
+            final HttpServletResponse response,
+            final AccessDeniedException accessDeniedException)
+            throws IOException, ServletException {
+
         response.sendRedirect(this.accessDeniedUrl);
     }
 
@@ -69,5 +79,5 @@ public class RedirectAccessDeniedHandler implements AccessDeniedHandler {
     public final void setAccessDeniedUrl(final String accessDeniedUrlVal) {
         this.accessDeniedUrl = accessDeniedUrlVal;
     }
-	
+
 }

@@ -11,37 +11,37 @@ import java.util.List;
 import java.util.Map;
 
 privileged aspect KeyValueSet_Roo_JavaBean {
-    
+
     public Long KeyValueSet.getId() {
         return this.id;
     }
-    
+
     public void KeyValueSet.setId(Long id) {
         this.id = id;
     }
-    
+
     public String KeyValueSet.getName() {
         return this.name;
     }
-    
+
     public void KeyValueSet.setName(String name) {
         this.name = name;
     }
-    
+
     public List<KeyValue> KeyValueSet.getKeyValues() {
         return this.keyValues;
     }
-    
+
     public void KeyValueSet.setKeyValues(List<KeyValue> keyValues) {
         this.keyValues = keyValues;
     }
-    
+
     public Map<String, KeyValueSet> KeyValueSet.getChildKeyValueSets() {
         return this.childKeyValueSets;
     }
-    
+
     public void KeyValueSet.setChildKeyValueSets(Map<String, KeyValueSet> childKeyValueSets) {
         this.childKeyValueSets = childKeyValueSets;
     }
-    
+
 }

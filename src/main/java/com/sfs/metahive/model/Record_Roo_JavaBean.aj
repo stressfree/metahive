@@ -8,29 +8,29 @@ import java.lang.String;
 import java.util.Map;
 
 privileged aspect Record_Roo_JavaBean {
-    
+
     public String Record.getRecordId() {
         return this.recordId;
     }
-    
+
     public void Record.setRecordId(String recordId) {
         this.recordId = recordId;
     }
-    
+
     public Map<String, KeyValueCollection> Record.getKeyValueMap() {
         return this.keyValueMap;
     }
-    
+
     public void Record.setKeyValueMap(Map<String, KeyValueCollection> keyValueMap) {
         this.keyValueMap = keyValueMap;
     }
-    
+
     public boolean Record.isShowAllDefinitions() {
         return this.showAllDefinitions;
     }
-    
+
     public void Record.setShowAllDefinitions(boolean showAllDefinitions) {
         this.showAllDefinitions = showAllDefinitions;
     }
-    
+
 }

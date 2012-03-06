@@ -27,13 +27,13 @@
     <c:if test="${empty required}">
       <c:set value="false" var="required" />
     </c:if>
-    
+
     <c:if test="${not empty cssClass}">
       <c:set var="sec_cssClass">
-      	<spring:escapeBody javaScriptEscape="true" >${cssClass}</spring:escapeBody>
+        <spring:escapeBody javaScriptEscape="true" >${cssClass}</spring:escapeBody>
       </c:set>
     </c:if>
-    
+
     <c:set var="sec_field">
       <spring:escapeBody javaScriptEscape="true" >${field}</spring:escapeBody>
     </c:set>
@@ -42,9 +42,9 @@
       <spring:escapeBody htmlEscape="true" >${itemLabel}</spring:escapeBody>
     </c:set>
 
-	<c:set var="div_id">
-		_<spring:escapeBody javaScriptEscape="true" >${id}</spring:escapeBody>_id
-	</c:set>
+  <c:set var="div_id">
+    _<spring:escapeBody javaScriptEscape="true" >${id}</spring:escapeBody>_id
+  </c:set>
 
     <div id="${div_id}" class="field field-multiselect">
       <c:choose>
@@ -53,18 +53,18 @@
             <c:out value="${fn:escapeXml(label)}" />:
           </label>
           <div class="multiselectItems ${sec_cssClass}">
-          	<form:checkboxes id="${div_id}_checkbox" path="${sec_field}" items="${items}" itemLabel="${sec_itemLabel}" itemValue="${fn:escapeXml(itemValue)}" cssClass="multiselectItem" />
-          	<div class="clear"><!-- --></div>
-          	
-          	<script type="text/javascript">
-          	dojo.query("#${div_id} input[type='checkbox']").forEach(function(element) {
+            <form:checkboxes id="${div_id}_checkbox" path="${sec_field}" items="${items}" itemLabel="${sec_itemLabel}" itemValue="${fn:escapeXml(itemValue)}" cssClass="multiselectItem" />
+            <div class="clear"><!-- --></div>
+
+            <script type="text/javascript">
+            dojo.query("#${div_id} input[type='checkbox']").forEach(function(element) {
                 Spring.addDecoration(new Spring.ElementDecoration({
                     elementId: element.id,
                     widgetType : "dijit.form.CheckBox",
                     widgetAttrs : { checked : element.checked }
                 }));
             });
-          	</script>
+            </script>
           </div>
           <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
         </c:when>

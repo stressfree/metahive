@@ -6,19 +6,19 @@
     <form:update id="fu_com_sfs_metahive_model_DataSource" modelAttribute="dataSource" path="/datasources" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
         <springform:hidden path="definition.id" />
         <springform:hidden path="organisation.id" />
-        <div class="yui-u first"> 
-			<div class="field" id="_c_com_sfs_metahive_web_model_DataSourceForm_organisation_name">
-				<label for="_organisation_name"><spring:message code="label_com_sfs_metahive_web_model_datasourceform_organisation" />:</label>
-				<c:out value="${dataSource.organisation.name}" escapeXml="true" />
-			</div>
-        	<field:input field="collectionSource" id="c_com_sfs_metahive_web_model_DataSourceForm_collectionSource" z="user-managed"/>
-        	<field:datetime field="collectionDate" id="c_com_sfs_metahive_web_model_DataSourceForm_collectionDate" dateTimePattern="d/M/yyyy" z="user-managed"/> 
-			<field:select field="conditionOfUse" id="c_com_sfs_metahive_web_model_DataSourceForm_conditionOfUse" itemValue="id" itemLabel="name" items="${conditionsOfUse}" path="/conditions" required="true" z="user-managed"/>
-			<field:editor field="details" id="c_com_sfs_metahive_web_model_DataSourceForm_details" required="false" z="user-managed"/>
-			<field:editor field="logMessage" id="c_com_sfs_metahive_web_model_DataSourceForm_logMessage" z="user-managed"/>
-		</div>        
+        <div class="yui-u first">
+      <div class="field" id="_c_com_sfs_metahive_web_model_DataSourceForm_organisation_name">
+        <label for="_organisation_name"><spring:message code="label_com_sfs_metahive_web_model_datasourceform_organisation" />:</label>
+        <c:out value="${dataSource.organisation.name}" escapeXml="true" />
+      </div>
+          <field:input field="collectionSource" id="c_com_sfs_metahive_web_model_DataSourceForm_collectionSource" z="user-managed"/>
+          <field:datetime field="collectionDate" id="c_com_sfs_metahive_web_model_DataSourceForm_collectionDate" dateTimePattern="d/M/yyyy" z="user-managed"/>
+      <field:select field="conditionOfUse" id="c_com_sfs_metahive_web_model_DataSourceForm_conditionOfUse" itemValue="id" itemLabel="name" items="${conditionsOfUse}" path="/conditions" required="true" z="user-managed"/>
+      <field:editor field="details" id="c_com_sfs_metahive_web_model_DataSourceForm_details" required="false" z="user-managed"/>
+      <field:editor field="logMessage" id="c_com_sfs_metahive_web_model_DataSourceForm_logMessage" z="user-managed"/>
+    </div>
         <div class="yui-u">
-        	<field:multiselect field="pointsOfContact" id="c_com_sfs_metahive_web_model_DataSourceForm_pointsOfContact" items="${dataSource.organisation.people}" path="/people" itemValue="id" itemLabel="formattedName" required="true" />
+          <field:multiselect field="pointsOfContact" id="c_com_sfs_metahive_web_model_DataSourceForm_pointsOfContact" items="${dataSource.organisation.people}" path="/people" itemValue="id" itemLabel="formattedName" required="true" />
         </div>
     </form:update>
 </div>

@@ -12,23 +12,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect RecordIntegrationTest_Roo_IntegrationTest {
-    
+
     declare @type: RecordIntegrationTest: @RunWith(SpringJUnit4ClassRunner.class);
-    
+
     declare @type: RecordIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
-    
+
     declare @type: RecordIntegrationTest: @Transactional;
-    
+
     @Autowired
     private RecordOnDemand RecordIntegrationTest.dod;
-    
+
     @Test
     public void RecordIntegrationTest.testCountRecords() {
         org.junit.Assert.assertNotNull("Data on demand for 'Record' failed to initialize correctly", dod.getRandomRecord());
         long count = com.sfs.metahive.model.Record.countRecords();
         org.junit.Assert.assertTrue("Counter for 'Record' incorrectly reported there were no entries", count > 0);
     }
-    
+
     @Test
     public void RecordIntegrationTest.testFindRecord() {
         com.sfs.metahive.model.Record obj = dod.getRandomRecord();
@@ -39,7 +39,7 @@ privileged aspect RecordIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find method for 'Record' illegally returned null for id '" + id + "'", obj);
         org.junit.Assert.assertEquals("Find method for 'Record' returned the incorrect identifier", id, obj.getId());
     }
-    
+
     @Test
     public void RecordIntegrationTest.testFindAllRecords() {
         org.junit.Assert.assertNotNull("Data on demand for 'Record' failed to initialize correctly", dod.getRandomRecord());
@@ -49,7 +49,7 @@ privileged aspect RecordIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find all method for 'Record' illegally returned null", result);
         org.junit.Assert.assertTrue("Find all method for 'Record' failed to return any data", result.size() > 0);
     }
-    
+
     @Test
     public void RecordIntegrationTest.testFindRecordEntries() {
         org.junit.Assert.assertNotNull("Data on demand for 'Record' failed to initialize correctly", dod.getRandomRecord());
@@ -59,7 +59,7 @@ privileged aspect RecordIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find entries method for 'Record' illegally returned null", result);
         org.junit.Assert.assertEquals("Find entries method for 'Record' returned an incorrect number of entries", count, result.size());
     }
-    
+
     @Test
     public void RecordIntegrationTest.testFlush() {
         com.sfs.metahive.model.Record obj = dod.getRandomRecord();
@@ -73,7 +73,7 @@ privileged aspect RecordIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertTrue("Version for 'Record' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
-    
+
     @Test
     public void RecordIntegrationTest.testMerge() {
         com.sfs.metahive.model.Record obj = dod.getRandomRecord();
@@ -88,7 +88,7 @@ privileged aspect RecordIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
         org.junit.Assert.assertTrue("Version for 'Record' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
-    
+
     @Test
     public void RecordIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'Record' failed to initialize correctly", dod.getRandomRecord());
@@ -99,7 +99,7 @@ privileged aspect RecordIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertNotNull("Expected 'Record' identifier to no longer be null", obj.getId());
     }
-    
+
     @Test
     public void RecordIntegrationTest.testRemove() {
         com.sfs.metahive.model.Record obj = dod.getRandomRecord();
@@ -111,5 +111,5 @@ privileged aspect RecordIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertNull("Failed to remove 'Record' with identifier '" + id + "'", com.sfs.metahive.model.Record.findRecord(id));
     }
-    
+
 }

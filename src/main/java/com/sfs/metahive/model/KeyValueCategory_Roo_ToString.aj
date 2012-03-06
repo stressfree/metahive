@@ -6,12 +6,12 @@ package com.sfs.metahive.model;
 import java.lang.String;
 
 privileged aspect KeyValueCategory_Roo_ToString {
-    
+
     public String KeyValueCategory.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("KeyValueSets: ").append(getKeyValueSets() == null ? "null" : getKeyValueSets().size()).append(", ");
         sb.append("Name: ").append(getName());
         return sb.toString();
     }
-    
+
 }

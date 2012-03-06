@@ -9,9 +9,9 @@
 
   <c:if test="${empty render or render}">
 
-	<c:if test="${not empty filter}">
-		<c:set var="queryString" value="${filter.queryString}" />
-	</c:if>
+  <c:if test="${not empty filter}">
+    <c:set var="queryString" value="${filter.queryString}" />
+  </c:if>
 
     <c:if test="${empty page || page lt 1}">
       <c:set var="page" value="1" />
@@ -20,63 +20,63 @@
     <c:if test="${empty size || size lt 1}">
       <c:set var="size" value="50" />
     </c:if>
-    
+
     <div class="paginationActions">
-    	<p><spring:message code="list_page" arguments="${page},${maxPages}" argumentSeparator="," /></p>
-    	<c:if test="${maxPages gt 1}">
-    	<p>:</p>
-    	<ul>
-		    <c:if test="${page - 1 gt 1}">
-		      <spring:url value="" var="first">
-		        <spring:param name="page" value="1" />
-		        <spring:param name="size" value="${size}" />
-		      </spring:url>
-		      <li><a href="${first}${queryString}"><spring:message code="list_first" htmlEscape="false" /></a></li>
-		    </c:if>
-		    <c:if test="${page gt 1}">
-		      <spring:url value="" var="previous">
-		        <spring:param name="page" value="${page - 1}" />
-		        <spring:param name="size" value="${size}" />
-		      </spring:url>      
-		      <li><a href="${previous}${queryString}"><spring:message code="list_previous" htmlEscape="false" /></a></li>
-		    </c:if>
-		    <c:if test="${page lt maxPages}">
-		      <spring:url value="" var="next">
-		        <spring:param name="page" value="${page + 1}" />
-		        <spring:param name="size" value="${size}" />
-		      </spring:url>      
-		      <li><a href="${next}${queryString}"><spring:message code="list_next" htmlEscape="false" /></a></li>
-		    </c:if>
-		    <c:if test="${page + 1 lt maxPages}">
-		      <spring:url value="" var="last">
-		        <spring:param name="page" value="${maxPages}" />
-		        <spring:param name="size" value="${size}" />
-		      </spring:url>
-		      <li><a href="${last}${queryString}"><spring:message code="list_last" htmlEscape="false" /></a></li>
-		    </c:if>
-	    </ul>
-	    </c:if>
+      <p><spring:message code="list_page" arguments="${page},${maxPages}" argumentSeparator="," /></p>
+      <c:if test="${maxPages gt 1}">
+      <p>:</p>
+      <ul>
+        <c:if test="${page - 1 gt 1}">
+          <spring:url value="" var="first">
+            <spring:param name="page" value="1" />
+            <spring:param name="size" value="${size}" />
+          </spring:url>
+          <li><a href="${first}${queryString}"><spring:message code="list_first" htmlEscape="false" /></a></li>
+        </c:if>
+        <c:if test="${page gt 1}">
+          <spring:url value="" var="previous">
+            <spring:param name="page" value="${page - 1}" />
+            <spring:param name="size" value="${size}" />
+          </spring:url>
+          <li><a href="${previous}${queryString}"><spring:message code="list_previous" htmlEscape="false" /></a></li>
+        </c:if>
+        <c:if test="${page lt maxPages}">
+          <spring:url value="" var="next">
+            <spring:param name="page" value="${page + 1}" />
+            <spring:param name="size" value="${size}" />
+          </spring:url>
+          <li><a href="${next}${queryString}"><spring:message code="list_next" htmlEscape="false" /></a></li>
+        </c:if>
+        <c:if test="${page + 1 lt maxPages}">
+          <spring:url value="" var="last">
+            <spring:param name="page" value="${maxPages}" />
+            <spring:param name="size" value="${size}" />
+          </spring:url>
+          <li><a href="${last}${queryString}"><spring:message code="list_last" htmlEscape="false" /></a></li>
+        </c:if>
+      </ul>
+      </c:if>
     </div>
-	<div class="paginationGrouping">
-	    <p><spring:message code="list_size" htmlEscape="false" /></p>
-	    <ul>
-		    <c:forEach items="${resultCounts}" var="i">
-		      <c:choose>
-		        <c:when test="${size == i}">
-		          <li><c:out value="${i}" /></li>
-		        </c:when>
-		        <c:otherwise>
-		          <spring:url value="" var="sizeUrl">
-		            <spring:param name="page" value="1" />
-		            <spring:param name="size" value="${i}" />
-		          </spring:url>
-		          <li><a href="${sizeUrl}${queryString}">${i}</a></li>
-		        </c:otherwise>
-		      </c:choose>
-		      <c:out value=" " />
-		    </c:forEach>
-	    </ul>
+  <div class="paginationGrouping">
+      <p><spring:message code="list_size" htmlEscape="false" /></p>
+      <ul>
+        <c:forEach items="${resultCounts}" var="i">
+          <c:choose>
+            <c:when test="${size == i}">
+              <li><c:out value="${i}" /></li>
+            </c:when>
+            <c:otherwise>
+              <spring:url value="" var="sizeUrl">
+                <spring:param name="page" value="1" />
+                <spring:param name="size" value="${i}" />
+              </spring:url>
+              <li><a href="${sizeUrl}${queryString}">${i}</a></li>
+            </c:otherwise>
+          </c:choose>
+          <c:out value=" " />
+        </c:forEach>
+      </ul>
     </div>
-    
+
   </c:if>
 </jsp:root>

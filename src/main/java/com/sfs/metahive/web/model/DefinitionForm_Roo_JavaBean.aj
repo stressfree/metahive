@@ -14,125 +14,125 @@ import java.lang.String;
 import java.util.List;
 
 privileged aspect DefinitionForm_Roo_JavaBean {
-    
+
     public long DefinitionForm.getId() {
         return this.id;
     }
-    
+
     public void DefinitionForm.setId(long id) {
         this.id = id;
     }
-    
+
     public long DefinitionForm.getVersion() {
         return this.version;
     }
-    
+
     public void DefinitionForm.setVersion(long version) {
         this.version = version;
     }
-    
+
     public String DefinitionForm.getName() {
         return this.name;
     }
-    
+
     public void DefinitionForm.setName(String name) {
         this.name = name;
     }
-    
+
     public DefinitionType DefinitionForm.getDefinitionType() {
         return this.definitionType;
     }
-    
+
     public void DefinitionForm.setDefinitionType(DefinitionType definitionType) {
         this.definitionType = definitionType;
     }
-    
+
     public List<Definition> DefinitionForm.getRelatedDefinitions() {
         return this.relatedDefinitions;
     }
-    
+
     public void DefinitionForm.setRelatedDefinitions(List<Definition> relatedDefinitions) {
         this.relatedDefinitions = relatedDefinitions;
     }
-    
+
     public DataType DefinitionForm.getDataType() {
         return this.dataType;
     }
-    
+
     public void DefinitionForm.setDataType(DataType dataType) {
         this.dataType = dataType;
     }
-    
+
     public String DefinitionForm.getCalculation() {
         return this.calculation;
     }
-    
+
     public void DefinitionForm.setCalculation(String calculation) {
         this.calculation = calculation;
     }
-    
+
     public KeyValueGenerator DefinitionForm.getKeyValueGenerator() {
         return this.keyValueGenerator;
     }
-    
+
     public void DefinitionForm.setKeyValueGenerator(KeyValueGenerator keyValueGenerator) {
         this.keyValueGenerator = keyValueGenerator;
     }
-    
+
     public UserRole DefinitionForm.getKeyValueAccess() {
         return this.keyValueAccess;
     }
-    
+
     public void DefinitionForm.setKeyValueAccess(UserRole keyValueAccess) {
         this.keyValueAccess = keyValueAccess;
     }
-    
+
     public Category DefinitionForm.getCategory() {
         return this.category;
     }
-    
+
     public void DefinitionForm.setCategory(Category category) {
         this.category = category;
     }
-    
+
     public Applicability DefinitionForm.getApplicability() {
         return this.applicability;
     }
-    
+
     public void DefinitionForm.setApplicability(Applicability applicability) {
         this.applicability = applicability;
     }
-    
+
     public String DefinitionForm.getUnitOfMeasure() {
         return this.unitOfMeasure;
     }
-    
+
     public void DefinitionForm.setUnitOfMeasure(String unitOfMeasure) {
         this.unitOfMeasure = unitOfMeasure;
     }
-    
+
     public String DefinitionForm.getDescription() {
         return this.description;
     }
-    
+
     public void DefinitionForm.setDescription(String description) {
         this.description = description;
     }
-    
+
     public String DefinitionForm.getExampleValues() {
         return this.exampleValues;
     }
-    
+
     public void DefinitionForm.setExampleValues(String exampleValues) {
         this.exampleValues = exampleValues;
     }
-    
+
     public String DefinitionForm.getLogMessage() {
         return this.logMessage;
     }
-    
+
     public void DefinitionForm.setLogMessage(String logMessage) {
         this.logMessage = logMessage;
     }
-    
+
 }

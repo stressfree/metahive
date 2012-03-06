@@ -14,42 +14,42 @@ import org.springframework.transaction.annotation.Transactional;
 @RooIntegrationTest(entity = Record.class)
 public class RecordIntegrationTest {
 
-	/**
-	 * Test marker method.
-	 */
-	@Test
-	public void testMarkerMethod() {
-	}
+    /**
+     * Test marker method.
+     */
+    @Test
+    public void testMarkerMethod() {
+    }
 
-	/**
-	 * Test invalid record.
-	 */
-	@Test(expected = ConstraintViolationException.class)
-	public void testInvalidRecord() {
-		Record record = new Record();
+    /**
+     * Test invalid record.
+     */
+    @Test(expected = ConstraintViolationException.class)
+    public void testInvalidRecord() {
+        Record record = new Record();
 
-		record.persist();
-	}
+        record.persist();
+    }
 
-	/**
-	 * The add and fetch record test.
-	 */
-	@Test
-	@Transactional
-	public void addAndFetchRecord() {
-		RecordOnDemand recordDod = new RecordOnDemand();
-		Record record = recordDod.getRandomRecord();
+    /**
+     * The add and fetch record test.
+     */
+    @Test
+    @Transactional
+    public void addAndFetchRecord() {
+        RecordOnDemand recordDod = new RecordOnDemand();
+        Record record = recordDod.getRandomRecord();
 
-		record.persist();
+        record.persist();
 
-		record.flush();
-		record.clear();
+        record.flush();
+        record.clear();
 
-		Assert.assertNotNull(record.getId());
+        Assert.assertNotNull(record.getId());
 
-		Record record2 = Record.findRecord(record.getId());
-		Assert.assertNotNull(record2);
-		Assert.assertEquals(record.getRecordId(), record2.getRecordId());
+        Record record2 = Record.findRecord(record.getId());
+        Assert.assertNotNull(record2);
+        Assert.assertEquals(record.getRecordId(), record2.getRecordId());
 
-	}
+    }
 }

@@ -19,30 +19,30 @@ public class DescriptionIntegrationTest {
     public void testMarkerMethod() {
     }
 
-	/**
-	 * The add and fetch description test.
-	 */
-	@Test
-	@Transactional
-	public void addAndFetchDescription() {
-		DefinitionDataOnDemand definitionDod = new DefinitionDataOnDemand();
-		Definition definition = definitionDod.getRandomDefinition();
-		definition.persist();
-		
-		DescriptionDataOnDemand descriptionDod = new DescriptionDataOnDemand();
-		Description description = descriptionDod.getRandomDescription();
-		description.setDefinition(definition);
+    /**
+     * The add and fetch description test.
+     */
+    @Test
+    @Transactional
+    public void addAndFetchDescription() {
+        DefinitionDataOnDemand definitionDod = new DefinitionDataOnDemand();
+        Definition definition = definitionDod.getRandomDefinition();
+        definition.persist();
 
-		description.persist();
+        DescriptionDataOnDemand descriptionDod = new DescriptionDataOnDemand();
+        Description description = descriptionDod.getRandomDescription();
+        description.setDefinition(definition);
 
-		description.flush();
-		description.clear();
+        description.persist();
 
-		Assert.assertNotNull(description.getId());
+        description.flush();
+        description.clear();
 
-		Description description2 = Description.findDescription(description.getId());
-		Assert.assertNotNull(description2);
-		Assert.assertEquals(description.getDescription(), description2.getDescription());
+        Assert.assertNotNull(description.getId());
 
-	}
+        Description description2 = Description.findDescription(description.getId());
+        Assert.assertNotNull(description2);
+        Assert.assertEquals(description.getDescription(), description2.getDescription());
+
+    }
 }

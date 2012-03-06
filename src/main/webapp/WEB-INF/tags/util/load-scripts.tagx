@@ -15,7 +15,7 @@
   <spring:url value="/resources/spring/Spring-Dojo.js" var="spring_dojo_url" />
   <spring:url value="/resources/metahive.js" var="metahive_js_url" />
   <spring:url value="/resources/images/favicon.ico" var="favicon" />
-  
+
   <link rel="stylesheet" type="text/css" href="${reset_url}" />
   <link rel="stylesheet" type="text/css" href="${base_url}" />
   <link rel="stylesheet" type="text/css" href="${nihilo_url}" />
@@ -36,5 +36,5 @@
   <script src="${spring_url}" type="text/javascript"><!-- /required for FF3 and Opera --></script>
   <script src="${spring_dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script src="${metahive_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
-  
+
 </jsp:root>

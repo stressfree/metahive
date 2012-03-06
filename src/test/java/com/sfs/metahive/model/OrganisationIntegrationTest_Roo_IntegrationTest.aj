@@ -12,23 +12,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect OrganisationIntegrationTest_Roo_IntegrationTest {
-    
+
     declare @type: OrganisationIntegrationTest: @RunWith(SpringJUnit4ClassRunner.class);
-    
+
     declare @type: OrganisationIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
-    
+
     declare @type: OrganisationIntegrationTest: @Transactional;
-    
+
     @Autowired
     private OrganisationDataOnDemand OrganisationIntegrationTest.dod;
-    
+
     @Test
     public void OrganisationIntegrationTest.testCountOrganisations() {
         org.junit.Assert.assertNotNull("Data on demand for 'Organisation' failed to initialize correctly", dod.getRandomOrganisation());
         long count = com.sfs.metahive.model.Organisation.countOrganisations();
         org.junit.Assert.assertTrue("Counter for 'Organisation' incorrectly reported there were no entries", count > 0);
     }
-    
+
     @Test
     public void OrganisationIntegrationTest.testFindOrganisation() {
         com.sfs.metahive.model.Organisation obj = dod.getRandomOrganisation();
@@ -39,7 +39,7 @@ privileged aspect OrganisationIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find method for 'Organisation' illegally returned null for id '" + id + "'", obj);
         org.junit.Assert.assertEquals("Find method for 'Organisation' returned the incorrect identifier", id, obj.getId());
     }
-    
+
     @Test
     public void OrganisationIntegrationTest.testFindAllOrganisations() {
         org.junit.Assert.assertNotNull("Data on demand for 'Organisation' failed to initialize correctly", dod.getRandomOrganisation());
@@ -49,7 +49,7 @@ privileged aspect OrganisationIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find all method for 'Organisation' illegally returned null", result);
         org.junit.Assert.assertTrue("Find all method for 'Organisation' failed to return any data", result.size() > 0);
     }
-    
+
     @Test
     public void OrganisationIntegrationTest.testFindOrganisationEntries() {
         org.junit.Assert.assertNotNull("Data on demand for 'Organisation' failed to initialize correctly", dod.getRandomOrganisation());
@@ -59,7 +59,7 @@ privileged aspect OrganisationIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find entries method for 'Organisation' illegally returned null", result);
         org.junit.Assert.assertEquals("Find entries method for 'Organisation' returned an incorrect number of entries", count, result.size());
     }
-    
+
     @Test
     public void OrganisationIntegrationTest.testFlush() {
         com.sfs.metahive.model.Organisation obj = dod.getRandomOrganisation();
@@ -73,7 +73,7 @@ privileged aspect OrganisationIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertTrue("Version for 'Organisation' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
-    
+
     @Test
     public void OrganisationIntegrationTest.testMerge() {
         com.sfs.metahive.model.Organisation obj = dod.getRandomOrganisation();
@@ -88,7 +88,7 @@ privileged aspect OrganisationIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
         org.junit.Assert.assertTrue("Version for 'Organisation' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
-    
+
     @Test
     public void OrganisationIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'Organisation' failed to initialize correctly", dod.getRandomOrganisation());
@@ -99,7 +99,7 @@ privileged aspect OrganisationIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertNotNull("Expected 'Organisation' identifier to no longer be null", obj.getId());
     }
-    
+
     @Test
     public void OrganisationIntegrationTest.testRemove() {
         com.sfs.metahive.model.Organisation obj = dod.getRandomOrganisation();
@@ -111,5 +111,5 @@ privileged aspect OrganisationIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertNull("Failed to remove 'Organisation' with identifier '" + id + "'", com.sfs.metahive.model.Organisation.findOrganisation(id));
     }
-    
+
 }

@@ -2,33 +2,33 @@
 <div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    	
-	<spring:message var="title" code="metahive_contribute" htmlEscape="false" />
-  	<util:panel id="title" title="${title}">
-    	<p><spring:message code="metahive_contribute_organisationselect" htmlEscape="false" /></p>    	
-    	<spring:url value="/contribute" var="select_url" />
-		<form:form id="select" action="${select_url}" method="GET" dojoType="dijit.form.Form">
-			<div class="field">
-	  			<label for="id"><spring:message code="label_com_sfs_metahive_model_organisation" htmlEscape="true" />: </label>
-	  			<select id="id" name="id" dojoType="dijit.form.Select">
-	  				<c:forEach items="${organisations}" var="organisation">
-	  				<option value="${organisation.id}">${organisation.name}</option>
-	  				</c:forEach>
-	  			</select>
-	  		</div>	  					
-	    	<button dojoType="dijit.form.Button" id="next" type="submit"><spring:message code="metahive_button_next" /></button>
-		</form:form>
-  	</util:panel>
-  	
-  	<script type="text/javascript">
-  	<![CDATA[
-   	dojo.require("dijit.form.Form");
-   	dojo.require("dijit.form.Button");
-   	dojo.require("dijit.form.Select");
-   	    
+
+  <spring:message var="title" code="metahive_contribute" htmlEscape="false" />
+    <util:panel id="title" title="${title}">
+      <p><spring:message code="metahive_contribute_organisationselect" htmlEscape="false" /></p>
+      <spring:url value="/contribute" var="select_url" />
+    <form:form id="select" action="${select_url}" method="GET" dojoType="dijit.form.Form">
+      <div class="field">
+          <label for="id"><spring:message code="label_com_sfs_metahive_model_organisation" htmlEscape="true" />: </label>
+          <select id="id" name="id" dojoType="dijit.form.Select">
+            <c:forEach items="${organisations}" var="organisation">
+            <option value="${organisation.id}">${organisation.name}</option>
+            </c:forEach>
+          </select>
+        </div>
+        <button dojoType="dijit.form.Button" id="next" type="submit"><spring:message code="metahive_button_next" /></button>
+    </form:form>
+    </util:panel>
+
+    <script type="text/javascript">
+    <![CDATA[
+     dojo.require("dijit.form.Form");
+     dojo.require("dijit.form.Button");
+     dojo.require("dijit.form.Select");
+
     dojo.addOnLoad(function() {
-        dojo.parser.parse();        
+        dojo.parser.parse();
     });
     ]]>
-  	</script>
+    </script>
 </div>

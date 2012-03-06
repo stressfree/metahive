@@ -4,21 +4,21 @@
   <jsp:output omit-xml-declaration="yes"/>
 
   <menu:menu id="_footer_menu" z="user-managed">
-	<menu:item id="i_home" url="/" z="user-managed"/>
+  <menu:item id="i_home" url="/" z="user-managed"/>
     <menu:item id="i_record_list" url="/records" z="user-managed"/>
     <menu:item id="i_definition_list" url="/definitions" z="user-managed"/>
     <sec:authorize ifAnyGranted="ROLE_CONTRIBUTOR,ROLE_EDITOR,ROLE_ADMIN">
-    	<menu:item id="i_submissions" url="/submissions" z="user-managed"/>
+      <menu:item id="i_submissions" url="/submissions" z="user-managed"/>
     </sec:authorize>
-  	<c:choose>
-  		<c:when test="${pageContext['request'].userPrincipal != null}">
-  			<menu:item id="i_userdetails" url="/user" z="user-managed"/>
-  			<menu:item id="i_logout" url="/resources/j_spring_security_logout" z="user-managed"/>
-  		</c:when>
-  		<c:otherwise>
-  			<menu:item id="i_login" url="/login" z="user-managed"/>
-  		</c:otherwise>
-  	</c:choose>    
+    <c:choose>
+      <c:when test="${pageContext['request'].userPrincipal != null}">
+        <menu:item id="i_userdetails" url="/user" z="user-managed"/>
+        <menu:item id="i_logout" url="/resources/j_spring_security_logout" z="user-managed"/>
+      </c:when>
+      <c:otherwise>
+        <menu:item id="i_login" url="/login" z="user-managed"/>
+      </c:otherwise>
+    </c:choose>
   </menu:menu>
 
 </div>
