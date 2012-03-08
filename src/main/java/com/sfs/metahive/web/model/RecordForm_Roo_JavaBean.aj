@@ -6,37 +6,37 @@ package com.sfs.metahive.web.model;
 import java.lang.String;
 
 privileged aspect RecordForm_Roo_JavaBean {
-
+    
     public long RecordForm.getId() {
         return this.id;
     }
-
+    
     public void RecordForm.setId(long id) {
         this.id = id;
     }
-
+    
     public long RecordForm.getVersion() {
         return this.version;
     }
-
+    
     public void RecordForm.setVersion(long version) {
         this.version = version;
     }
-
+    
     public String RecordForm.getRecordId() {
         return this.recordId;
     }
-
+    
     public void RecordForm.setRecordId(String recordId) {
         this.recordId = recordId;
     }
-
+    
     public String RecordForm.getRecordIds() {
         return this.recordIds;
     }
-
+    
     public void RecordForm.setRecordIds(String recordIds) {
         this.recordIds = recordIds;
     }
-
+    
 }

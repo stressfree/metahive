@@ -8,21 +8,21 @@ import java.lang.String;
 import java.util.Map;
 
 privileged aspect KeyValueCategories_Roo_JavaBean {
-
+    
     public String KeyValueCategories.getId() {
         return this.id;
     }
-
+    
     public void KeyValueCategories.setId(String id) {
         this.id = id;
     }
-
+    
     public Map<String, KeyValueCategory> KeyValueCategories.getCategories() {
         return this.categories;
     }
-
+    
     public void KeyValueCategories.setCategories(Map<String, KeyValueCategory> categories) {
         this.categories = categories;
     }
-
+    
 }

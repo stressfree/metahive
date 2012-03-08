@@ -6,7 +6,7 @@ package com.sfs.metahive.model;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect ConditionOfUseDataOnDemand_Roo_Configurable {
-
+    
     declare @type: ConditionOfUseDataOnDemand: @Configurable;
-
+    
 }

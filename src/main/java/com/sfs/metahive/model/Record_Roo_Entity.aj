@@ -18,43 +18,43 @@ import javax.persistence.Version;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Record_Roo_Entity {
-
+    
     declare @type: Record: @Entity;
-
+    
     @PersistenceContext
     transient EntityManager Record.entityManager;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long Record.id;
-
+    
     @Version
     @Column(name = "version")
     private Integer Record.version;
-
+    
     public Long Record.getId() {
         return this.id;
     }
-
+    
     public void Record.setId(Long id) {
         this.id = id;
     }
-
+    
     public Integer Record.getVersion() {
         return this.version;
     }
-
+    
     public void Record.setVersion(Integer version) {
         this.version = version;
     }
-
+    
     @Transactional
     public void Record.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
-
+    
     @Transactional
     public void Record.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
@@ -65,19 +65,19 @@ privileged aspect Record_Roo_Entity {
             this.entityManager.remove(attached);
         }
     }
-
+    
     @Transactional
     public void Record.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
     }
-
+    
     @Transactional
     public void Record.clear() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.clear();
     }
-
+    
     @Transactional
     public Record Record.merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
@@ -85,24 +85,24 @@ privileged aspect Record_Roo_Entity {
         this.entityManager.flush();
         return merged;
     }
-
+    
     public static final EntityManager Record.entityManager() {
         EntityManager em = new Record().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
-
+    
     public static long Record.countRecords() {
         return entityManager().createQuery("SELECT COUNT(o) FROM Record o", Long.class).getSingleResult();
     }
-
+    
     public static Record Record.findRecord(Long id) {
         if (id == null) return null;
         return entityManager().find(Record.class, id);
     }
-
+    
     public static List<Record> Record.findRecordEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Record o", Record.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
-
+    
 }

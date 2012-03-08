@@ -6,7 +6,7 @@ package com.sfs.metahive.model;
 import java.lang.String;
 
 privileged aspect KeyValueCollection_Roo_ToString {
-
+    
     public String KeyValueCollection.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Id: ").append(getId()).append(", ");
@@ -16,5 +16,5 @@ privileged aspect KeyValueCollection_Roo_ToString {
         sb.append("TertiaryRecordId: ").append(getTertiaryRecordId());
         return sb.toString();
     }
-
+    
 }

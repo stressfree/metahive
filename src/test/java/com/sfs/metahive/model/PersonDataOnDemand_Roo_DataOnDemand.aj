@@ -17,13 +17,13 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
-
+    
     declare @type: PersonDataOnDemand: @Component;
-
+    
     private Random PersonDataOnDemand.rnd = new SecureRandom();
-
+    
     private List<Person> PersonDataOnDemand.data;
-
+    
     public Person PersonDataOnDemand.getNewTransientPerson(int index) {
         Person obj = new Person();
         setEmailAddress(obj, index);
@@ -36,47 +36,47 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
         setUserStatus(obj, index);
         return obj;
     }
-
+    
     public void PersonDataOnDemand.setEmailAddress(Person obj, int index) {
         String emailAddress = "emailAddress_" + index;
         obj.setEmailAddress(emailAddress);
     }
-
+    
     public void PersonDataOnDemand.setExpandAllDefinitions(Person obj, int index) {
         Boolean expandAllDefinitions = true;
         obj.setExpandAllDefinitions(expandAllDefinitions);
     }
-
+    
     public void PersonDataOnDemand.setFirstName(Person obj, int index) {
         String firstName = "firstName_" + index;
         obj.setFirstName(firstName);
     }
-
+    
     public void PersonDataOnDemand.setLastName(Person obj, int index) {
         String lastName = "lastName_" + index;
         obj.setLastName(lastName);
     }
-
+    
     public void PersonDataOnDemand.setOpenIdIdentifier(Person obj, int index) {
         String openIdIdentifier = "openIdIdentifier_" + index;
         obj.setOpenIdIdentifier(openIdIdentifier);
     }
-
+    
     public void PersonDataOnDemand.setShowAllDefinitions(Person obj, int index) {
         Boolean showAllDefinitions = true;
         obj.setShowAllDefinitions(showAllDefinitions);
     }
-
+    
     public void PersonDataOnDemand.setUserRole(Person obj, int index) {
         UserRole userRole = UserRole.class.getEnumConstants()[0];
         obj.setUserRole(userRole);
     }
-
+    
     public void PersonDataOnDemand.setUserStatus(Person obj, int index) {
         UserStatus userStatus = UserStatus.class.getEnumConstants()[0];
         obj.setUserStatus(userStatus);
     }
-
+    
     public Person PersonDataOnDemand.getSpecificPerson(int index) {
         init();
         if (index < 0) index = 0;
@@ -84,24 +84,24 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
         Person obj = data.get(index);
         return Person.findPerson(obj.getId());
     }
-
+    
     public Person PersonDataOnDemand.getRandomPerson() {
         init();
         Person obj = data.get(rnd.nextInt(data.size()));
         return Person.findPerson(obj.getId());
     }
-
+    
     public boolean PersonDataOnDemand.modifyPerson(Person obj) {
         return false;
     }
-
+    
     public void PersonDataOnDemand.init() {
         data = Person.findPersonEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Person' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
-
+        
         data = new ArrayList<com.sfs.metahive.model.Person>();
         for (int i = 0; i < 10; i++) {
             Person obj = getNewTransientPerson(i);
@@ -119,5 +119,5 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
             data.add(obj);
         }
     }
-
+    
 }

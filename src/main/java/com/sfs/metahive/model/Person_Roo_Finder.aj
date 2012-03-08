@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 privileged aspect Person_Roo_Finder {
-
+    
     public static TypedQuery<Person> Person.findPeopleByOpenIdIdentifier(String openIdIdentifier) {
         if (openIdIdentifier == null || openIdIdentifier.length() == 0) throw new IllegalArgumentException("The openIdIdentifier argument is required");
         EntityManager em = Person.entityManager();
@@ -17,5 +17,5 @@ privileged aspect Person_Roo_Finder {
         q.setParameter("openIdIdentifier", openIdIdentifier);
         return q;
     }
-
+    
 }

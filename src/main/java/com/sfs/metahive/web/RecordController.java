@@ -11,6 +11,7 @@
 package com.sfs.metahive.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ import com.sfs.metahive.model.DataGrid;
 import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.KeyValue;
+import com.sfs.metahive.model.KeyValueBoolean;
 import com.sfs.metahive.model.KeyValueCollection;
 import com.sfs.metahive.model.KeyValueGenerator;
 import com.sfs.metahive.model.KeyValueType;
@@ -117,8 +119,25 @@ public class RecordController extends BaseController {
 
     @RequestMapping(value = "/advanced", method = RequestMethod.GET)
     public String advancedSearch(Model uiModel) {
-        uiModel.addAttribute("search", new RecordForm());
+        uiModel.addAttribute("booleanOptions", populateBooleanValues());
+
         return "records/advanced";
+    }
+
+    @RequestMapping(value = "/advanced", method = RequestMethod.POST)
+    public String advancedSearchProcess(Model uiModel, HttpServletRequest request) {
+
+    	RecordFilter filter = new RecordFilter();
+    	filter.setEncoding(request.getCharacterEncoding());
+    	filter.processSearchForm(request);
+
+    	List<RecordFilter> searchArray = getSearchArray(request);
+    	// Add the filter to the search array
+    	searchArray.add(filter);
+
+    	request.getSession().setAttribute("searches", searchArray);
+
+        return "redirect:/records?id=" + filter.getId();
     }
 
     /**
@@ -313,6 +332,7 @@ public class RecordController extends BaseController {
     /**
      * List the records.
      *
+     * @param id the id
      * @param recordId the record id
      * @param page the page
      * @param size the size
@@ -322,6 +342,7 @@ public class RecordController extends BaseController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String list(
+    		@RequestParam(value = "id", required = false) String id,
             @RequestParam(value = "recordId", required = false) String recordId,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size,
@@ -354,11 +375,23 @@ public class RecordController extends BaseController {
             userRole = user.getUserRole();
         }
 
-        int sizeNo = size == null ? DEFAULT_PAGE_SIZE : size.intValue();
-        int pageNo = page == null ? 0 : page.intValue() - 1;
 
         RecordFilter filter = new RecordFilter();
         filter.setEncoding(request.getCharacterEncoding());
+
+        if (StringUtils.isNotBlank(id)) {
+        	List<RecordFilter> searchArray = getSearchArray(request);
+
+        	for (RecordFilter recordFilter : searchArray) {
+        		if (StringUtils.equals(recordFilter.getId(), id)) {
+        			filter = recordFilter;
+        		}
+        	}
+        }
+
+
+        int sizeNo = size == null ? DEFAULT_PAGE_SIZE : size.intValue();
+        int pageNo = page == null ? 0 : page.intValue() - 1;
 
         if (StringUtils.isNotBlank(recordId)) {
             filter.setRecordId(recordId);
@@ -453,6 +486,14 @@ public class RecordController extends BaseController {
         return Definition.groupDefinitions(Definition.findTopLevelDefinitions());
     }
 
+    private Collection<KeyValueBoolean> populateBooleanValues() {
+    	Collection<KeyValueBoolean> booleanValues = new ArrayList<KeyValueBoolean>();
+        for (KeyValueBoolean kvBoolean : KeyValueBoolean.values()) {
+            booleanValues.add(kvBoolean);
+        }
+        return booleanValues;
+    }
+
 
     /**
      * Builds the data grid.
@@ -541,4 +582,35 @@ public class RecordController extends BaseController {
         return dataGrid;
     }
 
+    /**
+     * Gets the search array from the session (if one exists).
+     *
+     * @param request the request
+     * @return the search array
+     */
+    private List<RecordFilter> getSearchArray(final HttpServletRequest request) {
+
+    	List<RecordFilter> searchArray = new ArrayList<RecordFilter>();
+
+    	if (request.getSession().getAttribute("searches") != null) {
+    		Object objArray = request.getSession().getAttribute("searches");
+    		if (objArray instanceof List) {
+    			List<?> list = (List<?>) objArray;
+    			for (Object objRecordFilter : list) {
+    				if (objRecordFilter instanceof RecordFilter) {
+    					RecordFilter recordFilter = (RecordFilter) objRecordFilter;
+
+    					// Test if it has expired (older than two hours)
+    					long oldTime = recordFilter.getCreated().getTime();
+    					long newTime = Calendar.getInstance().getTimeInMillis();
+
+    					if ((newTime - oldTime) <= (7200 * 1000)) {
+        					searchArray.add(recordFilter);
+    					}
+    				}
+    			}
+    		}
+    	}
+    	return searchArray;
+    }
 }

@@ -492,9 +492,12 @@ div.keyvalueDlg div.keyvalueDlgTabContainer .submit {
 }
 
 
+.recordAdvancedSearch ul {
+	margin: 0px 0px 0px 5px;
+}
 .recordAdvancedSearch li {
 	list-style: none;
-	padding-top:0.2em;
+	margin-bottom: 6px;
 }
 .recordAdvancedSearch label {
 	min-width: 200px;
@@ -504,8 +507,43 @@ div.keyvalueDlg div.keyvalueDlgTabContainer .submit {
 .recordAdvancedSearch label.summaryDefinition {
 	min-width: 179px;
 }
+.recordAdvancedSearch .summarisedDefinitions label {
+	min-width: 178px;
+}
+.recordAdvancedSearch div.searchGroup {
+	margin-bottom: 5px;
+}
+.recordAdvancedSearch .searchterm, .recordAdvancedSearch .searchconstraint {
+	padding: 2px 7px 3px 15px;
+	float: left;
+}
+.recordAdvancedSearch .searchconstraint {
+	background: #eee;
+	margin-left: 5px;
+}
+.recordAdvancedSearch .constraint {
+	font-size: 0.8em;
+	padding-top: 0.3em;
+}
+.recordAdvancedSearch .prefix, .recordAdvancedSearch .suffix {
+	font-size: 0.8em;
+	color: #666;
+}
+.recordAdvancedSearch .prefix {
+	position: absolute;
+	margin-left: -0.8em;
+}
+.recordAdvancedSearch .suffix {
+	margin-left: 0.5em;
+}
+.recordAdvancedSearch .summarisedDefinitions {
+	padding-top: 5px;
+}
 .recordAdvancedSearch .dijitTextBox {
-	width: 180px;
+	width: 160px;
+}
+.recordAdvancedSearch .actions {
+	padding-top: 1em;
 }
 
 .export {

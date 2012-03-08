@@ -6,7 +6,7 @@ package com.sfs.metahive.model;
 import java.lang.String;
 
 privileged aspect KeyValueSet_Roo_ToString {
-
+    
     public String KeyValueSet.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("ChildKeyValueSetCount: ").append(getChildKeyValueSetCount()).append(", ");
@@ -17,5 +17,5 @@ privileged aspect KeyValueSet_Roo_ToString {
         sb.append("Name: ").append(getName());
         return sb.toString();
     }
-
+    
 }

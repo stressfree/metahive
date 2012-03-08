@@ -6,7 +6,7 @@ package com.sfs.metahive.model;
 import java.lang.String;
 
 privileged aspect MetahivePreferences_Roo_ToString {
-
+    
     public String MetahivePreferences.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("AdminEmail: ").append(getAdminEmail()).append(", ");
@@ -27,5 +27,5 @@ privileged aspect MetahivePreferences_Roo_ToString {
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }
-
+    
 }

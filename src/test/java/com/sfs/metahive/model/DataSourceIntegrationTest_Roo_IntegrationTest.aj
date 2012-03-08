@@ -12,23 +12,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect DataSourceIntegrationTest_Roo_IntegrationTest {
-
+    
     declare @type: DataSourceIntegrationTest: @RunWith(SpringJUnit4ClassRunner.class);
-
+    
     declare @type: DataSourceIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
-
+    
     declare @type: DataSourceIntegrationTest: @Transactional;
-
+    
     @Autowired
     private DataSourceDataOnDemand DataSourceIntegrationTest.dod;
-
+    
     @Test
     public void DataSourceIntegrationTest.testCountDataSources() {
         org.junit.Assert.assertNotNull("Data on demand for 'DataSource' failed to initialize correctly", dod.getRandomDataSource());
         long count = com.sfs.metahive.model.DataSource.countDataSources();
         org.junit.Assert.assertTrue("Counter for 'DataSource' incorrectly reported there were no entries", count > 0);
     }
-
+    
     @Test
     public void DataSourceIntegrationTest.testFindDataSource() {
         com.sfs.metahive.model.DataSource obj = dod.getRandomDataSource();
@@ -39,7 +39,7 @@ privileged aspect DataSourceIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find method for 'DataSource' illegally returned null for id '" + id + "'", obj);
         org.junit.Assert.assertEquals("Find method for 'DataSource' returned the incorrect identifier", id, obj.getId());
     }
-
+    
     @Test
     public void DataSourceIntegrationTest.testFindAllDataSources() {
         org.junit.Assert.assertNotNull("Data on demand for 'DataSource' failed to initialize correctly", dod.getRandomDataSource());
@@ -49,7 +49,7 @@ privileged aspect DataSourceIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find all method for 'DataSource' illegally returned null", result);
         org.junit.Assert.assertTrue("Find all method for 'DataSource' failed to return any data", result.size() > 0);
     }
-
+    
     @Test
     public void DataSourceIntegrationTest.testFindDataSourceEntries() {
         org.junit.Assert.assertNotNull("Data on demand for 'DataSource' failed to initialize correctly", dod.getRandomDataSource());
@@ -59,7 +59,7 @@ privileged aspect DataSourceIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find entries method for 'DataSource' illegally returned null", result);
         org.junit.Assert.assertEquals("Find entries method for 'DataSource' returned an incorrect number of entries", count, result.size());
     }
-
+    
     @Test
     public void DataSourceIntegrationTest.testFlush() {
         com.sfs.metahive.model.DataSource obj = dod.getRandomDataSource();
@@ -73,7 +73,7 @@ privileged aspect DataSourceIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertTrue("Version for 'DataSource' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
-
+    
     @Test
     public void DataSourceIntegrationTest.testMerge() {
         com.sfs.metahive.model.DataSource obj = dod.getRandomDataSource();
@@ -88,7 +88,7 @@ privileged aspect DataSourceIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
         org.junit.Assert.assertTrue("Version for 'DataSource' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
-
+    
     @Test
     public void DataSourceIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'DataSource' failed to initialize correctly", dod.getRandomDataSource());
@@ -99,7 +99,7 @@ privileged aspect DataSourceIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertNotNull("Expected 'DataSource' identifier to no longer be null", obj.getId());
     }
-
+    
     @Test
     public void DataSourceIntegrationTest.testRemove() {
         com.sfs.metahive.model.DataSource obj = dod.getRandomDataSource();
@@ -111,5 +111,5 @@ privileged aspect DataSourceIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertNull("Failed to remove 'DataSource' with identifier '" + id + "'", com.sfs.metahive.model.DataSource.findDataSource(id));
     }
-
+    
 }

@@ -6,21 +6,21 @@ package com.sfs.metahive.web.model;
 import java.lang.String;
 
 privileged aspect DefinitionFilter_Roo_JavaBean {
-
+    
     public String DefinitionFilter.getName() {
         return this.name;
     }
-
+    
     public void DefinitionFilter.setName(String name) {
         this.name = name;
     }
-
+    
     public String DefinitionFilter.getCategory() {
         return this.category;
     }
-
+    
     public void DefinitionFilter.setCategory(String category) {
         this.category = category;
     }
-
+    
 }

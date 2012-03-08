@@ -12,23 +12,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect CommentIntegrationTest_Roo_IntegrationTest {
-
+    
     declare @type: CommentIntegrationTest: @RunWith(SpringJUnit4ClassRunner.class);
-
+    
     declare @type: CommentIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
-
+    
     declare @type: CommentIntegrationTest: @Transactional;
-
+    
     @Autowired
     private CommentDataOnDemand CommentIntegrationTest.dod;
-
+    
     @Test
     public void CommentIntegrationTest.testCountComments() {
         org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
         long count = com.sfs.metahive.model.Comment.countComments();
         org.junit.Assert.assertTrue("Counter for 'Comment' incorrectly reported there were no entries", count > 0);
     }
-
+    
     @Test
     public void CommentIntegrationTest.testFindComment() {
         com.sfs.metahive.model.Comment obj = dod.getRandomComment();
@@ -39,7 +39,7 @@ privileged aspect CommentIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find method for 'Comment' illegally returned null for id '" + id + "'", obj);
         org.junit.Assert.assertEquals("Find method for 'Comment' returned the incorrect identifier", id, obj.getId());
     }
-
+    
     @Test
     public void CommentIntegrationTest.testFindAllComments() {
         org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
@@ -49,7 +49,7 @@ privileged aspect CommentIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find all method for 'Comment' illegally returned null", result);
         org.junit.Assert.assertTrue("Find all method for 'Comment' failed to return any data", result.size() > 0);
     }
-
+    
     @Test
     public void CommentIntegrationTest.testFindCommentEntries() {
         org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
@@ -59,7 +59,7 @@ privileged aspect CommentIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find entries method for 'Comment' illegally returned null", result);
         org.junit.Assert.assertEquals("Find entries method for 'Comment' returned an incorrect number of entries", count, result.size());
     }
-
+    
     @Test
     public void CommentIntegrationTest.testFlush() {
         com.sfs.metahive.model.Comment obj = dod.getRandomComment();
@@ -73,7 +73,7 @@ privileged aspect CommentIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertTrue("Version for 'Comment' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
-
+    
     @Test
     public void CommentIntegrationTest.testMerge() {
         com.sfs.metahive.model.Comment obj = dod.getRandomComment();
@@ -88,7 +88,7 @@ privileged aspect CommentIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
         org.junit.Assert.assertTrue("Version for 'Comment' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
-
+    
     @Test
     public void CommentIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
@@ -99,7 +99,7 @@ privileged aspect CommentIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertNotNull("Expected 'Comment' identifier to no longer be null", obj.getId());
     }
-
+    
     @Test
     public void CommentIntegrationTest.testRemove() {
         com.sfs.metahive.model.Comment obj = dod.getRandomComment();
@@ -111,5 +111,5 @@ privileged aspect CommentIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertNull("Failed to remove 'Comment' with identifier '" + id + "'", com.sfs.metahive.model.Comment.findComment(id));
     }
-
+    
 }

@@ -15,117 +15,117 @@ import java.lang.String;
 import java.util.List;
 
 privileged aspect Person_Roo_JavaBean {
-
+    
     public String Person.getOpenIdIdentifier() {
         return this.openIdIdentifier;
     }
-
+    
     public void Person.setOpenIdIdentifier(String openIdIdentifier) {
         this.openIdIdentifier = openIdIdentifier;
     }
-
+    
     public UserRole Person.getUserRole() {
         return this.userRole;
     }
-
+    
     public void Person.setUserRole(UserRole userRole) {
         this.userRole = userRole;
     }
-
+    
     public UserStatus Person.getUserStatus() {
         return this.userStatus;
     }
-
+    
     public void Person.setUserStatus(UserStatus userStatus) {
         this.userStatus = userStatus;
     }
-
+    
     public String Person.getFirstName() {
         return this.firstName;
     }
-
+    
     public void Person.setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
+    
     public String Person.getLastName() {
         return this.lastName;
     }
-
+    
     public void Person.setLastName(String lastName) {
         this.lastName = lastName;
     }
-
+    
     public String Person.getEmailAddress() {
         return this.emailAddress;
     }
-
+    
     public void Person.setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
-
+    
     public List<Description> Person.getDescriptions() {
         return this.descriptions;
     }
-
+    
     public void Person.setDescriptions(List<Description> descriptions) {
         this.descriptions = descriptions;
     }
-
+    
     public List<Organisation> Person.getOrganisations() {
         return this.organisations;
     }
-
+    
     public void Person.setOrganisations(List<Organisation> organisations) {
         this.organisations = organisations;
     }
-
+    
     public List<DataSource> Person.getDataSources() {
         return this.dataSources;
     }
-
+    
     public void Person.setDataSources(List<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
-
+    
     public List<Comment> Person.getComments() {
         return this.comments;
     }
-
+    
     public void Person.setComments(List<Comment> comments) {
         this.comments = comments;
     }
-
+    
     public List<Submission> Person.getSubmissions() {
         return this.submissions;
     }
-
+    
     public void Person.setSubmissions(List<Submission> submissions) {
         this.submissions = submissions;
     }
-
+    
     public List<Definition> Person.getSearchDefinitions() {
         return this.searchDefinitions;
     }
-
+    
     public void Person.setSearchDefinitions(List<Definition> searchDefinitions) {
         this.searchDefinitions = searchDefinitions;
     }
-
+    
     public boolean Person.isShowAllDefinitions() {
         return this.showAllDefinitions;
     }
-
+    
     public void Person.setShowAllDefinitions(boolean showAllDefinitions) {
         this.showAllDefinitions = showAllDefinitions;
     }
-
+    
     public boolean Person.isExpandAllDefinitions() {
         return this.expandAllDefinitions;
     }
-
+    
     public void Person.setExpandAllDefinitions(boolean expandAllDefinitions) {
         this.expandAllDefinitions = expandAllDefinitions;
     }
-
+    
 }

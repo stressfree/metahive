@@ -6,7 +6,7 @@ package com.sfs.metahive.messaging;
 import java.lang.String;
 
 privileged aspect JmsRecalculateRequest_Roo_ToString {
-
+    
     public String JmsRecalculateRequest.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("DefinitionId: ").append(getDefinitionId()).append(", ");
@@ -15,5 +15,5 @@ privileged aspect JmsRecalculateRequest_Roo_ToString {
         sb.append("TertiaryRecordId: ").append(getTertiaryRecordId());
         return sb.toString();
     }
-
+    
 }

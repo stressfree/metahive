@@ -15,25 +15,25 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 privileged aspect ConditionOfUseDataOnDemand_Roo_DataOnDemand {
-
+    
     declare @type: ConditionOfUseDataOnDemand: @Component;
-
+    
     private Random ConditionOfUseDataOnDemand.rnd = new SecureRandom();
-
+    
     private List<ConditionOfUse> ConditionOfUseDataOnDemand.data;
-
+    
     public ConditionOfUse ConditionOfUseDataOnDemand.getNewTransientConditionOfUse(int index) {
         ConditionOfUse obj = new ConditionOfUse();
         setDetails(obj, index);
         setName(obj, index);
         return obj;
     }
-
+    
     public void ConditionOfUseDataOnDemand.setDetails(ConditionOfUse obj, int index) {
         String details = "details_" + index;
         obj.setDetails(details);
     }
-
+    
     public void ConditionOfUseDataOnDemand.setName(ConditionOfUse obj, int index) {
         String name = "name_" + index;
         if (name.length() > 100) {
@@ -41,7 +41,7 @@ privileged aspect ConditionOfUseDataOnDemand_Roo_DataOnDemand {
         }
         obj.setName(name);
     }
-
+    
     public ConditionOfUse ConditionOfUseDataOnDemand.getSpecificConditionOfUse(int index) {
         init();
         if (index < 0) index = 0;
@@ -49,24 +49,24 @@ privileged aspect ConditionOfUseDataOnDemand_Roo_DataOnDemand {
         ConditionOfUse obj = data.get(index);
         return ConditionOfUse.findConditionOfUse(obj.getId());
     }
-
+    
     public ConditionOfUse ConditionOfUseDataOnDemand.getRandomConditionOfUse() {
         init();
         ConditionOfUse obj = data.get(rnd.nextInt(data.size()));
         return ConditionOfUse.findConditionOfUse(obj.getId());
     }
-
+    
     public boolean ConditionOfUseDataOnDemand.modifyConditionOfUse(ConditionOfUse obj) {
         return false;
     }
-
+    
     public void ConditionOfUseDataOnDemand.init() {
         data = ConditionOfUse.findConditionOfUseEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'ConditionOfUse' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
-
+        
         data = new ArrayList<com.sfs.metahive.model.ConditionOfUse>();
         for (int i = 0; i < 10; i++) {
             ConditionOfUse obj = getNewTransientConditionOfUse(i);
@@ -84,5 +84,5 @@ privileged aspect ConditionOfUseDataOnDemand_Roo_DataOnDemand {
             data.add(obj);
         }
     }
-
+    
 }

@@ -15,19 +15,19 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 privileged aspect RecordOnDemand_Roo_DataOnDemand {
-
+    
     declare @type: RecordOnDemand: @Component;
-
+    
     private Random RecordOnDemand.rnd = new SecureRandom();
-
+    
     private List<Record> RecordOnDemand.data;
-
+    
     public Record RecordOnDemand.getNewTransientRecord(int index) {
         Record obj = new Record();
         setRecordId(obj, index);
         return obj;
     }
-
+    
     public void RecordOnDemand.setRecordId(Record obj, int index) {
         String recordId = "recordId_" + index;
         if (recordId.length() > 255) {
@@ -35,7 +35,7 @@ privileged aspect RecordOnDemand_Roo_DataOnDemand {
         }
         obj.setRecordId(recordId);
     }
-
+    
     public Record RecordOnDemand.getSpecificRecord(int index) {
         init();
         if (index < 0) index = 0;
@@ -43,24 +43,24 @@ privileged aspect RecordOnDemand_Roo_DataOnDemand {
         Record obj = data.get(index);
         return Record.findRecord(obj.getId());
     }
-
+    
     public Record RecordOnDemand.getRandomRecord() {
         init();
         Record obj = data.get(rnd.nextInt(data.size()));
         return Record.findRecord(obj.getId());
     }
-
+    
     public boolean RecordOnDemand.modifyRecord(Record obj) {
         return false;
     }
-
+    
     public void RecordOnDemand.init() {
         data = Record.findRecordEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Record' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
-
+        
         data = new ArrayList<com.sfs.metahive.model.Record>();
         for (int i = 0; i < 10; i++) {
             Record obj = getNewTransientRecord(i);
@@ -78,5 +78,5 @@ privileged aspect RecordOnDemand_Roo_DataOnDemand {
             data.add(obj);
         }
     }
-
+    
 }

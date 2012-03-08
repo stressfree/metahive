@@ -17,7 +17,7 @@
         <spring:message code="metahive_contribute_preview" var="contribute_preview" />
         <div id="submissionPreview" dojoType="dijit.Dialog" title="${contribute_preview}">
           <div class="actions">
-            <div id="next" dojoType="dijit.form.Button" jsId="nextButton"><spring:message code="metahive_button_submit" /></div>
+            <button id="next" dojoType="dijit.form.Button" jsId="nextButton"><spring:message code="metahive_button_submit" /></button>
           </div>
           <div id="submissionPreviewContent"><div class="loader"><!--  --></div></div>
         </div>

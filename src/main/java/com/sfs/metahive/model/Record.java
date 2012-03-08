@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,7 +33,9 @@ import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 
+import com.sfs.metahive.web.model.FilterVector;
 import com.sfs.metahive.web.model.RecordFilter;
+import com.sfs.metahive.web.model.RecordFilterVector;
 
 /**
  * The Class Record.
@@ -416,6 +419,24 @@ public class Record {
             where.append("LOWER(r.recordId) LIKE LOWER(:recordId)");
         }
 
+
+        if (filter.getSearchVectors() != null) {
+        	for (FilterVector vector : filter.getSearchVectors()) {
+        		//StringBuilder vsql = new StringBuilder();
+
+        		Map<Long, RecordFilterVector> rVectors = buildRecordVectors(vector);
+
+        		for (Long id : rVectors.keySet()) {
+        			RecordFilterVector rVector = rVectors.get(id);
+
+        			System.out.println("Definition: "
+        					+ rVector.getDefinition().getName());
+        			System.out.println("Criteria: " + rVector.getCriteria());
+        			System.out.println("Constraint: " + rVector.getCriteria());
+        		}
+        	}
+        }
+
         if (where.length() > 0) {
             where.insert(0, " WHERE ");
         }
@@ -642,6 +663,57 @@ public class Record {
         result.put(keyValueCategory, keyValueSet);
 
         return result;
+    }
+
+    /**
+     * Builds the record vectors map.
+     *
+     * @param vector the vector
+     * @return the map
+     */
+    private static Map<Long, RecordFilterVector> buildRecordVectors(
+    		final FilterVector vector) {
+
+    	Map<Long, RecordFilterVector> rVectors =
+				new TreeMap<Long, RecordFilterVector>();
+
+		for (String key : vector.getSearchVariables().keySet()) {
+			String value = vector.getSearchVariables().get(key);
+
+			RecordFilterVector rVector = new RecordFilterVector();
+
+			StringTokenizer tk = new StringTokenizer(key, "_");
+			int i = 0;
+			while(tk.hasMoreTokens()) {
+				String component = tk.nextToken();
+				if (i == 1) {
+					// The definition id
+					try {
+						Long id = Long.parseLong(component);
+						if (rVectors.containsKey(id)) {
+							rVector = rVectors.get(id);
+						} else {
+							rVector.setDefinition(Definition.findDefinition(id));
+						}
+					} catch (Exception e) {
+						// Error parsing id
+					}
+				}
+				if (i == 2) {
+					// The criteria or constraint flag (a or b)
+					if (StringUtils.equalsIgnoreCase(component, "b")) {
+						rVector.setConstraint(value);
+					} else {
+						rVector.setCriteria(value);
+					}
+				}
+				i++;
+			}
+			if (rVector.getDefinition() != null) {
+				rVectors.put(rVector.getDefinition().getId(), rVector);
+			}
+		}
+		return rVectors;
     }
 
 }

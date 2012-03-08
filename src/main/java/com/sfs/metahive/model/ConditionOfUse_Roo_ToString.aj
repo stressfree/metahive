@@ -6,7 +6,7 @@ package com.sfs.metahive.model;
 import java.lang.String;
 
 privileged aspect ConditionOfUse_Roo_ToString {
-
+    
     public String ConditionOfUse.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("DataSources: ").append(getDataSources() == null ? "null" : getDataSources().size()).append(", ");
@@ -16,5 +16,5 @@ privileged aspect ConditionOfUse_Roo_ToString {
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }
-
+    
 }

@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 privileged aspect Definition_Roo_Finder {
-
+    
     public static TypedQuery<Definition> Definition.findDefinitionsByNameLike(String name) {
         if (name == null || name.length() == 0) throw new IllegalArgumentException("The name argument is required");
         name = name.replace('*', '%');
@@ -24,5 +24,5 @@ privileged aspect Definition_Roo_Finder {
         q.setParameter("name", name);
         return q;
     }
-
+    
 }

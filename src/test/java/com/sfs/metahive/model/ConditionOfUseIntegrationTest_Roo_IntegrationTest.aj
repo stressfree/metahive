@@ -12,23 +12,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect ConditionOfUseIntegrationTest_Roo_IntegrationTest {
-
+    
     declare @type: ConditionOfUseIntegrationTest: @RunWith(SpringJUnit4ClassRunner.class);
-
+    
     declare @type: ConditionOfUseIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
-
+    
     declare @type: ConditionOfUseIntegrationTest: @Transactional;
-
+    
     @Autowired
     private ConditionOfUseDataOnDemand ConditionOfUseIntegrationTest.dod;
-
+    
     @Test
     public void ConditionOfUseIntegrationTest.testCountConditionOfUses() {
         org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
         long count = com.sfs.metahive.model.ConditionOfUse.countConditionOfUses();
         org.junit.Assert.assertTrue("Counter for 'ConditionOfUse' incorrectly reported there were no entries", count > 0);
     }
-
+    
     @Test
     public void ConditionOfUseIntegrationTest.testFindConditionOfUse() {
         com.sfs.metahive.model.ConditionOfUse obj = dod.getRandomConditionOfUse();
@@ -39,7 +39,7 @@ privileged aspect ConditionOfUseIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find method for 'ConditionOfUse' illegally returned null for id '" + id + "'", obj);
         org.junit.Assert.assertEquals("Find method for 'ConditionOfUse' returned the incorrect identifier", id, obj.getId());
     }
-
+    
     @Test
     public void ConditionOfUseIntegrationTest.testFindAllConditionOfUses() {
         org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
@@ -49,7 +49,7 @@ privileged aspect ConditionOfUseIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find all method for 'ConditionOfUse' illegally returned null", result);
         org.junit.Assert.assertTrue("Find all method for 'ConditionOfUse' failed to return any data", result.size() > 0);
     }
-
+    
     @Test
     public void ConditionOfUseIntegrationTest.testFindConditionOfUseEntries() {
         org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
@@ -59,7 +59,7 @@ privileged aspect ConditionOfUseIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertNotNull("Find entries method for 'ConditionOfUse' illegally returned null", result);
         org.junit.Assert.assertEquals("Find entries method for 'ConditionOfUse' returned an incorrect number of entries", count, result.size());
     }
-
+    
     @Test
     public void ConditionOfUseIntegrationTest.testFlush() {
         com.sfs.metahive.model.ConditionOfUse obj = dod.getRandomConditionOfUse();
@@ -73,7 +73,7 @@ privileged aspect ConditionOfUseIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertTrue("Version for 'ConditionOfUse' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
-
+    
     @Test
     public void ConditionOfUseIntegrationTest.testMerge() {
         com.sfs.metahive.model.ConditionOfUse obj = dod.getRandomConditionOfUse();
@@ -88,7 +88,7 @@ privileged aspect ConditionOfUseIntegrationTest_Roo_IntegrationTest {
         org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
         org.junit.Assert.assertTrue("Version for 'ConditionOfUse' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
-
+    
     @Test
     public void ConditionOfUseIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
@@ -99,7 +99,7 @@ privileged aspect ConditionOfUseIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertNotNull("Expected 'ConditionOfUse' identifier to no longer be null", obj.getId());
     }
-
+    
     @Test
     public void ConditionOfUseIntegrationTest.testRemove() {
         com.sfs.metahive.model.ConditionOfUse obj = dod.getRandomConditionOfUse();
@@ -111,5 +111,5 @@ privileged aspect ConditionOfUseIntegrationTest_Roo_IntegrationTest {
         obj.flush();
         org.junit.Assert.assertNull("Failed to remove 'ConditionOfUse' with identifier '" + id + "'", com.sfs.metahive.model.ConditionOfUse.findConditionOfUse(id));
     }
-
+    
 }

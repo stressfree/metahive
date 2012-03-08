@@ -3,16 +3,43 @@
 
 package com.sfs.metahive.web.model;
 
+import com.sfs.metahive.web.model.FilterVector;
 import java.lang.String;
+import java.util.Date;
+import java.util.List;
 
 privileged aspect RecordFilter_Roo_JavaBean {
-
+    
+    public String RecordFilter.getId() {
+        return this.id;
+    }
+    
+    public void RecordFilter.setId(String id) {
+        this.id = id;
+    }
+    
     public String RecordFilter.getRecordId() {
         return this.recordId;
     }
-
+    
     public void RecordFilter.setRecordId(String recordId) {
         this.recordId = recordId;
     }
-
+    
+    public List<FilterVector> RecordFilter.getSearchVectors() {
+        return this.searchVectors;
+    }
+    
+    public void RecordFilter.setSearchVectors(List<FilterVector> searchVectors) {
+        this.searchVectors = searchVectors;
+    }
+    
+    public Date RecordFilter.getCreated() {
+        return this.created;
+    }
+    
+    public void RecordFilter.setCreated(Date created) {
+        this.created = created;
+    }
+    
 }

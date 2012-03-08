@@ -6,29 +6,29 @@ package com.sfs.metahive.web.model;
 import java.lang.String;
 
 privileged aspect KeyValueForm_Roo_JavaBean {
-
+    
     public String KeyValueForm.getOverrideEnabled() {
         return this.overrideEnabled;
     }
-
+    
     public void KeyValueForm.setOverrideEnabled(String overrideEnabled) {
         this.overrideEnabled = overrideEnabled;
     }
-
+    
     public String KeyValueForm.getOverrideValue() {
         return this.overrideValue;
     }
-
+    
     public void KeyValueForm.setOverrideValue(String overrideValue) {
         this.overrideValue = overrideValue;
     }
-
+    
     public String KeyValueForm.getOverrideComment() {
         return this.overrideComment;
     }
-
+    
     public void KeyValueForm.setOverrideComment(String overrideComment) {
         this.overrideComment = overrideComment;
     }
-
+    
 }

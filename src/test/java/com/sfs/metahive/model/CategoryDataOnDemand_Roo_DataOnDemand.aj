@@ -15,19 +15,19 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 privileged aspect CategoryDataOnDemand_Roo_DataOnDemand {
-
+    
     declare @type: CategoryDataOnDemand: @Component;
-
+    
     private Random CategoryDataOnDemand.rnd = new SecureRandom();
-
+    
     private List<Category> CategoryDataOnDemand.data;
-
+    
     public Category CategoryDataOnDemand.getNewTransientCategory(int index) {
         Category obj = new Category();
         setName(obj, index);
         return obj;
     }
-
+    
     public void CategoryDataOnDemand.setName(Category obj, int index) {
         String name = "name_" + index;
         if (name.length() > 100) {
@@ -35,7 +35,7 @@ privileged aspect CategoryDataOnDemand_Roo_DataOnDemand {
         }
         obj.setName(name);
     }
-
+    
     public Category CategoryDataOnDemand.getSpecificCategory(int index) {
         init();
         if (index < 0) index = 0;
@@ -43,24 +43,24 @@ privileged aspect CategoryDataOnDemand_Roo_DataOnDemand {
         Category obj = data.get(index);
         return Category.findCategory(obj.getId());
     }
-
+    
     public Category CategoryDataOnDemand.getRandomCategory() {
         init();
         Category obj = data.get(rnd.nextInt(data.size()));
         return Category.findCategory(obj.getId());
     }
-
+    
     public boolean CategoryDataOnDemand.modifyCategory(Category obj) {
         return false;
     }
-
+    
     public void CategoryDataOnDemand.init() {
         data = Category.findCategoryEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Category' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
-
+        
         data = new ArrayList<com.sfs.metahive.model.Category>();
         for (int i = 0; i < 10; i++) {
             Category obj = getNewTransientCategory(i);
@@ -78,5 +78,5 @@ privileged aspect CategoryDataOnDemand_Roo_DataOnDemand {
             data.add(obj);
         }
     }
-
+    
 }

@@ -1,4 +1,4 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<jsp:output omit-xml-declaration="yes"/>
   	<jsp:directive.attribute name="definition" type="com.sfs.metahive.model.Definition" required="true" rtexprvalue="true" description="The definition to be used as the search term" />
 
@@ -21,28 +21,40 @@
 		</c:otherwise>
 	</c:choose>
 	<li>
-		<c:set value="" var="labelStyle" />
-		<c:if test="${not empty definition.summarisedDefinitions}">
-			<c:set value="summaryDefinition" var="labelStyle" />
-        	<a class="expandIcon expandIconHidden"><!-- --></a>
-        </c:if>
-		<label class="${labelStyle}" for="d_${definition.id}_a"><c:out value="${definition.name}" /></label>
-		<c:if test="${definition.dataType eq 'TYPE_CURRENCY'}">
-			<span class="prefix">$</span>
-		</c:if>
-		<input id="d_${definition.id}_a" name="d_${definition.id}_a"  dojoType="${dojoType}" />
-		<c:if test="${not empty definition.description.unitOfMeasure}">
-			<span class="suffix"><c:out value="${definition.description.unitOfMeasure}" /></span>
-		</c:if>
+		<div class="searchterm">
+			<c:set value="" var="labelStyle" />
+			<c:if test="${not empty definition.summarisedDefinitions}">
+				<c:set value="summaryDefinition" var="labelStyle" />
+        		<a class="expandIcon expandIconHidden"><!-- --></a>
+        	</c:if>
+			<label class="${labelStyle}" for="d_${definition.id}_a"><c:out value="${definition.name}" /></label>
+			<c:choose>
+				<c:when test="${definition.dataType eq 'TYPE_BOOLEAN'}">
+					<select id="d_${definition.id}_a" name="d_${definition.id}_a" dojoType="dijit.form.Select">
+						<option value="*"></option>
+						<c:forEach items="${booleanOptions}" var="blValue">
+							<option value="${blValue}"><spring:message code="${blValue.messageKey}" /></option>
+						</c:forEach>
+					</select>
+				</c:when>
+				<c:otherwise>
+					<c:if test="${definition.dataType eq 'TYPE_CURRENCY'}">
+						<span class="prefix">$</span>
+					</c:if>
+					<input id="d_${definition.id}_a" name="d_${definition.id}_a"  dojoType="${dojoType}" />
+					<c:if test="${not empty definition.description.unitOfMeasure}">
+						<span class="suffix"><c:out value="${fn:trim(definition.description.unitOfMeasure)}" /></span>
+					</c:if>
+				</c:otherwise>
+			</c:choose>
+		</div>
 		<c:if test="${constrainable eq true}">
-			<c:out value=" " />
-			<span class="constraint">
-				<spring:message code="metahive_record_advancedsearch_constraint" />:
-				<c:if test="${definition.dataType eq 'TYPE_CURRENCY'}">
-					<span class="prefix">$</span>
-				</c:if>
+			<div class="searchconstraint">
+				<span class="constraint">
+					<spring:message code="metahive_record_advancedsearch_constraint" />:
+				</span>
 				<input id="d_${definition.id}_b" name="d_${definition.id}_b"  dojoType="${dojoType}" />
-		</span>
+			</div>
 		</c:if>
 		<c:if test="${not empty definition.summarisedDefinitions}">
 			<div class="summarisedDefinitions hidden">
@@ -53,5 +65,6 @@
 				</ul>
 			</div>
 		</c:if>
+		<div class="clear"><!-- --></div>
 	</li>
 </jsp:root>

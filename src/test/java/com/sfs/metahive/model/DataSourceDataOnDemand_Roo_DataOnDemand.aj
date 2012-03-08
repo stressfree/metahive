@@ -24,22 +24,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
-
+    
     declare @type: DataSourceDataOnDemand: @Component;
-
+    
     private Random DataSourceDataOnDemand.rnd = new SecureRandom();
-
+    
     private List<DataSource> DataSourceDataOnDemand.data;
-
+    
     @Autowired
     private ConditionOfUseDataOnDemand DataSourceDataOnDemand.conditionOfUseDataOnDemand;
-
+    
     @Autowired
     private DefinitionDataOnDemand DataSourceDataOnDemand.definitionDataOnDemand;
-
+    
     @Autowired
     private OrganisationDataOnDemand DataSourceDataOnDemand.organisationDataOnDemand;
-
+    
     public DataSource DataSourceDataOnDemand.getNewTransientDataSource(int index) {
         DataSource obj = new DataSource();
         setCollectionDate(obj, index);
@@ -50,32 +50,32 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
         setOrganisation(obj, index);
         return obj;
     }
-
+    
     public void DataSourceDataOnDemand.setCollectionDate(DataSource obj, int index) {
         Date collectionDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setCollectionDate(collectionDate);
     }
-
+    
     public void DataSourceDataOnDemand.setCollectionSource(DataSource obj, int index) {
         String collectionSource = "collectionSource_" + index;
         obj.setCollectionSource(collectionSource);
     }
-
+    
     public void DataSourceDataOnDemand.setConditionOfUse(DataSource obj, int index) {
         ConditionOfUse conditionOfUse = conditionOfUseDataOnDemand.getRandomConditionOfUse();
         obj.setConditionOfUse(conditionOfUse);
     }
-
+    
     public void DataSourceDataOnDemand.setDetails(DataSource obj, int index) {
         String details = "details_" + index;
         obj.setDetails(details);
     }
-
+    
     public void DataSourceDataOnDemand.setOrganisation(DataSource obj, int index) {
         Organisation organisation = organisationDataOnDemand.getRandomOrganisation();
         obj.setOrganisation(organisation);
     }
-
+    
     public DataSource DataSourceDataOnDemand.getSpecificDataSource(int index) {
         init();
         if (index < 0) index = 0;
@@ -83,24 +83,24 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
         DataSource obj = data.get(index);
         return DataSource.findDataSource(obj.getId());
     }
-
+    
     public DataSource DataSourceDataOnDemand.getRandomDataSource() {
         init();
         DataSource obj = data.get(rnd.nextInt(data.size()));
         return DataSource.findDataSource(obj.getId());
     }
-
+    
     public boolean DataSourceDataOnDemand.modifyDataSource(DataSource obj) {
         return false;
     }
-
+    
     public void DataSourceDataOnDemand.init() {
         data = DataSource.findDataSourceEntries(0, 10);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'DataSource' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
-
+        
         data = new ArrayList<com.sfs.metahive.model.DataSource>();
         for (int i = 0; i < 10; i++) {
             DataSource obj = getNewTransientDataSource(i);
@@ -118,5 +118,5 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
             data.add(obj);
         }
     }
-
+    
 }

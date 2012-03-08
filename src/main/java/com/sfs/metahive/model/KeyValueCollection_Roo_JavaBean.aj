@@ -9,45 +9,45 @@ import java.lang.String;
 import java.util.Map;
 
 privileged aspect KeyValueCollection_Roo_JavaBean {
-
+    
     public Long KeyValueCollection.getId() {
         return this.id;
     }
-
+    
     public void KeyValueCollection.setId(Long id) {
         this.id = id;
     }
-
+    
     public Map<String, KeyValue> KeyValueCollection.getKeyValueMap() {
         return this.keyValueMap;
     }
-
+    
     public void KeyValueCollection.setKeyValueMap(Map<String, KeyValue> keyValueMap) {
         this.keyValueMap = keyValueMap;
     }
-
+    
     public String KeyValueCollection.getRecordId() {
         return this.recordId;
     }
-
+    
     public void KeyValueCollection.setRecordId(String recordId) {
         this.recordId = recordId;
     }
-
+    
     public String KeyValueCollection.getSecondaryRecordId() {
         return this.secondaryRecordId;
     }
-
+    
     public void KeyValueCollection.setSecondaryRecordId(String secondaryRecordId) {
         this.secondaryRecordId = secondaryRecordId;
     }
-
+    
     public String KeyValueCollection.getTertiaryRecordId() {
         return this.tertiaryRecordId;
     }
-
+    
     public void KeyValueCollection.setTertiaryRecordId(String tertiaryRecordId) {
         this.tertiaryRecordId = tertiaryRecordId;
     }
-
+    
 }
