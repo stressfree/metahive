@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -23,6 +23,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.model.Definition;
@@ -127,6 +129,32 @@ public class UserController extends BaseController {
         }
 
         return "redirect:/records";
+    }
+
+    /**
+     * Update search option via an AJAX call.
+     *
+     * @param section the section
+     * @param uiModel the ui model
+     * @param request the request
+     * @return the string
+     */
+    @RequestMapping(value = "/searchOptions", method = RequestMethod.GET)
+    public @ResponseBody String updateSearchOptionAjax(
+    		@RequestParam(value = "section", required = true) String section,
+    		Model uiModel, HttpServletRequest request) {
+
+    	String response = "Only valid for logged in users";
+
+        Person person = loadUser(request);
+
+        if (person != null) {
+        	// Toggle the section option
+
+
+            response = "Search option changed";
+        }
+        return response;
     }
 
 

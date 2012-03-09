@@ -360,7 +360,17 @@ public class Record {
         List<Record> records = new ArrayList<Record>();
 
         StringBuilder sql = new StringBuilder("SELECT r FROM Record r");
-        sql.append(buildWhere(filter));
+
+        Map<String, Map<String, Object>> whereParameters = buildWhere(filter);
+        Map<String, Object> variables = new HashMap<String, Object>();
+
+        if (whereParameters.size() > 0) {
+        	String sqlWhere = whereParameters.keySet().iterator().next();
+        	variables = whereParameters.get(sqlWhere);
+
+        	sql.append(sqlWhere);
+        }
+
         sql.append(" ORDER BY r.recordId ASC");
 
         TypedQuery<Record> q = entityManager().createQuery(
@@ -370,7 +380,6 @@ public class Record {
             q.setFirstResult(firstResult).setMaxResults(maxResults);
         }
 
-        HashMap<String, String> variables = buildVariables(filter);
         for (String variable : variables.keySet()) {
             q.setParameter(variable, variables.get(variable));
         }
@@ -393,11 +402,19 @@ public class Record {
     public static long countRecords(final RecordFilter filter) {
 
         StringBuilder sql = new StringBuilder("SELECT COUNT(r) FROM Record r");
-        sql.append(buildWhere(filter));
+
+        Map<String, Map<String, Object>> whereParameters = buildWhere(filter);
+        Map<String, Object> variables = new HashMap<String, Object>();
+
+        if (whereParameters.size() > 0) {
+        	String sqlWhere = whereParameters.keySet().iterator().next();
+        	variables = whereParameters.get(sqlWhere);
+
+        	sql.append(sqlWhere);
+        }
 
         TypedQuery<Long> q = entityManager().createQuery(sql.toString(), Long.class);
 
-        HashMap<String, String> variables = buildVariables(filter);
         for (String variable : variables.keySet()) {
             q.setParameter(variable, variables.get(variable));
         }
@@ -412,53 +429,166 @@ public class Record {
      * @param filter the filter
      * @return the string
      */
-    private static String buildWhere(final RecordFilter filter) {
+    private static Map<String, Map<String, Object>> buildWhere(
+    		final RecordFilter filter) {
+
+
+    	Map<String, Map<String, Object>> whereParameters =
+    			new HashMap<String, Map<String, Object>>();
+
         StringBuilder where = new StringBuilder();
+        HashMap<String, Object> variables = new HashMap<String, Object>();
+
 
         if (StringUtils.isNotBlank(filter.getRecordId())) {
             where.append("LOWER(r.recordId) LIKE LOWER(:recordId)");
+            variables.put("recordId", filter.getRecordId());
         }
-
 
         if (filter.getSearchVectors() != null) {
         	for (FilterVector vector : filter.getSearchVectors()) {
-        		//StringBuilder vsql = new StringBuilder();
 
         		Map<Long, RecordFilterVector> rVectors = buildRecordVectors(vector);
 
         		for (Long id : rVectors.keySet()) {
         			RecordFilterVector rVector = rVectors.get(id);
 
-        			System.out.println("Definition: "
-        					+ rVector.getDefinition().getName());
-        			System.out.println("Criteria: " + rVector.getCriteria());
-        			System.out.println("Constraint: " + rVector.getCriteria());
+        			Map<String, Map<String, Object>> searchOperation =
+        					getSearchOperation(rVector);
+        			String operation = "";
+
+        			if (searchOperation.size() > 0) {
+        				operation = searchOperation.keySet().iterator().next();
+        			}
+
+        			if (StringUtils.isNotBlank(operation)) {
+        				Map<String, Object> params = searchOperation.get(operation);
+
+        				if (where.length() > 0) {
+        					where.append(" AND ");
+        				}
+
+        				where.append(" r.id IN (SELECT kv.record from KeyValue kv");
+        				where.append(" WHERE kv.definition = ");
+        				where.append(id);
+        				where.append(" AND ");
+        				where.append(operation);
+        				where.append(")");
+
+        				for (String key : params.keySet()) {
+        					Object parameter = params.get(key);
+
+            				variables.put(key, parameter);
+        				}
+        			}
         		}
         	}
         }
 
         if (where.length() > 0) {
             where.insert(0, " WHERE ");
+        	whereParameters.put(where.toString(), variables);
+        	logger.info("SQL WHERE: " + where.toString());
         }
-        return where.toString();
+        return whereParameters;
     }
 
     /**
-     * Builds the variables for the where statement.
+     * Gets the search operation parameters.
      *
-     * @param filter the filter
-     * @return the hash map
+     * @param rVector the r vector
+     * @return the search operation
      */
-    private static HashMap<String, String> buildVariables(final RecordFilter filter) {
+    private static Map<String, Map<String, Object>> getSearchOperation(
+    		final RecordFilterVector rVector) {
 
-        HashMap<String, String> variables = new HashMap<String, String>();
+		String variableName = "variable" + rVector.getDefinition().getId();
+		String criteria = "";
+		String constraint = "";
 
-        if (StringUtils.isNotBlank(filter.getRecordId())) {
-            variables.put("recordId", filter.getRecordId());
-        }
+		StringBuilder where = new StringBuilder();
+		Map<String, Object> variables = new HashMap<String, Object>();
 
-        return variables;
+
+		if (StringUtils.isNotBlank(rVector.getCriteria())) {
+			criteria = rVector.getCriteria().trim();
+		}
+		if (StringUtils.isNotBlank(rVector.getConstraint())) {
+			if (StringUtils.isBlank(criteria)) {
+				criteria = rVector.getConstraint();
+			} else {
+				constraint = rVector.getConstraint();
+			}
+		}
+
+    	DataType dataType = rVector.getDefinition().getDataType();
+
+    	if (StringUtils.isNotBlank(criteria) && dataType == DataType.TYPE_BOOLEAN) {
+    		where.append("LOWER(kv.booleanValue) = :");
+    		where.append(variableName);
+
+			variables.put(variableName, criteria.toLowerCase());
+		}
+
+		if (StringUtils.isNotBlank(criteria) && dataType == DataType.TYPE_STRING) {
+			where.append("LOWER(kv.stringValue) LIKE :");
+			where.append(variableName);
+
+			variables.put(variableName, "%" + criteria + "%".toLowerCase());
+		}
+
+		if (dataType == DataType.TYPE_NUMBER || dataType == DataType.TYPE_PERCENTAGE
+				|| dataType == DataType.TYPE_CURRENCY) {
+
+			if (StringUtils.isNotBlank(criteria)) {
+				try {
+					double dbCriteria = Double.parseDouble(criteria);
+					double dbConstraint = 0;
+					boolean multipleValue = false;
+
+					if (StringUtils.isNotBlank(constraint)) {
+						try {
+							dbConstraint = Double.parseDouble(constraint);
+							multipleValue = true;
+						} catch (NumberFormatException nfe) {
+							// Error casting to a double - ignore
+						}
+					}
+
+					where.append("LOWER(kv.doubleValue)");
+
+					if (multipleValue) {
+						where.append(" BETWEEN :");
+						where.append(variableName);
+						where.append("_a AND :");
+						where.append(variableName);
+						where.append("_b");
+
+						variables.put(variableName + "_a", dbCriteria);
+						variables.put(variableName + "_b", dbConstraint);
+					} else {
+						where.append(" = :");
+						where.append(variableName);
+
+						variables.put(variableName, dbCriteria);
+					}
+
+				} catch (NumberFormatException nfe) {
+					// Error casting to a double - ignore
+				}
+			}
+		}
+
+		Map<String, Map<String, Object>> searchOperation =
+				new HashMap<String, Map<String, Object>>();
+
+		if (StringUtils.isNotBlank(where.toString())) {
+			searchOperation.put(where.toString(), variables);
+		}
+
+		return searchOperation;
     }
+
 
     /**
      * Builds the key values map based on the list of key values and definitions.
