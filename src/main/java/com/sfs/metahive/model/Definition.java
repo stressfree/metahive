@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -26,6 +26,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -115,6 +116,10 @@ public class Definition {
     @OrderBy("created ASC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "definition")
     private List<Comment> comments = new ArrayList<Comment>();
+
+    /** The show expanded flag. */
+    @Transient
+    boolean expanded = false;
 
 
     /**

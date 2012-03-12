@@ -20,12 +20,22 @@
 			<c:set var="constrainable" value="false" />
 		</c:otherwise>
 	</c:choose>
-	<li>
+
+    <c:set var="expandClass" value="expandIconHidden" />
+    <c:set var="summarisedDefinitionsClass" value="hidden" />
+    <c:set var="searchTermId" value="term_${definition.id}" />
+
+    <c:if test="${user.searchOptionsMap[searchTermId] eq true}">
+        <c:set var="expandClass" value="" />
+        <c:set var="summarisedDefinitionsClass" value="" />
+    </c:if>
+
+	<li id="${searchTermId}">
 		<div class="searchterm">
 			<c:set value="" var="labelStyle" />
 			<c:if test="${not empty definition.summarisedDefinitions}">
 				<c:set value="summaryDefinition" var="labelStyle" />
-        		<a class="expandIcon expandIconHidden"><!-- --></a>
+        		<a class="expandIcon ${expandClass}"><!-- --></a>
         	</c:if>
 			<label class="${labelStyle}" for="d_${definition.id}_a"><c:out value="${definition.name}" /></label>
 			<c:choose>
@@ -57,7 +67,7 @@
 			</div>
 		</c:if>
 		<c:if test="${not empty definition.summarisedDefinitions}">
-			<div class="summarisedDefinitions hidden">
+			<div class="summarisedDefinitions ${summarisedDefinitionsClass}">
 				<ul>
 					<c:forEach var="summarisedDefinition" items="${definition.summarisedDefinitions}">
 						<metahive:searchterm definition="${summarisedDefinition}" />

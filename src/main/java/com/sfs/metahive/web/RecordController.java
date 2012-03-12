@@ -482,7 +482,7 @@ public class RecordController extends BaseController {
     }
 
     @ModelAttribute("exportDefinitions")
-    public Map<String, List<Definition>> populateDefinitions() {
+    public Map<String, List<Definition>> populateExportDefinitions() {
         return Definition.groupDefinitions(Definition.findTopLevelDefinitions());
     }
 

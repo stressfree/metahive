@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -12,6 +12,7 @@ package com.sfs.metahive.model;
 
 import flexjson.JSON;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.json.RooJson;
@@ -29,10 +30,15 @@ import javax.persistence.EnumType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PostLoad;
+import javax.persistence.Transient;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * The Class Person.
@@ -113,6 +119,39 @@ public class Person implements UserDetails {
     /** The expand all definitions flag. */
     private boolean expandAllDefinitions;
 
+    /** The search options. */
+    private String searchOptions;
+
+    /** The search options map. */
+    @Transient
+    private Map<String, Boolean> searchOptionsMap;
+
+
+    /**
+     * Build the option map if any search options exist.
+     */
+    @PostLoad
+    public final void postLoad() {
+    	this.searchOptionsMap = new HashMap<String, Boolean>();
+
+		if (StringUtils.isNotBlank(this.searchOptions)) {
+			// Parse the search options
+			StringTokenizer st = new StringTokenizer(this.searchOptions, "|");
+			while (st.hasMoreTokens()) {
+				String t = st.nextToken();
+				String key = StringUtils.substring(t, 0, StringUtils.indexOf(t, "="));
+				String vl = StringUtils.substring(t, StringUtils.indexOf(t, "=") + 1);
+
+				// Parse the value to a boolean
+				try {
+					boolean bl = Boolean.parseBoolean(vl);
+					this.searchOptionsMap.put(key, bl);
+				} catch (Exception e) {
+					// Error casting string to boolean
+				}
+			}
+		}
+    }
 
     /**
      * Returns the username used to authenticate the user. Cannot return null.
@@ -208,6 +247,60 @@ public class Person implements UserDetails {
     public final String getFormattedName() {
         return this.firstName + " " + this.lastName;
     }
+
+
+    /**
+     * Gets the search option, returns false by default.
+     *
+     * @param key the key
+     * @return the search option
+     */
+    public boolean getSearchOption(final String key) {
+    	boolean value = false;
+
+    	if (this.getSearchOptionsMap().containsKey(key)) {
+    		value = this.getSearchOptionsMap().get(key);
+    	}
+    	return value;
+    }
+
+    /**
+     * Gets the search options map.
+     *
+     * @return the search options map
+     */
+    public final Map<String, Boolean> getSearchOptionsMap() {
+    	if (this.searchOptionsMap == null) {
+    		this.searchOptionsMap = new HashMap<String, Boolean>();
+    	}
+    	return this.searchOptionsMap;
+    }
+
+    /**
+     * Change the search option.
+     *
+     * @param key the key
+     * @param value the value
+     */
+    public final void changeSearchOption(final String key, final boolean value) {
+    	this.getSearchOptionsMap().put(key, value);
+
+    	StringBuilder sb = new StringBuilder();
+
+    	// Covert the map to the string for persistence purposes
+    	for (String optionKey : this.getSearchOptionsMap().keySet()) {
+    		boolean optionValue = this.getSearchOptionsMap().get(optionKey);
+
+    		if (sb.length() > 0 ) {
+    			sb.append("|");
+    		}
+    		sb.append(optionKey);
+    		sb.append("=");
+    		sb.append(optionValue);
+    	}
+    	this.searchOptions = sb.toString();
+    }
+
 
     /**
      * Adds an organisation.

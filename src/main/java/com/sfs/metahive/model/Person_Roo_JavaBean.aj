@@ -11,8 +11,10 @@ import com.sfs.metahive.model.Organisation;
 import com.sfs.metahive.model.Submission;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.model.UserStatus;
+import java.lang.Boolean;
 import java.lang.String;
 import java.util.List;
+import java.util.Map;
 
 privileged aspect Person_Roo_JavaBean {
     
@@ -126,6 +128,18 @@ privileged aspect Person_Roo_JavaBean {
     
     public void Person.setExpandAllDefinitions(boolean expandAllDefinitions) {
         this.expandAllDefinitions = expandAllDefinitions;
+    }
+    
+    public String Person.getSearchOptions() {
+        return this.searchOptions;
+    }
+    
+    public void Person.setSearchOptions(String searchOptions) {
+        this.searchOptions = searchOptions;
+    }
+    
+    public void Person.setSearchOptionsMap(Map<String, Boolean> searchOptionsMap) {
+        this.searchOptionsMap = searchOptionsMap;
     }
     
 }

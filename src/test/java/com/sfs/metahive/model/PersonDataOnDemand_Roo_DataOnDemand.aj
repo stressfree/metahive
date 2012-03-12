@@ -31,6 +31,7 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
         setFirstName(obj, index);
         setLastName(obj, index);
         setOpenIdIdentifier(obj, index);
+        setSearchOptions(obj, index);
         setShowAllDefinitions(obj, index);
         setUserRole(obj, index);
         setUserStatus(obj, index);
@@ -60,6 +61,11 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
     public void PersonDataOnDemand.setOpenIdIdentifier(Person obj, int index) {
         String openIdIdentifier = "openIdIdentifier_" + index;
         obj.setOpenIdIdentifier(openIdIdentifier);
+    }
+    
+    public void PersonDataOnDemand.setSearchOptions(Person obj, int index) {
+        String searchOptions = "searchOptions_" + index;
+        obj.setSearchOptions(searchOptions);
     }
     
     public void PersonDataOnDemand.setShowAllDefinitions(Person obj, int index) {

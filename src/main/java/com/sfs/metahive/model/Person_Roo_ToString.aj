@@ -22,6 +22,8 @@ privileged aspect Person_Roo_ToString {
         sb.append("Organisations: ").append(getOrganisations() == null ? "null" : getOrganisations().size()).append(", ");
         sb.append("Password: ").append(getPassword()).append(", ");
         sb.append("SearchDefinitions: ").append(getSearchDefinitions() == null ? "null" : getSearchDefinitions().size()).append(", ");
+        sb.append("SearchOptions: ").append(getSearchOptions()).append(", ");
+        sb.append("SearchOptionsMap: ").append(getSearchOptionsMap() == null ? "null" : getSearchOptionsMap().size()).append(", ");
         sb.append("Submissions: ").append(getSubmissions() == null ? "null" : getSubmissions().size()).append(", ");
         sb.append("UserRole: ").append(getUserRole()).append(", ");
         sb.append("UserStatus: ").append(getUserStatus()).append(", ");

@@ -114,4 +114,12 @@ privileged aspect Definition_Roo_JavaBean {
         this.comments = comments;
     }
     
+    public boolean Definition.isExpanded() {
+        return this.expanded;
+    }
+    
+    public void Definition.setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
+    
 }

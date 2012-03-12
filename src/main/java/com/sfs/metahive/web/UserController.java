@@ -142,17 +142,19 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/searchOptions", method = RequestMethod.GET)
     public @ResponseBody String updateSearchOptionAjax(
     		@RequestParam(value = "section", required = true) String section,
+    		@RequestParam(value = "display", required = true) boolean display,
     		Model uiModel, HttpServletRequest request) {
 
-    	String response = "Only valid for logged in users";
+    	String response = getMessage("security_login_message");
 
         Person person = loadUser(request);
 
         if (person != null) {
         	// Toggle the section option
+        	person.changeSearchOption(section, display);
+        	person.merge();
 
-
-            response = "Search option changed";
+            response = getMessage("metahive_searchoption_changed");
         }
         return response;
     }
