@@ -113,6 +113,14 @@ privileged aspect MetahivePreferences_Roo_JavaBean {
         this.tertiaryRecordDefault = tertiaryRecordDefault;
     }
     
+    public String MetahivePreferences.getGoogleTrackingId() {
+        return this.googleTrackingId;
+    }
+    
+    public void MetahivePreferences.setGoogleTrackingId(String googleTrackingId) {
+        this.googleTrackingId = googleTrackingId;
+    }
+    
     public List<Definition> MetahivePreferences.getDefaultDefinitions() {
         return this.defaultDefinitions;
     }

@@ -9,6 +9,7 @@
 
     <form:update title="metahive_preferences" id="fu_com_sfs_metahive_model_MetahivePreferences" modelAttribute="metahivePreferences" path="/preferences" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
         <field:input validationPrompt="metahive_preferences_prompt_url" field="url" id="c_com_sfs_metahive_model_MetahivePreferences_url" required="true" validationRegex="https?://[A-Za-z0-9._%-]+" validationMessageCode="field_invalid_url" z="user-managed"/>
+        <field:input validationPrompt="metahive_preferences_prompt_googletrackingid" field="googleTrackingId" id="c_com_sfs_metahive_model_MetahivePreferences_googleTrackingId" z="user-managed"/>
         <fieldset>
           <legend><spring:message code="metahive_preferences_emailaddresses" /></legend>
           <field:input validationPrompt="metahive_preferences_prompt_adminemail" field="adminEmail" id="c_com_sfs_metahive_model_MetahivePreferences_adminEmail" required="true" validationRegex="\\b[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b" validationMessageCode="field_invalid_email" z="user-managed"/>

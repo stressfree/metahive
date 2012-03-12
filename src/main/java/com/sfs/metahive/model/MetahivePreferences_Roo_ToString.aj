@@ -12,6 +12,7 @@ privileged aspect MetahivePreferences_Roo_ToString {
         sb.append("AdminEmail: ").append(getAdminEmail()).append(", ");
         sb.append("DefaultDefinitions: ").append(getDefaultDefinitions() == null ? "null" : getDefaultDefinitions().size()).append(", ");
         sb.append("FromEmail: ").append(getFromEmail()).append(", ");
+        sb.append("GoogleTrackingId: ").append(getGoogleTrackingId()).append(", ");
         sb.append("HomepageContent: ").append(getHomepageContent()).append(", ");
         sb.append("HomepageTitle: ").append(getHomepageTitle()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
