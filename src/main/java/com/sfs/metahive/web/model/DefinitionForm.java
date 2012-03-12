@@ -216,6 +216,8 @@ public class DefinitionForm extends BackingForm {
             definition.setApplicability(this.getApplicability());
 
             if (this.getDefinitionType() == DefinitionType.SUMMARY) {
+                definition.resetSummarisedDefinitions();
+
                 for (Definition def : this.getRelatedDefinitions()) {
                     definition.addSummarisedDefinition(def);
                 }

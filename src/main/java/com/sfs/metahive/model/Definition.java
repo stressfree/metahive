@@ -128,12 +128,7 @@ public class Definition {
     @PreUpdate
     public final void preUpdate() {
         if (this.definitionType != DefinitionType.SUMMARY) {
-            if (this.summarisedDefinitions != null) {
-                for (Definition def : this.summarisedDefinitions) {
-                    def.setSummaryDefinition(null);
-                    def.persist();
-                }
-            }
+        	resetSummarisedDefinitions();
         }
 
         if (this.definitionType != DefinitionType.STANDARD) {
@@ -253,6 +248,18 @@ public class Definition {
     public final void addSummarisedDefinition(Definition definition) {
         definition.setSummaryDefinition(this);
         getSummarisedDefinitions().add(definition);
+    }
+
+    /**
+     * Reset the summarised definitions list.
+     */
+    public final void resetSummarisedDefinitions() {
+    	if (this.summarisedDefinitions != null) {
+            for (Definition def : this.summarisedDefinitions) {
+                def.setSummaryDefinition(null);
+                def.persist();
+            }
+        }
     }
 
     /**
