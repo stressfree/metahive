@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -90,6 +91,47 @@ public class KeyValueIdentifier {
                 keyValue = oldest(values);
             }
         }
+        return keyValue;
+    }
+
+    /**
+     * Calculate the key value by concatenating the values.
+     *
+     * @param values the values
+     * @return the object
+     */
+    public static Object concat(final List<Object> values) {
+
+    	Object keyValue = null;
+
+    	TreeMap<String, Integer> valueSet = new TreeMap<String, Integer>();
+
+        for (Object value : values) {
+            if (value instanceof String) {
+            	valueSet.put((String) value, 0);
+            }
+        }
+
+        if (valueSet.size() > 0) {
+        	StringBuilder sb = new StringBuilder();
+
+        	int count = valueSet.keySet().size();
+        	int counter = 1;
+
+        	for (String item : valueSet.keySet()) {
+        		if (sb.length() > 0) {
+        			if (counter == count) {
+        				sb.append(" and ");
+        			} else {
+        				sb.append(", ");
+        			}
+        		}
+        		sb.append(item);
+        		counter++;
+        	}
+        	keyValue = sb.toString();
+        }
+
         return keyValue;
     }
 
@@ -237,6 +279,34 @@ public class KeyValueIdentifier {
                     keyValue = parseDoubleToBoolean(getQuartileUpper(sortedList));
                 }
             }
+        }
+        return keyValue;
+    }
+
+    /**
+     * Calculate the total value from the list of supplied values.
+     * This assumes that the list of values are Double objects.
+     * If no Double objects exist in the values list then null is returned.
+     *
+     * @param values the values
+     * @return the object
+     */
+    public static Object total(final List<Object> values) {
+        Double keyValue = null;
+
+        double runningTotal = 0;
+        boolean valueSet = false;
+
+        for (Object value : values) {
+            if (value instanceof Double) {
+                runningTotal += (Double) value;
+                valueSet = true;
+            }
+        }
+
+        if (valueSet) {
+            // At least one valid Double value existed
+            keyValue = runningTotal;
         }
         return keyValue;
     }

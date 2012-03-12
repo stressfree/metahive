@@ -410,11 +410,9 @@ a.expandIcon:hover {
 .record .secondaryRecord, .record .tertiaryRecord {
   width: 473px;
 }
-.record .secondaryRecord .dijitTitlePaneTitle {
-  background: #F7FBFE;
-}
+.record .secondaryRecord .dijitTitlePaneTitle,
 .record .tertiaryRecord .dijitTitlePaneTitle {
-  background: #F2FFF2;
+  background: #e6ebf1;
 }
 .record .keyValueSet {
   padding: 0 0 1em 0;

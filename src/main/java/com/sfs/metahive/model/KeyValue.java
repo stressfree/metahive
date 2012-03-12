@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -124,10 +124,12 @@ public class KeyValue {
      @PrePersist
      @PreUpdate
      protected void preCreateOrUpdate() {
-         if (doubleValue == Double.NaN
-                 || doubleValue == Double.POSITIVE_INFINITY
-                 || doubleValue == Double.NEGATIVE_INFINITY) {
-             doubleValue = null;
+    	 if (doubleValue != null) {
+    		 if (doubleValue == Double.NaN
+    				 || doubleValue == Double.POSITIVE_INFINITY
+    				 || doubleValue == Double.NEGATIVE_INFINITY) {
+    			 doubleValue = null;
+    		 }
          }
          // Update the modified date
          modified = new Date();

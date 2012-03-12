@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -27,8 +27,10 @@ public enum KeyValueGenerator {
     OLDEST("label_com_sfs_metahive_model_keyvaluegenerator_oldest"),
     FREQUENT_DEFAULT_NEW("label_com_sfs_metahive_model_keyvaluegenerator_frequent_new"),
     FREQUENT_DEFAULT_OLD("label_com_sfs_metahive_model_keyvaluegenerator_frequent_old"),
+    CONCAT("label_com_sfs_metahive_model_keyvaluegenerator_concat"),
     UNCLEAR("label_com_sfs_metahive_model_keyvaluegenerator_unclear"),
     AVERAGE("label_com_sfs_metahive_model_keyvaluegenerator_average"),
+    TOTAL("label_com_sfs_metahive_model_keyvaluegenerator_total"),
     HIGHEST("label_com_sfs_metahive_model_keyvaluegenerator_highest"),
     LOWEST("label_com_sfs_metahive_model_keyvaluegenerator_lowest"),
     MEDIAN("label_com_sfs_metahive_model_keyvaluegenerator_median"),
@@ -102,6 +104,10 @@ public enum KeyValueGenerator {
             if (def.getKeyValueGenerator() == KeyValueGenerator.FREQUENT_DEFAULT_OLD) {
                 keyValue = KeyValueIdentifier.frequentDefaultOldest(values);
             }
+            // This assumes a string set of values
+            if (def.getKeyValueGenerator() == KeyValueGenerator.CONCAT) {
+                keyValue = KeyValueIdentifier.concat(values);
+            }
             // This assumes a boolean set of values.
             if (def.getKeyValueGenerator() == KeyValueGenerator.UNCLEAR) {
                 keyValue = KeyValueIdentifier.unclear(values);
@@ -117,6 +123,9 @@ public enum KeyValueGenerator {
                 keyValue = KeyValueIdentifier.quartileUpper(values);
             }
             // This assumes numeric (Double) set of values
+            if (def.getKeyValueGenerator() == KeyValueGenerator.TOTAL) {
+                keyValue = KeyValueIdentifier.total(values);
+            }
             if (def.getKeyValueGenerator() == KeyValueGenerator.AVERAGE) {
                 keyValue = KeyValueIdentifier.average(values);
             }

@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -64,6 +64,7 @@ public enum DataType {
 
         if (this == DataType.TYPE_NUMBER  || this == DataType.TYPE_CURRENCY
                 || this == DataType.TYPE_PERCENTAGE) {
+            keyValueGens.add(KeyValueGenerator.TOTAL);
             keyValueGens.add(KeyValueGenerator.AVERAGE);
             keyValueGens.add(KeyValueGenerator.HIGHEST);
             keyValueGens.add(KeyValueGenerator.LOWEST);
@@ -77,6 +78,10 @@ public enum DataType {
             keyValueGens.add(KeyValueGenerator.MEDIAN);
             keyValueGens.add(KeyValueGenerator.QUARTILE_LOWER);
             keyValueGens.add(KeyValueGenerator.QUARTILE_UPPER);
+        }
+
+        if (this == DataType.TYPE_STRING) {
+            keyValueGens.add(KeyValueGenerator.CONCAT);
         }
 
         if (this == DataType.TYPE_UNIQUEID) {
