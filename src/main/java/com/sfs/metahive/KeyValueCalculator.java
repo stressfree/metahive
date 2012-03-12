@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -83,6 +83,27 @@ public class KeyValueCalculator {
         }
     }
 
+    /**
+     * Parses the record id. Tries casting to an integer first.
+     *
+     * @param recordId the record id
+     * @return the string
+     */
+    public static String parseRecordId(final String recordId) {
+
+        String record = "";
+
+        if (StringUtils.isNotBlank(recordId)) {
+            record = recordId;
+            try {
+                int number = Integer.parseInt(recordId);
+                record = String.valueOf(number);
+            } catch (NumberFormatException nfe) {
+                // Error casting to a number
+            }
+        }
+        return record;
+    }
 
     /**
      * Calculate the key value for a standard definition.
@@ -544,27 +565,5 @@ public class KeyValueCalculator {
             }
         }
         return refresh;
-    }
-
-    /**
-     * Parses the record id. Tries casting to an integer first.
-     *
-     * @param recordId the record id
-     * @return the string
-     */
-    private static String parseRecordId(final String recordId) {
-
-        String record = "";
-
-        if (StringUtils.isNotBlank(recordId)) {
-            record = recordId;
-            try {
-                int number = Integer.parseInt(recordId);
-                record = String.valueOf(number);
-            } catch (NumberFormatException nfe) {
-                // Error casting to a number
-            }
-        }
-        return record;
     }
 }

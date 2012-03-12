@@ -25,10 +25,6 @@
      dojo.require("dijit.form.Form");
      dojo.require("dijit.form.Button");
      dojo.require("dijit.form.Select");
-
-    dojo.addOnLoad(function() {
-        dojo.parser.parse();
-    });
     ]]>
     </script>
 </div>

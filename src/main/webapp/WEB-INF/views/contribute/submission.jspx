@@ -10,17 +10,17 @@
     <form:form id="submission" action="${complete_url}" method="POST" dojoType="dijit.form.Form">
       <input type="hidden" id="submissionId" name="submissionId" value="${organisationId}" />
       <div class="field">
-          <textarea data-dojo-type="dijit.form.SimpleTextarea" id="submissionData" name="submissionData"><!-- --></textarea>
-        </div>
-        <div id="previewButton" dojoType="dijit.form.Button" jsId="previewButton"><spring:message code="metahive_button_preview" /></div>
+          <textarea dojoType="dijit.form.SimpleTextarea" id="submissionData" name="submissionData"><!-- --></textarea>
+      </div>
+      <div id="previewButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_preview" /></div>
 
-        <spring:message code="metahive_contribute_preview" var="contribute_preview" />
-        <div id="submissionPreview" dojoType="dijit.Dialog" title="${contribute_preview}">
-          <div class="actions">
-            <button id="next" dojoType="dijit.form.Button" jsId="nextButton"><spring:message code="metahive_button_submit" /></button>
-          </div>
-          <div id="submissionPreviewContent"><div class="loader"><!--  --></div></div>
+      <spring:message code="metahive_contribute_preview" var="contribute_preview" />
+      <div id="submissionPreview" dojoType="dijit.Dialog" title="${contribute_preview}">
+        <div class="actions">
+          <button id="nextButton" type="submit" dojoType="dijit.form.Button"><spring:message code="metahive_button_submit" /></button>
         </div>
+        <div id="submissionPreviewContent"><div class="loader"><!--  --></div></div>
+      </div>
     </form:form>
     </util:panel>
 
@@ -37,12 +37,10 @@
      dojo.require("dijit.form.Form");
      dojo.require("dijit.form.Button");
      dojo.require("dijit.form.SimpleTextarea");
+     dojo.require("dijit.Dialog");
 
     dojo.addOnLoad(function() {
-
-        dojo.parser.parse();
-
-        dojo.connect(previewButton, "onClick", function() {
+        dojo.connect(previewButton, "onclick", function() {
           dojo.byId("previewData").value = dojo.byId("submissionData").value;
           dijit.byId("submissionPreview").show();
 
@@ -55,8 +53,8 @@
                    }
                   dojo.byId("submissionPreviewContent").innerHTML = data;
 
-                  dojo.connect(nextButton, "onClick", function() {
-                    dijit.byId("submission").submit();
+                  dojo.connect(nextButton, "onclick", function() {
+                	  dijit.byId("submission").submit();
                   });
               }
             });

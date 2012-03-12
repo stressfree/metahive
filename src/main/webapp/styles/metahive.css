@@ -502,6 +502,14 @@ div.keyvalueDlg div.keyvalueDlgTabContainer .submit {
 	font-size: 0.8em;
 	text-align: left;
 }
+.recordAdvancedSearch label a, .recordAdvancedSearch label a:visited {
+	color: inherit;
+	text-decoration: none;
+}
+.recordAdvancedSearch label a:hover {
+    color: #e92c19;
+    text-decoration: underline;
+}
 .recordAdvancedSearch label.summaryDefinition {
 	min-width: 179px;
 }

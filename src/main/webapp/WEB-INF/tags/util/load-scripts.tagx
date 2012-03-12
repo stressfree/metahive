@@ -1,40 +1,23 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
-
   <jsp:output omit-xml-declaration="yes" />
-
-  <spring:url value="/resources/dojo/dojo.js" var="dojo_url" />
-  <spring:url value="/resources/dojox/grid/enhanced/resources/EnhancedGrid.css" var="grid_url" />
-  <spring:url value="/resources/dojox/grid/enhanced/resources/claroEnhancedGrid.css" var="grid_claro_url" />
-  <spring:url value="/resources/dojox/form/resources/CheckedMultiSelect.css" var="multiselect_url" />
-
-  <spring:url value="/styles/reset-fonts-grid.css" var="reset_url" />
-  <spring:url value="/styles/base-min.css" var="base_url" />
+  <c:set var="userLocale">
+    <c:out value="${pageContext.response.locale}" default="en" />
+  </c:set>
+  <spring:url value="/styles/reset.css" var="reset_url" />
   <spring:url value="/styles/metahive.css" var="metahive_url" />
-  <spring:url value="/resources/dijit/themes/nihilo/nihilo.css" var="nihilo_url" />
-  <spring:url value="/resources/spring/Spring.js" var="spring_url" />
-  <spring:url value="/resources/spring/Spring-Dojo.js" var="spring_dojo_url" />
   <spring:url value="/resources/metahive.js" var="metahive_js_url" />
   <spring:url value="/resources/images/favicon.ico" var="favicon" />
 
   <link rel="stylesheet" type="text/css" href="${reset_url}" />
-  <link rel="stylesheet" type="text/css" href="${base_url}" />
-  <link rel="stylesheet" type="text/css" href="${nihilo_url}" />
-  <link rel="stylesheet" type="text/css" href="${grid_url}" />
-  <link rel="stylesheet" type="text/css" href="${grid_claro_url}" />
-  <link rel="stylesheet" type="text/css" href="${multiselect_url}" />
+  <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/nihilo/nihilo.css" />
+  <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/enhanced/resources/EnhancedGrid.css" />
+  <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/enhanced/resources/claro/EnhancedGrid.css" />
+  <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/form/resources/CheckedMultiSelect.css" />
   <link rel="stylesheet" type="text/css" href="${metahive_url}" />
   <link rel="SHORTCUT ICON" href="${favicon}" />
-
-  <!-- Get the user local from the page context (it was set by Spring MVC's locale resolver) -->
   <c:set var="userLocale">
     <c:out value="${pageContext.response.locale}" default="en" />
   </c:set>
-
-  <script type="text/javascript">var djConfig = {parseOnLoad: false, isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
-
-  <script src="${dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
-  <script src="${spring_url}" type="text/javascript"><!-- /required for FF3 and Opera --></script>
-  <script src="${spring_dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" djConfig="parseOnLoad: true, isDebug: false, locale: '${fn:toLowerCase(userLocale)}'"><!-- required for FF3 and Opera --></script>
   <script src="${metahive_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
-
 </jsp:root>

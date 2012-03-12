@@ -62,10 +62,6 @@
      dojo.require("dijit.form.Button");
      dojo.require("dijit.form.TextBox");
      dojo.require("dijit.form.Select");
-
-    dojo.addOnLoad(function() {
-        dojo.parser.parse();
-    });
     ]]>
   </script>
   <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">

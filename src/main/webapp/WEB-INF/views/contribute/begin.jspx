@@ -65,8 +65,6 @@
 
     dojo.addOnLoad(function() {
 
-        dojo.parser.parse();
-
         dojo.connect(nextButton, "onClick", function() {
             window.location.href="${submission_url}";
         });

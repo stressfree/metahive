@@ -42,8 +42,6 @@
 
     dojo.addOnLoad(function() {
 
-        dojo.parser.parse();
-
         dojo.connect(organisationAddButton, "onClick", function() {
             window.location.href="${add_organisation_url}";
         });

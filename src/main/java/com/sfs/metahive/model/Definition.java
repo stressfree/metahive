@@ -135,6 +135,7 @@ public class Definition {
             if (this.dataSources != null) {
                 for (DataSource ds : this.dataSources) {
                     ds.remove();
+                    ds.flush();
                 }
             }
         }

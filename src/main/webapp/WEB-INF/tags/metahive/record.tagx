@@ -58,10 +58,6 @@
      dojo.require("dijit.form.Button");
      dojo.require("dijit.form.TextBox");
      dojo.require("dijit.form.Select");
-
-    dojo.addOnLoad(function() {
-        dojo.parser.parse();
-    });
     ]]>
   </script>
   <c:if test="${pageContext['request'].userPrincipal != null}">

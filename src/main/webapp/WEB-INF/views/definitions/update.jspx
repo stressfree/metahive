@@ -63,7 +63,6 @@
     dojo.require("dijit.form.FilteringSelect");
 
     dojo.addOnLoad(function() {
-        dojo.parser.parse();
         dojo.connect(dijit.byId('_definitionType_id'), 'onChange', definitionTypeChange);
         dojo.connect(dijit.byId('_dataType_id'), 'onChange', definitionDataTypeChange);
         dojo.connect(dojo.byId('addRelatedDefinition'), 'onclick', addRelatedDefinition);

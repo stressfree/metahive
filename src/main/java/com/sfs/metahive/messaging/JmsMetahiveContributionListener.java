@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 
+import com.sfs.metahive.KeyValueCalculator;
 import com.sfs.metahive.messaging.JmsRecalculateRequest;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.MetahivePreferences;
@@ -138,6 +139,13 @@ public class JmsMetahiveContributionListener {
                 if (StringUtils.isBlank(tertiaryRecord)
                         && StringUtils.isNotBlank(prefs.getTertiaryRecordDefault())) {
                     tertiaryRecord = prefs.getTertiaryRecordDefault();
+                }
+
+                if (StringUtils.isNotBlank(secondaryRecord)) {
+                	secondaryRecord = KeyValueCalculator.parseRecordId(secondaryRecord);
+                }
+                if (StringUtils.isNotBlank(tertiaryRecord)) {
+                	tertiaryRecord = KeyValueCalculator.parseRecordId(tertiaryRecord);
                 }
 
                 logger.info("Primary record: " + primaryRecord);

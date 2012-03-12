@@ -46,8 +46,6 @@
 
     dojo.addOnLoad(function() {
 
-         dojo.parser.parse();
-
         dojo.connect(personEditButton, "onClick", function() {
           if (personDataGrid.getItem(personDataGrid.selection.selectedIndex)) {
             var id = personDataGrid.getItem(personDataGrid.selection.selectedIndex).id;

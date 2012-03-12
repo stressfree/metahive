@@ -37,7 +37,8 @@
 				<c:set value="summaryDefinition" var="labelStyle" />
         		<a class="expandIcon ${expandClass}"><!-- --></a>
         	</c:if>
-			<label class="${labelStyle}" for="d_${definition.id}_a"><c:out value="${definition.name}" /></label>
+        	<spring:url value="/definitions/${definition.id}" var="definitionUrl" />
+			<label class="${labelStyle}" for="d_${definition.id}_a"><a target="_blank" href="${definitionUrl}"><c:out value="${definition.name}" /></a></label>
 			<c:choose>
 				<c:when test="${definition.dataType eq 'TYPE_BOOLEAN'}">
 					<select id="d_${definition.id}_a" name="d_${definition.id}_a" dojoType="dijit.form.Select">

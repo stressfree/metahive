@@ -60,8 +60,6 @@
         dojo.require("dijit.form.Select");
         dojo.require('dojo.NodeList-traverse');
 
-        dojo.parser.parse();
-
         dojo.addOnLoad(function() {
           dojo.query('h4 a.expandIcon').onclick(function(e){
             node = dojo.query(e.target).toggleClass('expandIconHidden').closest('div')[0];

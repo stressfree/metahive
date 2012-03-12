@@ -41,14 +41,13 @@
     <script type="text/javascript">
     <![CDATA[
     dojo.require("dijit.form.Button");
-     dojo.require("dojox.grid.EnhancedGrid");
-     dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
+    dojo.require("dojox.grid.EnhancedGrid");
+    dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
     dojo.require("dojo.data.ItemFileReadStore");
     dojo.require("dojo.date.locale");
+    dojo.require("dijit.Dialog");
 
     dojo.addOnLoad(function() {
-         dojo.parser.parse();
-
         loadGrid(submissionDataGrid, "${submissions_datasource}");
     });
 
