@@ -6,10 +6,14 @@
   <c:if test="${not empty filter.recordId}">
     <c:set var="filterRecordId" value="${filter.recordId}" />
   </c:if>
+  <c:if test="${not empty filter.id}">
+    <c:set var="searchId" value="${filter.id}" />
+  </c:if>
 
   <div class="record-header">
     <spring:url value="/records" var="search" />
     <form:form id="filterform" action="${search}" method="GET" dojoType="dijit.form.Form">
+      <input type="hidden" name="id" value="${fn:escapeXml(searchId)}" />
       <h3><spring:message code="metahive_records" /></h3>
       <div class="filterfield">
         <label for="name"><spring:message code="label_com_sfs_metahive_model_record_recordid" htmlEscape="true" />: </label>

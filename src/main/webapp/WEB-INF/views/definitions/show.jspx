@@ -170,7 +170,7 @@
       </div>
     </c:if>
 
-     <sec:authorize ifAnyGranted="ROLE_USER,ROLE_EDITOR,ROLE_ADMIN">
+    <sec:authorize ifAnyGranted="ROLE_USER,ROLE_EDITOR,ROLE_ADMIN">
       <div class="comments">
         <h4><spring:message code="label_com_sfs_metahive_model_comment_plural" />:</h4>
         <c:forEach items="${definition.comments}" var="comment">

@@ -1,6 +1,7 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
   <jsp:output omit-xml-declaration="yes"/>
   <jsp:directive.attribute name="id" type="java.lang.Long" required="false" rtexprvalue="true" description="The record id (optional)" />
+  <jsp:directive.attribute name="searchId" type="java.lang.String" required="false" rtexprvalue="true" description="The search id (optional)" />
   <jsp:directive.attribute name="modelAttribute" type="java.lang.String" required="true" rtexprvalue="true" description="The name of the model attribute for form binding" />
 
     <div class="export hidden">
@@ -15,9 +16,10 @@
       <h3><c:out value="${export_title}" /></h3>
       <p class="exportMessage"><spring:message code="metahive_export_message" /></p>
         <form:form target="_blank" action="${export_url}" method="POST" modelAttribute="${modelAttribute}" dojoType="dijit.form.Form">
+          <input type="hidden" name="searchId" value="${fn:escapeXml(searchId)}" />
           <div class="actions">
             <button id="exportButton" type="submit" dojoType="dijit.form.Button"><spring:message code="metahive_button_export" /></button>
-            <button id="cancelButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_cancel" /></button>
+            <button id="closeButton" dojoType="dijit.form.Button"><spring:message code="metahive_button_close" /></button>
           </div>
           <ul class="checkall">
             <li><a id="checkAllLink"><spring:message code="metahive_check_all" /></a></li>
@@ -63,7 +65,7 @@
                 }
               });
           });
-          dojo.connect(dojo.byId("cancelButton"), "onclick", function(e) {
+          dojo.connect(dojo.byId("closeButton"), "onclick", function(e) {
             dojo.query('.export').addClass('hidden');
           });
       });

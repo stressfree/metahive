@@ -145,7 +145,7 @@
 
         <metahive:keyvaluedetail />
 
-        <metahive:export modelAttribute="user" />
+        <metahive:export modelAttribute="user" searchId="${filter.id}" />
 
       <script type="text/javascript">
         <![CDATA[

@@ -13,6 +13,7 @@ package com.sfs.metahive.web;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,13 +39,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sfs.metahive.FlashScope;
 import com.sfs.metahive.messaging.JmsRecalculateRequest;
 import com.sfs.metahive.model.DataGrid;
-import com.sfs.metahive.model.DataType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.KeyValue;
 import com.sfs.metahive.model.KeyValueBoolean;
 import com.sfs.metahive.model.KeyValueCollection;
-import com.sfs.metahive.model.KeyValueGenerator;
-import com.sfs.metahive.model.KeyValueType;
 import com.sfs.metahive.model.MetahivePreferences;
 import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Record;
@@ -131,11 +129,11 @@ public class RecordController extends BaseController {
     	filter.setEncoding(request.getCharacterEncoding());
     	filter.processSearchForm(request);
 
-    	List<RecordFilter> searchArray = getSearchArray(request);
+    	Map<String, RecordFilter> searches = getSearches(request);
     	// Add the filter to the search array
-    	searchArray.add(filter);
+    	searches.put(filter.getId(), filter);
 
-    	request.getSession().setAttribute("searches", searchArray);
+    	request.getSession().setAttribute("searches", searches);
 
         return "redirect:/records?id=" + filter.getId();
     }
@@ -147,7 +145,7 @@ public class RecordController extends BaseController {
      * @param uiModel the ui model
      * @return the string
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
      public String show(@PathVariable("id") Long id, Model uiModel,
              @RequestParam(value = "show", required = false) Boolean show,
              @RequestParam(value = "expand", required = false) Boolean expand,
@@ -186,7 +184,7 @@ public class RecordController extends BaseController {
 
         Record record = Record.findRecord(id);
         record.setShowAllDefinitions(showAllDefinitions);
-        record.loadAllKeyValues(role, this.getContext());
+        record.loadAllAggregatedKeyValues(role, this.getContext());
 
         uiModel.addAttribute("record", record);
         uiModel.addAttribute("show", showAllDefinitions);
@@ -279,47 +277,10 @@ public class RecordController extends BaseController {
             return getMessage("metahive_valid_user_required");
         }
 
-        KeyValue kv = null;
-        try {
-            kv = KeyValue.findKeyValue(id);
-        } catch (Exception e) {
-            // Error loading key value
-        }
+        List<KeyValue> updatedValues = KeyValue.updateRelevantKeyValues(id, kvForm, user);
 
-        if (kv == null) {
-            return getMessage("metahive_record_keyvaluedetail_error");
-        }
-
-        DataType dt = kv.getDefinition().getDataType();
-
-        boolean keyValueChanged = false;
-
-        kv.setComment(kvForm.getTrimmedOverrideComment());
-
-        if (kvForm.isOverridden()) {
-            // Key value is overridden
-            kv.setKeyValueType(KeyValueType.OVERRIDDEN);
-            kv.setValue(KeyValueGenerator.parseValue(dt, kvForm.getOverrideValue()));
-            kv.setOverriddenBy(user);
-
-            keyValueChanged = true;
-        }
-
-        if (kv.getKeyValueType() == KeyValueType.OVERRIDDEN
-                && !kvForm.isOverridden()) {
-            // Key value changed to being not overridden
-            kv.setKeyValueType(KeyValueType.CALCULATED);
-            kv.setOverriddenBy(null);
-
-            keyValueChanged = true;
-        }
-
-        // Save the key value
-        kv.merge();
-        kv.flush();
-
-        // Submit a recalculation JMS request
-        if (keyValueChanged) {
+        // Submit a recalculation JMS request for each updated key value
+        for (KeyValue kv : updatedValues) {
             JmsRecalculateRequest req = new JmsRecalculateRequest(kv);
             keyValueGenerationTemplate.convertAndSend(req);
         }
@@ -379,23 +340,28 @@ public class RecordController extends BaseController {
         RecordFilter filter = new RecordFilter();
         filter.setEncoding(request.getCharacterEncoding());
 
-        if (StringUtils.isNotBlank(id)) {
-        	List<RecordFilter> searchArray = getSearchArray(request);
 
-        	for (RecordFilter recordFilter : searchArray) {
-        		if (StringUtils.equals(recordFilter.getId(), id)) {
-        			filter = recordFilter;
-        		}
+    	Map<String, RecordFilter> searches = getSearches(request);
+
+        if (StringUtils.isNotBlank(id)) {
+        	if (searches.containsKey(id)) {
+        		filter = searches.get(id);
         	}
         }
+
+        if (StringUtils.isNotBlank(recordId)) {
+            filter.setRecordId(recordId);
+        } else  {
+            filter.setRecordId("");
+        }
+
+        searches.put(filter.getId(), filter);
+
+    	request.getSession().setAttribute("searches", searches);
 
 
         int sizeNo = size == null ? DEFAULT_PAGE_SIZE : size.intValue();
         int pageNo = page == null ? 0 : page.intValue() - 1;
-
-        if (StringUtils.isNotBlank(recordId)) {
-            filter.setRecordId(recordId);
-        }
 
         uiModel.addAttribute("definitions", definitions);
 
@@ -417,8 +383,9 @@ public class RecordController extends BaseController {
 
 
     @RequestMapping(value = "/search.xls", method = RequestMethod.POST)
-    public ModelAndView recordsExport(@RequestParam(
-            value = "searchDefinitions", required = true) String[] definitionIds,
+    public ModelAndView recordsExport(
+    		@RequestParam(value = "searchId", required = false) String id,
+    		@RequestParam(value = "searchDefinitions", required = true) String[] defIds,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Person user = loadUser(request);
@@ -428,10 +395,20 @@ public class RecordController extends BaseController {
             userRole = user.getUserRole();
         }
 
-        List<Definition> definitions = Definition.findDefinitionEntries(definitionIds);
+        List<Definition> definitions = Definition.findDefinitionEntries(defIds);
+
+        RecordFilter filter = new RecordFilter();
+
+        if (StringUtils.isNotBlank(id)) {
+        	Map<String, RecordFilter> searches = getSearches(request);
+
+        	if (searches.containsKey(id)) {
+        		filter = searches.get(id);
+        	}
+        }
 
         List<Record> records = Record.findRecordEntries(
-                new RecordFilter(), definitions, userRole, this.getContext(), 1, 0);
+                filter, definitions, userRole, this.getContext(), 1, 0);
 
         DataGrid dataGrid = buildDataGrid(records, definitions);
 
@@ -588,29 +565,30 @@ public class RecordController extends BaseController {
      * @param request the request
      * @return the search array
      */
-    private List<RecordFilter> getSearchArray(final HttpServletRequest request) {
+    private Map<String, RecordFilter> getSearches(final HttpServletRequest request) {
 
-    	List<RecordFilter> searchArray = new ArrayList<RecordFilter>();
+    	Map<String, RecordFilter> searches = new HashMap<String, RecordFilter>();
 
     	if (request.getSession().getAttribute("searches") != null) {
-    		Object objArray = request.getSession().getAttribute("searches");
-    		if (objArray instanceof List) {
-    			List<?> list = (List<?>) objArray;
-    			for (Object objRecordFilter : list) {
+    		Object objMap = request.getSession().getAttribute("searches");
+    		if (objMap instanceof Map) {
+    			Map<?, ?> map = (Map<?, ?>) objMap;
+    			for (Object objId : map.keySet()) {
+    				Object objRecordFilter = map.get(objId);
     				if (objRecordFilter instanceof RecordFilter) {
     					RecordFilter recordFilter = (RecordFilter) objRecordFilter;
 
-    					// Test if it has expired (older than two hours)
+    					// Test if it has expired (older than one hour)
     					long oldTime = recordFilter.getCreated().getTime();
     					long newTime = Calendar.getInstance().getTimeInMillis();
 
-    					if ((newTime - oldTime) <= (7200 * 1000)) {
-        					searchArray.add(recordFilter);
+    					if ((newTime - oldTime) <= (3600 * 1000)) {
+        					searches.put(recordFilter.getId(), recordFilter);
     					}
     				}
     			}
     		}
     	}
-    	return searchArray;
+    	return searches;
     }
 }

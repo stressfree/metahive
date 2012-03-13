@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javax.persistence.Column;
+import javax.persistence.PreRemove;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
@@ -62,6 +63,19 @@ public class Record {
     @Transient
     private boolean showAllDefinitions;
 
+
+    /**
+     * Remove the associated key values.
+     */
+    @PreRemove
+    public final void preRemove() {
+    	// Delete all associated key values
+    	List<KeyValue> keyValues = KeyValue.findKeyValues(this);
+
+    	for (KeyValue keyValue : keyValues) {
+    		keyValue.remove();
+    	}
+    }
 
     /**
      * A helper function to get the key value collections as a list.
@@ -167,6 +181,17 @@ public class Record {
     }
 
     /**
+     * Load all the key values for this record and aggregate them.
+     *
+     * @param userRole the user role
+     * @param context the context
+     */
+    public final void loadAllAggregatedKeyValues(final UserRole userRole,
+            final ApplicationContext context) {
+        loadAggregatedKeyValues(Definition.findAllDefinitions(), userRole, context);
+    }
+
+    /**
      * Load all the key values for this record.
      *
      * @param userRole the user role
@@ -174,7 +199,6 @@ public class Record {
      */
     public final void loadAllKeyValues(final UserRole userRole,
             final ApplicationContext context) {
-
         loadKeyValues(Definition.findAllDefinitions(), userRole, context);
     }
 
@@ -187,8 +211,21 @@ public class Record {
      */
     public final void loadKeyValues(final List<Definition> definitions,
             final UserRole userRole, final ApplicationContext context) {
-
         this.setKeyValues(
+                KeyValue.findKeyValues(this, definitions),
+                definitions, userRole, context);
+    }
+
+    /**
+     * Aggregate and load the supplied key values for this record.
+     *
+     * @param definitions the definitions
+     * @param userRole the user role
+     * @param context the context
+     */
+    public final void loadAggregatedKeyValues(final List<Definition> definitions,
+            final UserRole userRole, final ApplicationContext context) {
+        this.setAggregatedKeyValues(
                 KeyValue.findKeyValues(this, definitions),
                 definitions, userRole, context);
     }
@@ -640,6 +677,83 @@ public class Record {
                     keyValue.getDefinition().getName(), keyValue);
 
             map.put(id, keyValueCollection);
+        }
+        this.keyValueMap = map;
+    }
+
+    /**
+     * Builds the aggregated key values map based on the list of
+     * key values and definitions.
+     *
+     * @param keyValues the key values
+     * @param definitions the definitions
+     * @param userRole the user role
+     * @param context the context
+     */
+    private void setAggregatedKeyValues(final List<KeyValue> keyValues,
+            final List<Definition> definitions,
+            final UserRole userRole, final ApplicationContext context) {
+
+        Map<String, KeyValueCollection> map =
+                new TreeMap<String, KeyValueCollection>();
+
+        for (KeyValue keyValue : keyValues) {
+
+        	String primaryRecord = "_";
+        	String secondaryRecord = "_";
+        	String tertiaryRecord = "_";
+
+        	Applicability applicability = keyValue.getDefinition().getApplicability();
+
+        	if (applicability == Applicability.RECORD_PRIMARY) {
+        		primaryRecord = keyValue.getPrimaryRecordId();
+        	}
+        	if (applicability == Applicability.RECORD_SECONDARY) {
+        		secondaryRecord = keyValue.getSecondaryRecordId();
+        	}
+        	if (applicability == Applicability.RECORD_TERTIARY) {
+        		tertiaryRecord = keyValue.getTertiaryRecordId();
+        	}
+
+            String id = primaryRecord + secondaryRecord + tertiaryRecord;
+
+            keyValue.setUserRole(userRole);
+            keyValue.setContext(context);
+
+            KeyValueCollection kvCollection = new KeyValueCollection();
+
+            if (map.containsKey(id)) {
+                // Get the existing row of data
+            	kvCollection = map.get(id);
+            } else {
+                // Pre-populate the row with the definition names
+                Map<String, KeyValue> values = new TreeMap<String, KeyValue>();
+                for (Definition definition : definitions) {
+                	if (definition.getApplicability() == applicability) {
+                		KeyValue kv = new KeyValue();
+                		kv.setDefinition(definition);
+                		kv.setUserRole(userRole);
+                		kv.setContext(context);
+
+                		values.put(definition.getName(), kv);
+                	}
+                }
+                kvCollection.setId(keyValue.getRecord().getId());
+                kvCollection.setRecordId(keyValue.getPrimaryRecordId());
+
+                if (applicability == Applicability.RECORD_SECONDARY) {
+                	kvCollection.setSecondaryRecordId(keyValue.getSecondaryRecordId());
+                }
+                if (applicability == Applicability.RECORD_TERTIARY) {
+                	kvCollection.setTertiaryRecordId(keyValue.getTertiaryRecordId());
+                }
+                kvCollection.setKeyValueMap(values);
+            }
+
+            kvCollection.getKeyValueMap().put(
+                    keyValue.getDefinition().getName(), keyValue);
+
+            map.put(id, kvCollection);
         }
         this.keyValueMap = map;
     }

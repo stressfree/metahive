@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -37,6 +38,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
+
+import com.sfs.metahive.web.model.KeyValueForm;
 
 
 /**
@@ -221,6 +224,92 @@ public class KeyValue {
     }
 
     /**
+     * Update relevant key values based on the supplied form data.
+     * Returns a list of updated key values.
+     *
+     * @param id the id
+     * @param kvForm the kv form
+     * @param user the user
+     * @return the list
+     */
+    public static final List<KeyValue> updateRelevantKeyValues(final Long id,
+    		final KeyValueForm kvForm, final Person user) {
+
+    	List<KeyValue> updatedKeyValues = new ArrayList<KeyValue>();
+
+    	KeyValue keyValue = KeyValue.findKeyValue(id);
+    	DataType dt = keyValue.getDefinition().getDataType();
+
+    	List<KeyValue> relatedKeyValues = KeyValue.findRelatedKeyValues(keyValue);
+
+    	for (KeyValue kv : relatedKeyValues) {
+
+    		boolean keyValueChanged = false;
+
+    		kv.setComment(kvForm.getTrimmedOverrideComment());
+
+    		if (kvForm.isOverridden()) {
+    			// Key value is overridden
+    			kv.setKeyValueType(KeyValueType.OVERRIDDEN);
+    			kv.setValue(KeyValueGenerator.parseValue(dt, kvForm.getOverrideValue()));
+    			kv.setOverriddenBy(user);
+
+    			keyValueChanged = true;
+    		}
+
+    		if (kv.getKeyValueType() == KeyValueType.OVERRIDDEN
+    				&& !kvForm.isOverridden()) {
+    			// Key value changed to being not overridden
+    			kv.setKeyValueType(KeyValueType.CALCULATED);
+    			kv.setOverriddenBy(null);
+
+    			keyValueChanged = true;
+    		}
+    		// Save the key value
+    		kv.merge();
+    		kv.flush();
+
+    		if (keyValueChanged) {
+    			updatedKeyValues.add(kv);
+    		}
+    	}
+        return updatedKeyValues;
+    }
+
+
+    /**
+     * Find key values for the supplied Record.
+     *
+     * @param record the record
+     * @return the key value
+     */
+    public static List<KeyValue> findKeyValues(final Record record) {
+
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
+        if (record == null) {
+            throw new IllegalArgumentException("A valid record is required");
+        }
+
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("SELECT k FROM KeyValue AS k JOIN k.record r");
+        sql.append(" WHERE r.id = :recordId");
+
+        TypedQuery<KeyValue> q = entityManager().createQuery(
+                sql.toString(), KeyValue.class);
+
+        q.setParameter("recordId", record.getId());
+
+        if (q.getResultList() != null) {
+            for (KeyValue keyValue : q.getResultList()) {
+                keyValues.add(keyValue);
+            }
+        }
+        return keyValues;
+    }
+
+    /**
      * Find key values for the supplied Record.
      *
      * @param record the record
@@ -310,6 +399,60 @@ public class KeyValue {
             keyValue = keyValues.get(0);
         }
         return keyValue;
+    }
+
+    /**
+     * Find the related key values based on the supplied key value.
+     *
+     * @param def the definition
+     * @param primaryId the primary record id
+     * @param secondaryId the secondary record id
+     * @param tertiaryId the tertiary record id
+     * @return the key value
+     */
+    public static List<KeyValue> findRelatedKeyValues(final KeyValue keyValue) {
+
+    	List<KeyValue> relatedKeyValues = new ArrayList<KeyValue>();
+
+        if (keyValue == null) {
+            throw new IllegalArgumentException("A valid key value is required");
+        }
+
+        StringBuilder sql = new StringBuilder();
+        HashMap<String, Object> variables = new HashMap<String, Object>();
+
+        sql.append("SELECT k FROM KeyValue AS k LEFT JOIN k.definition d");
+        sql.append(" WHERE d.id = :definition AND k.primaryRecordId = :primary");
+
+        variables.put("definition", keyValue.getDefinition().getId());
+        variables.put("primary", keyValue.getPrimaryRecordId());
+
+        Applicability applicability = keyValue.getDefinition().getApplicability();
+
+        if (applicability == Applicability.RECORD_SECONDARY) {
+        	sql.append(" AND k.secondaryRecordId = :secondary");
+        	variables.put("secondary", keyValue.getSecondaryRecordId());
+        }
+        if (applicability == Applicability.RECORD_TERTIARY) {
+        	sql.append(" AND k.tertiaryRecordId = :tertiary");
+        	variables.put("tertiary", keyValue.getTertiaryRecordId());
+        }
+
+        TypedQuery<KeyValue> q = entityManager().createQuery(
+                sql.toString(), KeyValue.class);
+
+        for (String key : variables.keySet()) {
+            q.setParameter(key, variables.get(key));
+        }
+
+        if (q.getResultList() != null) {
+            for (KeyValue kv : q.getResultList()) {
+            	relatedKeyValues.add(kv);
+            }
+        }
+        System.out.println("Values: " + relatedKeyValues.size());
+
+        return relatedKeyValues;
     }
 
 

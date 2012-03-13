@@ -10,7 +10,6 @@
             </div>
             <sec:authorize ifAnyGranted="ROLE_EDITOR,ROLE_ADMIN">
               <div dojoType="dijit.layout.ContentPane" id="overridePane" dojoId="overridePane" title="Override">
-                <div id="overrideOutcome"><!-- --></div>
                   <form id="overrideForm" dojoType="dijit.form.Form">
                     <input type="hidden" value="" id="keyValueId" />
                     <div class="field field-checkbox">
@@ -38,12 +37,13 @@
                             });
                           });
                       </script>
-                  </div>
-              </div>
-                    <div class="submit">
-                      <button type="submit" id="overrideApply" dojoType="dijit.form.Button"><spring:message code="button_update" /></button>
+                     </div>
                     </div>
-                  </form>
+                    <div id="overrideOutcome"><!-- --></div>
+                    <div class="submit">
+                        <button type="submit" id="overrideApply" dojoType="dijit.form.Button"><spring:message code="button_update" /></button>
+                    </div>
+                </form>
               </div>
             </sec:authorize>
         </div>

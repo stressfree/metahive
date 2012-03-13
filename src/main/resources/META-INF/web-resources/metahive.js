@@ -165,12 +165,11 @@ function showKeyValueDetail(e) {
                         dijit.byId("overrideEnabled").set('checked', true);
                         toggleOverride();
                       }
-                    dijit.byId("overrideValue").set('value', data.value);
+                      dijit.byId("overrideValue").set('value', data.value);
                       dijit.byId("overrideComment_").set('value', data.comment);
-                    dojo.byId("keyValueId").value = data.id;
+                      dojo.byId("keyValueId").value = data.id;
                       dojo.byId("overrideOutcome").innerHTML = "";
                   }
-
                   dijit.byId("keyvalueDlg").show();
               }
           });
