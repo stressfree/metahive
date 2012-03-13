@@ -172,6 +172,9 @@ span.overridden {
   margin: 2.5em 0 0 0;
   padding: 0;
 }
+.definitions ul ul {
+    margin: 0.5em 0 0 0;
+}
 .definitions li {
   list-style: none;
   margin: 1em 0 1.5em 0;
