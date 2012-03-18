@@ -20,7 +20,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PreRemove;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
@@ -54,6 +57,11 @@ public class Record {
     @Size(min = 1, max = 255)
     @Column(unique = true)
     private String recordId;
+
+    /** The comments. */
+    @OrderBy("created ASC")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "record")
+    private List<Comment> comments = new ArrayList<Comment>();
 
     /** The key values (specific to the list of requested values). */
     @Transient
@@ -457,6 +465,16 @@ public class Record {
         }
 
         return q.getSingleResult();
+    }
+
+    /**
+     * Adds a comment.
+     *
+     * @param comment the comment
+     */
+    public final void addComment(Comment comment) {
+        comment.setRecord(this);
+        getComments().add(comment);
     }
 
 

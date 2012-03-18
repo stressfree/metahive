@@ -170,41 +170,5 @@
       </div>
     </c:if>
 
-    <sec:authorize ifAnyGranted="ROLE_USER,ROLE_EDITOR,ROLE_ADMIN">
-      <div class="comments">
-        <h4><spring:message code="label_com_sfs_metahive_model_comment_plural" />:</h4>
-        <c:forEach items="${definition.comments}" var="comment">
-          <spring:message code="label_com_sfs_metahive_model_${comment.relatedObject}" var="commentObject" />
-          <c:set var="commentDate"><fmt:formatDate pattern="d/M/yyyy" value="${comment.created}" /></c:set>
-          <c:set var="commentTime"><fmt:formatDate pattern="h:mma" value="${comment.created}" /></c:set>
-          <div class="comment">
-            <div class="detail">
-              <spring:message code="${comment.commentType.messageKey}" htmlEscape="false" arguments="${comment.person.formattedName},${fn:toLowerCase(commentObject)},${commentDate},${fn:toLowerCase(commentTime)}" />
-            </div>
-            <sec:authorize ifAnyGranted="ROLE_ADMIN">
-              <div class="actions">
-                <spring:url value="/comments/${comment.id}" var="delete_comment_url" />
-                <form:form action="${fn:escapeXml(delete_comment_url)}" method="DELETE">
-                        <spring:message arguments="comment" code="entity_delete" var="delete_label" htmlEscape="false" />
-                        <c:set var="delete_confirm_msg">
-                            <spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
-                        </c:set>
-                        <button onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete" /></button>
-                      </form:form>
-                    </div>
-                  </sec:authorize>
-            <div class="message"><c:out value="${fn:trim(comment.message)}" escapeXml="false" /></div>
-          </div>
-        </c:forEach>
-        <div class="actions-add">
-          <spring:url value="/comments" var="add_comment_url" />
-          <spring:message code="metahive_add_comment" var="addComment" />
-          <form:form action="${fn:escapeXml(add_comment_url)}" method="POST" modelAttribute="comment">
-            <form:hidden path="definition.id" />
-                  <field:editor label="${addComment}" field="message" required="true" id="c_com_sfs_metahive_model_Comment_message" z="user-managed" />
-                  <button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_post" /></button>
-              </form:form>
-        </div>
-       </div>
-    </sec:authorize>
+    <metahive:comments definition="${definition}" />
 </div>

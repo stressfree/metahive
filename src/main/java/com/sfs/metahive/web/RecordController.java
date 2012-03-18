@@ -48,6 +48,7 @@ import com.sfs.metahive.model.Person;
 import com.sfs.metahive.model.Record;
 import com.sfs.metahive.model.SubmittedField;
 import com.sfs.metahive.model.UserRole;
+import com.sfs.metahive.web.model.CommentForm;
 import com.sfs.metahive.web.model.KeyValueForm;
 import com.sfs.metahive.web.model.KeyValueJson;
 import com.sfs.metahive.web.model.RecordFilter;
@@ -186,7 +187,11 @@ public class RecordController extends BaseController {
         record.setShowAllDefinitions(showAllDefinitions);
         record.loadAllAggregatedKeyValues(role, this.getContext());
 
+        CommentForm commentForm = new CommentForm();
+        commentForm.setRecord(record);
+
         uiModel.addAttribute("record", record);
+        uiModel.addAttribute("comment", commentForm);
         uiModel.addAttribute("show", showAllDefinitions);
         uiModel.addAttribute("expand", expandAllDefinitions);
 

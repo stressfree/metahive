@@ -9,6 +9,7 @@ privileged aspect Record_Roo_ToString {
     
     public String Record.toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("Comments: ").append(getComments() == null ? "null" : getComments().size()).append(", ");
         sb.append("FirstKeyValueCollection: ").append(getFirstKeyValueCollection()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("KeyValueCollection: ").append(getKeyValueCollection() == null ? "null" : getKeyValueCollection().size()).append(", ");

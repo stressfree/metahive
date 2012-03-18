@@ -1,0 +1,72 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:sec="http://www.springframework.org/security/tags" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.attribute name="definition" type="com.sfs.metahive.model.Definition" required="false" rtexprvalue="true" description="The definition" />
+    <jsp:directive.attribute name="record" type="com.sfs.metahive.model.Record" required="false" rtexprvalue="true" description="The record" />
+
+    <c:set var="comments" />
+    <c:if test="${not empty definition}">
+        <c:set var="comments" value="${definition.comments}" />
+    </c:if>
+    <c:if test="${not empty record}">
+        <c:set var="comments" value="${record.comments}" />
+    </c:if>
+
+	<sec:authorize ifAnyGranted="ROLE_USER,ROLE_EDITOR,ROLE_ADMIN">
+		<div class="comments">
+			<h4><spring:message code="label_com_sfs_metahive_model_comment_plural" />:</h4>
+			<c:forEach items="${comments}" var="comment">
+				<spring:message
+					code="label_com_sfs_metahive_model_${comment.relatedObject}"
+					var="commentObject" />
+				<c:set var="commentDate">
+					<fmt:formatDate pattern="d/M/yyyy" value="${comment.created}" />
+				</c:set>
+				<c:set var="commentTime">
+					<fmt:formatDate pattern="h:mma" value="${comment.created}" />
+				</c:set>
+				<div class="comment">
+					<div class="detail">
+						<spring:message code="${comment.commentType.messageKey}"
+							htmlEscape="false"
+							arguments="${comment.person.formattedName},${fn:toLowerCase(commentObject)},${commentDate},${fn:toLowerCase(commentTime)}" />
+					</div>
+					<sec:authorize ifAnyGranted="ROLE_ADMIN">
+						<div class="actions">
+							<spring:url value="/comments/${comment.id}"
+								var="delete_comment_url" />
+							<form:form action="${fn:escapeXml(delete_comment_url)}"
+								method="DELETE">
+								<spring:message arguments="comment" code="entity_delete"
+									var="delete_label" htmlEscape="false" />
+								<c:set var="delete_confirm_msg">
+									<spring:escapeBody javaScriptEscape="true">
+										<spring:message code="entity_delete_confirm" />
+									</spring:escapeBody>
+								</c:set>
+								<button onclick="return confirm('${delete_confirm_msg}');"
+									type="submit">
+									<spring:message code="metahive_button_delete" />
+								</button>
+							</form:form>
+						</div>
+					</sec:authorize>
+					<div class="message">
+						<c:out value="${fn:trim(comment.message)}" escapeXml="false" />
+					</div>
+				</div>
+			</c:forEach>
+			<div class="actions-add">
+				<spring:url value="/comments" var="add_comment_url" />
+				<spring:message code="metahive_add_comment" var="addComment" />
+				<form:form action="${fn:escapeXml(add_comment_url)}" method="POST" modelAttribute="comment">
+					<form:hidden path="definition.id" />
+                    <form:hidden path="record.id" />
+					<field:editor label="${addComment}" field="message" required="true"
+						id="c_com_sfs_metahive_model_Comment_message" z="user-managed" />
+					<button dojoType="dijit.form.Button" type="submit">
+						<spring:message code="metahive_button_post" />
+					</button>
+				</form:form>
+			</div>
+		</div>
+	</sec:authorize>
+</jsp:root>

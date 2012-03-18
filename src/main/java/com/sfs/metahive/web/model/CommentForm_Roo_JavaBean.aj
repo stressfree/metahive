@@ -5,6 +5,7 @@ package com.sfs.metahive.web.model;
 
 import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.Definition;
+import com.sfs.metahive.model.Record;
 import java.lang.String;
 
 privileged aspect CommentForm_Roo_JavaBean {
@@ -39,6 +40,14 @@ privileged aspect CommentForm_Roo_JavaBean {
     
     public void CommentForm.setDefinition(Definition definition) {
         this.definition = definition;
+    }
+    
+    public Record CommentForm.getRecord() {
+        return this.record;
+    }
+    
+    public void CommentForm.setRecord(Record record) {
+        this.record = record;
     }
     
     public String CommentForm.getMessage() {

@@ -71,6 +71,8 @@
       </c:forEach>
     </div>
 
+    <metahive:comments record="${record}" />
+
     <script type="text/javascript">
     <![CDATA[
         dojo.require("dijit.TitlePane");

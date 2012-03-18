@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -19,6 +19,7 @@ import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.CommentType;
 import com.sfs.metahive.model.Definition;
 import com.sfs.metahive.model.Person;
+import com.sfs.metahive.model.Record;
 
 /**
  * The Class DefinitionForm.
@@ -36,8 +37,10 @@ public class CommentForm extends BackingForm {
     private CommentType commentType = CommentType.GENERAL;
 
     /** The definition. */
-    @NotNull
     private Definition definition;
+
+    /** The record. */
+    private Record record;
 
     /** The comment message. */
     @NotNull
@@ -103,11 +106,29 @@ public class CommentForm extends BackingForm {
 
             comment.setCommentType(this.commentType);
             comment.setMessage(trim(this.getMessage()));
-            comment.setDefinition(this.definition);
-
             comment.setPerson(user);
-        }
 
+            if (this.getDefinition() != null
+    				&& this.getDefinition().getId() != null
+    				&& this.getDefinition().getId() > 0) {
+
+            	Definition def = Definition.findDefinition(this.getDefinition().getId());
+
+            	if (def != null) {
+            		def.addComment(comment);
+            	}
+            }
+            if (this.getRecord() != null
+            		&& this.getRecord().getId() != null
+            		&& this.getRecord().getId() > 0) {
+
+            	Record rec = Record.findRecord(this.getRecord().getId());
+
+            	if (rec != null) {
+            		rec.addComment(comment);
+            	}
+            }
+        }
         return comment;
     }
 

@@ -269,7 +269,7 @@ span.overridden {
 }
 
 .comments {
-  clear: left;
+  clear: both;
   margin: 0 0 1em 0;
 }
 .comments .comment {

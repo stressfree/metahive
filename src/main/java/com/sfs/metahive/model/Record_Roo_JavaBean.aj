@@ -3,8 +3,10 @@
 
 package com.sfs.metahive.model;
 
+import com.sfs.metahive.model.Comment;
 import com.sfs.metahive.model.KeyValueCollection;
 import java.lang.String;
+import java.util.List;
 import java.util.Map;
 
 privileged aspect Record_Roo_JavaBean {
@@ -15,6 +17,14 @@ privileged aspect Record_Roo_JavaBean {
     
     public void Record.setRecordId(String recordId) {
         this.recordId = recordId;
+    }
+    
+    public List<Comment> Record.getComments() {
+        return this.comments;
+    }
+    
+    public void Record.setComments(List<Comment> comments) {
+        this.comments = comments;
     }
     
     public Map<String, KeyValueCollection> Record.getKeyValueMap() {
