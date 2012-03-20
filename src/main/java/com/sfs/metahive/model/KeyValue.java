@@ -11,7 +11,6 @@
 package com.sfs.metahive.model;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -494,12 +493,16 @@ public class KeyValue {
                             null, LocaleContextHolder.getLocale());
                 }
             }
-            if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER) {
+            if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER
+            		|| this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
                 if (this.getDoubleValue() != null) {
                     DecimalFormat df = new DecimalFormat("#.######");
                     value = df.format(this.getDoubleValue());
                     if (StringUtils.endsWithIgnoreCase(value, ".000000")) {
                         value = StringUtils.substring(value, 0, value.length() -6);
+                    }
+                    if (this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
+                    	value += "%";
                     }
                     if (includeUnits) {
                         value += appendUnitOfMeasure();
@@ -510,16 +513,6 @@ public class KeyValue {
                 if (this.getDoubleValue() != null) {
                     DecimalFormat df = new DecimalFormat("$###,###,###,##0.00");
                     value = df.format(this.getDoubleValue()) + appendUnitOfMeasure();
-                }
-            }
-            if (this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
-                if (this.getDoubleValue() != null) {
-                    NumberFormat percentFormatter = NumberFormat.getPercentInstance(
-                            LocaleContextHolder.getLocale());
-                    value = percentFormatter.format(this.getDoubleValue());
-                    if (includeUnits) {
-                        value += appendUnitOfMeasure();
-                    }
                 }
             }
         }
