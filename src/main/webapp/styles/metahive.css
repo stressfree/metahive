@@ -39,6 +39,16 @@ span.overridden {
   background: url('../images/override.png') top right no-repeat;
 }
 
+.keyOverridden strong {
+	padding-left: 16px;
+	padding-top: 15px;
+	font: 0/0 a;
+	position: relative;
+    text-shadow: none;
+    color: transparent;
+    background: url('../images/override.png') top right no-repeat;
+}
+
 .clear {
   clear: both;
 }

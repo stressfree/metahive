@@ -7,18 +7,12 @@
 
   <c:choose>
     <c:when test="${not empty records}">
-      <div class="keyValueDataKey">
-        <li><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></strong>:
-           <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data_description" />
-        </li>
-        <li><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted" /></strong>:
-           <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted_description" />
-        </li>
-      </div>
 
+      <metahive:keyvaluekey />
 
-            <spring:message code="metahive_table_maximise" var="maximised" />
-            <spring:message code="metahive_table_minimise" var="minimised" />
+      <spring:message code="metahive_table_maximise" var="maximised" />
+      <spring:message code="metahive_table_minimise" var="minimised" />
+
       <div class="keyValueData">
         <p class="viewOptions">
             <a id="saveRecords"><spring:message code="metahive_export_records" /></a>

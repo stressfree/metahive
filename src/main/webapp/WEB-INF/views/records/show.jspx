@@ -7,15 +7,7 @@
 
     <spring:url value="/records" var="browse" />
 
-    <div class="keyValueDataKey">
-    <li><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></strong>:
-       <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data_description" />
-    </li>
-    <li>
-       <strong><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted" /></strong>:
-       <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted_description" />
-    </li>
-  </div>
+    <metahive:keyvaluekey />
 
     <div class="record-title">
       <h1>
