@@ -309,6 +309,7 @@ public class RecordController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public String list(
     		@RequestParam(value = "id", required = false) String id,
+            @RequestParam(value = "order", required = false) Long orderId,
             @RequestParam(value = "recordId", required = false) String recordId,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size,
@@ -352,6 +353,10 @@ public class RecordController extends BaseController {
         	if (searches.containsKey(id)) {
         		filter = searches.get(id);
         	}
+        }
+
+        if (orderId != null) {
+        	filter.setOrderId(orderId);
         }
 
         if (StringUtils.isNotBlank(recordId)) {

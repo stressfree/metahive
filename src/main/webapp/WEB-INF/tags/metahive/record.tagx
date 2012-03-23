@@ -35,22 +35,19 @@
           <c:if test="${changeDefinitions eq true}">
               <div id="definitionsButton" dojoType="dijit.form.Button" jsId="definitionsButton"><spring:message code="metahive_button_change_definitions" /></div>
             </c:if>
-          <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_CONTRIBUTOR">
-            <div id="contributeButton" dojoType="dijit.form.Button" jsId="contributeButton"><spring:message code="metahive_button_new_contribution" /></div>
-             <sec:authorize ifAnyGranted="ROLE_ADMIN">
+            <sec:authorize ifAnyGranted="ROLE_ADMIN">
                <div id="recordNewButton" dojoType="dijit.form.Button" jsId="recordNewButton"><spring:message code="metahive_button_new_record" /></div>
                <c:if test="${not empty record}">
-              <spring:url value="/records/${record.id}" var="delete_record_url" />
-              <form:form action="${fn:escapeXml(delete_record_url)}" method="DELETE">
-                       <spring:message arguments="record" code="entity_delete" var="delete_label" htmlEscape="false" />
-                       <c:set var="delete_confirm_msg">
+                <spring:url value="/records/${record.id}" var="delete_record_url" />
+                <form:form action="${fn:escapeXml(delete_record_url)}" method="DELETE">
+                <spring:message arguments="record" code="entity_delete" var="delete_label" htmlEscape="false" />
+                    <c:set var="delete_confirm_msg">
                         <spring:escapeBody javaScriptEscape="true"><spring:message code="entity_delete_confirm" />	</spring:escapeBody>
-                       </c:set>
-                       <button dojoType="dijit.form.Button" onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete_record" /></button>
-                   </form:form>
-                 </c:if>
+                    </c:set>
+                    <button dojoType="dijit.form.Button" onclick="return confirm('${delete_confirm_msg}');" type="submit"><spring:message code="metahive_button_delete_record" /></button>
+                </form:form>
+               </c:if>
             </sec:authorize>
-          </sec:authorize>
         </div>
       </div>
       </c:if>
@@ -88,18 +85,6 @@
       });
     ]]>
       </script>
-    </sec:authorize>
-    <sec:authorize ifAnyGranted="ROLE_ADMIN, ROLE_EDITOR, ROLE_CONTRIBUTOR">
-    <spring:url value="/contribute" var="contribute_url" />
-      <script type="text/javascript">
-      <![CDATA[
-      dojo.addOnLoad(function() {
-        dojo.connect(contributeButton, "onClick", function() {
-                window.location.href="${contribute_url}";
-            });
-      });
-    ]]>
-        </script>
     </sec:authorize>
   </c:if>
 </jsp:root>

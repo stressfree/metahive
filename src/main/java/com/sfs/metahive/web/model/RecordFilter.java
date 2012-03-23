@@ -35,6 +35,12 @@ public class RecordFilter extends BaseFilter {
     /** The recordId. */
     private String recordId;
 
+    /** The order id. */
+    private Long orderId = 0l;
+
+    /** The order descending. */
+    private boolean orderDescending;
+
     /** The search variables. */
     private List<FilterVector> searchVectors = new ArrayList<FilterVector>();
 
@@ -52,6 +58,30 @@ public class RecordFilter extends BaseFilter {
     }
 
     /**
+     * Sets the order id.
+     *
+     * @param orderIdVal the new order id
+     */
+    public final void setOrderId(Long orderIdVal) {
+    	Long id = 0l;
+
+    	if (orderIdVal != null) {
+    		id = orderIdVal;
+    	}
+
+    	if (this.orderId != null && this.orderId == id) {
+    		if (this.orderDescending) {
+        		this.orderDescending = false;
+    		} else {
+        		this.orderDescending = true;
+    		}
+    	} else {
+    		this.orderId = id;
+    		this.orderDescending = false;
+    	}
+    }
+
+    /**
      * Builds the query string.
      *
      * @param filter the filter
@@ -65,10 +95,6 @@ public class RecordFilter extends BaseFilter {
         if (StringUtils.isNotBlank(id)) {
             queryString.append("&id=");
             queryString.append(encodeUrlPathSegment(id));
-        }
-        if (StringUtils.isNotBlank(recordId)) {
-            queryString.append("&recordId=");
-            queryString.append(encodeUrlPathSegment(recordId));
         }
         return queryString.toString();
     }

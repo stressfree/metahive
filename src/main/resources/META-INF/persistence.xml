@@ -11,6 +11,8 @@
             <!-- Uncomment the following two properties for JBoss only -->
             <!-- property name="hibernate.validator.apply_to_ddl" value="false" /-->
             <!-- property name="hibernate.validator.autoregister_listeners" value="false" /-->
+            <!-- Log the SQL commands for debugging purposes -->
+            <!-- <property name="hibernate.show_sql" value="true" /> -->
         </properties>
     </persistence-unit>
 </persistence>

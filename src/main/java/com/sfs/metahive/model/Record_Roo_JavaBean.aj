@@ -4,7 +4,9 @@
 package com.sfs.metahive.model;
 
 import com.sfs.metahive.model.Comment;
+import com.sfs.metahive.model.KeyValue;
 import com.sfs.metahive.model.KeyValueCollection;
+import com.sfs.metahive.model.SubmittedField;
 import java.lang.String;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,22 @@ privileged aspect Record_Roo_JavaBean {
     
     public void Record.setRecordId(String recordId) {
         this.recordId = recordId;
+    }
+    
+    public List<SubmittedField> Record.getSubmittedFeilds() {
+        return this.submittedFeilds;
+    }
+    
+    public void Record.setSubmittedFeilds(List<SubmittedField> submittedFeilds) {
+        this.submittedFeilds = submittedFeilds;
+    }
+    
+    public List<KeyValue> Record.getKeyValues() {
+        return this.keyValues;
+    }
+    
+    public void Record.setKeyValues(List<KeyValue> keyValues) {
+        this.keyValues = keyValues;
     }
     
     public List<Comment> Record.getComments() {

@@ -792,6 +792,22 @@ div.keyValueData th {
   background: url('../images/table-header.png') bottom left repeat-x #e6ebf2;
   border: 1px solid #ccc;
 }
+div.keyValueData th a {
+	color: #333;
+	text-decoration: none;
+}
+div.keyValueData th a:hover {
+    text-decoration: underline;
+    color: #e92c19;
+}
+div.keyValueData table.ascending th.order a {
+    padding-left: 16px;
+    background: url('../images/ascending.gif') center left no-repeat;
+}
+div.keyValueData table.descending th.order a {
+    padding-left: 16px;
+    background: url('../images/descending.gif') center left no-repeat;
+}
 div.keyValueData th.empty {
   border: none;
   background: none;

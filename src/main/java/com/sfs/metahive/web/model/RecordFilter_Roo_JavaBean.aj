@@ -4,6 +4,7 @@
 package com.sfs.metahive.web.model;
 
 import com.sfs.metahive.web.model.FilterVector;
+import java.lang.Long;
 import java.lang.String;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,18 @@ privileged aspect RecordFilter_Roo_JavaBean {
     
     public void RecordFilter.setRecordId(String recordId) {
         this.recordId = recordId;
+    }
+    
+    public Long RecordFilter.getOrderId() {
+        return this.orderId;
+    }
+    
+    public boolean RecordFilter.isOrderDescending() {
+        return this.orderDescending;
+    }
+    
+    public void RecordFilter.setOrderDescending(boolean orderDescending) {
+        this.orderDescending = orderDescending;
     }
     
     public List<FilterVector> RecordFilter.getSearchVectors() {

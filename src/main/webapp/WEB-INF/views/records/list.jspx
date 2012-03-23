@@ -12,6 +12,15 @@
 
       <spring:message code="metahive_table_maximise" var="maximised" />
       <spring:message code="metahive_table_minimise" var="minimised" />
+      <spring:url value="/records?order=0${filter.queryString}" var="defaultOrderUrl" />
+
+      <c:if test="${filter.orderId eq 0}">
+        <c:set var="defaultOrderCss" value="order" />
+      </c:if>
+      <c:set var="orderDirection" value="ascending" />
+      <c:if test="${filter.orderDescending}">
+        <c:set var="orderDirection" value="descending" />
+      </c:if>
 
       <div class="keyValueData">
         <p class="viewOptions">
@@ -19,15 +28,20 @@
           <c:out value=" | " />
           <a class="viewControl"><c:out value="${maximised}" /></a>
         </p>
-        <table>
+        <table class="${orderDirection}">
           <thead>
             <tr>
-              <th class="empty"><!-- --></th>
+              <th class="${defaultOrderCss}"><a href="${defaultOrderUrl}"><spring:message code="label_com_sfs_metahive_model_record" /></a></th>
               <th><c:out value="${preferences.secondaryRecordName}" /></th>
               <th><c:out value="${preferences.tertiaryRecordName}" /></th>
               <c:if test="${not empty definitions}">
                 <c:forEach items="${definitions}" var="definition">
-                  <th><c:out value="${definition.name}" escapeXml="true" /></th>
+                  <c:set var="orderCss" value="" />
+                  <c:if test="${filter.orderId eq definition.id}">
+                    <c:set var="orderCss" value="order" />
+                  </c:if>
+                  <spring:url value="/records?order=${definition.id}${filter.queryString}" var="orderUrl" />
+                  <th class="${orderCss}"><a href="${orderUrl}"><c:out value="${definition.name}" escapeXml="true" /></a></th>
                 </c:forEach>
               </c:if>
             </tr>

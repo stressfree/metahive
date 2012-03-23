@@ -24,7 +24,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.PreRemove;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
@@ -58,6 +57,16 @@ public class Record {
     @Column(unique = true)
     private String recordId;
 
+    /** The submitted fields. */
+    @OrderBy("created ASC")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "record")
+    private List<SubmittedField> submittedFeilds = new ArrayList<SubmittedField>();
+
+    /** The key values. */
+    @OrderBy("modified ASC")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "record")
+    private List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
     /** The comments. */
     @OrderBy("created ASC")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "record")
@@ -71,19 +80,6 @@ public class Record {
     @Transient
     private boolean showAllDefinitions;
 
-
-    /**
-     * Remove the associated key values.
-     */
-    @PreRemove
-    public final void preRemove() {
-    	// Delete all associated key values
-    	List<KeyValue> keyValues = KeyValue.findKeyValues(this);
-
-    	for (KeyValue keyValue : keyValues) {
-    		keyValue.remove();
-    	}
-    }
 
     /**
      * A helper function to get the key value collections as a list.
@@ -404,19 +400,57 @@ public class Record {
 
         List<Record> records = new ArrayList<Record>();
 
-        StringBuilder sql = new StringBuilder("SELECT r FROM Record r");
+        Map<String, Object> variables = new HashMap<String, Object>();
+
+        Definition orderDefinition = null;
+        if (filter.getOrderId() != null && filter.getOrderId() > 0) {
+        	orderDefinition = Definition.findDefinition(filter.getOrderId());
+        }
+
+        StringBuilder sql = new StringBuilder("SELECT DISTINCT r FROM Record r");
+
+
+        if (orderDefinition != null && orderDefinition.getId() != null) {
+        	 sql.append(" LEFT OUTER JOIN r.keyValues as o");
+        	 sql.append(" WITH o.definition.id = :orderDefinitionId");
+
+        	 variables.put("orderDefinitionId", orderDefinition.getId());
+        }
 
         Map<String, Map<String, Object>> whereParameters = buildWhere(filter);
-        Map<String, Object> variables = new HashMap<String, Object>();
 
         if (whereParameters.size() > 0) {
         	String sqlWhere = whereParameters.keySet().iterator().next();
-        	variables = whereParameters.get(sqlWhere);
+        	Map<String, Object> whereVariables = whereParameters.get(sqlWhere);
 
+        	for (String key : whereVariables.keySet()) {
+        		variables.put(key, whereVariables.get(key));
+        	}
         	sql.append(sqlWhere);
         }
 
-        sql.append(" ORDER BY r.recordId ASC");
+        String orderValueCol = "r.recordId";
+        if (orderDefinition != null && orderDefinition.getId() != null) {
+        	orderValueCol = "o.doubleValue";
+        	if (orderDefinition.getDataType() == DataType.TYPE_STRING) {
+        		orderValueCol = "o.stringValue";
+        	}
+        	if (orderDefinition.getDataType() == DataType.TYPE_BOOLEAN) {
+        		orderValueCol = "o.booleanValue";
+        	}
+        }
+
+        sql.append(" ORDER BY " + orderValueCol);
+
+        if (filter.isOrderDescending()) {
+        	sql.append(" DESC");
+        } else {
+        	sql.append(" ASC");
+        }
+
+        if (orderDefinition != null && orderDefinition.getId() != null) {
+        	sql.append(", r.recordId ASC");
+        }
 
         TypedQuery<Record> q = entityManager().createQuery(
                 sql.toString(), Record.class);
