@@ -39,12 +39,12 @@ privileged aspect RecordFilter_Roo_JavaBean {
         this.orderDescending = orderDescending;
     }
     
-    public List<FilterVector> RecordFilter.getSearchVectors() {
-        return this.searchVectors;
+    public List<FilterVector> RecordFilter.getFilterVectors() {
+        return this.filterVectors;
     }
     
-    public void RecordFilter.setSearchVectors(List<FilterVector> searchVectors) {
-        this.searchVectors = searchVectors;
+    public void RecordFilter.setFilterVectors(List<FilterVector> filterVectors) {
+        this.filterVectors = filterVectors;
     }
     
     public Date RecordFilter.getCreated() {

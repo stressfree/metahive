@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -53,6 +53,15 @@ public abstract class BaseController {
     }
 
     /**
+     * The result count increments.
+     *
+     * @return the integer[]
+     */
+    protected Integer[] resultCounts() {
+        return new Integer[] { 50, 100, 200 };
+    }
+
+    /**
      * Gets the translated message.
      *
      * @param code the code
@@ -95,11 +104,6 @@ public abstract class BaseController {
     @ModelAttribute("preferences")
     public MetahivePreferences loadPreferences() {
         return MetahivePreferences.load();
-    }
-
-    @ModelAttribute("resultCounts")
-    public Integer[] resultCounts() {
-        return new Integer[] { 50, 100, 200 };
     }
 
     /**

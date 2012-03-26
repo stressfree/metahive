@@ -157,13 +157,13 @@
                  <input type="hidden" name="definition" value="${definition.id}" />
 
                  <label for="organisation"><spring:message code="metahive_add_datasource" htmlEscape="true" />: </label>
-              <select dojoType="dijit.form.Select" name="organisation" id="organisation">
-                <c:forEach items="${organisations}" var="organisation">
-                <option value="${organisation.id}"><c:out value="${organisation.name}" escapeXml="true" /></option>
-                </c:forEach>
-              </select>
-                    <button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_add" /></button>
-                </form>
+                 <select dojoType="dijit.form.Select" name="organisation" id="organisation">
+                    <c:forEach items="${organisations}" var="organisation">
+                    <option value="${organisation.id}"><c:out value="${organisation.name}" escapeXml="true" /></option>
+                    </c:forEach>
+                 </select>
+                 <button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_button_add" /></button>
+               </form>
               </div>
             </c:if>
           </sec:authorize>

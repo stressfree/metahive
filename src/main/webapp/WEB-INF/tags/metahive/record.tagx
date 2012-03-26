@@ -25,6 +25,9 @@
       <spring:url value="/records/advanced" var="advanced_search" />
       <ul class="options">
         <li><a href="${advanced_search}"><spring:message code="metahive_record_advancedsearch" /></a></li>
+        <c:if test="${not empty filter.filterVectors}">
+        <li><a href="${advanced_search}?id=${searchId}"><spring:message code="metahive_record_modifysearch" /></a></li>
+        </c:if>
       </ul>
       <div class="clear"><!-- --></div>
     </form:form>

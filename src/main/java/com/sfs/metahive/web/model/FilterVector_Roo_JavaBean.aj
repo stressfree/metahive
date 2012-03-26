@@ -9,14 +9,6 @@ import java.util.Map;
 
 privileged aspect FilterVector_Roo_JavaBean {
     
-    public int FilterVector.getOrder() {
-        return this.order;
-    }
-    
-    public void FilterVector.setOrder(int order) {
-        this.order = order;
-    }
-    
     public FilterAction FilterVector.getAction() {
         return this.action;
     }
@@ -25,12 +17,12 @@ privileged aspect FilterVector_Roo_JavaBean {
         this.action = action;
     }
     
-    public Map<String, String> FilterVector.getSearchVariables() {
-        return this.searchVariables;
+    public Map<String, String> FilterVector.getFilterVariables() {
+        return this.filterVariables;
     }
     
-    public void FilterVector.setSearchVariables(Map<String, String> searchVariables) {
-        this.searchVariables = searchVariables;
+    public void FilterVector.setFilterVariables(Map<String, String> filterVariables) {
+        this.filterVariables = filterVariables;
     }
     
 }

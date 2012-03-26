@@ -41,8 +41,8 @@ public class RecordFilter extends BaseFilter {
     /** The order descending. */
     private boolean orderDescending;
 
-    /** The search variables. */
-    private List<FilterVector> searchVectors = new ArrayList<FilterVector>();
+    /** The filter components. */
+    private List<FilterVector> filterVectors = new ArrayList<FilterVector>();
 
     /** The timestamp. */
     private Date created;
@@ -122,9 +122,7 @@ public class RecordFilter extends BaseFilter {
     			}
     		}
     	}
-    	filterVector.setOrder(this.searchVectors.size());
-
-    	this.searchVectors.add(filterVector);
+    	this.filterVectors.add(filterVector);
     }
 
 }

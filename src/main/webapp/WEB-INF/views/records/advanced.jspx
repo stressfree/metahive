@@ -3,18 +3,32 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
+    <spring:message code="metahive_record_advancedsearch" var="titleText" />
+    <c:if test="${not empty filter.id}">
+        <spring:message code="metahive_record_modifysearch" var="titleText" />
+    </c:if>
+
     <metahive:record />
 
     <div class="record-title">
-      <h1>
-        <spring:message code="metahive_record_advancedsearch" />
-      </h1>
+      <h1><c:out value="${titleText}" escapeXml="true" /></h1>
     </div>
 
 	<spring:url value="/records/advanced" var="search_url" />
 	<div class="recordAdvancedSearch">
 		<form:form action="${search_url}" method="POST" modelAttribute="recordSearch" dojoType="dijit.form.Form">
-			<!-- <p>Modify search options</p> -->
+
+		    <input type="hidden" id="id" name="id" value="${filter.id}" />
+		    <c:if test="${not empty filter.id}">
+		      <div class="filterAction">
+		          <label><spring:message code="metahive_record_searchaction" />:</label>
+                  <select dojoType="dijit.form.Select" name="action" id="action">
+                    <c:forEach items="${filteractions}" var="filterAction">
+                    <option value="${filterAction}"><spring:message code="${filterAction.messageKey}" /></option>
+                    </c:forEach>
+                  </select>
+		      </div>
+		    </c:if>
 
 			<c:forEach var="definitionGroup" items="${exportDefinitions}">
 			    <c:set var="expandClass" value="" />

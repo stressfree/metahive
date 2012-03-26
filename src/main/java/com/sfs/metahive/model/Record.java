@@ -36,6 +36,7 @@ import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 
+import com.sfs.metahive.web.model.FilterAction;
 import com.sfs.metahive.web.model.FilterVector;
 import com.sfs.metahive.web.model.RecordFilter;
 import com.sfs.metahive.web.model.RecordFilterVector;
@@ -528,14 +529,11 @@ public class Record {
         StringBuilder where = new StringBuilder();
         HashMap<String, Object> variables = new HashMap<String, Object>();
 
+        if (filter.getFilterVectors() != null) {
+        	for (int i = 0; i < filter.getFilterVectors().size(); i++) {
+        		FilterVector vector = filter.getFilterVectors().get(i);
 
-        if (StringUtils.isNotBlank(filter.getRecordId())) {
-            where.append("LOWER(r.recordId) LIKE LOWER(:recordId)");
-            variables.put("recordId", filter.getRecordId());
-        }
-
-        if (filter.getSearchVectors() != null) {
-        	for (FilterVector vector : filter.getSearchVectors()) {
+        		StringBuilder vectorWhere = new StringBuilder();
 
         		Map<Long, RecordFilterVector> rVectors = buildRecordVectors(vector);
 
@@ -543,7 +541,7 @@ public class Record {
         			RecordFilterVector rVector = rVectors.get(id);
 
         			Map<String, Map<String, Object>> searchOperation =
-        					getSearchOperation(rVector);
+        					getSearchOperation(rVector, i);
         			String operation = "";
 
         			if (searchOperation.size() > 0) {
@@ -553,16 +551,16 @@ public class Record {
         			if (StringUtils.isNotBlank(operation)) {
         				Map<String, Object> params = searchOperation.get(operation);
 
-        				if (where.length() > 0) {
-        					where.append(" AND ");
+        				if (vectorWhere.length() > 0) {
+        					vectorWhere.append(" AND");
         				}
 
-        				where.append(" r.id IN (SELECT kv.record from KeyValue kv");
-        				where.append(" WHERE kv.definition = ");
-        				where.append(id);
-        				where.append(" AND ");
-        				where.append(operation);
-        				where.append(")");
+        				vectorWhere.append(" r.id IN (SELECT kv.record from KeyValue kv");
+        				vectorWhere.append(" WHERE kv.definition = ");
+        				vectorWhere.append(id);
+        				vectorWhere.append(" AND ");
+        				vectorWhere.append(operation);
+        				vectorWhere.append(")");
 
         				for (String key : params.keySet()) {
         					Object parameter = params.get(key);
@@ -571,7 +569,34 @@ public class Record {
         				}
         			}
         		}
+
+        		logger.info("Filter action: " + vector.getAction());
+
+        		if (vectorWhere.length() > 0) {
+        			if (where.length() > 0) {
+        				if (vector.getAction() == FilterAction.ADD) {
+        					where.append(" OR ");
+        				}
+        				if (vector.getAction() == FilterAction.REMOVE) {
+        					where.append(" AND NOT ");
+        				}
+        				if (vector.getAction() == FilterAction.SUBSEARCH) {
+        					where.append(" AND ");
+        				}
+        			}
+            		where.insert(0, "(");
+            		where.append(vectorWhere.toString().trim());
+            		where.append(")");
+        		}
         	}
+        }
+
+        if (StringUtils.isNotBlank(filter.getRecordId())) {
+        	if (where.length() > 0) {
+        		where.append(" AND ");
+        	}
+            where.append("LOWER(r.recordId) LIKE LOWER(:recordId)");
+            variables.put("recordId", filter.getRecordId());
         }
 
         if (where.length() > 0) {
@@ -586,10 +611,11 @@ public class Record {
      * Gets the search operation parameters.
      *
      * @param rVector the r vector
+     * @param i the vector counter
      * @return the search operation
      */
     private static Map<String, Map<String, Object>> getSearchOperation(
-    		final RecordFilterVector rVector) {
+    		final RecordFilterVector rVector, final int i) {
 
 		String variableName = "variable" + rVector.getDefinition().getId();
 		String criteria = "";
@@ -615,15 +641,19 @@ public class Record {
     	if (StringUtils.isNotBlank(criteria) && dataType == DataType.TYPE_BOOLEAN) {
     		where.append("LOWER(kv.booleanValue) = :");
     		where.append(variableName);
+    		where.append("_");
+    		where.append(i);
 
-			variables.put(variableName, criteria.toLowerCase());
+			variables.put(variableName + "_" + i, criteria.toLowerCase());
 		}
 
 		if (StringUtils.isNotBlank(criteria) && dataType == DataType.TYPE_STRING) {
 			where.append("LOWER(kv.stringValue) LIKE :");
 			where.append(variableName);
+    		where.append("_");
+    		where.append(i);
 
-			variables.put(variableName, "%" + criteria + "%".toLowerCase());
+			variables.put(variableName + "_" + i, "%" + criteria + "%".toLowerCase());
 		}
 
 		if (dataType == DataType.TYPE_NUMBER || dataType == DataType.TYPE_PERCENTAGE
@@ -649,17 +679,23 @@ public class Record {
 					if (multipleValue) {
 						where.append(" BETWEEN :");
 						where.append(variableName);
+			    		where.append("_");
+			    		where.append(i);
 						where.append("_a AND :");
 						where.append(variableName);
+			    		where.append("_");
+			    		where.append(i);
 						where.append("_b");
 
-						variables.put(variableName + "_a", dbCriteria);
-						variables.put(variableName + "_b", dbConstraint);
+						variables.put(variableName + "_" + i + "_a", dbCriteria);
+						variables.put(variableName + "_" + i + "_b", dbConstraint);
 					} else {
 						where.append(" = :");
 						where.append(variableName);
+			    		where.append("_");
+			    		where.append(i);
 
-						variables.put(variableName, dbCriteria);
+						variables.put(variableName + "_" + i, dbCriteria);
 					}
 
 				} catch (NumberFormatException nfe) {
@@ -973,8 +1009,8 @@ public class Record {
     	Map<Long, RecordFilterVector> rVectors =
 				new TreeMap<Long, RecordFilterVector>();
 
-		for (String key : vector.getSearchVariables().keySet()) {
-			String value = vector.getSearchVariables().get(key);
+		for (String key : vector.getFilterVariables().keySet()) {
+			String value = vector.getFilterVariables().get(key);
 
 			RecordFilterVector rVector = new RecordFilterVector();
 

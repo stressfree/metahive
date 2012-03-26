@@ -21,14 +21,11 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 @RooJavaBean
 public class FilterVector {
 
-	/** The order. */
-	private int order;
-
 	/** The action. */
 	private FilterAction action = FilterAction.ADD;
 
-    /** The search variables. */
-    private Map<String, String> searchVariables = new HashMap<String, String>();
+    /** The filter variables. */
+    private Map<String, String> filterVariables = new HashMap<String, String>();
 
 
     /**
@@ -38,6 +35,6 @@ public class FilterVector {
      * @param value the value
      */
     public final void addVariable(final String key, final String value) {
-    	this.searchVariables.put(key, value);
+    	this.filterVariables.put(key, value);
     }
 }

@@ -49,6 +49,8 @@ import com.sfs.metahive.model.Record;
 import com.sfs.metahive.model.SubmittedField;
 import com.sfs.metahive.model.UserRole;
 import com.sfs.metahive.web.model.CommentForm;
+import com.sfs.metahive.web.model.FilterAction;
+import com.sfs.metahive.web.model.FilterVector;
 import com.sfs.metahive.web.model.KeyValueForm;
 import com.sfs.metahive.web.model.KeyValueJson;
 import com.sfs.metahive.web.model.RecordFilter;
@@ -117,20 +119,59 @@ public class RecordController extends BaseController {
     }
 
     @RequestMapping(value = "/advanced", method = RequestMethod.GET)
-    public String advancedSearch(Model uiModel) {
+    public String advancedSearch(@RequestParam(value = "id", required = false) String id,
+    		Model uiModel, HttpServletRequest request) {
+
+        if (StringUtils.isNotBlank(id)) {
+        	// Modify search action
+        	Map<String, RecordFilter> searches = getSearches(request);
+        	if (searches.containsKey(id)) {
+                uiModel.addAttribute("filter", searches.get(id));
+        	}
+
+        	Collection<FilterAction> filterActions = new ArrayList<FilterAction>();
+            for (FilterAction filterAction : FilterAction.values()) {
+            	filterActions.add(filterAction);
+            }
+            uiModel.addAttribute("filteractions", filterActions);
+        }
+
         uiModel.addAttribute("booleanOptions", populateBooleanValues());
 
         return "records/advanced";
     }
 
     @RequestMapping(value = "/advanced", method = RequestMethod.POST)
-    public String advancedSearchProcess(Model uiModel, HttpServletRequest request) {
+    public String advancedSearchProcess(
+    		@RequestParam(value = "id", required = false) String id,
+    		@RequestParam(value = "action", required = false) FilterAction action,
+    		Model uiModel, HttpServletRequest request) {
 
     	RecordFilter filter = new RecordFilter();
     	filter.setEncoding(request.getCharacterEncoding());
     	filter.processSearchForm(request);
 
     	Map<String, RecordFilter> searches = getSearches(request);
+
+    	if (StringUtils.isNotBlank(id) && searches.containsKey(id)) {
+    		// This is a modify search operation - get the processed filter vector
+    		FilterVector vector = null;
+
+    		if (filter.getFilterVectors() != null
+    				&& filter.getFilterVectors().size() > 0) {
+    			vector = filter.getFilterVectors().get(0);
+
+    			if (action != null) {
+    				vector.setAction(action);
+    			}
+    		}
+    		// Add the vector to the existing search if it is not null
+    		filter = searches.get(id);
+    		if (vector != null) {
+    			filter.getFilterVectors().add(vector);
+    		}
+    	}
+
     	// Add the filter to the search array
     	searches.put(filter.getId(), filter);
 
@@ -349,10 +390,8 @@ public class RecordController extends BaseController {
 
     	Map<String, RecordFilter> searches = getSearches(request);
 
-        if (StringUtils.isNotBlank(id)) {
-        	if (searches.containsKey(id)) {
-        		filter = searches.get(id);
-        	}
+        if (StringUtils.isNotBlank(id) && searches.containsKey(id)) {
+        	filter = searches.get(id);
         }
 
         if (orderId != null) {
@@ -381,6 +420,7 @@ public class RecordController extends BaseController {
 
         float nrOfPages = (float) Record.countRecords(filter) / sizeNo;
 
+        uiModel.addAttribute("resultCounts", resultCounts());
         uiModel.addAttribute("page", pageNo + 1);
         uiModel.addAttribute("size", sizeNo);
         uiModel.addAttribute("filter", filter);

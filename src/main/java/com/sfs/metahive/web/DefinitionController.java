@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
@@ -298,6 +298,7 @@ public class DefinitionController extends BaseController {
 
         float nrOfPages = (float) Definition.countDefinitions(filter) / sizeNo;
 
+        uiModel.addAttribute("resultCounts", resultCounts());
         uiModel.addAttribute("page", pageNo + 1);
         uiModel.addAttribute("size", sizeNo);
         uiModel.addAttribute("filter", filter);
