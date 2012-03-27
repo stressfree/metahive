@@ -398,7 +398,11 @@ public class RecordController extends BaseController {
         	filter.setOrderId(orderId);
         }
 
-        if (StringUtils.isNotBlank(recordId)) {
+
+        String defaultRecordFilter = getMessage("metahive_records_filter_id");
+
+        if (StringUtils.isNotBlank(recordId)
+        		&& !StringUtils.equalsIgnoreCase(recordId, defaultRecordFilter)) {
             filter.setRecordId(recordId);
         } else  {
             filter.setRecordId("");

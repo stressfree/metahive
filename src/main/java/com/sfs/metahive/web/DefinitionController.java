@@ -285,7 +285,10 @@ public class DefinitionController extends BaseController {
         DefinitionFilter filter = new DefinitionFilter();
         filter.setEncoding(request.getCharacterEncoding());
 
-        if (StringUtils.isNotBlank(name)) {
+        String defaultNameFilter = getMessage("metahive_datadictionary_filter_name");
+
+        if (StringUtils.isNotBlank(name)
+        		&& !StringUtils.equalsIgnoreCase(name, defaultNameFilter)) {
             filter.setName(name);
         }
         if (StringUtils.isNotBlank(category)

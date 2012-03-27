@@ -158,7 +158,24 @@ span.overridden {
 .dictionary-header .actions, .record-header .actions {
   float: right;
 }
-
+.dictionary-header label, .record-header label {
+    display: none;
+}
+.dictionary-header .notActive .dijitTextBox, .record-header .notActive .dijitTextBox,
+.dictionary-header .notActive .dijitSelectLabel {
+	color: #999;
+}
+.dictionary-header .dijitTextBox, .record-header .dijitTextBox {
+	width: 10em!important;
+	height: 1.6em;
+}
+.dictionary-header .dijitTextBox input, .record-header .dijitTextBox input {
+    margin-top: 2px;
+}
+.record-header .dijitTextBox {
+    position: relative;
+    top: 2px;
+}
 .dictionary-header .actionsContainer, .record-header .actionsContainer {
   position: absolute;
   width: 500px;
@@ -173,7 +190,7 @@ span.overridden {
   display: inline;
 }
 .record-header ul.options li {
-  padding: 0 0.5em;
+  padding: 0 0.6em;
   display: inline;
   line-height: 1.9em;
 }
