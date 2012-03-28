@@ -3,10 +3,10 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <spring:url value="/definitions/${definition.id}" var="cancelAction" />
-    <form:update id="fu_com_sfs_metahive_web_model_DefinitionForm" modelAttribute="definition" path="/definitions" versionField="Version" cancelAction="${cancelAction}" z="user-managed">
-        <field:input field="name" id="c_com_sfs_metahive_web_model_DefinitionForm_name" required="true" z="user-managed"/>
-    <field:select field="definitionType" id="c_com_sfs_metahive_web_model_DefinitionForm_definitionType" path="/definitionType" items="${definitiontypes}" required="true" z="user-managed"/>
-         <field:select field="dataType" id="c_com_sfs_metahive_web_model_DefinitionForm_dataType" path="/dataType" items="${datatypes}" required="true" z="user-managed"/>
+    <form:update id="fu_net_triptech_metahive_web_model_DefinitionForm" modelAttribute="definition" path="/definitions" versionField="Version" cancelAction="${cancelAction}" z="user-managed">
+        <field:input field="name" id="c_net_triptech_metahive_web_model_DefinitionForm_name" required="true" z="user-managed"/>
+    <field:select field="definitionType" id="c_net_triptech_metahive_web_model_DefinitionForm_definitionType" path="/definitionType" items="${definitiontypes}" required="true" z="user-managed"/>
+         <field:select field="dataType" id="c_net_triptech_metahive_web_model_DefinitionForm_dataType" path="/dataType" items="${datatypes}" required="true" z="user-managed"/>
 
          <c:if test="${definition.definitionType eq 'STANDARD'}">
            <c:set var="calculationFieldClass" value="hidden" />
@@ -22,7 +22,7 @@
 
          <div id="relatedDefinitionsSelector" class="${relatedDefinitionsSelectorClass}">
            <div class="field field-select">
-             <label for="relatedDefinitionSelector_id"><spring:message code="label_com_sfs_metahive_model_definition_plural" />: </label>
+             <label for="relatedDefinitionSelector_id"><spring:message code="label_net_triptech_metahive_model_definition_plural" />: </label>
              <a id="addRelatedDefinition"><spring:message code="metahive_button_add" /></a>
            </div>
            <ul id="relatedDefinitionsList">
@@ -40,19 +40,19 @@
 
          <div id="definitionCalculationField" class="${calculationFieldClass}">
            <p class="helpText"><spring:message code="metahive_calculation_help" />: (<span class="variable">D1</span> + <span class="variable">D2</span>) / <span class="variable">D3</span></p>
-           <field:input field="calculation" id="c_com_sfs_metahive_web_model_DefinitionForm_calculation" z="user-managed"/>
+           <field:input field="calculation" id="c_net_triptech_metahive_web_model_DefinitionForm_calculation" z="user-managed"/>
            <p class="exampleOutput"><spring:message code="metahive_calculation_example" />: <span id="testCalculationResult"><c:out value="${definition.testCalculation}" /></span></p>
          </div>
          <div id="definitionKeyValueGeneratorSelector" class="${keyValueGeneratorSelectorClass}">
-           <field:select field="keyValueGenerator" id="c_com_sfs_metahive_web_model_DefinitionForm_keyValueGenerator" path="/keyValueGenerator" items="${definition.dataType.keyValueGenerators}" required="true" z="user-managed"/>
+           <field:select field="keyValueGenerator" id="c_net_triptech_metahive_web_model_DefinitionForm_keyValueGenerator" path="/keyValueGenerator" items="${definition.dataType.keyValueGenerators}" required="true" z="user-managed"/>
          </div>
-         <field:select field="keyValueAccess" id="c_com_sfs_metahive_web_model_DefinitionForm_keyValueAccess" path="/keyValueAccess" items="${userroles}" required="true" z="user-managed"/>
-         <field:select field="category" id="c_com_sfs_metahive_web_model_DefinitionForm_category" path="/category" itemValue="id" itemLabel="name" items="${categories}" required="true" z="user-managed"/>
-    <field:select field="applicability" id="c_com_sfs_metahive_web_model_DefinitionForm_applicability" path="/applicability" items="${applicabilities}" required="true" z="user-managed"/>
-         <field:input field="unitOfMeasure" id="c_com_sfs_metahive_web_model_DefinitionForm_unitofmeasure" z="user-managed"/>
-         <field:input field="exampleValues" id="c_com_sfs_metahive_web_model_DefinitionForm_examplevalues" z="user-managed"/>
-         <field:editor field="description" id="c_com_sfs_metahive_web_model_DefinitionForm_description" z="user-managed"/>
-         <field:editor field="logMessage" id="c_com_sfs_metahive_web_model_DefinitionForm_logMessage" z="user-managed"/>
+         <field:select field="keyValueAccess" id="c_net_triptech_metahive_web_model_DefinitionForm_keyValueAccess" path="/keyValueAccess" items="${userroles}" required="true" z="user-managed"/>
+         <field:select field="category" id="c_net_triptech_metahive_web_model_DefinitionForm_category" path="/category" itemValue="id" itemLabel="name" items="${categories}" required="true" z="user-managed"/>
+    <field:select field="applicability" id="c_net_triptech_metahive_web_model_DefinitionForm_applicability" path="/applicability" items="${applicabilities}" required="true" z="user-managed"/>
+         <field:input field="unitOfMeasure" id="c_net_triptech_metahive_web_model_DefinitionForm_unitofmeasure" z="user-managed"/>
+         <field:input field="exampleValues" id="c_net_triptech_metahive_web_model_DefinitionForm_examplevalues" z="user-managed"/>
+         <field:editor field="description" id="c_net_triptech_metahive_web_model_DefinitionForm_description" z="user-managed"/>
+         <field:editor field="logMessage" id="c_net_triptech_metahive_web_model_DefinitionForm_logMessage" z="user-managed"/>
     </form:update>
 
     <spring:url value="/definitions/relatedDefinitions?id=${definition.id}" var="relatedDefinitions" />

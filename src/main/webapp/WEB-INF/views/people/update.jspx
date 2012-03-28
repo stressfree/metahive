@@ -6,13 +6,13 @@
     <metahive:administration />
 
     <spring:url value="/people" var="cancelAction" />
-    <form:update id="fu_com_sfs_metahive_model_Person" modelAttribute="person" path="/people" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
-        <field:input field="firstName" id="c_com_sfs_metahive_model_Person_firstName" required="true" z="user-managed"/>
-        <field:input field="lastName" id="c_com_sfs_metahive_model_Person_lastName" required="true" z="user-managed"/>
-        <field:input field="emailAddress" id="c_com_sfs_metahive_model_Person_emailAddress" required="true" z="user-managed" validationRegex="\\b[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b" validationMessageCode="field_invalid_email"/>
+    <form:update id="fu_net_triptech_metahive_model_Person" modelAttribute="person" path="/people" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
+        <field:input field="firstName" id="c_net_triptech_metahive_model_Person_firstName" required="true" z="user-managed"/>
+        <field:input field="lastName" id="c_net_triptech_metahive_model_Person_lastName" required="true" z="user-managed"/>
+        <field:input field="emailAddress" id="c_net_triptech_metahive_model_Person_emailAddress" required="true" z="user-managed" validationRegex="\\b[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b" validationMessageCode="field_invalid_email"/>
 
-        <field:select field="userRole" id="c_com_sfs_metahive_model_Person_userRole" items="${userroles}" path="/userRole" z="user-managed"/>
-        <field:select field="userStatus" id="c_com_sfs_metahive_model_Person_userStatus" items="${userstatuses}" path="/userStatus" z="user-managed"/>
+        <field:select field="userRole" id="c_net_triptech_metahive_model_Person_userRole" items="${userroles}" path="/userRole" z="user-managed"/>
+        <field:select field="userStatus" id="c_net_triptech_metahive_model_Person_userStatus" items="${userstatuses}" path="/userStatus" z="user-managed"/>
 
         <springform:hidden path="openIdIdentifier" />
         <springform:hidden path="userStatus" />

@@ -5,8 +5,8 @@
     <metahive:administration />
 
     <spring:message var="list_management" code="metahive_lists" />
-    <spring:message var="category_name" code="label_com_sfs_metahive_model_category_name" />
-    <spring:message var="conditionofuse_name" code="label_com_sfs_metahive_model_conditionofuse_name" />
+    <spring:message var="category_name" code="label_net_triptech_metahive_model_category_name" />
+    <spring:message var="conditionofuse_name" code="label_net_triptech_metahive_model_conditionofuse_name" />
 
     <util:panel id="_list_management" title="${list_management}">
 

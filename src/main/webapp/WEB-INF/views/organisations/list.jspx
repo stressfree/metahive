@@ -5,8 +5,8 @@
     <metahive:administration />
 
      <spring:message var="organisation_heading" code="metahive_organisations" />
-     <spring:message var="organisation_name" code="label_com_sfs_metahive_model_organisation_name" />
-     <spring:message var="organisation_members" code="label_com_sfs_metahive_model_organisation_people" />
+     <spring:message var="organisation_name" code="label_net_triptech_metahive_model_organisation_name" />
+     <spring:message var="organisation_members" code="label_net_triptech_metahive_model_organisation_people" />
 
     <util:panel id="_organisation_heading" title="${organisation_heading}">
 

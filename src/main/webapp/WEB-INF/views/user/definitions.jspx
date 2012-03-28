@@ -7,18 +7,18 @@
 
     <spring:url value="/records" var="cancelAction" />
 
-    <form:update title="metahive_user_definitions" id="fu_com_sfs_metahive_model_Person" modelAttribute="person" path="/user/definitions" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
+    <form:update title="metahive_user_definitions" id="fu_net_triptech_metahive_model_Person" modelAttribute="person" path="/user/definitions" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
         <div class="firstDefinitionColumn">
           <c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
              <c:if test="${counter.index % 2 eq 0}">
-               <metahive:definitionchecklist id="c_com_sfs_metahive_model_Person_searchDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="searchDefinitions" />
+               <metahive:definitionchecklist id="c_net_triptech_metahive_model_Person_searchDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="searchDefinitions" />
              </c:if>
            </c:forEach>
          </div>
          <div class="secondDefinitionColumn">
            <c:forEach var="definitionGroup" items="${definitions}" varStatus="counter">
              <c:if test="${counter.index % 2 ne 0}">
-               <metahive:definitionchecklist id="c_com_sfs_metahive_model_Person_searchDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="searchDefinitions" />
+               <metahive:definitionchecklist id="c_net_triptech_metahive_model_Person_searchDefinitions" category="${definitionGroup.key}" definitions="${definitionGroup.value}" count="${counter.count}" field="searchDefinitions" />
              </c:if>
            </c:forEach>
          </div>

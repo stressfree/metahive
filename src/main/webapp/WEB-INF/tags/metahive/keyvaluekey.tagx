@@ -1,13 +1,13 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <div class="keyValueDataKey">
-        <li class="keyNoData"><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></strong>:
-            <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data_description" />
+        <li class="keyNoData"><strong><spring:message code="label_net_triptech_metahive_model_keyvalue_no_data" /></strong>:
+            <c:out value=" " /><spring:message code="label_net_triptech_metahive_model_keyvalue_no_data_description" />
         </li>
-        <li class="keyAccessRestricted"><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted" /></strong>:
-            <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_access_restricted_description" />
+        <li class="keyAccessRestricted"><strong><spring:message code="label_net_triptech_metahive_model_keyvalue_access_restricted" /></strong>:
+            <c:out value=" " /><spring:message code="label_net_triptech_metahive_model_keyvalue_access_restricted_description" />
         </li>
-        <li class="keyOverridden"><strong><spring:message code="label_com_sfs_metahive_model_keyvalue_overridden" /></strong>:
-            <c:out value=" " /><spring:message code="label_com_sfs_metahive_model_keyvalue_overridden_description" />
+        <li class="keyOverridden"><strong><spring:message code="label_net_triptech_metahive_model_keyvalue_overridden" /></strong>:
+            <c:out value=" " /><spring:message code="label_net_triptech_metahive_model_keyvalue_overridden_description" />
         </li>
     </div>
 </jsp:root>

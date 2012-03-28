@@ -1,6 +1,6 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<jsp:output omit-xml-declaration="yes"/>
-  	<jsp:directive.attribute name="definition" type="com.sfs.metahive.model.Definition" required="true" rtexprvalue="true" description="The definition to be used as the search term" />
+  	<jsp:directive.attribute name="definition" type="net.triptech.metahive.model.Definition" required="true" rtexprvalue="true" description="The definition to be used as the search term" />
 
 	<c:choose>
 		<c:when test="${definition.dataType eq 'TYPE_NUMBER'}">

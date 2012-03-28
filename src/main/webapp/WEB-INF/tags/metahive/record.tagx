@@ -1,6 +1,6 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:sec="http://www.springframework.org/security/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
   <jsp:output omit-xml-declaration="yes"/>
-  <jsp:directive.attribute name="filter" type="com.sfs.metahive.web.model.RecordFilter" required="false" rtexprvalue="true" description="The filter applied to the paginated search" />
+  <jsp:directive.attribute name="filter" type="net.triptech.metahive.web.model.RecordFilter" required="false" rtexprvalue="true" description="The filter applied to the paginated search" />
   <jsp:directive.attribute name="changeDefinitions" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Display the change definitions button flag" />
 
   <spring:message code="metahive_records_filter_id" var="filterRecordId" />
@@ -17,7 +17,7 @@
       <input type="hidden" name="id" value="${fn:escapeXml(searchId)}" />
       <h3><spring:message code="metahive_records" /></h3>
       <div class="filterfield notActive">
-        <label for="name"><spring:message code="label_com_sfs_metahive_model_record_recordid" htmlEscape="true" />: </label>
+        <label for="name"><spring:message code="label_net_triptech_metahive_model_record_recordid" htmlEscape="true" />: </label>
         <input type="text" id="recordId" name="recordId" jsId="recordIdField" dojoType="dijit.form.TextBox" value="${filterRecordId}" />
       </div>
       <spring:message code="button_filter" var="filter_button" htmlEscape="false" />

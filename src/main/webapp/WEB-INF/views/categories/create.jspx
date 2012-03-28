@@ -6,7 +6,7 @@
     <metahive:administration />
 
     <spring:url value="/lists" var="cancelAction" />
-    <form:create id="fc_com_sfs_metahive_model_Category" modelAttribute="category" path="/categories" render="${empty dependencies}" z="user-managed" cancelAction="${cancelAction}">
-        <field:input field="name" id="c_com_sfs_metahive_model_Category_name" required="true" z="user-managed"/>
+    <form:create id="fc_net_triptech_metahive_model_Category" modelAttribute="category" path="/categories" render="${empty dependencies}" z="user-managed" cancelAction="${cancelAction}">
+        <field:input field="name" id="c_net_triptech_metahive_model_Category_name" required="true" z="user-managed"/>
     </form:create>
 </div>

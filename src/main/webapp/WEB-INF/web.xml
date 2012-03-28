@@ -42,7 +42,7 @@
     <!-- Allows attributes to be accessed on the next request -->
   <filter>
       <filter-name>flashScope</filter-name>
-      <filter-class>com.sfs.metahive.FlashScopeFilter</filter-class>
+      <filter-class>net.triptech.metahive.FlashScopeFilter</filter-class>
   </filter>
 
 

@@ -31,7 +31,7 @@
         <table class="${orderDirection}">
           <thead>
             <tr>
-              <th class="${defaultOrderCss}"><a href="${defaultOrderUrl}"><spring:message code="label_com_sfs_metahive_model_record" /></a></th>
+              <th class="${defaultOrderCss}"><a href="${defaultOrderUrl}"><spring:message code="label_net_triptech_metahive_model_record" /></a></th>
               <th><c:out value="${preferences.secondaryRecordName}" /></th>
               <th><c:out value="${preferences.tertiaryRecordName}" /></th>
               <c:if test="${not empty definitions}">
@@ -63,7 +63,7 @@
                         <td class="secondaryRecord"><!-- --></td>
                         <td class="tertiaryRecord"><!-- --></td>
                         <c:forEach items="${definitions}" var="definition">
-                          <td class="${definition.dataType.cssClass}"><spring:message code="label_com_sfs_metahive_model_keyvalue_no_data" /></td>
+                          <td class="${definition.dataType.cssClass}"><spring:message code="label_net_triptech_metahive_model_keyvalue_no_data" /></td>
                         </c:forEach>
                       </c:when>
                       <c:otherwise>

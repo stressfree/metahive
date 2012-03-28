@@ -15,23 +15,23 @@
 
     <div class="metadata">
       <div class="definitiontype">
-        <h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_definitiontype" />:</h4>
+        <h4><spring:message code="label_net_triptech_metahive_web_model_definitionform_definitiontype" />:</h4>
         <spring:message code="${definition.definitionType.messageKey}" />
       </div>
       <div class="categories">
         <spring:url value="/definitions?category=${definition.category.name}" var="categoryLink" />
-        <h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_category" />:</h4>
+        <h4><spring:message code="label_net_triptech_metahive_web_model_definitionform_category" />:</h4>
         <a href="${categoryLink}"><c:out value="${definition.category.name}" escapeXml="true" /></a> (<c:out value="${definition.applicability.metahiveName}" escapeXml="true" />)
       </div>
       <div class="datatype">
-        <h4><spring:message code="label_com_sfs_metahive_model_definition_datatypeandmeasure" />:</h4>
+        <h4><spring:message code="label_net_triptech_metahive_model_definition_datatypeandmeasure" />:</h4>
         <spring:message code="${definition.dataType.messageKey}" />
         <c:if test="${not empty definition.description.unitOfMeasure}">
       <c:out value=" (${definition.description.unitOfMeasure})" escapeXml="true" />
       </c:if>
     </div>
       <div class="examplevalue">
-        <h4><spring:message code="label_com_sfs_metahive_web_model_definitionform_examplevalues" />:</h4>
+        <h4><spring:message code="label_net_triptech_metahive_web_model_definitionform_examplevalues" />:</h4>
         <c:out value="${definition.description.exampleValues}" escapeXml="true" />
       </div>
     </div>
@@ -41,17 +41,17 @@
         <spring:url value="/definitions/${definition.summaryDefinition.id}" var="definitionLink" />
         <div class="summaryDefinition">
           <p>
-            <strong><spring:message code="label_com_sfs_metahive_model_definition_summarydefinition" />:</strong>
+            <strong><spring:message code="label_net_triptech_metahive_model_definition_summarydefinition" />:</strong>
             <c:out value=" " /><a href="${definitionLink}"><c:out value="${definition.summaryDefinition.name}" /></a>
           </p>
         </div>
       </c:if>
       <c:if test="${definition.definitionType ne 'STANDARD'}">
         <div class="relatedDefinitions">
-          <spring:message code="label_com_sfs_metahive_model_definition_summariseddefinitions" var="relatedDefinitionTitle" />
+          <spring:message code="label_net_triptech_metahive_model_definition_summariseddefinitions" var="relatedDefinitionTitle" />
           <c:set var="relatedDefinitions" value="${definition.summarisedDefinitions}" />
           <c:if test="${definition.definitionType eq 'CALCULATED'}">
-            <spring:message code="label_com_sfs_metahive_model_definition_calculateddefinitions" var="relatedDefinitionTitle" />
+            <spring:message code="label_net_triptech_metahive_model_definition_calculateddefinitions" var="relatedDefinitionTitle" />
             <c:set var="relatedDefinitions" value="${definition.calculatedDefinitions}" />
           </c:if>
           <strong><c:out value="${relatedDefinitionTitle}" />:</strong>
@@ -72,7 +72,7 @@
       <c:if test="${definition.definitionType eq 'CALCULATED'}">
         <div class="calculation">
           <p>
-            <strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_calculation" />:</strong>
+            <strong><spring:message code="label_net_triptech_metahive_web_model_definitionform_calculation" />:</strong>
             <c:out value=" " /><c:out value="${definition.calculation}" escapeXml="false" />
           </p>
         </div>
@@ -80,12 +80,12 @@
       <div class="keyvalue">
         <c:if test="${definition.definitionType ne 'CALCULATED'}">
           <p>
-            <strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvaluegenerator" />:</strong>
+            <strong><spring:message code="label_net_triptech_metahive_web_model_definitionform_keyvaluegenerator" />:</strong>
             <c:out value=" " /><spring:message code="${definition.keyValueGenerator.messageKey}" />
         </p>
       </c:if>
       <p>
-          <strong><spring:message code="label_com_sfs_metahive_web_model_definitionform_keyvalueaccess" />:</strong>
+          <strong><spring:message code="label_net_triptech_metahive_web_model_definitionform_keyvalueaccess" />:</strong>
           <c:out value=" " /><spring:message code="${definition.keyValueAccess.messageKey}" />
         </p>
       </div>
@@ -93,7 +93,7 @@
     </div>
     <c:if test="${definition.definitionType eq 'STANDARD'}">
       <div class="datasources">
-        <h4><spring:message code="label_com_sfs_metahive_model_datasource_plural" />:</h4>
+        <h4><spring:message code="label_net_triptech_metahive_model_datasource_plural" />:</h4>
         <ul>
         <c:forEach items="${definition.dataSources}" var="dataSource">
           <li class="datasource">
@@ -127,16 +127,16 @@
                   </sec:authorize>
             <c:if test="${not empty dataSource.collectionDate}">
               <div class="datasource-collectiondate">
-                   <strong><spring:message code="label_com_sfs_metahive_model_datasource_collectiondate" />: </strong>
+                   <strong><spring:message code="label_net_triptech_metahive_model_datasource_collectiondate" />: </strong>
                    <fmt:formatDate pattern="d/M/yyyy" value="${dataSource.collectionDate}" />
               </div>
             </c:if>
             <div class="datasource-conditions">
-               <strong><spring:message code="label_com_sfs_metahive_model_conditionofuse" />: </strong>
+               <strong><spring:message code="label_net_triptech_metahive_model_conditionofuse" />: </strong>
                <c:out value="${dataSource.conditionOfUse.name}" escapeXml="true" />
             </div>
             <div class="datasource-contacts">
-              <strong><spring:message code="label_com_sfs_metahive_model_datasource_pointsofcontact" />: </strong>
+              <strong><spring:message code="label_net_triptech_metahive_model_datasource_pointsofcontact" />: </strong>
               <c:forEach items="${dataSource.pointsOfContact}" var="person" varStatus="status">
                 <c:if test="${status.count > 1}">,</c:if>
                 <c:out value="${person.formattedName}" escapeXml="true" />

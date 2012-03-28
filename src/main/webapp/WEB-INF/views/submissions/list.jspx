@@ -3,9 +3,9 @@
     <jsp:output omit-xml-declaration="yes"/>
 
      <spring:message var="submission_heading" code="metahive_submissions" />
-     <spring:message var="submission_created" code="label_com_sfs_metahive_model_submission_created" />
-     <spring:message var="submission_person" code="label_com_sfs_metahive_model_submission_person" />
-     <spring:message var="submission_organisation" code="label_com_sfs_metahive_model_submission_organisation" />
+     <spring:message var="submission_created" code="label_net_triptech_metahive_model_submission_created" />
+     <spring:message var="submission_person" code="label_net_triptech_metahive_model_submission_person" />
+     <spring:message var="submission_organisation" code="label_net_triptech_metahive_model_submission_organisation" />
 
     <util:panel id="_submission_heading" title="${submission_heading}">
        <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_EDITOR,ROLE_CONTRIBUTOR">

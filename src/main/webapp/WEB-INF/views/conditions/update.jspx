@@ -6,8 +6,8 @@
     <metahive:administration />
 
     <spring:url value="/lists" var="cancelAction" />
-    <form:update id="fu_com_sfs_metahive_model_ConditionOfUse" modelAttribute="conditionOfUse" path="/conditions" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
-        <field:input field="name" id="c_com_sfs_metahive_model_ConditionOfUse_name" required="true" z="user-managed"/>
-        <field:editor field="details" id="c_com_sfs_metahive_model_ConditionOfUse_details" required="false" z="user-managed"/>
+    <form:update id="fu_net_triptech_metahive_model_ConditionOfUse" modelAttribute="conditionOfUse" path="/conditions" versionField="Version" z="user-managed" cancelAction="${cancelAction}">
+        <field:input field="name" id="c_net_triptech_metahive_model_ConditionOfUse_name" required="true" z="user-managed"/>
+        <field:editor field="details" id="c_net_triptech_metahive_model_ConditionOfUse_details" required="false" z="user-managed"/>
     </form:update>
 </div>

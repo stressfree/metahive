@@ -6,7 +6,7 @@
     <spring:url value="/records?form" var="createAction" />
 
 
-    <form:create id="fc_com_sfs_metahive_web_model_RecordForm" modelAttribute="record" path="/records" render="${empty dependencies}" z="user-managed" cancelAction="${cancelAction}">
+    <form:create id="fc_net_triptech_metahive_web_model_RecordForm" modelAttribute="record" path="/records" render="${empty dependencies}" z="user-managed" cancelAction="${cancelAction}">
       <div class="recordOptions">
         <ul>
           <li><a href="${createAction}"><spring:message code="metahive_record_create" /></a></li>
@@ -14,7 +14,7 @@
         </ul>
         <div class="clear"><!-- --></div>
       </div>
-        <field:textarea field="recordIds" id="c_com_sfs_metahive_web_model_RecordForm_recordids" required="true" z="user-managed"/>
+        <field:textarea field="recordIds" id="c_net_triptech_metahive_web_model_RecordForm_recordids" required="true" z="user-managed"/>
     </form:create>
 </div>
 

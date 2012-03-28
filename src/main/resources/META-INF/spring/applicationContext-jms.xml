@@ -31,9 +31,9 @@
 <jms:listener-container connection-factory="jmsFactory" destination-type="queue">
         <jms:listener destination="jms.queue.MetahiveContribution" method="onMessage" ref="jmsMetahiveContributionListener"/>
     </jms:listener-container>
-    <bean class="com.sfs.metahive.messaging.JmsMetahiveContributionListener" id="jmsMetahiveContributionListener"/>
+    <bean class="net.triptech.metahive.messaging.JmsMetahiveContributionListener" id="jmsMetahiveContributionListener"/>
 <jms:listener-container connection-factory="jmsFactory" destination-type="queue">
         <jms:listener destination="jms.queue.KeyValueGeneration" method="onMessage" ref="jmsKeyValueGenerationListener"/>
     </jms:listener-container>
-    <bean class="com.sfs.metahive.messaging.JmsKeyValueGenerationListener" id="jmsKeyValueGenerationListener"/>
+    <bean class="net.triptech.metahive.messaging.JmsKeyValueGenerationListener" id="jmsKeyValueGenerationListener"/>
 </beans>

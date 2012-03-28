@@ -39,11 +39,11 @@
   <!-- Configure Authentication mechanism -->
     <authentication-manager alias="authenticationManager" />
 
-  <beans:bean id="openIdUserService" class="com.sfs.metahive.service.OpenIdUserDetailsService" />
+  <beans:bean id="openIdUserService" class="net.triptech.metahive.service.OpenIdUserDetailsService" />
 
-  <beans:bean id="openIdAuthenticationFailureHandler" class="com.sfs.metahive.service.OpenIdAuthenticationFailureHandler" />
+  <beans:bean id="openIdAuthenticationFailureHandler" class="net.triptech.metahive.service.OpenIdAuthenticationFailureHandler" />
 
-  <beans:bean id="accessDeniedHandler" class="com.sfs.metahive.RedirectAccessDeniedHandler">
+  <beans:bean id="accessDeniedHandler" class="net.triptech.metahive.RedirectAccessDeniedHandler">
       <beans:property name="accessDeniedUrl" value="accessDenied" />
   </beans:bean>
 

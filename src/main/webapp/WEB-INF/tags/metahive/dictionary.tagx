@@ -1,6 +1,6 @@
 <jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:sec="http://www.springframework.org/security/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
   <jsp:output omit-xml-declaration="yes"/>
-  <jsp:directive.attribute name="filter" type="com.sfs.metahive.web.model.DefinitionFilter" required="false" rtexprvalue="true" description="The filter applied to the paginated search" />
+  <jsp:directive.attribute name="filter" type="net.triptech.metahive.web.model.DefinitionFilter" required="false" rtexprvalue="true" description="The filter applied to the paginated search" />
 
   <spring:message code="metahive_datadictionary_filter_name" var="filterName" />
   <c:if test="${not empty filter.name}">
@@ -15,11 +15,11 @@
     <form:form id="filterform" action="${search}" method="GET" dojoType="dijit.form.Form">
       <h3><spring:message code="metahive_datadictionary" /></h3>
       <div class="filterfield notActive">
-        <label for="name"><spring:message code="label_com_sfs_metahive_model_definition_name" htmlEscape="true" />: </label>
+        <label for="name"><spring:message code="label_net_triptech_metahive_model_definition_name" htmlEscape="true" />: </label>
         <input type="text" jsId="nameField" id="name" name="name" dojoType="dijit.form.TextBox" value="${filterName}" class="notActive" />
       </div>
       <div class="filterfield notActive">
-        <label for="category"><spring:message code="label_com_sfs_metahive_model_category" htmlEscape="true" />: </label>
+        <label for="category"><spring:message code="label_net_triptech_metahive_model_category" htmlEscape="true" />: </label>
         <select id="category" jsId="categoryField" name="category" dojoType="dijit.form.Select">
           <option value="-">Any category</option>
           <c:forEach items="${categories}" var="category">

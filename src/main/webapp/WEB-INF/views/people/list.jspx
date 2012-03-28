@@ -5,11 +5,11 @@
     <metahive:administration />
 
      <spring:message var="people_heading" code="metahive_people" htmlEscape="true" />
-     <spring:message var="people_firstname" code="label_com_sfs_metahive_model_person_firstname" />
-     <spring:message var="people_lastname" code="label_com_sfs_metahive_model_person_lastname" />
-     <spring:message var="people_email" code="label_com_sfs_metahive_model_person_emailaddress" />
-     <spring:message var="people_role" code="label_com_sfs_metahive_model_person_userrole" />
-     <spring:message var="people_status" code="label_com_sfs_metahive_model_person_userstatus" />
+     <spring:message var="people_firstname" code="label_net_triptech_metahive_model_person_firstname" />
+     <spring:message var="people_lastname" code="label_net_triptech_metahive_model_person_lastname" />
+     <spring:message var="people_email" code="label_net_triptech_metahive_model_person_emailaddress" />
+     <spring:message var="people_role" code="label_net_triptech_metahive_model_person_userrole" />
+     <spring:message var="people_status" code="label_net_triptech_metahive_model_person_userstatus" />
 
     <util:panel id="_people_heading" title="${people_heading}">
 

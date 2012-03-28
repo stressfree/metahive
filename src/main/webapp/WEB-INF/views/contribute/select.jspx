@@ -9,7 +9,7 @@
       <spring:url value="/contribute" var="select_url" />
     <form:form id="select" action="${select_url}" method="GET" dojoType="dijit.form.Form">
       <div class="field">
-          <label for="id"><spring:message code="label_com_sfs_metahive_model_organisation" htmlEscape="true" />: </label>
+          <label for="id"><spring:message code="label_net_triptech_metahive_model_organisation" htmlEscape="true" />: </label>
           <select id="id" name="id" dojoType="dijit.form.Select">
             <c:forEach items="${organisations}" var="organisation">
             <option value="${organisation.id}">${organisation.name}</option>
