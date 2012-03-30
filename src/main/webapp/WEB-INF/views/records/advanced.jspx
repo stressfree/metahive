@@ -59,10 +59,14 @@
 
 			<div class="actions">
             	<button dojoType="dijit.form.Button" type="submit"><spring:message code="metahive_record_advancedsearch_button" /></button>
+                <c:if test="${not empty filter.id}">
+                <button dojoType="dijit.form.Button" type="button" jsId="cancelButton"><spring:message code="metahive_button_cancel" /></button>
+                </c:if>
           	</div>
 		</form:form>
 	</div>
 
+    <spring:url value="/records?id=${filter.id}" var="previousSearchUrl" />
     <spring:url value="/user/searchOptions" var="searchOptionUrl" />
 	<script type="text/javascript">
 	   var searchOptionUrl = '${searchOptionUrl}';
@@ -97,9 +101,16 @@
         		display = false;
         	}
         	dojo.xhrGet({
-        	    url: searchOptionUrl + "?section=" + section + "&display=" + display
+        	    url: '${searchOptionUrl}' + "?section=" + section + "&display=" + display
         	});
         }
         ]]>
+        <c:if test="${not empty filter.id}">
+        dojo.addOnLoad(function() {
+            dojo.connect(cancelButton, "onClick", function() {
+                window.location.href="${previousSearchUrl}";
+            });
+        });
+        </c:if>
     </script>
 </div>
