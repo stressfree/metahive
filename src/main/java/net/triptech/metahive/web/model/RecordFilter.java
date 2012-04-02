@@ -30,6 +30,9 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 @RooJavaBean
 public class RecordFilter extends BaseFilter {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+
 	/** The id. */
 	private String id;
 
@@ -50,12 +53,27 @@ public class RecordFilter extends BaseFilter {
 
 
     /**
-     * Instantiates a new record filter.
+     * Gets the id.
+     *
+     * @return the id
      */
-    public RecordFilter() {
-    	// Generate a unique id and keep it as a string
-    	this.id = UUID.randomUUID().toString();
-    	this.created = Calendar.getInstance().getTime();
+    public final String getId() {
+    	if (StringUtils.isBlank(id)) {
+    		this.id = UUID.randomUUID().toString();
+    	}
+    	return this.id;
+    }
+
+    /**
+     * Gets the created date.
+     *
+     * @return the created date
+     */
+    public final Date getCreated() {
+    	if (created == null) {
+    		this.created = Calendar.getInstance().getTime();
+    	}
+    	return this.created;
     }
 
     /**

@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
 import net.triptech.metahive.model.Comment;
 import net.triptech.metahive.model.CommentType;
 import net.triptech.metahive.model.Definition;
@@ -23,7 +22,6 @@ import net.triptech.metahive.model.DefinitionDataOnDemand;
 import net.triptech.metahive.model.Person;
 import net.triptech.metahive.model.PersonDataOnDemand;
 import net.triptech.metahive.model.Record;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

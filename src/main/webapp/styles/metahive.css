@@ -521,6 +521,17 @@ div.keyvalueDlg div.keyvalueDlgTabContainer .submit {
 }
 
 
+div.searchDescDlg {
+  width:500px;
+}
+div.searchDescDlg div.searchDescDlgContainer {
+  width: 480px;
+  text-align:left;
+}
+div.searchDescDlg li {
+	margin: 0 0 0.6em 0;
+}
+
 .recordAdvancedSearch ul {
 	margin: 0px 0px 0px 5px;
 }

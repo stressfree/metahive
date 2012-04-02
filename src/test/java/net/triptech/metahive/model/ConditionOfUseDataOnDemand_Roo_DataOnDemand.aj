@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
 import net.triptech.metahive.model.ConditionOfUse;
-
 import org.springframework.stereotype.Component;
 
 privileged aspect ConditionOfUseDataOnDemand_Roo_DataOnDemand {

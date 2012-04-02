@@ -5,7 +5,6 @@ package net.triptech.metahive.model;
 
 import java.lang.String;
 import java.util.List;
-
 import net.triptech.metahive.model.DataSource;
 import net.triptech.metahive.model.Person;
 import net.triptech.metahive.model.Submission;

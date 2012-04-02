@@ -9,7 +9,6 @@ import java.lang.String;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import net.triptech.metahive.model.Person;
 
 privileged aspect Person_Roo_Json {

@@ -7,7 +7,6 @@ import java.lang.Boolean;
 import java.lang.String;
 import java.util.List;
 import java.util.Map;
-
 import net.triptech.metahive.model.Comment;
 import net.triptech.metahive.model.DataSource;
 import net.triptech.metahive.model.Definition;

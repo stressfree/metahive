@@ -454,6 +454,8 @@ public class Record {
         	sql.append(", r.recordId ASC");
         }
 
+        logger.info("SQL: " + sql.toString());
+
         TypedQuery<Record> q = entityManager().createQuery(
                 sql.toString(), Record.class);
 
@@ -535,6 +537,7 @@ public class Record {
         		FilterVector vector = filter.getFilterVectors().get(i);
 
         		StringBuilder vectorWhere = new StringBuilder();
+        		StringBuilder description = new StringBuilder();
 
         		Map<Long, RecordFilterVector> rVectors = buildRecordVectors(vector);
 
@@ -569,26 +572,35 @@ public class Record {
             				variables.put(key, parameter);
         				}
         			}
+        			if (description.length() > 0) {
+        				description.append(" and ");
+        			}
+        			description.append(rVector.getDescription());
         		}
+
+                // The default where condition if no parameters have been supplied
+                if (vectorWhere.length() == 0) {
+                	vectorWhere.append("r.id > 0");
+                	description = new StringBuilder("All records");
+                }
+       			vector.setDescription(description.toString());
 
         		logger.info("Filter action: " + vector.getAction());
 
-        		if (vectorWhere.length() > 0) {
-        			if (where.length() > 0) {
-        				if (vector.getAction() == FilterAction.ADD) {
-        					where.append(" OR ");
-        				}
-        				if (vector.getAction() == FilterAction.REMOVE) {
-        					where.append(" AND NOT ");
-        				}
-        				if (vector.getAction() == FilterAction.SUBSEARCH) {
-        					where.append(" AND ");
-        				}
-        			}
-            		where.insert(0, "(");
-            		where.append(vectorWhere.toString().trim());
-            		where.append(")");
-        		}
+        		if (where.length() > 0) {
+    				if (vector.getAction() == FilterAction.ADD) {
+    					where.append(" OR ");
+    				}
+    				if (vector.getAction() == FilterAction.REMOVE) {
+    					where.append(" AND NOT ");
+    				}
+    				if (vector.getAction() == FilterAction.SUBSEARCH) {
+    					where.append(" AND ");
+    				}
+    			}
+        		where.insert(0, "(");
+        		where.append(vectorWhere.toString().trim());
+        		where.append(")");
         	}
         }
 
@@ -600,11 +612,10 @@ public class Record {
             variables.put("recordId", filter.getRecordId());
         }
 
-        if (where.length() > 0) {
-            where.insert(0, " WHERE ");
-        	whereParameters.put(where.toString(), variables);
-        	logger.info("SQL WHERE: " + where.toString());
-        }
+        where.insert(0, " WHERE ");
+        whereParameters.put(where.toString(), variables);
+        logger.info("SQL WHERE: " + where.toString());
+
         return whereParameters;
     }
 
@@ -619,23 +630,12 @@ public class Record {
     		final RecordFilterVector rVector, final int i) {
 
 		String variableName = "variable" + rVector.getDefinition().getId();
-		String criteria = "";
-		String constraint = "";
+		String criteria = rVector.getCriteria();
+		String constraint = rVector.getConstraint();
 
 		StringBuilder where = new StringBuilder();
 		Map<String, Object> variables = new HashMap<String, Object>();
 
-
-		if (StringUtils.isNotBlank(rVector.getCriteria())) {
-			criteria = rVector.getCriteria().trim();
-		}
-		if (StringUtils.isNotBlank(rVector.getConstraint())) {
-			if (StringUtils.isBlank(criteria)) {
-				criteria = rVector.getConstraint();
-			} else {
-				constraint = rVector.getConstraint();
-			}
-		}
 
     	DataType dataType = rVector.getDefinition().getDataType();
 

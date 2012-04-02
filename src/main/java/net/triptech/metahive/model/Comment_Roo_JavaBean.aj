@@ -6,7 +6,6 @@ package net.triptech.metahive.model;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Date;
-
 import net.triptech.metahive.model.CommentType;
 import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.Person;

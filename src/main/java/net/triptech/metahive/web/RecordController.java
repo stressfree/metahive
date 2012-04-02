@@ -341,6 +341,8 @@ public class RecordController extends BaseController {
      * List the records.
      *
      * @param id the id
+     * @param vid the vid
+     * @param orderId the order id
      * @param recordId the record id
      * @param page the page
      * @param size the size
@@ -351,6 +353,7 @@ public class RecordController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public String list(
     		@RequestParam(value = "id", required = false) String id,
+    		@RequestParam(value = "vid", required = false) Integer vid,
             @RequestParam(value = "order", required = false) Long orderId,
             @RequestParam(value = "recordId", required = false) String recordId,
             @RequestParam(value = "page", required = false) Integer page,
@@ -399,6 +402,17 @@ public class RecordController extends BaseController {
         	filter.setOrderId(orderId);
         }
 
+        if (filter.getFilterVectors() == null || filter.getFilterVectors().size() == 0) {
+        	List<FilterVector> defaultVector = new ArrayList<FilterVector>();
+        	defaultVector.add(new FilterVector());
+        	filter.setFilterVectors(defaultVector);
+        }
+
+        if (vid != null && vid > 1 && filter.getFilterVectors().size() >= vid) {
+        	List<FilterVector> vectors = filter.getFilterVectors();
+        	vectors.remove(vid - 1);
+        	filter.setFilterVectors(vectors);
+        }
 
         String defaultRecordFilter = getMessage("metahive_records_filter_id");
 

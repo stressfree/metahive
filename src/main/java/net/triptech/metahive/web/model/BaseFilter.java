@@ -4,12 +4,13 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     David Harrison, Triptech Ltd - initial API and implementation
  ******************************************************************************/
 package net.triptech.metahive.web.model;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,9 +22,12 @@ import org.springframework.web.util.WebUtils;
  * The Class BaseFilter.
  */
 @RooJavaBean
-public abstract class BaseFilter implements Filter {
+public abstract class BaseFilter implements Filter, Serializable {
 
-    /** The character encoding. */
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+
+	/** The character encoding. */
     private String encoding;
 
     /**

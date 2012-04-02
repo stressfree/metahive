@@ -14,13 +14,11 @@ import java.util.List;
 import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
 import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.DefinitionDataOnDemand;
 import net.triptech.metahive.model.Description;
 import net.triptech.metahive.model.Person;
 import net.triptech.metahive.model.PersonDataOnDemand;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

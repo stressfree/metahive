@@ -5,7 +5,6 @@ package net.triptech.metahive.model;
 
 import java.lang.String;
 import java.util.List;
-
 import net.triptech.metahive.model.Applicability;
 import net.triptech.metahive.model.Category;
 import net.triptech.metahive.model.Comment;

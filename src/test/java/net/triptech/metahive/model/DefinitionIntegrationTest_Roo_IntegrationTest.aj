@@ -4,7 +4,6 @@
 package net.triptech.metahive.model;
 
 import net.triptech.metahive.model.DefinitionDataOnDemand;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

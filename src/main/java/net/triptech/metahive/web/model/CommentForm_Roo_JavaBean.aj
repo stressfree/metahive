@@ -4,7 +4,6 @@
 package net.triptech.metahive.web.model;
 
 import java.lang.String;
-
 import net.triptech.metahive.model.CommentType;
 import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.Record;

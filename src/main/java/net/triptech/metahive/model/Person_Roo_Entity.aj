@@ -15,9 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Version;
-
 import net.triptech.metahive.model.Person;
-
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Person_Roo_Entity {

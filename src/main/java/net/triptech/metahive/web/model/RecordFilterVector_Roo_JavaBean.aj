@@ -4,7 +4,6 @@
 package net.triptech.metahive.web.model;
 
 import java.lang.String;
-
 import net.triptech.metahive.model.Definition;
 
 privileged aspect RecordFilterVector_Roo_JavaBean {
@@ -17,16 +16,8 @@ privileged aspect RecordFilterVector_Roo_JavaBean {
         this.definition = definition;
     }
     
-    public String RecordFilterVector.getCriteria() {
-        return this.criteria;
-    }
-    
     public void RecordFilterVector.setCriteria(String criteria) {
         this.criteria = criteria;
-    }
-    
-    public String RecordFilterVector.getConstraint() {
-        return this.constraint;
     }
     
     public void RecordFilterVector.setConstraint(String constraint) {

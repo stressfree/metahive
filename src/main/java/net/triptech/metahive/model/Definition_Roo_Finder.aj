@@ -6,7 +6,6 @@ package net.triptech.metahive.model;
 import java.lang.String;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
 import net.triptech.metahive.model.Definition;
 
 privileged aspect Definition_Roo_Finder {

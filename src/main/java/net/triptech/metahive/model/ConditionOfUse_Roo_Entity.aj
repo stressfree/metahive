@@ -14,9 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Version;
-
 import net.triptech.metahive.model.ConditionOfUse;
-
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect ConditionOfUse_Roo_Entity {

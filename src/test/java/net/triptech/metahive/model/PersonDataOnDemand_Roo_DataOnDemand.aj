@@ -11,11 +11,9 @@ import java.util.List;
 import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
 import net.triptech.metahive.model.Person;
 import net.triptech.metahive.model.UserRole;
 import net.triptech.metahive.model.UserStatus;
-
 import org.springframework.stereotype.Component;
 
 privileged aspect PersonDataOnDemand_Roo_DataOnDemand {

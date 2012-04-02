@@ -6,7 +6,6 @@ package net.triptech.metahive.web.model;
 import java.lang.String;
 import java.util.Date;
 import java.util.List;
-
 import net.triptech.metahive.model.ConditionOfUse;
 import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.Organisation;

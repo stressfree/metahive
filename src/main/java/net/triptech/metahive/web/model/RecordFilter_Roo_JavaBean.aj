@@ -7,14 +7,9 @@ import java.lang.Long;
 import java.lang.String;
 import java.util.Date;
 import java.util.List;
-
 import net.triptech.metahive.web.model.FilterVector;
 
 privileged aspect RecordFilter_Roo_JavaBean {
-    
-    public String RecordFilter.getId() {
-        return this.id;
-    }
     
     public void RecordFilter.setId(String id) {
         this.id = id;
@@ -46,10 +41,6 @@ privileged aspect RecordFilter_Roo_JavaBean {
     
     public void RecordFilter.setFilterVectors(List<FilterVector> filterVectors) {
         this.filterVectors = filterVectors;
-    }
-    
-    public Date RecordFilter.getCreated() {
-        return this.created;
     }
     
     public void RecordFilter.setCreated(Date created) {

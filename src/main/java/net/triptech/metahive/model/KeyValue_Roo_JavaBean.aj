@@ -7,7 +7,6 @@ import java.lang.Double;
 import java.lang.String;
 import java.util.Date;
 import java.util.List;
-
 import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.KeyValueBoolean;
 import net.triptech.metahive.model.KeyValueType;
@@ -15,7 +14,6 @@ import net.triptech.metahive.model.Person;
 import net.triptech.metahive.model.Record;
 import net.triptech.metahive.model.SubmittedField;
 import net.triptech.metahive.model.UserRole;
-
 import org.springframework.context.ApplicationContext;
 
 privileged aspect KeyValue_Roo_JavaBean {

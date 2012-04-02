@@ -5,7 +5,6 @@ package net.triptech.metahive.model;
 
 import java.lang.String;
 import java.util.Map;
-
 import net.triptech.metahive.model.KeyValueSet;
 
 privileged aspect KeyValueCategory_Roo_JavaBean {

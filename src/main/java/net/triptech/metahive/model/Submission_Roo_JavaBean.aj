@@ -6,7 +6,6 @@ package net.triptech.metahive.model;
 import java.lang.String;
 import java.util.Date;
 import java.util.List;
-
 import net.triptech.metahive.model.Organisation;
 import net.triptech.metahive.model.Person;
 import net.triptech.metahive.model.SubmittedField;

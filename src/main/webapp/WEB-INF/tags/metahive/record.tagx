@@ -26,8 +26,9 @@
       <spring:url value="/records/advanced" var="advanced_search" />
       <ul class="options">
         <li><a href="${advanced_search}"><spring:message code="metahive_record_advancedsearch" /></a></li>
-        <c:if test="${not empty filter.filterVectors}">
-        <li><a href="${advanced_search}?id=${searchId}"><spring:message code="metahive_record_modifysearch" /></a></li>
+        <c:if test="${not empty searchId}">
+            <li><a href="${advanced_search}?id=${searchId}"><spring:message code="metahive_record_modifysearch" /></a></li>
+            <li><a href="#" id="describeSearch"><spring:message code="metahive_record_describesearch" /></a></li>
         </c:if>
       </ul>
       <div class="clear"><!-- --></div>
@@ -57,7 +58,35 @@
       </c:if>
   </div>
 
+  <c:if test="${not empty searchId}">
+	  <spring:message code="metahive_records_search_description" var="searchDescDlgTitle" />
+	  <div dojoType="dijit.Dialog" id="searchDescDlg" dojoId="searchDescDlg" title="${searchDescDlgTitle}" class="searchDescDlg" >
+	      <div class="searchDescDlgContainer">
+	        <ul>
+	            <c:forEach var="vector" items="${filter.filterVectors}" varStatus="vectorCounter">
+	                <li>
+	                    <c:choose>
+	                       <c:when test="${vectorCounter.count gt 1}">
+	                           <strong><spring:message code="${vector.action.messageKey}_short" />: </strong>
+	                       </c:when>
+	                       <c:otherwise>
+	                           <strong><spring:message code="label_net_triptech_metahive_web_model_filteraction_new_short" />: </strong>
+	                       </c:otherwise>
+	                    </c:choose>
+	                    <c:out value="${vector.description}" escapeXml="true" />
+	                    <c:if test="${vectorCounter.count gt 1}">
+	                           <spring:url value="/records?id=${searchId}&amp;vid=${vectorCounter.count}" var="removeVectorUrl" /><br/>
+                               <a href="${removeVectorUrl}"><spring:message code="metahive_record_searchaction_remove" /></a>
+                        </c:if>
+	                </li>
+	            </c:forEach>
+	        </ul>
+	    </div>
+	  </div>
+  </c:if>
+
   <script type="text/javascript">
+     dojo.require("dijit.Dialog");
      dojo.require("dijit.form.Form");
      dojo.require("dijit.form.Button");
      dojo.require("dijit.form.TextBox");
@@ -71,6 +100,13 @@
         });
      });
 
+  <c:if test="${not empty searchId}">
+     dojo.addOnLoad(function() {
+        dojo.connect(dojo.byId("describeSearch"), "onclick", function() {
+        	dijit.byId("searchDescDlg").show();
+        });
+     });
+  </c:if>
   <c:if test="${pageContext['request'].userPrincipal != null}">
     <c:if test="${changeDefinitions eq true}">
       <spring:url value="/user/definitions" var="update_definitions_url" />

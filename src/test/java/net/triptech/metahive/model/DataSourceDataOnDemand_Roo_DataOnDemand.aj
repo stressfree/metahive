@@ -14,14 +14,12 @@ import java.util.List;
 import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
 import net.triptech.metahive.model.ConditionOfUse;
 import net.triptech.metahive.model.ConditionOfUseDataOnDemand;
 import net.triptech.metahive.model.DataSource;
 import net.triptech.metahive.model.DefinitionDataOnDemand;
 import net.triptech.metahive.model.Organisation;
 import net.triptech.metahive.model.OrganisationDataOnDemand;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -14,9 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Version;
-
 import net.triptech.metahive.model.KeyValue;
-
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect KeyValue_Roo_Entity {

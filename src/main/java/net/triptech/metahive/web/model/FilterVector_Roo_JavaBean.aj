@@ -5,7 +5,6 @@ package net.triptech.metahive.web.model;
 
 import java.lang.String;
 import java.util.Map;
-
 import net.triptech.metahive.web.model.FilterAction;
 
 privileged aspect FilterVector_Roo_JavaBean {
@@ -24,6 +23,14 @@ privileged aspect FilterVector_Roo_JavaBean {
     
     public void FilterVector.setFilterVariables(Map<String, String> filterVariables) {
         this.filterVariables = filterVariables;
+    }
+    
+    public String FilterVector.getDescription() {
+        return this.description;
+    }
+    
+    public void FilterVector.setDescription(String description) {
+        this.description = description;
     }
     
 }

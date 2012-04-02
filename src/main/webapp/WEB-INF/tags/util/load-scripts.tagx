@@ -5,8 +5,8 @@
   </c:set>
   <spring:url value="/styles/reset.css" var="reset_url" />
   <spring:url value="/styles/metahive.css" var="metahive_url" />
-  <spring:url value="/resources/metahive.js" var="metahive_js_url" />
-  <spring:url value="/resources/images/favicon.ico" var="favicon" />
+  <spring:url value="/js/metahive.js" var="metahive_js_url" />
+  <spring:url value="/images/favicon.ico" var="favicon" />
 
   <link rel="stylesheet" type="text/css" href="${reset_url}" />
   <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/nihilo/nihilo.css" />

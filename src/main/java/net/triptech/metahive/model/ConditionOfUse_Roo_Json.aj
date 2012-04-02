@@ -9,7 +9,6 @@ import java.lang.String;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import net.triptech.metahive.model.ConditionOfUse;
 
 privileged aspect ConditionOfUse_Roo_Json {

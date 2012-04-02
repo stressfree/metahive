@@ -27,6 +27,9 @@ public class FilterVector {
     /** The filter variables. */
     private Map<String, String> filterVariables = new HashMap<String, String>();
 
+    /** The description. */
+    private String description;
+
 
     /**
      * Adds the variable.

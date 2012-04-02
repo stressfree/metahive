@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
 import net.triptech.metahive.model.Applicability;
 import net.triptech.metahive.model.Category;
 import net.triptech.metahive.model.CategoryDataOnDemand;
@@ -20,7 +19,6 @@ import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.DefinitionType;
 import net.triptech.metahive.model.KeyValueGenerator;
 import net.triptech.metahive.model.UserRole;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
