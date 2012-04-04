@@ -3,9 +3,9 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import java.util.List;
 import net.triptech.metahive.model.Definition;
+import net.triptech.metahive.model.MetahivePreferences;
 
 privileged aspect MetahivePreferences_Roo_JavaBean {
     

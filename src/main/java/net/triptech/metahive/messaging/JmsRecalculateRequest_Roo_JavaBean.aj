@@ -3,8 +3,7 @@
 
 package net.triptech.metahive.messaging;
 
-import java.lang.Long;
-import java.lang.String;
+import net.triptech.metahive.messaging.JmsRecalculateRequest;
 
 privileged aspect JmsRecalculateRequest_Roo_JavaBean {
     

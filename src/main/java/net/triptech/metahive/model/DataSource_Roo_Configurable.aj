@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.DataSource;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect DataSource_Roo_Configurable {

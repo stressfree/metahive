@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.Category;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect Category_Roo_Configurable {

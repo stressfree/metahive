@@ -3,24 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.SubmittedField;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect SubmittedField_Roo_ToString {
     
     public String SubmittedField.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Created: ").append(getCreated()).append(", ");
-        sb.append("Definition: ").append(getDefinition()).append(", ");
-        sb.append("FormattedValue: ").append(getFormattedValue()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("PrimaryRecordId: ").append(getPrimaryRecordId()).append(", ");
-        sb.append("Record: ").append(getRecord()).append(", ");
-        sb.append("SecondaryRecordId: ").append(getSecondaryRecordId()).append(", ");
-        sb.append("Submission: ").append(getSubmission()).append(", ");
-        sb.append("TertiaryRecordId: ").append(getTertiaryRecordId()).append(", ");
-        sb.append("Value: ").append(getValue()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

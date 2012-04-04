@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.MetahivePreferences;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect MetahivePreferences_Roo_Configurable {

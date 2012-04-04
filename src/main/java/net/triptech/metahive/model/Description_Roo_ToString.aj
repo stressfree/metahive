@@ -3,22 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.Description;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect Description_Roo_ToString {
     
     public String Description.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Created: ").append(getCreated()).append(", ");
-        sb.append("Definition: ").append(getDefinition()).append(", ");
-        sb.append("Description: ").append(getDescription()).append(", ");
-        sb.append("ExampleValues: ").append(getExampleValues()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("Person: ").append(getPerson()).append(", ");
-        sb.append("SimpleDescription: ").append(getSimpleDescription()).append(", ");
-        sb.append("UnitOfMeasure: ").append(getUnitOfMeasure()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

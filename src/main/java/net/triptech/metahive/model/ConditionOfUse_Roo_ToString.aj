@@ -3,18 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.ConditionOfUse;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect ConditionOfUse_Roo_ToString {
     
     public String ConditionOfUse.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("DataSources: ").append(getDataSources() == null ? "null" : getDataSources().size()).append(", ");
-        sb.append("Details: ").append(getDetails()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("Name: ").append(getName()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

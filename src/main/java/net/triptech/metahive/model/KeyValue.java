@@ -36,8 +36,8 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
+import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 
 
@@ -47,7 +47,7 @@ import org.springframework.roo.addon.tostring.RooToString;
  */
 @RooJavaBean
 @RooToString
-@RooEntity
+@RooJpaActiveRecord
 public class KeyValue {
 
     /** The key value type. */

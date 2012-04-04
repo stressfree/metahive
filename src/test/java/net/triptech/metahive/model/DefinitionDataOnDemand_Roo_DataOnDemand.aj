@@ -3,7 +3,6 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,6 +15,7 @@ import net.triptech.metahive.model.Category;
 import net.triptech.metahive.model.CategoryDataOnDemand;
 import net.triptech.metahive.model.DataType;
 import net.triptech.metahive.model.Definition;
+import net.triptech.metahive.model.DefinitionDataOnDemand;
 import net.triptech.metahive.model.DefinitionType;
 import net.triptech.metahive.model.KeyValueGenerator;
 import net.triptech.metahive.model.UserRole;
@@ -97,16 +97,22 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     
     public Definition DefinitionDataOnDemand.getSpecificDefinition(int index) {
         init();
-        if (index < 0) index = 0;
-        if (index > (data.size() - 1)) index = data.size() - 1;
+        if (index < 0) {
+            index = 0;
+        }
+        if (index > (data.size() - 1)) {
+            index = data.size() - 1;
+        }
         Definition obj = data.get(index);
-        return Definition.findDefinition(obj.getId());
+        Long id = obj.getId();
+        return Definition.findDefinition(id);
     }
     
     public Definition DefinitionDataOnDemand.getRandomDefinition() {
         init();
         Definition obj = data.get(rnd.nextInt(data.size()));
-        return Definition.findDefinition(obj.getId());
+        Long id = obj.getId();
+        return Definition.findDefinition(id);
     }
     
     public boolean DefinitionDataOnDemand.modifyDefinition(Definition obj) {
@@ -114,21 +120,25 @@ privileged aspect DefinitionDataOnDemand_Roo_DataOnDemand {
     }
     
     public void DefinitionDataOnDemand.init() {
-        data = Definition.findDefinitionEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Definition' illegally returned null");
+        int from = 0;
+        int to = 10;
+        data = Definition.findDefinitionEntries(from, to);
+        if (data == null) {
+            throw new IllegalStateException("Find entries implementation for 'Definition' illegally returned null");
+        }
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<net.triptech.metahive.model.Definition>();
+        data = new ArrayList<Definition>();
         for (int i = 0; i < 10; i++) {
             Definition obj = getNewTransientDefinition(i);
             try {
                 obj.persist();
             } catch (ConstraintViolationException e) {
                 StringBuilder msg = new StringBuilder();
-                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
-                    ConstraintViolation<?> cv = it.next();
+                for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext();) {
+                    ConstraintViolation<?> cv = iter.next();
                     msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
                 }
                 throw new RuntimeException(msg.toString(), e);

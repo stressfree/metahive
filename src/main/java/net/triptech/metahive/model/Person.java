@@ -13,7 +13,7 @@ package net.triptech.metahive.model;
 import flexjson.JSON;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.roo.addon.entity.RooEntity;
+import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.json.RooJson;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -45,7 +45,7 @@ import java.util.StringTokenizer;
  */
 @RooJavaBean
 @RooToString
-@RooEntity(
+@RooJpaActiveRecord(
         identifierColumn = "id",
         table = "person",
         finders = { "findPeopleByOpenIdIdentifier" })

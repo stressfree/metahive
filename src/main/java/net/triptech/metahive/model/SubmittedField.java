@@ -11,7 +11,6 @@
 package net.triptech.metahive.model;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +27,8 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
+import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 
 
@@ -39,7 +37,7 @@ import org.springframework.roo.addon.tostring.RooToString;
  */
 @RooJavaBean
 @RooToString
-@RooEntity
+@RooJpaActiveRecord
 public class SubmittedField {
 
     /** The record. */
@@ -113,7 +111,8 @@ public class SubmittedField {
         if (this.getDefinition().getDataType() == DataType.TYPE_BOOLEAN) {
             formattedValue = unformattedValue;
         }
-        if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER) {
+        if (this.getDefinition().getDataType() == DataType.TYPE_NUMBER
+        		|| this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
             double dblValue = 0;
             try {
                 dblValue = Double.parseDouble(unformattedValue);
@@ -127,6 +126,10 @@ public class SubmittedField {
                 formattedValue = StringUtils.substring(formattedValue, 0,
                         formattedValue.length() -6);
             }
+
+            if (this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
+            	formattedValue += "%";
+            }
             formattedValue += appendUnitOfMeasure();
         }
         if (this.getDefinition().getDataType() == DataType.TYPE_CURRENCY) {
@@ -139,19 +142,6 @@ public class SubmittedField {
 
                 DecimalFormat df = new DecimalFormat("$###,###,###,##0.00");
                 formattedValue = df.format(dblValue) + appendUnitOfMeasure();
-        }
-        if (this.getDefinition().getDataType() == DataType.TYPE_PERCENTAGE) {
-            double dblValue = 0;
-            try {
-                dblValue = Double.parseDouble(unformattedValue);
-            } catch (NumberFormatException nfe) {
-                // Error parsing double
-            }
-
-            NumberFormat percentFormatter = NumberFormat.getPercentInstance(
-                    LocaleContextHolder.getLocale());
-            formattedValue = percentFormatter.format(dblValue) +
-                    appendUnitOfMeasure();
         }
         return formattedValue;
     }

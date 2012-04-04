@@ -3,10 +3,11 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.RecordDataOnDemand;
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect RecordOnDemand_Roo_Configurable {
+privileged aspect RecordDataOnDemand_Roo_Configurable {
     
-    declare @type: RecordOnDemand: @Configurable;
+    declare @type: RecordDataOnDemand: @Configurable;
     
 }

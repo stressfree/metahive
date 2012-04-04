@@ -3,8 +3,8 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import java.util.Map;
+import net.triptech.metahive.model.KeyValueCategories;
 import net.triptech.metahive.model.KeyValueCategory;
 
 privileged aspect KeyValueCategories_Roo_JavaBean {

@@ -3,11 +3,10 @@
 
 package net.triptech.metahive.web.model;
 
-import java.lang.Long;
-import java.lang.String;
 import java.util.Date;
 import java.util.List;
 import net.triptech.metahive.web.model.FilterVector;
+import net.triptech.metahive.web.model.RecordFilter;
 
 privileged aspect RecordFilter_Roo_JavaBean {
     

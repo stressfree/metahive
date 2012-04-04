@@ -3,19 +3,20 @@
 
 package net.triptech.metahive.model;
 
+import java.util.List;
+import net.triptech.metahive.model.Comment;
 import net.triptech.metahive.model.CommentDataOnDemand;
+import net.triptech.metahive.model.CommentIntegrationTest;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect CommentIntegrationTest_Roo_IntegrationTest {
     
     declare @type: CommentIntegrationTest: @RunWith(SpringJUnit4ClassRunner.class);
-    
-    declare @type: CommentIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
     
     declare @type: CommentIntegrationTest: @Transactional;
     
@@ -24,92 +25,94 @@ privileged aspect CommentIntegrationTest_Roo_IntegrationTest {
     
     @Test
     public void CommentIntegrationTest.testCountComments() {
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
-        long count = net.triptech.metahive.model.Comment.countComments();
-        org.junit.Assert.assertTrue("Counter for 'Comment' incorrectly reported there were no entries", count > 0);
+        Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
+        long count = Comment.countComments();
+        Assert.assertTrue("Counter for 'Comment' incorrectly reported there were no entries", count > 0);
     }
     
     @Test
     public void CommentIntegrationTest.testFindComment() {
-        net.triptech.metahive.model.Comment obj = dod.getRandomComment();
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to provide an identifier", id);
-        obj = net.triptech.metahive.model.Comment.findComment(id);
-        org.junit.Assert.assertNotNull("Find method for 'Comment' illegally returned null for id '" + id + "'", obj);
-        org.junit.Assert.assertEquals("Find method for 'Comment' returned the incorrect identifier", id, obj.getId());
+        Comment obj = dod.getRandomComment();
+        Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'Comment' failed to provide an identifier", id);
+        obj = Comment.findComment(id);
+        Assert.assertNotNull("Find method for 'Comment' illegally returned null for id '" + id + "'", obj);
+        Assert.assertEquals("Find method for 'Comment' returned the incorrect identifier", id, obj.getId());
     }
     
     @Test
     public void CommentIntegrationTest.testFindAllComments() {
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
-        long count = net.triptech.metahive.model.Comment.countComments();
-        org.junit.Assert.assertTrue("Too expensive to perform a find all test for 'Comment', as there are " + count + " entries; set the findAllMaximum to exceed this value or set findAll=false on the integration test annotation to disable the test", count < 250);
-        java.util.List<net.triptech.metahive.model.Comment> result = net.triptech.metahive.model.Comment.findAllComments();
-        org.junit.Assert.assertNotNull("Find all method for 'Comment' illegally returned null", result);
-        org.junit.Assert.assertTrue("Find all method for 'Comment' failed to return any data", result.size() > 0);
+        Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
+        long count = Comment.countComments();
+        Assert.assertTrue("Too expensive to perform a find all test for 'Comment', as there are " + count + " entries; set the findAllMaximum to exceed this value or set findAll=false on the integration test annotation to disable the test", count < 250);
+        List<Comment> result = Comment.findAllComments();
+        Assert.assertNotNull("Find all method for 'Comment' illegally returned null", result);
+        Assert.assertTrue("Find all method for 'Comment' failed to return any data", result.size() > 0);
     }
     
     @Test
     public void CommentIntegrationTest.testFindCommentEntries() {
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
-        long count = net.triptech.metahive.model.Comment.countComments();
+        Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
+        long count = Comment.countComments();
         if (count > 20) count = 20;
-        java.util.List<net.triptech.metahive.model.Comment> result = net.triptech.metahive.model.Comment.findCommentEntries(0, (int) count);
-        org.junit.Assert.assertNotNull("Find entries method for 'Comment' illegally returned null", result);
-        org.junit.Assert.assertEquals("Find entries method for 'Comment' returned an incorrect number of entries", count, result.size());
+        int firstResult = 0;
+        int maxResults = (int) count;
+        List<Comment> result = Comment.findCommentEntries(firstResult, maxResults);
+        Assert.assertNotNull("Find entries method for 'Comment' illegally returned null", result);
+        Assert.assertEquals("Find entries method for 'Comment' returned an incorrect number of entries", count, result.size());
     }
     
     @Test
     public void CommentIntegrationTest.testFlush() {
-        net.triptech.metahive.model.Comment obj = dod.getRandomComment();
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to provide an identifier", id);
-        obj = net.triptech.metahive.model.Comment.findComment(id);
-        org.junit.Assert.assertNotNull("Find method for 'Comment' illegally returned null for id '" + id + "'", obj);
+        Comment obj = dod.getRandomComment();
+        Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'Comment' failed to provide an identifier", id);
+        obj = Comment.findComment(id);
+        Assert.assertNotNull("Find method for 'Comment' illegally returned null for id '" + id + "'", obj);
         boolean modified =  dod.modifyComment(obj);
-        java.lang.Integer currentVersion = obj.getVersion();
+        Integer currentVersion = obj.getVersion();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Comment' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertTrue("Version for 'Comment' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    public void CommentIntegrationTest.testMerge() {
-        net.triptech.metahive.model.Comment obj = dod.getRandomComment();
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to provide an identifier", id);
-        obj = net.triptech.metahive.model.Comment.findComment(id);
+    public void CommentIntegrationTest.testMergeUpdate() {
+        Comment obj = dod.getRandomComment();
+        Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'Comment' failed to provide an identifier", id);
+        obj = Comment.findComment(id);
         boolean modified =  dod.modifyComment(obj);
-        java.lang.Integer currentVersion = obj.getVersion();
-        net.triptech.metahive.model.Comment merged =  obj.merge();
+        Integer currentVersion = obj.getVersion();
+        Comment merged = obj.merge();
         obj.flush();
-        org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
-        org.junit.Assert.assertTrue("Version for 'Comment' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
+        Assert.assertTrue("Version for 'Comment' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
     public void CommentIntegrationTest.testPersist() {
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
-        net.triptech.metahive.model.Comment obj = dod.getNewTransientComment(Integer.MAX_VALUE);
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to provide a new transient entity", obj);
-        org.junit.Assert.assertNull("Expected 'Comment' identifier to be null", obj.getId());
+        Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", dod.getRandomComment());
+        Comment obj = dod.getNewTransientComment(Integer.MAX_VALUE);
+        Assert.assertNotNull("Data on demand for 'Comment' failed to provide a new transient entity", obj);
+        Assert.assertNull("Expected 'Comment' identifier to be null", obj.getId());
         obj.persist();
         obj.flush();
-        org.junit.Assert.assertNotNull("Expected 'Comment' identifier to no longer be null", obj.getId());
+        Assert.assertNotNull("Expected 'Comment' identifier to no longer be null", obj.getId());
     }
     
     @Test
     public void CommentIntegrationTest.testRemove() {
-        net.triptech.metahive.model.Comment obj = dod.getRandomComment();
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'Comment' failed to provide an identifier", id);
-        obj = net.triptech.metahive.model.Comment.findComment(id);
+        Comment obj = dod.getRandomComment();
+        Assert.assertNotNull("Data on demand for 'Comment' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'Comment' failed to provide an identifier", id);
+        obj = Comment.findComment(id);
         obj.remove();
         obj.flush();
-        org.junit.Assert.assertNull("Failed to remove 'Comment' with identifier '" + id + "'", net.triptech.metahive.model.Comment.findComment(id));
+        Assert.assertNull("Failed to remove 'Comment' with identifier '" + id + "'", Comment.findComment(id));
     }
     
 }

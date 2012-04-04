@@ -8,12 +8,14 @@ import net.triptech.metahive.model.Record;
 
 import org.junit.Test;
 import org.springframework.roo.addon.test.RooIntegrationTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Class RecordIntegrationTest.
  */
 @RooIntegrationTest(entity = Record.class)
+@ContextConfiguration(locations = "classpath:/META-INF/spring-test/applicationContext.xml")
 public class RecordIntegrationTest {
 
     /**
@@ -39,7 +41,7 @@ public class RecordIntegrationTest {
     @Test
     @Transactional
     public void addAndFetchRecord() {
-        RecordOnDemand recordDod = new RecordOnDemand();
+        RecordDataOnDemand recordDod = new RecordDataOnDemand();
         Record record = recordDod.getRandomRecord();
 
         record.persist();

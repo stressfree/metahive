@@ -3,8 +3,6 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.Long;
-import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,12 +14,14 @@ import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import net.triptech.metahive.model.Comment;
+import net.triptech.metahive.model.CommentDataOnDemand;
 import net.triptech.metahive.model.CommentType;
 import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.DefinitionDataOnDemand;
 import net.triptech.metahive.model.Person;
 import net.triptech.metahive.model.PersonDataOnDemand;
 import net.triptech.metahive.model.Record;
+import net.triptech.metahive.model.RecordDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +38,9 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
     
     @Autowired
     private PersonDataOnDemand CommentDataOnDemand.personDataOnDemand;
+    
+    @Autowired
+    private RecordDataOnDemand CommentDataOnDemand.recordDataOnDemand;
     
     public Comment CommentDataOnDemand.getNewTransientComment(int index) {
         Comment obj = new Comment();
@@ -94,22 +97,28 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
     }
     
     public void CommentDataOnDemand.setRecord(Comment obj, int index) {
-        Record record = null;
+        Record record = recordDataOnDemand.getRandomRecord();
         obj.setRecord(record);
     }
     
     public Comment CommentDataOnDemand.getSpecificComment(int index) {
         init();
-        if (index < 0) index = 0;
-        if (index > (data.size() - 1)) index = data.size() - 1;
+        if (index < 0) {
+            index = 0;
+        }
+        if (index > (data.size() - 1)) {
+            index = data.size() - 1;
+        }
         Comment obj = data.get(index);
-        return Comment.findComment(obj.getId());
+        Long id = obj.getId();
+        return Comment.findComment(id);
     }
     
     public Comment CommentDataOnDemand.getRandomComment() {
         init();
         Comment obj = data.get(rnd.nextInt(data.size()));
-        return Comment.findComment(obj.getId());
+        Long id = obj.getId();
+        return Comment.findComment(id);
     }
     
     public boolean CommentDataOnDemand.modifyComment(Comment obj) {
@@ -117,21 +126,25 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
     }
     
     public void CommentDataOnDemand.init() {
-        data = Comment.findCommentEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Comment' illegally returned null");
+        int from = 0;
+        int to = 10;
+        data = Comment.findCommentEntries(from, to);
+        if (data == null) {
+            throw new IllegalStateException("Find entries implementation for 'Comment' illegally returned null");
+        }
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<net.triptech.metahive.model.Comment>();
+        data = new ArrayList<Comment>();
         for (int i = 0; i < 10; i++) {
             Comment obj = getNewTransientComment(i);
             try {
                 obj.persist();
             } catch (ConstraintViolationException e) {
                 StringBuilder msg = new StringBuilder();
-                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
-                    ConstraintViolation<?> cv = it.next();
+                for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext();) {
+                    ConstraintViolation<?> cv = iter.next();
                     msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
                 }
                 throw new RuntimeException(msg.toString(), e);

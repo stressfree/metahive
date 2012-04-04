@@ -3,28 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.Record;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect Record_Roo_ToString {
     
     public String Record.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Comments: ").append(getComments() == null ? "null" : getComments().size()).append(", ");
-        sb.append("FirstKeyValueCollection: ").append(getFirstKeyValueCollection()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("KeyValueCollection: ").append(getKeyValueCollection() == null ? "null" : getKeyValueCollection().size()).append(", ");
-        sb.append("KeyValueMap: ").append(getKeyValueMap() == null ? "null" : getKeyValueMap().size()).append(", ");
-        sb.append("KeyValueMapSize: ").append(getKeyValueMapSize()).append(", ");
-        sb.append("KeyValues: ").append(getKeyValues() == null ? "null" : getKeyValues().size()).append(", ");
-        sb.append("PrimaryKeyValueCollection: ").append(getPrimaryKeyValueCollection() == null ? "null" : getPrimaryKeyValueCollection().size()).append(", ");
-        sb.append("RecordId: ").append(getRecordId()).append(", ");
-        sb.append("RemainingKeyValueMap: ").append(getRemainingKeyValueMap() == null ? "null" : getRemainingKeyValueMap().size()).append(", ");
-        sb.append("SecondaryKeyValueCollection: ").append(getSecondaryKeyValueCollection() == null ? "null" : getSecondaryKeyValueCollection().size()).append(", ");
-        sb.append("SubmittedFeilds: ").append(getSubmittedFeilds() == null ? "null" : getSubmittedFeilds().size()).append(", ");
-        sb.append("TertiaryKeyValueCollection: ").append(getTertiaryKeyValueCollection() == null ? "null" : getTertiaryKeyValueCollection().size()).append(", ");
-        sb.append("Version: ").append(getVersion()).append(", ");
-        sb.append("ShowAllDefinitions: ").append(isShowAllDefinitions());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

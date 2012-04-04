@@ -3,7 +3,6 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,23 +11,24 @@ import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import net.triptech.metahive.model.Record;
+import net.triptech.metahive.model.RecordDataOnDemand;
 import org.springframework.stereotype.Component;
 
-privileged aspect RecordOnDemand_Roo_DataOnDemand {
+privileged aspect RecordDataOnDemand_Roo_DataOnDemand {
     
-    declare @type: RecordOnDemand: @Component;
+    declare @type: RecordDataOnDemand: @Component;
     
-    private Random RecordOnDemand.rnd = new SecureRandom();
+    private Random RecordDataOnDemand.rnd = new SecureRandom();
     
-    private List<Record> RecordOnDemand.data;
+    private List<Record> RecordDataOnDemand.data;
     
-    public Record RecordOnDemand.getNewTransientRecord(int index) {
+    public Record RecordDataOnDemand.getNewTransientRecord(int index) {
         Record obj = new Record();
         setRecordId(obj, index);
         return obj;
     }
     
-    public void RecordOnDemand.setRecordId(Record obj, int index) {
+    public void RecordDataOnDemand.setRecordId(Record obj, int index) {
         String recordId = "recordId_" + index;
         if (recordId.length() > 255) {
             recordId = new Random().nextInt(10) + recordId.substring(1, 255);
@@ -36,40 +36,50 @@ privileged aspect RecordOnDemand_Roo_DataOnDemand {
         obj.setRecordId(recordId);
     }
     
-    public Record RecordOnDemand.getSpecificRecord(int index) {
+    public Record RecordDataOnDemand.getSpecificRecord(int index) {
         init();
-        if (index < 0) index = 0;
-        if (index > (data.size() - 1)) index = data.size() - 1;
+        if (index < 0) {
+            index = 0;
+        }
+        if (index > (data.size() - 1)) {
+            index = data.size() - 1;
+        }
         Record obj = data.get(index);
-        return Record.findRecord(obj.getId());
+        Long id = obj.getId();
+        return Record.findRecord(id);
     }
     
-    public Record RecordOnDemand.getRandomRecord() {
+    public Record RecordDataOnDemand.getRandomRecord() {
         init();
         Record obj = data.get(rnd.nextInt(data.size()));
-        return Record.findRecord(obj.getId());
+        Long id = obj.getId();
+        return Record.findRecord(id);
     }
     
-    public boolean RecordOnDemand.modifyRecord(Record obj) {
+    public boolean RecordDataOnDemand.modifyRecord(Record obj) {
         return false;
     }
     
-    public void RecordOnDemand.init() {
-        data = Record.findRecordEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Record' illegally returned null");
+    public void RecordDataOnDemand.init() {
+        int from = 0;
+        int to = 10;
+        data = Record.findRecordEntries(from, to);
+        if (data == null) {
+            throw new IllegalStateException("Find entries implementation for 'Record' illegally returned null");
+        }
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<net.triptech.metahive.model.Record>();
+        data = new ArrayList<Record>();
         for (int i = 0; i < 10; i++) {
             Record obj = getNewTransientRecord(i);
             try {
                 obj.persist();
             } catch (ConstraintViolationException e) {
                 StringBuilder msg = new StringBuilder();
-                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
-                    ConstraintViolation<?> cv = it.next();
+                for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext();) {
+                    ConstraintViolation<?> cv = iter.next();
                     msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
                 }
                 throw new RuntimeException(msg.toString(), e);

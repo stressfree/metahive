@@ -3,7 +3,6 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import net.triptech.metahive.model.Definition;

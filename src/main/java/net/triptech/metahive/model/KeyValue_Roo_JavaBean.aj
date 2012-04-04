@@ -3,11 +3,10 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.Double;
-import java.lang.String;
 import java.util.Date;
 import java.util.List;
 import net.triptech.metahive.model.Definition;
+import net.triptech.metahive.model.KeyValue;
 import net.triptech.metahive.model.KeyValueBoolean;
 import net.triptech.metahive.model.KeyValueType;
 import net.triptech.metahive.model.Person;

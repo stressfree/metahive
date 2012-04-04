@@ -3,18 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.KeyValueCollection;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect KeyValueCollection_Roo_ToString {
     
     public String KeyValueCollection.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("KeyValueMap: ").append(getKeyValueMap() == null ? "null" : getKeyValueMap().size()).append(", ");
-        sb.append("RecordId: ").append(getRecordId()).append(", ");
-        sb.append("SecondaryRecordId: ").append(getSecondaryRecordId()).append(", ");
-        sb.append("TertiaryRecordId: ").append(getTertiaryRecordId());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

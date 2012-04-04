@@ -3,15 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.KeyValueCategories;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect KeyValueCategories_Roo_ToString {
     
     public String KeyValueCategories.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Categories: ").append(getCategories() == null ? "null" : getCategories().size()).append(", ");
-        sb.append("Id: ").append(getId());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

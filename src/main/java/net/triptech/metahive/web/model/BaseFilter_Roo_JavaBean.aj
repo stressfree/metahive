@@ -3,7 +3,7 @@
 
 package net.triptech.metahive.web.model;
 
-import java.lang.String;
+import net.triptech.metahive.web.model.BaseFilter;
 
 privileged aspect BaseFilter_Roo_JavaBean {
     

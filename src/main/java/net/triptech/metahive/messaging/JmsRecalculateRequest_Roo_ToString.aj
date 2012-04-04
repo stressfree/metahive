@@ -3,17 +3,14 @@
 
 package net.triptech.metahive.messaging;
 
-import java.lang.String;
+import net.triptech.metahive.messaging.JmsRecalculateRequest;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect JmsRecalculateRequest_Roo_ToString {
     
     public String JmsRecalculateRequest.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("DefinitionId: ").append(getDefinitionId()).append(", ");
-        sb.append("PrimaryRecordId: ").append(getPrimaryRecordId()).append(", ");
-        sb.append("SecondaryRecordId: ").append(getSecondaryRecordId()).append(", ");
-        sb.append("TertiaryRecordId: ").append(getTertiaryRecordId());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

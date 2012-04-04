@@ -3,7 +3,6 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +16,7 @@ import javax.validation.ConstraintViolationException;
 import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.DefinitionDataOnDemand;
 import net.triptech.metahive.model.Description;
+import net.triptech.metahive.model.DescriptionDataOnDemand;
 import net.triptech.metahive.model.Person;
 import net.triptech.metahive.model.PersonDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,16 +79,22 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
     
     public Description DescriptionDataOnDemand.getSpecificDescription(int index) {
         init();
-        if (index < 0) index = 0;
-        if (index > (data.size() - 1)) index = data.size() - 1;
+        if (index < 0) {
+            index = 0;
+        }
+        if (index > (data.size() - 1)) {
+            index = data.size() - 1;
+        }
         Description obj = data.get(index);
-        return Description.findDescription(obj.getId());
+        Long id = obj.getId();
+        return Description.findDescription(id);
     }
     
     public Description DescriptionDataOnDemand.getRandomDescription() {
         init();
         Description obj = data.get(rnd.nextInt(data.size()));
-        return Description.findDescription(obj.getId());
+        Long id = obj.getId();
+        return Description.findDescription(id);
     }
     
     public boolean DescriptionDataOnDemand.modifyDescription(Description obj) {
@@ -96,21 +102,25 @@ privileged aspect DescriptionDataOnDemand_Roo_DataOnDemand {
     }
     
     public void DescriptionDataOnDemand.init() {
-        data = Description.findDescriptionEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Description' illegally returned null");
+        int from = 0;
+        int to = 10;
+        data = Description.findDescriptionEntries(from, to);
+        if (data == null) {
+            throw new IllegalStateException("Find entries implementation for 'Description' illegally returned null");
+        }
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<net.triptech.metahive.model.Description>();
+        data = new ArrayList<Description>();
         for (int i = 0; i < 10; i++) {
             Description obj = getNewTransientDescription(i);
             try {
                 obj.persist();
             } catch (ConstraintViolationException e) {
                 StringBuilder msg = new StringBuilder();
-                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
-                    ConstraintViolation<?> cv = it.next();
+                for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext();) {
+                    ConstraintViolation<?> cv = iter.next();
                     msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
                 }
                 throw new RuntimeException(msg.toString(), e);

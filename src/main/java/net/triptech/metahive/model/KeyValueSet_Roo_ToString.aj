@@ -3,19 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.KeyValueSet;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect KeyValueSet_Roo_ToString {
     
     public String KeyValueSet.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("ChildKeyValueSetCount: ").append(getChildKeyValueSetCount()).append(", ");
-        sb.append("ChildKeyValueSets: ").append(getChildKeyValueSets() == null ? "null" : getChildKeyValueSets().size()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("KeyValueCount: ").append(getKeyValueCount()).append(", ");
-        sb.append("KeyValues: ").append(getKeyValues() == null ? "null" : getKeyValues().size()).append(", ");
-        sb.append("Name: ").append(getName());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

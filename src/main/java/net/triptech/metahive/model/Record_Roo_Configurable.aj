@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.Record;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect Record_Roo_Configurable {

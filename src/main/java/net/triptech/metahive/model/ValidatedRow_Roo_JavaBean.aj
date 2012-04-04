@@ -3,9 +3,9 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import java.util.List;
 import net.triptech.metahive.model.ValidatedField;
+import net.triptech.metahive.model.ValidatedRow;
 
 privileged aspect ValidatedRow_Roo_JavaBean {
     

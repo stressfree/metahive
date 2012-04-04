@@ -3,8 +3,8 @@
 
 package net.triptech.metahive.web.model;
 
-import java.lang.String;
 import net.triptech.metahive.model.Definition;
+import net.triptech.metahive.web.model.RecordFilterVector;
 
 privileged aspect RecordFilterVector_Roo_JavaBean {
     

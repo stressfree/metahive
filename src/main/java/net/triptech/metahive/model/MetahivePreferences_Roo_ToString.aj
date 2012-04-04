@@ -3,30 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.MetahivePreferences;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect MetahivePreferences_Roo_ToString {
     
     public String MetahivePreferences.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("AdminEmail: ").append(getAdminEmail()).append(", ");
-        sb.append("DefaultDefinitions: ").append(getDefaultDefinitions() == null ? "null" : getDefaultDefinitions().size()).append(", ");
-        sb.append("FromEmail: ").append(getFromEmail()).append(", ");
-        sb.append("GoogleTrackingId: ").append(getGoogleTrackingId()).append(", ");
-        sb.append("HomepageContent: ").append(getHomepageContent()).append(", ");
-        sb.append("HomepageTitle: ").append(getHomepageTitle()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("PrimaryRecordName: ").append(getPrimaryRecordName()).append(", ");
-        sb.append("PrimaryRecordRegex: ").append(getPrimaryRecordRegex()).append(", ");
-        sb.append("SecondaryRecordDefault: ").append(getSecondaryRecordDefault()).append(", ");
-        sb.append("SecondaryRecordName: ").append(getSecondaryRecordName()).append(", ");
-        sb.append("SecondaryRecordRegex: ").append(getSecondaryRecordRegex()).append(", ");
-        sb.append("TertiaryRecordDefault: ").append(getTertiaryRecordDefault()).append(", ");
-        sb.append("TertiaryRecordName: ").append(getTertiaryRecordName()).append(", ");
-        sb.append("TertiaryRecordRegex: ").append(getTertiaryRecordRegex()).append(", ");
-        sb.append("Url: ").append(getUrl()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

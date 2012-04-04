@@ -3,25 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.Comment;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect Comment_Roo_ToString {
     
     public String Comment.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("CommentType: ").append(getCommentType()).append(", ");
-        sb.append("Created: ").append(getCreated()).append(", ");
-        sb.append("DataSourceId: ").append(getDataSourceId()).append(", ");
-        sb.append("Definition: ").append(getDefinition()).append(", ");
-        sb.append("DescriptionId: ").append(getDescriptionId()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("KeyValueId: ").append(getKeyValueId()).append(", ");
-        sb.append("Message: ").append(getMessage()).append(", ");
-        sb.append("Person: ").append(getPerson()).append(", ");
-        sb.append("Record: ").append(getRecord()).append(", ");
-        sb.append("RelatedObject: ").append(getRelatedObject()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

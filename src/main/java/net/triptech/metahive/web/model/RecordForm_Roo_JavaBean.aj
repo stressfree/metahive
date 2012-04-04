@@ -3,7 +3,7 @@
 
 package net.triptech.metahive.web.model;
 
-import java.lang.String;
+import net.triptech.metahive.web.model.RecordForm;
 
 privileged aspect RecordForm_Roo_JavaBean {
     

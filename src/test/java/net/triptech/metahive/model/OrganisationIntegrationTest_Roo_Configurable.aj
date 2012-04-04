@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.OrganisationIntegrationTest;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect OrganisationIntegrationTest_Roo_Configurable {

@@ -81,5 +81,17 @@
 
 
   <!--Installs application converters and formatters-->
-  <bean class="net.triptech.metahive.web.ApplicationConversionServiceFactoryBean" id="applicationConversionService"/>
+  <bean class="net.triptech.metahive.web.ApplicationConversionServiceFactoryBean" id="applicationConversionService">
+     <property name="converters">
+        <list>
+          <bean class="net.triptech.metahive.web.converter.ApplicabilityConverter" />
+          <bean class="net.triptech.metahive.web.converter.DataTypeConverter" />
+          <bean class="net.triptech.metahive.web.converter.DefinitionTypeConverter" />
+          <bean class="net.triptech.metahive.web.converter.KeyValueGeneratorConverter" />
+          <bean class="net.triptech.metahive.web.converter.UserRoleConverter" />
+          <bean class="net.triptech.metahive.web.converter.UserStatusConverter" />
+        </list>
+     </property>
+  </bean>
+
 </beans>

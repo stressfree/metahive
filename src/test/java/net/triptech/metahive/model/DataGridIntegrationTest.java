@@ -7,10 +7,12 @@ import static org.junit.Assert.assertEquals;
 import net.triptech.metahive.model.DataGrid;
 
 import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  * The Class DataGridIntegrationTest.
  */
+@ContextConfiguration(locations = "classpath:/META-INF/spring-test/applicationContext.xml")
 public class DataGridIntegrationTest {
 
     /**

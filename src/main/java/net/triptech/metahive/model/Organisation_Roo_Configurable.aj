@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.Organisation;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect Organisation_Roo_Configurable {

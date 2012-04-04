@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.Submission;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect Submission_Roo_Configurable {

@@ -3,7 +3,6 @@
 
 package net.triptech.metahive.web.model;
 
-import java.lang.String;
 import java.util.List;
 import net.triptech.metahive.model.Applicability;
 import net.triptech.metahive.model.Category;
@@ -12,6 +11,7 @@ import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.DefinitionType;
 import net.triptech.metahive.model.KeyValueGenerator;
 import net.triptech.metahive.model.UserRole;
+import net.triptech.metahive.web.model.DefinitionForm;
 
 privileged aspect DefinitionForm_Roo_JavaBean {
     

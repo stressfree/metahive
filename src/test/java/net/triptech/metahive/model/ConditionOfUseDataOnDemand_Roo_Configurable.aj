@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.ConditionOfUseDataOnDemand;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect ConditionOfUseDataOnDemand_Roo_Configurable {

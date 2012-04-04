@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.ConditionOfUseIntegrationTest;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect ConditionOfUseIntegrationTest_Roo_Configurable {

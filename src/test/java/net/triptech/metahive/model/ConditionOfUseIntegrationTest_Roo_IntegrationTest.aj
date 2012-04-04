@@ -3,19 +3,20 @@
 
 package net.triptech.metahive.model;
 
+import java.util.List;
+import net.triptech.metahive.model.ConditionOfUse;
 import net.triptech.metahive.model.ConditionOfUseDataOnDemand;
+import net.triptech.metahive.model.ConditionOfUseIntegrationTest;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect ConditionOfUseIntegrationTest_Roo_IntegrationTest {
     
     declare @type: ConditionOfUseIntegrationTest: @RunWith(SpringJUnit4ClassRunner.class);
-    
-    declare @type: ConditionOfUseIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
     
     declare @type: ConditionOfUseIntegrationTest: @Transactional;
     
@@ -24,92 +25,94 @@ privileged aspect ConditionOfUseIntegrationTest_Roo_IntegrationTest {
     
     @Test
     public void ConditionOfUseIntegrationTest.testCountConditionOfUses() {
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
-        long count = net.triptech.metahive.model.ConditionOfUse.countConditionOfUses();
-        org.junit.Assert.assertTrue("Counter for 'ConditionOfUse' incorrectly reported there were no entries", count > 0);
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
+        long count = ConditionOfUse.countConditionOfUses();
+        Assert.assertTrue("Counter for 'ConditionOfUse' incorrectly reported there were no entries", count > 0);
     }
     
     @Test
     public void ConditionOfUseIntegrationTest.testFindConditionOfUse() {
-        net.triptech.metahive.model.ConditionOfUse obj = dod.getRandomConditionOfUse();
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to provide an identifier", id);
-        obj = net.triptech.metahive.model.ConditionOfUse.findConditionOfUse(id);
-        org.junit.Assert.assertNotNull("Find method for 'ConditionOfUse' illegally returned null for id '" + id + "'", obj);
-        org.junit.Assert.assertEquals("Find method for 'ConditionOfUse' returned the incorrect identifier", id, obj.getId());
+        ConditionOfUse obj = dod.getRandomConditionOfUse();
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to provide an identifier", id);
+        obj = ConditionOfUse.findConditionOfUse(id);
+        Assert.assertNotNull("Find method for 'ConditionOfUse' illegally returned null for id '" + id + "'", obj);
+        Assert.assertEquals("Find method for 'ConditionOfUse' returned the incorrect identifier", id, obj.getId());
     }
     
     @Test
     public void ConditionOfUseIntegrationTest.testFindAllConditionOfUses() {
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
-        long count = net.triptech.metahive.model.ConditionOfUse.countConditionOfUses();
-        org.junit.Assert.assertTrue("Too expensive to perform a find all test for 'ConditionOfUse', as there are " + count + " entries; set the findAllMaximum to exceed this value or set findAll=false on the integration test annotation to disable the test", count < 250);
-        java.util.List<net.triptech.metahive.model.ConditionOfUse> result = net.triptech.metahive.model.ConditionOfUse.findAllConditionOfUses();
-        org.junit.Assert.assertNotNull("Find all method for 'ConditionOfUse' illegally returned null", result);
-        org.junit.Assert.assertTrue("Find all method for 'ConditionOfUse' failed to return any data", result.size() > 0);
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
+        long count = ConditionOfUse.countConditionOfUses();
+        Assert.assertTrue("Too expensive to perform a find all test for 'ConditionOfUse', as there are " + count + " entries; set the findAllMaximum to exceed this value or set findAll=false on the integration test annotation to disable the test", count < 250);
+        List<ConditionOfUse> result = ConditionOfUse.findAllConditionOfUses();
+        Assert.assertNotNull("Find all method for 'ConditionOfUse' illegally returned null", result);
+        Assert.assertTrue("Find all method for 'ConditionOfUse' failed to return any data", result.size() > 0);
     }
     
     @Test
     public void ConditionOfUseIntegrationTest.testFindConditionOfUseEntries() {
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
-        long count = net.triptech.metahive.model.ConditionOfUse.countConditionOfUses();
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
+        long count = ConditionOfUse.countConditionOfUses();
         if (count > 20) count = 20;
-        java.util.List<net.triptech.metahive.model.ConditionOfUse> result = net.triptech.metahive.model.ConditionOfUse.findConditionOfUseEntries(0, (int) count);
-        org.junit.Assert.assertNotNull("Find entries method for 'ConditionOfUse' illegally returned null", result);
-        org.junit.Assert.assertEquals("Find entries method for 'ConditionOfUse' returned an incorrect number of entries", count, result.size());
+        int firstResult = 0;
+        int maxResults = (int) count;
+        List<ConditionOfUse> result = ConditionOfUse.findConditionOfUseEntries(firstResult, maxResults);
+        Assert.assertNotNull("Find entries method for 'ConditionOfUse' illegally returned null", result);
+        Assert.assertEquals("Find entries method for 'ConditionOfUse' returned an incorrect number of entries", count, result.size());
     }
     
     @Test
     public void ConditionOfUseIntegrationTest.testFlush() {
-        net.triptech.metahive.model.ConditionOfUse obj = dod.getRandomConditionOfUse();
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to provide an identifier", id);
-        obj = net.triptech.metahive.model.ConditionOfUse.findConditionOfUse(id);
-        org.junit.Assert.assertNotNull("Find method for 'ConditionOfUse' illegally returned null for id '" + id + "'", obj);
+        ConditionOfUse obj = dod.getRandomConditionOfUse();
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to provide an identifier", id);
+        obj = ConditionOfUse.findConditionOfUse(id);
+        Assert.assertNotNull("Find method for 'ConditionOfUse' illegally returned null for id '" + id + "'", obj);
         boolean modified =  dod.modifyConditionOfUse(obj);
-        java.lang.Integer currentVersion = obj.getVersion();
+        Integer currentVersion = obj.getVersion();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'ConditionOfUse' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertTrue("Version for 'ConditionOfUse' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    public void ConditionOfUseIntegrationTest.testMerge() {
-        net.triptech.metahive.model.ConditionOfUse obj = dod.getRandomConditionOfUse();
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to provide an identifier", id);
-        obj = net.triptech.metahive.model.ConditionOfUse.findConditionOfUse(id);
+    public void ConditionOfUseIntegrationTest.testMergeUpdate() {
+        ConditionOfUse obj = dod.getRandomConditionOfUse();
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to provide an identifier", id);
+        obj = ConditionOfUse.findConditionOfUse(id);
         boolean modified =  dod.modifyConditionOfUse(obj);
-        java.lang.Integer currentVersion = obj.getVersion();
-        net.triptech.metahive.model.ConditionOfUse merged =  obj.merge();
+        Integer currentVersion = obj.getVersion();
+        ConditionOfUse merged = obj.merge();
         obj.flush();
-        org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
-        org.junit.Assert.assertTrue("Version for 'ConditionOfUse' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
+        Assert.assertTrue("Version for 'ConditionOfUse' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
     public void ConditionOfUseIntegrationTest.testPersist() {
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
-        net.triptech.metahive.model.ConditionOfUse obj = dod.getNewTransientConditionOfUse(Integer.MAX_VALUE);
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to provide a new transient entity", obj);
-        org.junit.Assert.assertNull("Expected 'ConditionOfUse' identifier to be null", obj.getId());
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", dod.getRandomConditionOfUse());
+        ConditionOfUse obj = dod.getNewTransientConditionOfUse(Integer.MAX_VALUE);
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to provide a new transient entity", obj);
+        Assert.assertNull("Expected 'ConditionOfUse' identifier to be null", obj.getId());
         obj.persist();
         obj.flush();
-        org.junit.Assert.assertNotNull("Expected 'ConditionOfUse' identifier to no longer be null", obj.getId());
+        Assert.assertNotNull("Expected 'ConditionOfUse' identifier to no longer be null", obj.getId());
     }
     
     @Test
     public void ConditionOfUseIntegrationTest.testRemove() {
-        net.triptech.metahive.model.ConditionOfUse obj = dod.getRandomConditionOfUse();
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to provide an identifier", id);
-        obj = net.triptech.metahive.model.ConditionOfUse.findConditionOfUse(id);
+        ConditionOfUse obj = dod.getRandomConditionOfUse();
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'ConditionOfUse' failed to provide an identifier", id);
+        obj = ConditionOfUse.findConditionOfUse(id);
         obj.remove();
         obj.flush();
-        org.junit.Assert.assertNull("Failed to remove 'ConditionOfUse' with identifier '" + id + "'", net.triptech.metahive.model.ConditionOfUse.findConditionOfUse(id));
+        Assert.assertNull("Failed to remove 'ConditionOfUse' with identifier '" + id + "'", ConditionOfUse.findConditionOfUse(id));
     }
     
 }

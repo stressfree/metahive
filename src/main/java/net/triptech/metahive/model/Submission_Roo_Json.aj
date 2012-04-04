@@ -5,7 +5,6 @@ package net.triptech.metahive.model;
 
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

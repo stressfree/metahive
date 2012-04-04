@@ -3,7 +3,6 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +11,7 @@ import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import net.triptech.metahive.model.Organisation;
+import net.triptech.metahive.model.OrganisationDataOnDemand;
 import org.springframework.stereotype.Component;
 
 privileged aspect OrganisationDataOnDemand_Roo_DataOnDemand {
@@ -38,16 +38,22 @@ privileged aspect OrganisationDataOnDemand_Roo_DataOnDemand {
     
     public Organisation OrganisationDataOnDemand.getSpecificOrganisation(int index) {
         init();
-        if (index < 0) index = 0;
-        if (index > (data.size() - 1)) index = data.size() - 1;
+        if (index < 0) {
+            index = 0;
+        }
+        if (index > (data.size() - 1)) {
+            index = data.size() - 1;
+        }
         Organisation obj = data.get(index);
-        return Organisation.findOrganisation(obj.getId());
+        Long id = obj.getId();
+        return Organisation.findOrganisation(id);
     }
     
     public Organisation OrganisationDataOnDemand.getRandomOrganisation() {
         init();
         Organisation obj = data.get(rnd.nextInt(data.size()));
-        return Organisation.findOrganisation(obj.getId());
+        Long id = obj.getId();
+        return Organisation.findOrganisation(id);
     }
     
     public boolean OrganisationDataOnDemand.modifyOrganisation(Organisation obj) {
@@ -55,21 +61,25 @@ privileged aspect OrganisationDataOnDemand_Roo_DataOnDemand {
     }
     
     public void OrganisationDataOnDemand.init() {
-        data = Organisation.findOrganisationEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Organisation' illegally returned null");
+        int from = 0;
+        int to = 10;
+        data = Organisation.findOrganisationEntries(from, to);
+        if (data == null) {
+            throw new IllegalStateException("Find entries implementation for 'Organisation' illegally returned null");
+        }
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<net.triptech.metahive.model.Organisation>();
+        data = new ArrayList<Organisation>();
         for (int i = 0; i < 10; i++) {
             Organisation obj = getNewTransientOrganisation(i);
             try {
                 obj.persist();
             } catch (ConstraintViolationException e) {
                 StringBuilder msg = new StringBuilder();
-                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
-                    ConstraintViolation<?> cv = it.next();
+                for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext();) {
+                    ConstraintViolation<?> cv = iter.next();
                     msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
                 }
                 throw new RuntimeException(msg.toString(), e);

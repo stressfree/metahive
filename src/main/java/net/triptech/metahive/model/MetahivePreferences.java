@@ -13,8 +13,8 @@ package net.triptech.metahive.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
+import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 
 import javax.persistence.Lob;
@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
  */
 @RooJavaBean
 @RooToString
-@RooEntity
+@RooJpaActiveRecord
 public class MetahivePreferences {
 
     /** The url. */

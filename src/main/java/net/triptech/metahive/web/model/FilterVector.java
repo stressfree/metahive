@@ -10,6 +10,7 @@
  ******************************************************************************/
 package net.triptech.metahive.web.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,10 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
  * The Class FilterVector.
  */
 @RooJavaBean
-public class FilterVector {
+public class FilterVector implements Serializable {
+
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
 
 	/** The action. */
 	private FilterAction action = FilterAction.ADD;

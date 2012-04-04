@@ -3,7 +3,7 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.ValidatedField;
 
 privileged aspect ValidatedField_Roo_JavaBean {
     

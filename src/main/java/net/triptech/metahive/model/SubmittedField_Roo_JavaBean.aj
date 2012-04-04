@@ -3,11 +3,11 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import java.util.Date;
 import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.Record;
 import net.triptech.metahive.model.Submission;
+import net.triptech.metahive.model.SubmittedField;
 
 privileged aspect SubmittedField_Roo_JavaBean {
     

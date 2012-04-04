@@ -3,9 +3,9 @@
 
 package net.triptech.metahive.web.model;
 
-import java.lang.String;
 import java.util.Map;
 import net.triptech.metahive.web.model.FilterAction;
+import net.triptech.metahive.web.model.FilterVector;
 
 privileged aspect FilterVector_Roo_JavaBean {
     

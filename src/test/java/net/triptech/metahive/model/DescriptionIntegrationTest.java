@@ -7,12 +7,14 @@ import net.triptech.metahive.model.Description;
 
 import org.junit.Test;
 import org.springframework.roo.addon.test.RooIntegrationTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Class DescriptionIntegrationTest.
  */
 @RooIntegrationTest(entity = Description.class)
+@ContextConfiguration(locations = "classpath:/META-INF/spring-test/applicationContext.xml")
 public class DescriptionIntegrationTest {
 
     /**

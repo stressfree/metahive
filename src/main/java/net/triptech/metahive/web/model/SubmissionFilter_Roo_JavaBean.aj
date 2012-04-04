@@ -3,7 +3,7 @@
 
 package net.triptech.metahive.web.model;
 
-import java.lang.Long;
+import net.triptech.metahive.web.model.SubmissionFilter;
 
 privileged aspect SubmissionFilter_Roo_JavaBean {
     

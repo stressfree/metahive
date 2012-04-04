@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.DescriptionDataOnDemand;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect DescriptionDataOnDemand_Roo_Configurable {

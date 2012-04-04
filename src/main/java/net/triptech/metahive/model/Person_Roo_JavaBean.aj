@@ -3,8 +3,6 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.Boolean;
-import java.lang.String;
 import java.util.List;
 import java.util.Map;
 import net.triptech.metahive.model.Comment;
@@ -12,6 +10,7 @@ import net.triptech.metahive.model.DataSource;
 import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.Description;
 import net.triptech.metahive.model.Organisation;
+import net.triptech.metahive.model.Person;
 import net.triptech.metahive.model.Submission;
 import net.triptech.metahive.model.UserRole;
 import net.triptech.metahive.model.UserStatus;

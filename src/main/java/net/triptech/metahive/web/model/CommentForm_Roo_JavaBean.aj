@@ -3,10 +3,10 @@
 
 package net.triptech.metahive.web.model;
 
-import java.lang.String;
 import net.triptech.metahive.model.CommentType;
 import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.Record;
+import net.triptech.metahive.web.model.CommentForm;
 
 privileged aspect CommentForm_Roo_JavaBean {
     

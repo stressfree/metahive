@@ -3,22 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.DataSource;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect DataSource_Roo_ToString {
     
     public String DataSource.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("CollectionDate: ").append(getCollectionDate()).append(", ");
-        sb.append("CollectionSource: ").append(getCollectionSource()).append(", ");
-        sb.append("ConditionOfUse: ").append(getConditionOfUse()).append(", ");
-        sb.append("Definition: ").append(getDefinition()).append(", ");
-        sb.append("Details: ").append(getDetails()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("Organisation: ").append(getOrganisation()).append(", ");
-        sb.append("PointsOfContact: ").append(getPointsOfContact() == null ? "null" : getPointsOfContact().size()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.PersonIntegrationTest;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect PersonIntegrationTest_Roo_Configurable {

@@ -36,7 +36,7 @@ import net.triptech.metahive.web.model.DefinitionFilter;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
-import org.springframework.roo.addon.entity.RooEntity;
+import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
 
@@ -44,7 +44,7 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
  * The Class Definition.
  */
 @RooJavaBean
-@RooEntity(finders = { "findDefinitionsByNameLike" })
+@RooJpaActiveRecord(finders = { "findDefinitionsByNameLike" })
 public class Definition {
 
     /** The name. */

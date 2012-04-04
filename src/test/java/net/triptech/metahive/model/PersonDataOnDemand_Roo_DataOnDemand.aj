@@ -3,7 +3,6 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +11,7 @@ import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import net.triptech.metahive.model.Person;
+import net.triptech.metahive.model.PersonDataOnDemand;
 import net.triptech.metahive.model.UserRole;
 import net.triptech.metahive.model.UserStatus;
 import org.springframework.stereotype.Component;
@@ -39,7 +39,7 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
     }
     
     public void PersonDataOnDemand.setEmailAddress(Person obj, int index) {
-        String emailAddress = "emailAddress_" + index;
+        String emailAddress = "foo" + index + "@bar.com";
         obj.setEmailAddress(emailAddress);
     }
     
@@ -85,16 +85,22 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
     
     public Person PersonDataOnDemand.getSpecificPerson(int index) {
         init();
-        if (index < 0) index = 0;
-        if (index > (data.size() - 1)) index = data.size() - 1;
+        if (index < 0) {
+            index = 0;
+        }
+        if (index > (data.size() - 1)) {
+            index = data.size() - 1;
+        }
         Person obj = data.get(index);
-        return Person.findPerson(obj.getId());
+        Long id = obj.getId();
+        return Person.findPerson(id);
     }
     
     public Person PersonDataOnDemand.getRandomPerson() {
         init();
         Person obj = data.get(rnd.nextInt(data.size()));
-        return Person.findPerson(obj.getId());
+        Long id = obj.getId();
+        return Person.findPerson(id);
     }
     
     public boolean PersonDataOnDemand.modifyPerson(Person obj) {
@@ -102,21 +108,25 @@ privileged aspect PersonDataOnDemand_Roo_DataOnDemand {
     }
     
     public void PersonDataOnDemand.init() {
-        data = Person.findPersonEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Person' illegally returned null");
+        int from = 0;
+        int to = 10;
+        data = Person.findPersonEntries(from, to);
+        if (data == null) {
+            throw new IllegalStateException("Find entries implementation for 'Person' illegally returned null");
+        }
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<net.triptech.metahive.model.Person>();
+        data = new ArrayList<Person>();
         for (int i = 0; i < 10; i++) {
             Person obj = getNewTransientPerson(i);
             try {
                 obj.persist();
             } catch (ConstraintViolationException e) {
                 StringBuilder msg = new StringBuilder();
-                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
-                    ConstraintViolation<?> cv = it.next();
+                for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext();) {
+                    ConstraintViolation<?> cv = iter.next();
                     msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
                 }
                 throw new RuntimeException(msg.toString(), e);

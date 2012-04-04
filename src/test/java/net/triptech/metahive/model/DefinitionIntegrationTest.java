@@ -16,12 +16,14 @@ import net.triptech.metahive.model.UserRole;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.roo.addon.test.RooIntegrationTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Class DefinitionIntegrationTest.
  */
 @RooIntegrationTest(entity = Definition.class)
+@ContextConfiguration(locations = "classpath:/META-INF/spring-test/applicationContext.xml")
 public class DefinitionIntegrationTest {
 
     /** The category. */

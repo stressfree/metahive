@@ -58,6 +58,7 @@
     </bean>
     <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager"/>
     <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
+        <property name="persistenceUnitName" value="testPersistenceUnit"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
     <bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="mailSender">

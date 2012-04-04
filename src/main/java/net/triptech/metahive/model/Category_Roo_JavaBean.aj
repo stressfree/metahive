@@ -3,8 +3,8 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
 import java.util.List;
+import net.triptech.metahive.model.Category;
 import net.triptech.metahive.model.Definition;
 
 privileged aspect Category_Roo_JavaBean {

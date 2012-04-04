@@ -8,12 +8,14 @@ import net.triptech.metahive.model.ConditionOfUse;
 
 import org.junit.Test;
 import org.springframework.roo.addon.test.RooIntegrationTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Class ConditionOfUseIntegrationTest.
  */
 @RooIntegrationTest(entity = ConditionOfUse.class)
+@ContextConfiguration(locations = "classpath:/META-INF/spring-test/applicationContext.xml")
 public class ConditionOfUseIntegrationTest {
 
     /**

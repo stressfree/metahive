@@ -3,6 +3,7 @@
 
 package net.triptech.metahive.model;
 
+import net.triptech.metahive.model.Comment;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect Comment_Roo_Configurable {

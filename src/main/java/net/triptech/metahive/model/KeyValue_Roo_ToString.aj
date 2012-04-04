@@ -3,34 +3,14 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.String;
+import net.triptech.metahive.model.KeyValue;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect KeyValue_Roo_ToString {
     
     public String KeyValue.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("BooleanValue: ").append(getBooleanValue()).append(", ");
-        sb.append("Comment: ").append(getComment()).append(", ");
-        sb.append("Context: ").append(getContext()).append(", ");
-        sb.append("CssClass: ").append(getCssClass()).append(", ");
-        sb.append("Definition: ").append(getDefinition()).append(", ");
-        sb.append("DoubleValue: ").append(getDoubleValue()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("KeyValueType: ").append(getKeyValueType()).append(", ");
-        sb.append("Modified: ").append(getModified()).append(", ");
-        sb.append("OverriddenBy: ").append(getOverriddenBy()).append(", ");
-        sb.append("PrimaryRecordId: ").append(getPrimaryRecordId()).append(", ");
-        sb.append("Record: ").append(getRecord()).append(", ");
-        sb.append("SecondaryRecordId: ").append(getSecondaryRecordId()).append(", ");
-        sb.append("StringValue: ").append(getStringValue()).append(", ");
-        sb.append("SubmittedFieldCount: ").append(getSubmittedFieldCount()).append(", ");
-        sb.append("SubmittedFields: ").append(getSubmittedFields() == null ? "null" : getSubmittedFields().size()).append(", ");
-        sb.append("TertiaryRecordId: ").append(getTertiaryRecordId()).append(", ");
-        sb.append("UserRole: ").append(getUserRole()).append(", ");
-        sb.append("Value: ").append(getValue()).append(", ");
-        sb.append("ValueSansUnits: ").append(getValueSansUnits()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

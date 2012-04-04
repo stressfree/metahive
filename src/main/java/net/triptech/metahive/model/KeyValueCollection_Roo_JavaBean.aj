@@ -3,10 +3,9 @@
 
 package net.triptech.metahive.model;
 
-import java.lang.Long;
-import java.lang.String;
 import java.util.Map;
 import net.triptech.metahive.model.KeyValue;
+import net.triptech.metahive.model.KeyValueCollection;
 
 privileged aspect KeyValueCollection_Roo_JavaBean {
     
