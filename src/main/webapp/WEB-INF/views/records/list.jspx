@@ -148,8 +148,8 @@
       </div>
 
       <c:if test="${not empty maxPages}">
-              <util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
-            </c:if>
+          <util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
+      </c:if>
 
         <metahive:keyvaluedetail />
 

@@ -4,7 +4,7 @@
 
     <display-name>metahive</display-name>
 
-    <description>Roo generated metahive application</description>
+    <description>The Metahive web application</description>
 
 
     <!-- Enable escaping of form submission contents -->
@@ -40,10 +40,10 @@
 
 
     <!-- Allows attributes to be accessed on the next request -->
-  <filter>
-      <filter-name>flashScope</filter-name>
-      <filter-class>net.triptech.metahive.FlashScopeFilter</filter-class>
-  </filter>
+    <filter>
+        <filter-name>flashScope</filter-name>
+        <filter-class>net.triptech.metahive.FlashScopeFilter</filter-class>
+    </filter>
 
 
     <filter>

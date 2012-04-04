@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
   <spring:message var="title" code="metahive_contribute" htmlEscape="false" />
-    <util:panel id="title" title="${title}">
+    <div class="panel">
+      <h1><c:out value="${title}" /></h1>
       <spring:url value="/definitions" var="definitions_url" />
       <p><spring:message code="metahive_contribute_nodefinitions" htmlEscape="false" arguments="${definitions_url}|${preferences.adminEmail}" argumentSeparator="|"/></p>
-    </util:panel>
+    </div>
 </div>

@@ -44,8 +44,8 @@
       </c:forEach>
       </ul>
       <c:if test="${not empty maxPages}">
-              <util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
-            </c:if>
+          <util:pagination maxPages="${maxPages}" page="${page}" size="${size}" />
+      </c:if>
     </c:when>
     <c:otherwise>
       <p><spring:message code="entity_not_found" arguments="definitions" /></p>

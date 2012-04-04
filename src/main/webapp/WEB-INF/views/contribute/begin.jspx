@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div class="yui-g records" xmlns:metahive="urn:jsptagdir:/WEB-INF/tags/metahive" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:form="http://www.springframework.org/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
   <spring:message var="title" code="metahive_contribute" htmlEscape="false" />
-    <util:panel id="title" title="${title}">
+    <div class="panel">
+      <h1><c:out value="${title}" /></h1>
       <p><spring:message code="metahive_contribute_selectfields" htmlEscape="false" /></p>
       <spring:url value="/contribute/template.xls" var="template_url" />
     <form:form target="_blank" id="template" jsId="template" action="${template_url}" method="POST" dojoType="dijit.form.Form">
@@ -54,7 +55,7 @@
         <button dojoType="dijit.form.Button" id="generateTemplate" type="submit"><spring:message code="metahive_button_template" /></button>
         <div id="nextButton" dojoType="dijit.form.Button" jsId="nextButton"><spring:message code="metahive_button_next" /></div>
     </form:form>
-    </util:panel>
+    </div>
 
     <spring:url value="/contribute/submission?id=${organisationId}" var="submission_url" />
     <script type="text/javascript">

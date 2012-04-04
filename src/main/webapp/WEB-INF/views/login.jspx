@@ -1,4 +1,4 @@
-<div class="yui-g" xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div class="yui-g" xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
   <spring:message code="security_login_title" var="title" htmlEscape="false" />
@@ -8,7 +8,8 @@
 
   <spring:message var="login_title" code="security_login_title" />
   <spring:message var="login_button" code="google_login_button" />
-  <util:panel id="google_login" title="${login_title}" >
+  <div class="panel">
+    <h1><c:out value="${login_title}" /></h1>
     <div class="googlelogon">
       <form action="${fn:escapeXml(form_url_openid)}" method="post">
         <p><spring:message code="google_login_description" /></p>
@@ -18,7 +19,7 @@
           </div>
       </form>
     </div>
-  </util:panel>
+  </div>
 
   <script type="text/javascript">
       <![CDATA[
