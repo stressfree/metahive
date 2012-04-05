@@ -29,14 +29,12 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
-import org.springframework.roo.addon.tostring.RooToString;
 
 
 /**
  * The Class SubmittedField.
  */
 @RooJavaBean
-@RooToString
 @RooJpaActiveRecord
 public class SubmittedField {
 

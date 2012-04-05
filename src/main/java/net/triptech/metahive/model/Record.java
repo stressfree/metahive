@@ -39,14 +39,12 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
-import org.springframework.roo.addon.tostring.RooToString;
 
 
 /**
  * The Class Record.
  */
 @RooJavaBean
-@RooToString
 @RooJpaActiveRecord
 public class Record {
 

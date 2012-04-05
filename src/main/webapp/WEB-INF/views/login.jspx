@@ -4,7 +4,6 @@
   <spring:message code="security_login_title" var="title" htmlEscape="false" />
 
   <spring:url value="/j_spring_openid_security_check" var="form_url_openid" />
-  <spring:url var="google" value="/resources/images/google-account-logo.png" />
 
   <spring:message var="login_title" code="security_login_title" />
   <spring:message var="login_button" code="google_login_button" />

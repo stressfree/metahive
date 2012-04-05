@@ -38,7 +38,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
-import org.springframework.roo.addon.tostring.RooToString;
 
 
 
@@ -46,7 +45,6 @@ import org.springframework.roo.addon.tostring.RooToString;
  * The Class KeyValue.
  */
 @RooJavaBean
-@RooToString
 @RooJpaActiveRecord
 public class KeyValue {
 

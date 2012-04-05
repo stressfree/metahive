@@ -35,14 +35,12 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.json.RooJson;
-import org.springframework.roo.addon.tostring.RooToString;
 
 
 /**
  * The Class Submission.
  */
 @RooJavaBean
-@RooToString
 @RooJpaActiveRecord
 @RooJson
 public class Submission {

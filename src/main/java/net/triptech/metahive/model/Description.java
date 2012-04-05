@@ -17,13 +17,11 @@ import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
-import org.springframework.roo.addon.tostring.RooToString;
 
 /**
  * The Class Description.
  */
 @RooJavaBean
-@RooToString
 @RooJpaActiveRecord
 public class Description {
 
