@@ -16,7 +16,11 @@
     <div class="metadata">
       <div class="definitiontype">
         <h4><spring:message code="label_net_triptech_metahive_web_model_definitionform_definitiontype" />:</h4>
-        <spring:message code="${definition.definitionType.messageKey}" />
+        <c:set var="definitionTypeCode" value="label_net_triptech_metahive_model_definitiontype_standard" />
+        <c:if test="${not empty definition.definitionType.messageKey}">
+            <c:set var="definitionTypeCode" value="${definition.definitionType.messageKey}" />
+        </c:if>
+        <spring:message code="${definitionTypeCode}" />
       </div>
       <div class="categories">
         <spring:url value="/definitions?category=${definition.category.name}" var="categoryLink" />
@@ -25,7 +29,11 @@
       </div>
       <div class="datatype">
         <h4><spring:message code="label_net_triptech_metahive_model_definition_datatypeandmeasure" />:</h4>
-        <spring:message code="${definition.dataType.messageKey}" />
+        <c:set var="dataTypeCode" value="label_net_triptech_metahive_model_datatype_string" />
+        <c:if test="${not empty definition.dataType.messageKey}">
+            <c:set var="dataTypeCode" value="${definition.dataType.messageKey}" />
+        </c:if>
+        <spring:message code="${dataTypeCode}" />
         <c:if test="${not empty definition.description.unitOfMeasure}">
       <c:out value=" (${definition.description.unitOfMeasure})" escapeXml="true" />
       </c:if>
@@ -81,12 +89,21 @@
         <c:if test="${definition.definitionType ne 'CALCULATED'}">
           <p>
             <strong><spring:message code="label_net_triptech_metahive_web_model_definitionform_keyvaluegenerator" />:</strong>
-            <c:out value=" " /><spring:message code="${definition.keyValueGenerator.messageKey}" />
+            <c:set var="keyValueGeneratorCode" value="label_net_triptech_metahive_model_keyvaluegenerator_newest" />
+            <c:if test="${not empty definition.keyValueGenerator.messageKey}">
+                <c:set var="keyValueGeneratorCode" value="${definition.keyValueGenerator.messageKey}" />
+            </c:if>
+            <c:out value=" " /><spring:message code="${keyValueGeneratorCode}" />
         </p>
       </c:if>
       <p>
           <strong><spring:message code="label_net_triptech_metahive_web_model_definitionform_keyvalueaccess" />:</strong>
-          <c:out value=" " /><spring:message code="${definition.keyValueAccess.messageKey}" />
+          <c:out value=" " />
+          <c:set var="keyValueAccessCode" value="label_net_triptech_metahive_model_userrole_anonymous" />
+          <c:if test="${not empty definition.keyValueAccess.messageKey}">
+              <c:set var="keyValueAccessCode" value="${definition.keyValueAccess.messageKey}" />
+          </c:if>
+          <spring:message code="${keyValueAccessCode}" />
         </p>
       </div>
       <div class="description"><c:out value="${definition.description.description}" escapeXml="false" /></div>

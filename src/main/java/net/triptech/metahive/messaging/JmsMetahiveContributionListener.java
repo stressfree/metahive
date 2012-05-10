@@ -143,10 +143,10 @@ public class JmsMetahiveContributionListener {
                 }
 
                 if (StringUtils.isNotBlank(secondaryRecord)) {
-                	secondaryRecord = KeyValueCalculator.parseRecordId(secondaryRecord);
+                    secondaryRecord = KeyValueCalculator.parseRecordId(secondaryRecord);
                 }
                 if (StringUtils.isNotBlank(tertiaryRecord)) {
-                	tertiaryRecord = KeyValueCalculator.parseRecordId(tertiaryRecord);
+                    tertiaryRecord = KeyValueCalculator.parseRecordId(tertiaryRecord);
                 }
 
                 logger.info("Primary record: " + primaryRecord);
