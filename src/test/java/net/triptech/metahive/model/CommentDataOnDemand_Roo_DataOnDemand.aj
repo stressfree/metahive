@@ -16,11 +16,9 @@ import javax.validation.ConstraintViolationException;
 import net.triptech.metahive.model.Comment;
 import net.triptech.metahive.model.CommentDataOnDemand;
 import net.triptech.metahive.model.CommentType;
-import net.triptech.metahive.model.Definition;
 import net.triptech.metahive.model.DefinitionDataOnDemand;
 import net.triptech.metahive.model.Person;
 import net.triptech.metahive.model.PersonDataOnDemand;
-import net.triptech.metahive.model.Record;
 import net.triptech.metahive.model.RecordDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,12 +45,10 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
         setCommentType(obj, index);
         setCreated(obj, index);
         setDataSourceId(obj, index);
-        setDefinition(obj, index);
         setDescriptionId(obj, index);
         setKeyValueId(obj, index);
         setMessage(obj, index);
         setPerson(obj, index);
-        setRecord(obj, index);
         return obj;
     }
     
@@ -69,11 +65,6 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
     public void CommentDataOnDemand.setDataSourceId(Comment obj, int index) {
         Long dataSourceId = new Integer(index).longValue();
         obj.setDataSourceId(dataSourceId);
-    }
-    
-    public void CommentDataOnDemand.setDefinition(Comment obj, int index) {
-        Definition definition = definitionDataOnDemand.getRandomDefinition();
-        obj.setDefinition(definition);
     }
     
     public void CommentDataOnDemand.setDescriptionId(Comment obj, int index) {
@@ -94,11 +85,6 @@ privileged aspect CommentDataOnDemand_Roo_DataOnDemand {
     public void CommentDataOnDemand.setPerson(Comment obj, int index) {
         Person person = personDataOnDemand.getRandomPerson();
         obj.setPerson(person);
-    }
-    
-    public void CommentDataOnDemand.setRecord(Comment obj, int index) {
-        Record record = recordDataOnDemand.getRandomRecord();
-        obj.setRecord(record);
     }
     
     public Comment CommentDataOnDemand.getSpecificComment(int index) {

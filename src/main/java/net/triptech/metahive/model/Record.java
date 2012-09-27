@@ -404,52 +404,52 @@ public class Record {
 
         Definition orderDefinition = null;
         if (filter.getOrderId() != null && filter.getOrderId() > 0) {
-        	orderDefinition = Definition.findDefinition(filter.getOrderId());
+            orderDefinition = Definition.findDefinition(filter.getOrderId());
         }
 
         StringBuilder sql = new StringBuilder("SELECT DISTINCT r FROM Record r");
 
 
         if (orderDefinition != null && orderDefinition.getId() != null) {
-        	 sql.append(" LEFT OUTER JOIN r.keyValues as o");
-        	 sql.append(" WITH o.definition.id = :orderDefinitionId");
+             sql.append(" LEFT OUTER JOIN r.keyValues as o");
+             sql.append(" WITH o.definition.id = :orderDefinitionId");
 
-        	 variables.put("orderDefinitionId", orderDefinition.getId());
+             variables.put("orderDefinitionId", orderDefinition.getId());
         }
 
         Map<String, Map<String, Object>> whereParameters = buildWhere(filter);
 
         if (whereParameters.size() > 0) {
-        	String sqlWhere = whereParameters.keySet().iterator().next();
-        	Map<String, Object> whereVariables = whereParameters.get(sqlWhere);
+            String sqlWhere = whereParameters.keySet().iterator().next();
+            Map<String, Object> whereVariables = whereParameters.get(sqlWhere);
 
-        	for (String key : whereVariables.keySet()) {
-        		variables.put(key, whereVariables.get(key));
-        	}
-        	sql.append(sqlWhere);
+            for (String key : whereVariables.keySet()) {
+                variables.put(key, whereVariables.get(key));
+            }
+            sql.append(sqlWhere);
         }
 
         String orderValueCol = "r.recordId";
         if (orderDefinition != null && orderDefinition.getId() != null) {
-        	orderValueCol = "o.doubleValue";
-        	if (orderDefinition.getDataType() == DataType.TYPE_STRING) {
-        		orderValueCol = "o.stringValue";
-        	}
-        	if (orderDefinition.getDataType() == DataType.TYPE_BOOLEAN) {
-        		orderValueCol = "o.booleanValue";
-        	}
+            orderValueCol = "o.doubleValue";
+            if (orderDefinition.getDataType() == DataType.TYPE_STRING) {
+                orderValueCol = "o.stringValue";
+            }
+            if (orderDefinition.getDataType() == DataType.TYPE_BOOLEAN) {
+                orderValueCol = "o.booleanValue";
+            }
         }
 
         sql.append(" ORDER BY " + orderValueCol);
 
         if (filter.isOrderDescending()) {
-        	sql.append(" DESC");
+            sql.append(" DESC");
         } else {
-        	sql.append(" ASC");
+            sql.append(" ASC");
         }
 
         if (orderDefinition != null && orderDefinition.getId() != null) {
-        	sql.append(", r.recordId ASC");
+            sql.append(", r.recordId ASC");
         }
 
         logger.info("SQL: " + sql.toString());
@@ -488,10 +488,10 @@ public class Record {
         Map<String, Object> variables = new HashMap<String, Object>();
 
         if (whereParameters.size() > 0) {
-        	String sqlWhere = whereParameters.keySet().iterator().next();
-        	variables = whereParameters.get(sqlWhere);
+            String sqlWhere = whereParameters.keySet().iterator().next();
+            variables = whereParameters.get(sqlWhere);
 
-        	sql.append(sqlWhere);
+            sql.append(sqlWhere);
         }
 
         TypedQuery<Long> q = entityManager().createQuery(sql.toString(), Long.class);
@@ -521,91 +521,93 @@ public class Record {
      * @return the string
      */
     private static Map<String, Map<String, Object>> buildWhere(
-    		final RecordFilter filter) {
+            final RecordFilter filter) {
 
 
-    	Map<String, Map<String, Object>> whereParameters =
-    			new HashMap<String, Map<String, Object>>();
+        Map<String, Map<String, Object>> whereParameters =
+                new HashMap<String, Map<String, Object>>();
 
         StringBuilder where = new StringBuilder();
         HashMap<String, Object> variables = new HashMap<String, Object>();
 
         if (filter.getFilterVectors() != null) {
-        	for (int i = 0; i < filter.getFilterVectors().size(); i++) {
-        		FilterVector vector = filter.getFilterVectors().get(i);
+            for (int i = 0; i < filter.getFilterVectors().size(); i++) {
+                FilterVector vector = filter.getFilterVectors().get(i);
 
-        		StringBuilder vectorWhere = new StringBuilder();
-        		StringBuilder description = new StringBuilder();
+                StringBuilder vectorWhere = new StringBuilder();
+                StringBuilder description = new StringBuilder();
 
-        		Map<Long, RecordFilterVector> rVectors = buildRecordVectors(vector);
+                Map<Long, RecordFilterVector> rVectors = buildRecordVectors(vector);
 
-        		for (Long id : rVectors.keySet()) {
-        			RecordFilterVector rVector = rVectors.get(id);
+                for (Long id : rVectors.keySet()) {
+                    RecordFilterVector rVector = rVectors.get(id);
 
-        			Map<String, Map<String, Object>> searchOperation =
-        					getSearchOperation(rVector, i);
-        			String operation = "";
+                    Map<String, Map<String, Object>> searchOperation =
+                            getSearchOperation(rVector, i);
+                    String operation = "";
 
-        			if (searchOperation.size() > 0) {
-        				operation = searchOperation.keySet().iterator().next();
-        			}
+                    if (searchOperation.size() > 0) {
+                        operation = searchOperation.keySet().iterator().next();
+                    }
 
-        			if (StringUtils.isNotBlank(operation)) {
-        				Map<String, Object> params = searchOperation.get(operation);
+                    if (StringUtils.isNotBlank(operation)) {
+                        Map<String, Object> params = searchOperation.get(operation);
 
-        				if (vectorWhere.length() > 0) {
-        					vectorWhere.append(" AND");
-        				}
+                        if (vectorWhere.length() > 0) {
+                            vectorWhere.append(" AND");
+                        }
 
-        				vectorWhere.append(" r.id IN (SELECT kv.record from KeyValue kv");
-        				vectorWhere.append(" WHERE kv.definition = ");
-        				vectorWhere.append(id);
-        				vectorWhere.append(" AND ");
-        				vectorWhere.append(operation);
-        				vectorWhere.append(")");
+                        vectorWhere.append(" r.id IN (SELECT kv.record from KeyValue kv");
+                        vectorWhere.append(" WHERE kv.definition = ");
+                        vectorWhere.append(id);
+                        vectorWhere.append(" AND ");
+                        vectorWhere.append(operation);
+                        vectorWhere.append(")");
 
-        				for (String key : params.keySet()) {
-        					Object parameter = params.get(key);
+                        for (String key : params.keySet()) {
+                            Object parameter = params.get(key);
 
-            				variables.put(key, parameter);
-        				}
-        			}
-        			if (description.length() > 0) {
-        				description.append(" and ");
-        			}
-        			description.append(rVector.getDescription());
-        		}
+                            DataType dataType = rVector.getDefinition().getDataType();
+
+                            variables.put(key, parseParameter(parameter, dataType));
+                        }
+                    }
+                    if (description.length() > 0) {
+                        description.append(" and ");
+                    }
+                    description.append(rVector.getDescription());
+                }
 
                 // The default where condition if no parameters have been supplied
                 if (vectorWhere.length() == 0) {
-                	vectorWhere.append("r.id > 0");
-                	description = new StringBuilder("All records");
+                    vectorWhere.append("r.id > 0");
+                    description = new StringBuilder("All records");
                 }
-       			vector.setDescription(description.toString());
+                   vector.setDescription(description.toString());
 
-        		logger.info("Filter action: " + vector.getAction());
+                logger.info("Filter action: " + vector.getAction());
 
-        		if (where.length() > 0) {
-    				if (vector.getAction() == FilterAction.ADD) {
-    					where.append(" OR ");
-    				}
-    				if (vector.getAction() == FilterAction.REMOVE) {
-    					where.append(" AND NOT ");
-    				}
-    				if (vector.getAction() == FilterAction.SUBSEARCH) {
-    					where.append(" AND ");
-    				}
-    			}
-        		where.insert(0, "(");
-        		where.append(vectorWhere.toString().trim());
-        		where.append(")");
-        	}
+                if (where.length() > 0) {
+                    if (vector.getAction() == FilterAction.ADD) {
+                        where.append(" OR ");
+                    }
+                    if (vector.getAction() == FilterAction.REMOVE) {
+                        where.append(" AND NOT ");
+                    }
+                    if (vector.getAction() == FilterAction.SUBSEARCH) {
+                        where.append(" AND ");
+                    }
+                }
+                where.insert(0, "(");
+                where.append(vectorWhere.toString().trim());
+                where.append(")");
+            }
         }
 
         if (StringUtils.isNotBlank(filter.getRecordId())) {
-        	if (where.length() > 0) {
-        		where.append(" AND ");
-        	}
+            if (where.length() > 0) {
+                where.append(" AND ");
+            }
             where.append("LOWER(r.recordId) LIKE LOWER(:recordId)");
             variables.put("recordId", filter.getRecordId());
         }
@@ -625,92 +627,92 @@ public class Record {
      * @return the search operation
      */
     private static Map<String, Map<String, Object>> getSearchOperation(
-    		final RecordFilterVector rVector, final int i) {
+            final RecordFilterVector rVector, final int i) {
 
-		String variableName = "variable" + rVector.getDefinition().getId();
-		String criteria = rVector.getCriteria();
-		String constraint = rVector.getConstraint();
+        String variableName = "variable" + rVector.getDefinition().getId();
+        String criteria = rVector.getCriteria();
+        String constraint = rVector.getConstraint();
 
-		StringBuilder where = new StringBuilder();
-		Map<String, Object> variables = new HashMap<String, Object>();
+        StringBuilder where = new StringBuilder();
+        Map<String, Object> variables = new HashMap<String, Object>();
 
 
-    	DataType dataType = rVector.getDefinition().getDataType();
+        DataType dataType = rVector.getDefinition().getDataType();
 
-    	if (StringUtils.isNotBlank(criteria) && dataType == DataType.TYPE_BOOLEAN) {
-    		where.append("LOWER(kv.booleanValue) = :");
-    		where.append(variableName);
-    		where.append("_");
-    		where.append(i);
+        if (StringUtils.isNotBlank(criteria) && dataType == DataType.TYPE_BOOLEAN) {
+            where.append("LOWER(kv.booleanValue) = :");
+            where.append(variableName);
+            where.append("_");
+            where.append(i);
 
-			variables.put(variableName + "_" + i, criteria.toLowerCase());
-		}
+            variables.put(variableName + "_" + i, criteria.toLowerCase());
+        }
 
-		if (StringUtils.isNotBlank(criteria) && dataType == DataType.TYPE_STRING) {
-			where.append("LOWER(kv.stringValue) LIKE :");
-			where.append(variableName);
-    		where.append("_");
-    		where.append(i);
+        if (StringUtils.isNotBlank(criteria) && dataType == DataType.TYPE_STRING) {
+            where.append("LOWER(kv.stringValue) LIKE :");
+            where.append(variableName);
+            where.append("_");
+            where.append(i);
 
-			variables.put(variableName + "_" + i, "%" + criteria + "%".toLowerCase());
-		}
+            variables.put(variableName + "_" + i, "%" + criteria + "%".toLowerCase());
+        }
 
-		if (dataType == DataType.TYPE_NUMBER || dataType == DataType.TYPE_PERCENTAGE
-				|| dataType == DataType.TYPE_CURRENCY) {
+        if (dataType == DataType.TYPE_NUMBER || dataType == DataType.TYPE_PERCENTAGE
+                || dataType == DataType.TYPE_CURRENCY) {
 
-			if (StringUtils.isNotBlank(criteria)) {
-				try {
-					double dbCriteria = Double.parseDouble(criteria);
-					double dbConstraint = 0;
-					boolean multipleValue = false;
+            if (StringUtils.isNotBlank(criteria)) {
+                try {
+                    double dbCriteria = Double.parseDouble(criteria);
+                    double dbConstraint = 0;
+                    boolean multipleValue = false;
 
-					if (StringUtils.isNotBlank(constraint)) {
-						try {
-							dbConstraint = Double.parseDouble(constraint);
-							multipleValue = true;
-						} catch (NumberFormatException nfe) {
-							// Error casting to a double - ignore
-						}
-					}
+                    if (StringUtils.isNotBlank(constraint)) {
+                        try {
+                            dbConstraint = Double.parseDouble(constraint);
+                            multipleValue = true;
+                        } catch (NumberFormatException nfe) {
+                            // Error casting to a double - ignore
+                        }
+                    }
 
-					where.append("LOWER(kv.doubleValue)");
+                    where.append("LOWER(kv.doubleValue)");
 
-					if (multipleValue) {
-						where.append(" BETWEEN :");
-						where.append(variableName);
-			    		where.append("_");
-			    		where.append(i);
-						where.append("_a AND :");
-						where.append(variableName);
-			    		where.append("_");
-			    		where.append(i);
-						where.append("_b");
+                    if (multipleValue) {
+                        where.append(" BETWEEN :");
+                        where.append(variableName);
+                        where.append("_");
+                        where.append(i);
+                        where.append("_a AND :");
+                        where.append(variableName);
+                        where.append("_");
+                        where.append(i);
+                        where.append("_b");
 
-						variables.put(variableName + "_" + i + "_a", dbCriteria);
-						variables.put(variableName + "_" + i + "_b", dbConstraint);
-					} else {
-						where.append(" = :");
-						where.append(variableName);
-			    		where.append("_");
-			    		where.append(i);
+                        variables.put(variableName + "_" + i + "_a", dbCriteria);
+                        variables.put(variableName + "_" + i + "_b", dbConstraint);
+                    } else {
+                        where.append(" = :");
+                        where.append(variableName);
+                        where.append("_");
+                        where.append(i);
 
-						variables.put(variableName + "_" + i, dbCriteria);
-					}
+                        variables.put(variableName + "_" + i, dbCriteria);
+                    }
 
-				} catch (NumberFormatException nfe) {
-					// Error casting to a double - ignore
-				}
-			}
-		}
+                } catch (NumberFormatException nfe) {
+                    // Error casting to a double - ignore
+                }
+            }
+        }
 
-		Map<String, Map<String, Object>> searchOperation =
-				new HashMap<String, Map<String, Object>>();
+        Map<String, Map<String, Object>> searchOperation =
+                new HashMap<String, Map<String, Object>>();
 
-		if (StringUtils.isNotBlank(where.toString())) {
-			searchOperation.put(where.toString(), variables);
-		}
+        if (StringUtils.isNotBlank(where.toString())) {
+            searchOperation.put(where.toString(), variables);
+        }
 
-		return searchOperation;
+        return searchOperation;
     }
 
 
@@ -786,21 +788,21 @@ public class Record {
 
         for (KeyValue keyValue : keyValues) {
 
-        	String primaryRecord = "_";
-        	String secondaryRecord = "_";
-        	String tertiaryRecord = "_";
+            String primaryRecord = "_";
+            String secondaryRecord = "_";
+            String tertiaryRecord = "_";
 
-        	Applicability applicability = keyValue.getDefinition().getApplicability();
+            Applicability applicability = keyValue.getDefinition().getApplicability();
 
-        	if (applicability == Applicability.RECORD_PRIMARY) {
-        		primaryRecord = keyValue.getPrimaryRecordId();
-        	}
-        	if (applicability == Applicability.RECORD_SECONDARY) {
-        		secondaryRecord = keyValue.getSecondaryRecordId();
-        	}
-        	if (applicability == Applicability.RECORD_TERTIARY) {
-        		tertiaryRecord = keyValue.getTertiaryRecordId();
-        	}
+            if (applicability == Applicability.RECORD_PRIMARY) {
+                primaryRecord = keyValue.getPrimaryRecordId();
+            }
+            if (applicability == Applicability.RECORD_SECONDARY) {
+                secondaryRecord = keyValue.getSecondaryRecordId();
+            }
+            if (applicability == Applicability.RECORD_TERTIARY) {
+                tertiaryRecord = keyValue.getTertiaryRecordId();
+            }
 
             String id = primaryRecord + secondaryRecord + tertiaryRecord;
 
@@ -811,28 +813,28 @@ public class Record {
 
             if (map.containsKey(id)) {
                 // Get the existing row of data
-            	kvCollection = map.get(id);
+                kvCollection = map.get(id);
             } else {
                 // Pre-populate the row with the definition names
                 Map<String, KeyValue> values = new TreeMap<String, KeyValue>();
                 for (Definition definition : definitions) {
-                	if (definition.getApplicability() == applicability) {
-                		KeyValue kv = new KeyValue();
-                		kv.setDefinition(definition);
-                		kv.setUserRole(userRole);
-                		kv.setContext(context);
+                    if (definition.getApplicability() == applicability) {
+                        KeyValue kv = new KeyValue();
+                        kv.setDefinition(definition);
+                        kv.setUserRole(userRole);
+                        kv.setContext(context);
 
-                		values.put(definition.getName(), kv);
-                	}
+                        values.put(definition.getName(), kv);
+                    }
                 }
                 kvCollection.setId(keyValue.getRecord().getId());
                 kvCollection.setRecordId(keyValue.getPrimaryRecordId());
 
                 if (applicability == Applicability.RECORD_SECONDARY) {
-                	kvCollection.setSecondaryRecordId(keyValue.getSecondaryRecordId());
+                    kvCollection.setSecondaryRecordId(keyValue.getSecondaryRecordId());
                 }
                 if (applicability == Applicability.RECORD_TERTIARY) {
-                	kvCollection.setTertiaryRecordId(keyValue.getTertiaryRecordId());
+                    kvCollection.setTertiaryRecordId(keyValue.getTertiaryRecordId());
                 }
                 kvCollection.setKeyValueMap(values);
             }
@@ -1003,48 +1005,75 @@ public class Record {
      * @return the map
      */
     private static Map<Long, RecordFilterVector> buildRecordVectors(
-    		final FilterVector vector) {
+            final FilterVector vector) {
 
-    	Map<Long, RecordFilterVector> rVectors =
-				new TreeMap<Long, RecordFilterVector>();
+        Map<Long, RecordFilterVector> rVectors =
+                new TreeMap<Long, RecordFilterVector>();
 
-		for (String key : vector.getFilterVariables().keySet()) {
-			String value = vector.getFilterVariables().get(key);
+        for (String key : vector.getFilterVariables().keySet()) {
+            String value = vector.getFilterVariables().get(key);
 
-			RecordFilterVector rVector = new RecordFilterVector();
+            RecordFilterVector rVector = new RecordFilterVector();
 
-			StringTokenizer tk = new StringTokenizer(key, "_");
-			int i = 0;
-			while(tk.hasMoreTokens()) {
-				String component = tk.nextToken();
-				if (i == 1) {
-					// The definition id
-					try {
-						Long id = Long.parseLong(component);
-						if (rVectors.containsKey(id)) {
-							rVector = rVectors.get(id);
-						} else {
-							rVector.setDefinition(Definition.findDefinition(id));
-						}
-					} catch (Exception e) {
-						// Error parsing id
-					}
-				}
-				if (i == 2) {
-					// The criteria or constraint flag (a or b)
-					if (StringUtils.equalsIgnoreCase(component, "b")) {
-						rVector.setConstraint(value);
-					} else {
-						rVector.setCriteria(value);
-					}
-				}
-				i++;
-			}
-			if (rVector.getDefinition() != null) {
-				rVectors.put(rVector.getDefinition().getId(), rVector);
-			}
-		}
-		return rVectors;
+            StringTokenizer tk = new StringTokenizer(key, "_");
+            int i = 0;
+            while(tk.hasMoreTokens()) {
+                String component = tk.nextToken();
+                if (i == 1) {
+                    // The definition id
+                    try {
+                        Long id = Long.parseLong(component);
+                        if (rVectors.containsKey(id)) {
+                            rVector = rVectors.get(id);
+                        } else {
+                            rVector.setDefinition(Definition.findDefinition(id));
+                        }
+                    } catch (Exception e) {
+                        // Error parsing id
+                    }
+                }
+                if (i == 2) {
+                    // The criteria or constraint flag (a or b)
+                    if (StringUtils.equalsIgnoreCase(component, "b")) {
+                        rVector.setConstraint(value);
+                    } else {
+                        rVector.setCriteria(value);
+                    }
+                }
+                i++;
+            }
+            if (rVector.getDefinition() != null) {
+                rVectors.put(rVector.getDefinition().getId(), rVector);
+            }
+        }
+        return rVectors;
+    }
+
+    /**
+     * Parses the parameter and returns the correct object type.
+     *
+     * @param parameter the parameter
+     * @param dataType the data type
+     * @return the object
+     */
+    private final static Object parseParameter(final Object parameter,
+            final DataType dataType) {
+
+        Object value = parameter;
+
+        if (parameter != null && dataType == DataType.TYPE_BOOLEAN) {
+            if (StringUtils.equalsIgnoreCase((String) parameter, "bl_true")) {
+                value = KeyValueBoolean.BL_TRUE;
+            }
+            if (StringUtils.equalsIgnoreCase((String) parameter, "bl_false")) {
+                value = KeyValueBoolean.BL_FALSE;
+            }
+            if (StringUtils.equalsIgnoreCase((String) parameter, "bl_unclear")) {
+                value = KeyValueBoolean.BL_UNCLEAR;
+            }
+        }
+
+        return value;
     }
 
 }

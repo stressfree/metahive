@@ -18,7 +18,6 @@ import net.triptech.metahive.model.ConditionOfUseDataOnDemand;
 import net.triptech.metahive.model.DataSource;
 import net.triptech.metahive.model.DataSourceDataOnDemand;
 import net.triptech.metahive.model.DefinitionDataOnDemand;
-import net.triptech.metahive.model.Organisation;
 import net.triptech.metahive.model.OrganisationDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,7 +46,6 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
         setConditionOfUse(obj, index);
         setDefinition(obj, index);
         setDetails(obj, index);
-        setOrganisation(obj, index);
         return obj;
     }
     
@@ -69,11 +67,6 @@ privileged aspect DataSourceDataOnDemand_Roo_DataOnDemand {
     public void DataSourceDataOnDemand.setDetails(DataSource obj, int index) {
         String details = "details_" + index;
         obj.setDetails(details);
-    }
-    
-    public void DataSourceDataOnDemand.setOrganisation(DataSource obj, int index) {
-        Organisation organisation = organisationDataOnDemand.getRandomOrganisation();
-        obj.setOrganisation(organisation);
     }
     
     public DataSource DataSourceDataOnDemand.getSpecificDataSource(int index) {
